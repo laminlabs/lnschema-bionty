@@ -39,4 +39,4 @@ class readout_type(SQLModel, table=True):  # type: ignore
 
     id: Optional[int] = Field(default=None, primary_key=True)
     name: str = Field(index=True)
-    resolution: str = Field(default=None)
+    platform: str = Field(default=None)
