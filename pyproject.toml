@@ -9,6 +9,7 @@ readme = "README.md"
 dynamic = ["version", "description"]
 dependencies = [
     "nbproject",
+    "sqlmodel",
 ]
 
 [project.urls]
@@ -30,8 +31,6 @@ preview = true
 [tool.pytest.ini_options]
 testpaths = [
     "tests",
-    "docs/guides",
-    "docs/tutorials",
 ]
 
 [tool.coverage.run]
