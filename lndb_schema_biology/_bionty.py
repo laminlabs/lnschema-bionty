@@ -13,19 +13,31 @@ class species(SQLModel, table=True):  # type: ignore
     short_name: str = Field(default=None)
 
 
-class geneset_gene(SQLModel, table=True):  # type: ignore
+class featureset_gene(SQLModel, table=True):  # type: ignore
     """Link table between geneset and gene."""
 
-    geneset_id: Optional[int] = Field(
-        default=None, foreign_key="geneset.id", primary_key=True
+    featureset_id: Optional[int] = Field(
+        default=None, foreign_key="featureset.id", primary_key=True
     )
     gene_id: Optional[int] = Field(
         default=None, foreign_key="gene.id", primary_key=True
     )
 
 
-class geneset(SQLModel, table=True):  # type: ignore
+class featureset_protein(SQLModel, table=True):  # type: ignore
+    """Link table between proteinset and protein."""
+
+    featureset_id: Optional[int] = Field(
+        default=None, foreign_key="featureset.id", primary_key=True
+    )
+    protein_id: Optional[int] = Field(
+        default=None, foreign_key="protein.id", primary_key=True
+    )
+
+
+class featureset(SQLModel, table=True):  # type: ignore
     id: Optional[int] = Field(default=None, primary_key=True)
+    feature_entity: str
     name: str = Field(default=None)
 
 
@@ -47,22 +59,6 @@ class gene(SQLModel, table=True):  # type: ignore
     ucsc_id: str = Field(default=None)
     rgd_id: str = Field(default=None)
     omim_id: str = Field(default=None)
-
-
-class proteinset_protein(SQLModel, table=True):  # type: ignore
-    """Link table between protein and protein."""
-
-    proteinset_id: Optional[str] = Field(
-        default=None, foreign_key="proteinset.id", primary_key=True
-    )
-    protein_id: Optional[str] = Field(
-        default=None, foreign_key="protein.id", primary_key=True
-    )
-
-
-class proteinset(SQLModel, table=True):  # type: ignore
-    id: Optional[int] = Field(default=None, primary_key=True)
-    name: str = Field(default=None)
 
 
 class protein(SQLModel, table=True):  # type: ignore
