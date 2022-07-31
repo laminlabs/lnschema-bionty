@@ -1,5 +1,5 @@
-project_name: lndb-schema-biology
-description: Default schema module biology
-project_slug: lndb-schema-biology
-repository_name: lndb-schema-biology
-package_name: lndb_schema_biology
+project_name: lndb-schema-bionty
+description: Biological entities schema module
+project_slug: lndb-schema-bionty
+repository_name: lndb-schema-bionty
+package_name: lndb_schema_bionty
