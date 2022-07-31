@@ -45,7 +45,8 @@ class gene(SQLModel, table=True):  # type: ignore
     """Gene table."""
 
     id: Optional[int] = Field(default=None, primary_key=True)
-    symbol: str = Field(default=None)
+    hgnc_symbol: str = Field(default=None)
+    mgi_symbol: str = Field(default=None)
     species: str = Field(default=None, foreign_key="species.id")
     name: str = Field(default=None)
     hgnc_id: str = Field(default=None)
