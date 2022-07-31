@@ -1,9 +1,8 @@
 from ._bionty import (  # noqa
+    featureset,
+    featureset_gene,
+    featureset_protein,
     gene,
-    geneset,
-    geneset_gene,
     protein,
-    proteinset,
-    proteinset_protein,
     species,
 )
