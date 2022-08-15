@@ -47,10 +47,10 @@ class gene(SQLModel, table=True):  # type: ignore
     id: Optional[int] = Field(default=None, primary_key=True)
     hgnc_symbol: str = Field(default=None)
     mgi_symbol: str = Field(default=None)
-    species: str = Field(default=None, foreign_key="species.id")
+    species: int = Field(default=None, foreign_key="species.id")
     name: str = Field(default=None)
     hgnc_id: str = Field(default=None)
-    entrez_gene_id: str = Field(default=None)
+    entrez_gene_id: int = Field(default=None)
     ensembl_gene_id: str = Field(default=None)
     alias_symbol: str = Field(default=None)
     locus_group: str = Field(default=None)  # sqlmodel doeesn't work with Literal yet
