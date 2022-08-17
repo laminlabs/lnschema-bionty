@@ -50,9 +50,9 @@ class gene(SQLModel, table=True):  # type: ignore
     synonym: str = Field(default=None)
     species: int = Field(default=None, foreign_key="species.id")
     gene_type: str = Field(default=None)
-    entrez_gene_id: int = Field(default=None)
+    ncbi_gene_id: int = Field(default=None)
     hgnc_id: str = Field(default=None)
-    omim_id: str = Field(default=None)
+    omim_id: int = Field(default=None)
     mgi_id: str = Field(default=None)
 
 
