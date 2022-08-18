@@ -18,7 +18,7 @@ This is the complete API reference:
 
 """
 
-__version__ = "0.1.3"
+__version__ = "0.1.4"
 
 from ._core import (  # noqa
     featureset,
