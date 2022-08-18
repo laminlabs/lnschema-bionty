@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
+🔧 Add schema module id | [7](https://github.com/laminlabs/lndb-schema-bionty/pull/7) | [falexwolf](https://github.com/falexwolf) | 2022-08-18 |
 🍱 Updated the gene table to match new ensembl table | [6](https://github.com/laminlabs/lndb-schema-bionty/pull/6) | [sunnyosun](https://github.com/sunnyosun) | 2022-08-18 | 0.1.4
 🎨 Changed type of `species` and `entrez_gene_id` in `gene` table to `int` | [5](https://github.com/laminlabs/lndb-schema-bionty/pull/5) | [sunnyosun](https://github.com/sunnyosun) | 2022-08-15 | 0.1.3
 🚚 Move `biolab` to `lndb-schema-wetlab` | [4](https://github.com/laminlabs/lndb-schema-bionty/pull/4) | [falexwolf](https://github.com/falexwolf) | 2022-07-31 |
