@@ -1,4 +1,4 @@
-"""Biological entities schema module.
+"""Schema module for universal biological entities (`zdno`).
 
 Import the package::
 
@@ -15,9 +15,11 @@ This is the complete API reference:
    featureset
    featureset_gene
    featureset_protein
+   version_zdno
 
 """
-
+# This is lndb-schema-module zdno.
+_schema_module_id = "zdno"
 __version__ = "0.1.4"
 
 from ._core import (  # noqa
@@ -27,4 +29,5 @@ from ._core import (  # noqa
     gene,
     protein,
     species,
+    version_zdno,
 )
