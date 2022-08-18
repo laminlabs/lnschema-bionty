@@ -1,6 +1,19 @@
+from datetime import datetime as datetime
 from typing import Optional  # noqa
 
 from sqlmodel import Field, SQLModel
+
+
+def utcnow():
+    return datetime.utcnow().replace(microsecond=0)
+
+
+class version_zdno(SQLModel, table=True):  # type: ignore
+    """Schema module version."""
+
+    v: Optional[str] = Field(primary_key=True)
+    user_id: str = Field(foreign_key="user.id")
+    time_created: datetime = Field(default_factory=utcnow, nullable=False)
 
 
 class species(SQLModel, table=True):  # type: ignore
