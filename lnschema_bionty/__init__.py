@@ -2,7 +2,7 @@
 
 Import the package::
 
-   import lndb_schema_bionty
+   import lnschema_bionty
 
 This is the complete API reference:
 
@@ -18,7 +18,7 @@ This is the complete API reference:
    version_zdno
 
 """
-# This is lndb-schema-module zdno.
+# This is lnschema-module zdno.
 _schema_module_id = "zdno"
 __version__ = "0.1.4"
 
