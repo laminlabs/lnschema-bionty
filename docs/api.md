@@ -1,5 +1,5 @@
 # API
 
 ```{eval-rst}
-.. automodule:: lndb_schema_bionty
+.. automodule:: lnschema_bionty
 ```

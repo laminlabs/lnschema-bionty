@@ -102,7 +102,7 @@ ENV/
 
 # Lamin
 _build
-docs/lndb_schema_biology.*
+docs/lnschema_biology.*
 lamin_sphinx
 docs/conf.py
 _docs_tmp*
