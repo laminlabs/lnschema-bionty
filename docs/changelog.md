@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
+⬆️ Update schema to match bionty 0.2.0 | [9](https://github.com/laminlabs/lnschema-bionty/pull/9) | [sunnyosun](https://github.com/sunnyosun) | 2022-08-28 |
 🚚 Rename `lndb-schema-bionty` to `lnschema-bionty` | [8](https://github.com/laminlabs/lnschema-bionty/pull/8) | [falexwolf](https://github.com/falexwolf) | 2022-08-19 | 0.2.0
 🔧 Add schema module id | [7](https://github.com/laminlabs/lnschema-bionty/pull/7) | [falexwolf](https://github.com/falexwolf) | 2022-08-18 |
 🍱 Updated the gene table to match new ensembl table | [6](https://github.com/laminlabs/lnschema-bionty/pull/6) | [sunnyosun](https://github.com/sunnyosun) | 2022-08-18 | 0.1.4
