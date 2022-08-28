@@ -23,7 +23,7 @@ class species(SQLModel, table=True):  # type: ignore
     common_name: str = Field(default=None, index=True)
     taxon_id: str = Field(default=None, index=True)
     scientific_name: str = Field(default=None, index=True)
-    short_name: str = Field(default=None)
+    short_name: Optional[str] = None
 
 
 class featureset_gene(SQLModel, table=True):  # type: ignore
@@ -51,30 +51,35 @@ class featureset_protein(SQLModel, table=True):  # type: ignore
 class featureset(SQLModel, table=True):  # type: ignore
     id: Optional[int] = Field(default=None, primary_key=True)
     feature_entity: str
-    name: str = Field(default=None)
+    name: Optional[str] = None
 
 
 class gene(SQLModel, table=True):  # type: ignore
     """Gene table."""
 
     id: Optional[int] = Field(default=None, primary_key=True)
-    ensembl_gene_id: str = Field(default=None)
-    name: str = Field(default=None)
-    synonym: str = Field(default=None)
+    ensembl_gene_id: str = Field(default=None, index=True)
+    gene_symbol: str = Field(default=None, index=True)
+    gene_type: Optional[str] = None
+    ncbi_gene_id: int = Field(default=None, index=True)
+    hgnc_id: Optional[str] = None
+    mgi_id: Optional[str] = None
+    omim_id: Optional[int] = None
+    gene_synonyms: Optional[str] = None
     species: int = Field(default=None, foreign_key="species.id")
-    gene_type: str = Field(default=None)
-    ncbi_gene_id: int = Field(default=None)
-    hgnc_id: str = Field(default=None)
-    omim_id: int = Field(default=None)
-    mgi_id: str = Field(default=None)
 
 
 class protein(SQLModel, table=True):  # type: ignore
     """Gene table."""
 
     id: Optional[int] = Field(default=None, primary_key=True)
-    name: str = Field(default=None)
+    uniprotkb_id: str = Field(default=None, index=True)
+    uniprotkb_name: str = Field(default=None, index=True)
+    protein_name: str = Field(default=None, index=True)
+    protein_names: Optional[str] = None
+    length: Optional[int] = None
     species: str = Field(default=None, foreign_key="species.id")
-    uniprotkb_ac: str = Field(default=None)
-    uniprotkb_id: str = Field(default=None)
-    pdb_id: str = Field(default=None)
+    gene_symbols: Optional[str] = None
+    gene_synonyms: Optional[str] = None
+    ensembl_transcript_ids: Optional[str] = None
+    ncbi_gene_ids: Optional[str] = None
