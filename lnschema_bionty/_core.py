@@ -48,10 +48,21 @@ class featureset_protein(SQLModel, table=True):  # type: ignore
     )
 
 
+class featureset_cell_marker(SQLModel, table=True):  # type: ignore
+    """Link table between proteinset and protein."""
+
+    featureset_id: Optional[int] = Field(
+        default=None, foreign_key="featureset.id", primary_key=True
+    )
+    cell_marker_id: Optional[int] = Field(
+        default=None, foreign_key="cell_marker.id", primary_key=True
+    )
+
+
 class featureset(SQLModel, table=True):  # type: ignore
     id: Optional[int] = Field(default=None, primary_key=True)
     feature_entity: str
-    name: Optional[str] = None
+    name: str = Field(default=None, unique=True)
 
 
 class gene(SQLModel, table=True):  # type: ignore
@@ -66,7 +77,7 @@ class gene(SQLModel, table=True):  # type: ignore
     mgi_id: Optional[str] = None
     omim_id: Optional[int] = None
     synonyms: Optional[str] = None
-    species: int = Field(default=None, foreign_key="species.id")
+    species_id: int = Field(default=None, foreign_key="species.id")
 
 
 class protein(SQLModel, table=True):  # type: ignore
@@ -78,7 +89,7 @@ class protein(SQLModel, table=True):  # type: ignore
     uniprotkb_name: str = Field(default=None, index=True)
     protein_names: Optional[str] = None
     length: Optional[int] = None
-    species: str = Field(default=None, foreign_key="species.id")
+    species_id: str = Field(default=None, foreign_key="species.id")
     gene_symbols: Optional[str] = None
     gene_synonyms: Optional[str] = None
     ensembl_transcript_ids: Optional[str] = None
@@ -118,3 +129,4 @@ class cell_marker(SQLModel, table=True):  # type: ignore
     ncbi_gene_ids: Optional[str] = None
     protein_names: Optional[str] = None
     uniprotkb_ids: Optional[str] = None
+    species_id: int = Field(default=None, foreign_key="species.id")
