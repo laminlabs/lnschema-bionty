@@ -59,13 +59,13 @@ class gene(SQLModel, table=True):  # type: ignore
 
     id: Optional[int] = Field(default=None, primary_key=True)
     ensembl_gene_id: str = Field(default=None, index=True)
-    gene_symbol: str = Field(default=None, index=True)
+    symbol: str = Field(default=None, index=True)
     gene_type: Optional[str] = None
     ncbi_gene_id: int = Field(default=None, index=True)
     hgnc_id: Optional[str] = None
     mgi_id: Optional[str] = None
     omim_id: Optional[int] = None
-    gene_synonyms: Optional[str] = None
+    synonyms: Optional[str] = None
     species: int = Field(default=None, foreign_key="species.id")
 
 
@@ -73,9 +73,9 @@ class protein(SQLModel, table=True):  # type: ignore
     """Gene table."""
 
     id: Optional[int] = Field(default=None, primary_key=True)
+    name: str = Field(default=None, index=True)
     uniprotkb_id: str = Field(default=None, index=True)
     uniprotkb_name: str = Field(default=None, index=True)
-    protein_name: str = Field(default=None, index=True)
     protein_names: Optional[str] = None
     length: Optional[int] = None
     species: str = Field(default=None, foreign_key="species.id")
