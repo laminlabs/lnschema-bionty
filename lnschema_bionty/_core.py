@@ -83,3 +83,38 @@ class protein(SQLModel, table=True):  # type: ignore
     gene_synonyms: Optional[str] = None
     ensembl_transcript_ids: Optional[str] = None
     ncbi_gene_ids: Optional[str] = None
+
+
+class tissue(SQLModel, table=True):  # type: ignore
+    """Tissue table."""
+
+    id: Optional[int] = Field(default=None, primary_key=True)
+    ontology_id: str = Field(default=None, index=True)
+    name: str = Field(default=None, index=True)
+
+
+class cell_type(SQLModel, table=True):  # type: ignore
+    """Cell type table."""
+
+    id: Optional[int] = Field(default=None, primary_key=True)
+    ontology_id: str = Field(default=None, index=True)
+    name: str = Field(default=None, index=True)
+
+
+class disease(SQLModel, table=True):  # type: ignore
+    """Disease table."""
+
+    id: Optional[int] = Field(default=None, primary_key=True)
+    ontology_id: str = Field(default=None, index=True)
+    name: str = Field(default=None, index=True)
+
+
+class cell_marker(SQLModel, table=True):  # type: ignore
+    """Cell marker table."""
+
+    id: Optional[int] = Field(default=None, primary_key=True)
+    name: str = Field(default=None, index=True)
+    gene_symbols: Optional[str] = None
+    ncbi_gene_ids: Optional[str] = None
+    protein_names: Optional[str] = None
+    uniprotkb_ids: Optional[str] = None
