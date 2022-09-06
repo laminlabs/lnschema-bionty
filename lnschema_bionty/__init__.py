@@ -25,7 +25,7 @@ This is the complete API reference:
 """
 # This is lnschema-module zdno.
 _schema_module_id = "zdno"
-__version__ = "0.2.3"
+__version__ = "0.2.4"
 
 from ._core import (  # noqa
     cell_marker,
