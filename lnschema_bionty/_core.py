@@ -60,6 +60,8 @@ class featureset_cell_marker(SQLModel, table=True):  # type: ignore
 
 
 class featureset(SQLModel, table=True):  # type: ignore
+    """A set of features."""
+
     id: Optional[int] = Field(default=None, primary_key=True)
     feature_entity: str
     name: str = Field(default=None, unique=True)
@@ -89,7 +91,7 @@ class protein(SQLModel, table=True):  # type: ignore
     uniprotkb_name: str = Field(default=None, index=True)
     protein_names: Optional[str] = None
     length: Optional[int] = None
-    species_id: str = Field(default=None, foreign_key="species.id")
+    species_id: int = Field(default=None, foreign_key="species.id")
     gene_symbols: Optional[str] = None
     gene_synonyms: Optional[str] = None
     ensembl_transcript_ids: Optional[str] = None
