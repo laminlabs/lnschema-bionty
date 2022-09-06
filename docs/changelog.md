@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
+🐛 Fixed API ref | [12](https://github.com/laminlabs/lnschema-bionty/pull/12) | [sunnyosun](https://github.com/sunnyosun) | 2022-09-06 |
 🎨 Import additional modules, species -> species_id | [11](https://github.com/laminlabs/lnschema-bionty/pull/11) | [sunnyosun](https://github.com/sunnyosun) | 2022-08-28 | 0.2.3
 🚚 Rename gene_symbol to symbol, protein_name to name | [10](https://github.com/laminlabs/lnschema-bionty/pull/10) | [sunnyosun](https://github.com/sunnyosun) | 2022-08-28 | 0.2.2
 ⬆️ Update schema to match bionty 0.2.0 | [9](https://github.com/laminlabs/lnschema-bionty/pull/9) | [sunnyosun](https://github.com/sunnyosun) | 2022-08-28 | 0.2.1
