@@ -1,11 +1,8 @@
 from datetime import datetime as datetime
 from typing import Optional  # noqa
 
+from lnschema_core._timestamps import CreatedAt
 from sqlmodel import Field, SQLModel
-
-
-def utcnow():
-    return datetime.utcnow().replace(microsecond=0)
 
 
 class species(SQLModel, table=True):  # type: ignore
@@ -19,36 +16,24 @@ class species(SQLModel, table=True):  # type: ignore
 
 
 class featureset_gene(SQLModel, table=True):  # type: ignore
-    """Link table between geneset and gene."""
+    """Link table."""
 
-    featureset_id: Optional[int] = Field(
-        default=None, foreign_key="featureset.id", primary_key=True
-    )
-    gene_id: Optional[int] = Field(
-        default=None, foreign_key="gene.id", primary_key=True
-    )
+    featureset_id: int = Field(foreign_key="featureset.id", primary_key=True)
+    gene_id: int = Field(default=None, foreign_key="gene.id", primary_key=True)
 
 
 class featureset_protein(SQLModel, table=True):  # type: ignore
-    """Link table between proteinset and protein."""
+    """Link table."""
 
-    featureset_id: Optional[int] = Field(
-        default=None, foreign_key="featureset.id", primary_key=True
-    )
-    protein_id: Optional[int] = Field(
-        default=None, foreign_key="protein.id", primary_key=True
-    )
+    featureset_id: int = Field(foreign_key="featureset.id", primary_key=True)
+    protein_id: int = Field(foreign_key="protein.id", primary_key=True)
 
 
 class featureset_cell_marker(SQLModel, table=True):  # type: ignore
-    """Link table between proteinset and protein."""
+    """Link table."""
 
-    featureset_id: Optional[int] = Field(
-        default=None, foreign_key="featureset.id", primary_key=True
-    )
-    cell_marker_id: Optional[int] = Field(
-        default=None, foreign_key="cell_marker.id", primary_key=True
-    )
+    featureset_id: int = Field(foreign_key="featureset.id", primary_key=True)
+    cell_marker_id: int = Field(foreign_key="cell_marker.id", primary_key=True)
 
 
 class featureset(SQLModel, table=True):  # type: ignore
@@ -135,7 +120,7 @@ class version_zdno(SQLModel, table=True):  # type: ignore
     v: Optional[str] = Field(primary_key=True)
     migration: Optional[str] = None
     user_id: str = Field(foreign_key="user.id")
-    time_created: datetime = Field(default_factory=utcnow, nullable=False)
+    created_at: datetime = CreatedAt
 
 
 class migration_zdno(SQLModel, table=True):  # type: ignore
