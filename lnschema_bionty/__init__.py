@@ -50,6 +50,7 @@ from ._core import (  # noqa
     featureset_gene,
     featureset_protein,
     gene,
+    migration_zdno,
     protein,
     species,
     tissue,
