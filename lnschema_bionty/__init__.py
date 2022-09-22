@@ -4,7 +4,7 @@ Import the package::
 
    import lnschema_bionty
 
-This is the complete API reference:
+Biological entities:
 
 .. autosummary::
    :toctree: .
@@ -17,14 +17,28 @@ This is the complete API reference:
    tissue
    disease
    featureset
+
+Link tables:
+
+.. autosummary::
+   :toctree: .
+
    featureset_gene
    featureset_protein
    featureset_cell_marker
+
+Tracking versions & migrations:
+
+.. autosummary::
+   :toctree: .
+
    version_zdno
+   migration_zdno
 
 """
 # This is lnschema-module zdno.
-_schema_module_id = "zdno"
+_schema = "zdno"
+_migration = None
 __version__ = "0.2.4"
 
 from ._core import (  # noqa

@@ -8,14 +8,6 @@ def utcnow():
     return datetime.utcnow().replace(microsecond=0)
 
 
-class version_zdno(SQLModel, table=True):  # type: ignore
-    """Schema module version."""
-
-    v: Optional[str] = Field(primary_key=True)
-    user_id: str = Field(foreign_key="user.id")
-    time_created: datetime = Field(default_factory=utcnow, nullable=False)
-
-
 class species(SQLModel, table=True):  # type: ignore
     """Species table that stores each species as a row."""
 
@@ -132,3 +124,21 @@ class cell_marker(SQLModel, table=True):  # type: ignore
     protein_names: Optional[str] = None  # TODO: link table
     uniprotkb_ids: Optional[str] = None  # TODO: link table
     species_id: int = Field(default=None, foreign_key="species.id")
+
+
+class version_zdno(SQLModel, table=True):  # type: ignore
+    """Schema module version."""
+
+    v: Optional[str] = Field(primary_key=True)
+    migration: Optional[str] = None
+    user_id: str = Field(foreign_key="user.id")
+    time_created: datetime = Field(default_factory=utcnow, nullable=False)
+
+
+class migration_zdno(SQLModel, table=True):  # type: ignore
+    """Latest migration.
+
+    This stores the reference to the latest migration script deployed.
+    """
+
+    version_num: Optional[str] = Field(primary_key=True)
