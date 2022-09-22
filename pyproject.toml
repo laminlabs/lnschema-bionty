@@ -10,6 +10,7 @@ dynamic = ["version", "description"]
 dependencies = [
     "nbproject",
     "sqlmodel",
+    "lnschema_core",
 ]
 
 [project.urls]
