@@ -9,7 +9,7 @@ def utcnow():
 
 
 class species(SQLModel, table=True):  # type: ignore
-    """Species table that stores each species as a row."""
+    """Species."""
 
     id: Optional[int] = Field(default=None, primary_key=True)
     common_name: str = Field(default=None, index=True, unique=True)
@@ -52,7 +52,10 @@ class featureset_cell_marker(SQLModel, table=True):  # type: ignore
 
 
 class featureset(SQLModel, table=True):  # type: ignore
-    """A set of features."""
+    """Sets of biological features.
+
+    See the corresponding link tables.
+    """
 
     id: Optional[int] = Field(default=None, primary_key=True)
     feature_entity: str
@@ -60,7 +63,7 @@ class featureset(SQLModel, table=True):  # type: ignore
 
 
 class gene(SQLModel, table=True):  # type: ignore
-    """Gene table."""
+    """Genes."""
 
     id: Optional[int] = Field(default=None, primary_key=True)
     ensembl_gene_id: str = Field(default=None, index=True)
@@ -75,7 +78,7 @@ class gene(SQLModel, table=True):  # type: ignore
 
 
 class protein(SQLModel, table=True):  # type: ignore
-    """Gene table."""
+    """Proteins."""
 
     id: Optional[int] = Field(default=None, primary_key=True)
     name: str = Field(default=None, index=True)
@@ -91,7 +94,7 @@ class protein(SQLModel, table=True):  # type: ignore
 
 
 class tissue(SQLModel, table=True):  # type: ignore
-    """Tissue table."""
+    """Tissues."""
 
     id: Optional[int] = Field(default=None, primary_key=True)
     ontology_id: str = Field(default=None, index=True, unique=True)
@@ -99,7 +102,7 @@ class tissue(SQLModel, table=True):  # type: ignore
 
 
 class cell_type(SQLModel, table=True):  # type: ignore
-    """Cell type table."""
+    """Cell types."""
 
     id: Optional[int] = Field(default=None, primary_key=True)
     ontology_id: str = Field(default=None, index=True, unique=True)
@@ -107,7 +110,7 @@ class cell_type(SQLModel, table=True):  # type: ignore
 
 
 class disease(SQLModel, table=True):  # type: ignore
-    """Disease table."""
+    """Diseases."""
 
     id: Optional[int] = Field(default=None, primary_key=True)
     ontology_id: str = Field(default=None, index=True, unique=True)
@@ -115,7 +118,7 @@ class disease(SQLModel, table=True):  # type: ignore
 
 
 class cell_marker(SQLModel, table=True):  # type: ignore
-    """Cell marker table."""
+    """Cell markers: protein complexes."""
 
     id: Optional[int] = Field(default=None, primary_key=True)
     name: str = Field(default=None, index=True, unique=True)
@@ -127,7 +130,7 @@ class cell_marker(SQLModel, table=True):  # type: ignore
 
 
 class version_zdno(SQLModel, table=True):  # type: ignore
-    """Schema module version."""
+    """Schema versions."""
 
     v: Optional[str] = Field(primary_key=True)
     migration: Optional[str] = None

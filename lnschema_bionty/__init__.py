@@ -4,7 +4,7 @@ Import the package::
 
    import lnschema_bionty
 
-Biological entities:
+Biological entities, all initialized via `Bionty <https://lamin.ai/docs/bionty>`__:
 
 .. autosummary::
    :toctree: .
