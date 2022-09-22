@@ -20,9 +20,9 @@ class species(SQLModel, table=True):  # type: ignore
     """Species table that stores each species as a row."""
 
     id: Optional[int] = Field(default=None, primary_key=True)
-    common_name: str = Field(default=None, index=True)
-    taxon_id: str = Field(default=None, index=True)
-    scientific_name: str = Field(default=None, index=True)
+    common_name: str = Field(default=None, index=True, unique=True)
+    taxon_id: str = Field(default=None, index=True, unique=True)
+    scientific_name: str = Field(default=None, index=True, unique=True)
     short_name: Optional[str] = None
 
 
@@ -102,7 +102,7 @@ class tissue(SQLModel, table=True):  # type: ignore
     """Tissue table."""
 
     id: Optional[int] = Field(default=None, primary_key=True)
-    ontology_id: str = Field(default=None, index=True)
+    ontology_id: str = Field(default=None, index=True, unique=True)
     name: str = Field(default=None, index=True)
 
 
@@ -110,7 +110,7 @@ class cell_type(SQLModel, table=True):  # type: ignore
     """Cell type table."""
 
     id: Optional[int] = Field(default=None, primary_key=True)
-    ontology_id: str = Field(default=None, index=True)
+    ontology_id: str = Field(default=None, index=True, unique=True)
     name: str = Field(default=None, index=True)
 
 
@@ -118,7 +118,7 @@ class disease(SQLModel, table=True):  # type: ignore
     """Disease table."""
 
     id: Optional[int] = Field(default=None, primary_key=True)
-    ontology_id: str = Field(default=None, index=True)
+    ontology_id: str = Field(default=None, index=True, unique=True)
     name: str = Field(default=None, index=True)
 
 
@@ -126,9 +126,9 @@ class cell_marker(SQLModel, table=True):  # type: ignore
     """Cell marker table."""
 
     id: Optional[int] = Field(default=None, primary_key=True)
-    name: str = Field(default=None, index=True)
-    gene_symbols: Optional[str] = None
-    ncbi_gene_ids: Optional[str] = None
-    protein_names: Optional[str] = None
-    uniprotkb_ids: Optional[str] = None
+    name: str = Field(default=None, index=True, unique=True)
+    gene_symbols: Optional[str] = None  # TODO: link table
+    ncbi_gene_ids: Optional[str] = None  # TODO: link table
+    protein_names: Optional[str] = None  # TODO: link table
+    uniprotkb_ids: Optional[str] = None  # TODO: link table
     species_id: int = Field(default=None, foreign_key="species.id")
