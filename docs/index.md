@@ -7,6 +7,6 @@
 :maxdepth: 1
 
 api
-guides/index
+guide/index
 changelog
 ```
