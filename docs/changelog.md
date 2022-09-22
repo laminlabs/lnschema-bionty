@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
+✨ Add migrations infra | [14](https://github.com/laminlabs/lnschema-bionty/pull/14) | [falexwolf](https://github.com/falexwolf) | 2022-09-22 |
 🩹 Added unique constraints | [13](https://github.com/laminlabs/lnschema-bionty/pull/13) | [sunnyosun](https://github.com/sunnyosun) | 2022-09-22 |
 🐛 Fixed API ref | [12](https://github.com/laminlabs/lnschema-bionty/pull/12) | [sunnyosun](https://github.com/sunnyosun) | 2022-09-06 | 0.2.4
 🎨 Import additional modules, species -> species_id | [11](https://github.com/laminlabs/lnschema-bionty/pull/11) | [sunnyosun](https://github.com/sunnyosun) | 2022-08-28 | 0.2.3
