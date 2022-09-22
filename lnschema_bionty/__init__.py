@@ -35,12 +35,20 @@ Tracking versions & migrations:
    version_zdno
    migration_zdno
 
+Auxiliary modules:
+
+.. autosummary::
+   :toctree: .
+
+   id
+
 """
 # This is lnschema-module zdno.
 _schema = "zdno"
 _migration = "7f9a3b24a42b"
 __version__ = "0.3.1"
 
+from . import id  # noqa
 from ._core import (  # noqa
     cell_marker,
     cell_type,

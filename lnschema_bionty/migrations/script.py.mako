@@ -6,7 +6,7 @@ Create Date: ${create_date}
 
 """
 from alembic import op
-import sqlalchemy as sa
+import sqlalchemy as sa  # noqa
 import sqlmodel  # noqa
 ${imports if imports else ""}
 
