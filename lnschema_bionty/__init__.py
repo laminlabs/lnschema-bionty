@@ -45,8 +45,8 @@ Auxiliary modules:
 """
 # This is lnschema-module zdno.
 _schema = "zdno"
-_migration = "7f9a3b24a42b"
-__version__ = "0.3.1"
+_migration = "267d12e6f6f1"
+__version__ = "0.4.0"
 
 from . import id  # noqa
 from ._core import (  # noqa

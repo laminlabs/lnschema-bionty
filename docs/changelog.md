@@ -3,7 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
-🚚 Update primary keys to universal ids | [16](https://github.com/laminlabs/lnschema-bionty/pull/16) | [falexwolf](https://github.com/falexwolf) | 2022-09-22 |
+🚚 Update primary keys to universal ids | [16](https://github.com/laminlabs/lnschema-bionty/pull/16) | [falexwolf](https://github.com/falexwolf) | 2022-09-22 | 0.4.0
 🚚 Rename column in version table, add testdb, and migration script | [15](https://github.com/laminlabs/lnschema-bionty/pull/15) | [falexwolf](https://github.com/falexwolf) | 2022-09-22 | 0.3.1
 ✨ Add migrations infra | [14](https://github.com/laminlabs/lnschema-bionty/pull/14) | [falexwolf](https://github.com/falexwolf) | 2022-09-22 | 0.3.0
 🩹 Added unique constraints | [13](https://github.com/laminlabs/lnschema-bionty/pull/13) | [sunnyosun](https://github.com/sunnyosun) | 2022-09-22 |
