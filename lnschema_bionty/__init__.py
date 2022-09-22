@@ -39,7 +39,7 @@ Tracking versions & migrations:
 # This is lnschema-module zdno.
 _schema = "zdno"
 _migration = "7f9a3b24a42b"
-__version__ = "0.3.0"
+__version__ = "0.3.1"
 
 from ._core import (  # noqa
     cell_marker,

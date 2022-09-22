@@ -3,7 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
-🚚 Rename column in version table, add testdb, and migration script | [15](https://github.com/laminlabs/lnschema-bionty/pull/15) | [falexwolf](https://github.com/falexwolf) | 2022-09-22 |
+🚚 Rename column in version table, add testdb, and migration script | [15](https://github.com/laminlabs/lnschema-bionty/pull/15) | [falexwolf](https://github.com/falexwolf) | 2022-09-22 | 0.3.1
 ✨ Add migrations infra | [14](https://github.com/laminlabs/lnschema-bionty/pull/14) | [falexwolf](https://github.com/falexwolf) | 2022-09-22 | 0.3.0
 🩹 Added unique constraints | [13](https://github.com/laminlabs/lnschema-bionty/pull/13) | [sunnyosun](https://github.com/sunnyosun) | 2022-09-22 |
 🐛 Fixed API ref | [12](https://github.com/laminlabs/lnschema-bionty/pull/12) | [sunnyosun](https://github.com/sunnyosun) | 2022-09-06 | 0.2.4
