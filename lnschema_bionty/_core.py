@@ -1,7 +1,7 @@
 from datetime import datetime as datetime
 from typing import Optional  # noqa
 
-from lnschema_core import CreatedAt
+from lnschema_core._timestamps import CreatedAt
 from sqlmodel import Field, SQLModel
 
 
