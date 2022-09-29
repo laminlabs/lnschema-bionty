@@ -62,7 +62,7 @@ class gene(SQLModel, table=True):  # type: ignore
     mgi_id: Optional[str] = Field(default=None, index=True)
     omim_id: Optional[int] = Field(default=None, index=True)
     synonyms: Optional[str] = Field(default=None, index=True)
-    species_id: Optional[int] = Field(
+    species_id: Optional[str] = Field(
         default=None, foreign_key="species.id", index=True
     )
     version: Optional[str] = None
@@ -77,7 +77,7 @@ class protein(SQLModel, table=True):  # type: ignore
     uniprotkb_name: str = Field(default=None, index=True)
     protein_names: Optional[str] = Field(default=None, index=True)
     length: Optional[int] = None
-    species_id: int = Field(default=None, foreign_key="species.id")
+    species_id: str = Field(default=None, foreign_key="species.id")
     gene_symbols: Optional[str] = None
     gene_synonyms: Optional[str] = None
     ensembl_transcript_ids: Optional[str] = Field(default=None, index=True)
@@ -117,7 +117,7 @@ class cell_marker(SQLModel, table=True):  # type: ignore
     ncbi_gene_ids: Optional[str] = None  # TODO: link table
     protein_names: Optional[str] = None  # TODO: link table
     uniprotkb_ids: Optional[str] = None  # TODO: link table
-    species_id: int = Field(default=None, foreign_key="species.id")
+    species_id: str = Field(default=None, foreign_key="species.id")
 
 
 class version_zdno(SQLModel, table=True):  # type: ignore
