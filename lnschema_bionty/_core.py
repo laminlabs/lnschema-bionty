@@ -10,7 +10,7 @@ from . import id as idg
 class species(SQLModel, table=True):  # type: ignore
     """Species."""
 
-    id: Optional[str] = Field(default_factory=idg.species, primary_key=True)
+    id: str = Field(default_factory=idg.species, primary_key=True)
     common_name: str = Field(default=None, index=True, unique=True)
     taxon_id: str = Field(default=None, index=True, unique=True)
     scientific_name: str = Field(default=None, index=True, unique=True)
@@ -44,7 +44,7 @@ class featureset(SQLModel, table=True):  # type: ignore
     See the corresponding link tables.
     """
 
-    id: Optional[str] = Field(default_factory=idg.featureset, primary_key=True)
+    id: str = Field(default_factory=idg.featureset, primary_key=True)
     feature_entity: str
     name: str = Field(default=None, unique=True)
 
@@ -52,7 +52,7 @@ class featureset(SQLModel, table=True):  # type: ignore
 class gene(SQLModel, table=True):  # type: ignore
     """Genes."""
 
-    id: Optional[str] = Field(default_factory=idg.gene, primary_key=True)
+    id: str = Field(default_factory=idg.gene, primary_key=True)
     ensembl_gene_id: Optional[str] = Field(default=None, index=True)
     symbol: Optional[str] = Field(default=None, index=True)
     gene_type: Optional[str] = Field(default=None, index=True)
@@ -71,7 +71,7 @@ class gene(SQLModel, table=True):  # type: ignore
 class protein(SQLModel, table=True):  # type: ignore
     """Proteins."""
 
-    id: Optional[str] = Field(default_factory=idg.protein, primary_key=True)
+    id: str = Field(default_factory=idg.protein, primary_key=True)
     name: str = Field(default=None, index=True)
     uniprotkb_id: str = Field(default=None, index=True)
     uniprotkb_name: str = Field(default=None, index=True)
@@ -87,7 +87,7 @@ class protein(SQLModel, table=True):  # type: ignore
 class tissue(SQLModel, table=True):  # type: ignore
     """Tissues."""
 
-    id: Optional[str] = Field(default_factory=idg.tissue, primary_key=True)
+    id: str = Field(default_factory=idg.tissue, primary_key=True)
     ontology_id: Optional[str] = Field(default=None, index=True, unique=True)
     name: str = Field(default=None, index=True)
 
@@ -95,7 +95,7 @@ class tissue(SQLModel, table=True):  # type: ignore
 class cell_type(SQLModel, table=True):  # type: ignore
     """Cell types."""
 
-    id: Optional[str] = Field(default_factory=idg.cell_type, primary_key=True)
+    id: str = Field(default_factory=idg.cell_type, primary_key=True)
     ontology_id: str = Field(default=None, index=True, unique=True)
     name: str = Field(default=None, index=True)
 
@@ -103,7 +103,7 @@ class cell_type(SQLModel, table=True):  # type: ignore
 class disease(SQLModel, table=True):  # type: ignore
     """Diseases."""
 
-    id: Optional[str] = Field(default_factory=idg.tissue, primary_key=True)
+    id: str = Field(default_factory=idg.tissue, primary_key=True)
     ontology_id: str = Field(default=None, index=True, unique=True)
     name: str = Field(default=None, index=True)
 
@@ -111,7 +111,7 @@ class disease(SQLModel, table=True):  # type: ignore
 class cell_marker(SQLModel, table=True):  # type: ignore
     """Cell markers: protein complexes."""
 
-    id: Optional[str] = Field(default_factory=idg.cell_marker, primary_key=True)
+    id: str = Field(default_factory=idg.cell_marker, primary_key=True)
     name: str = Field(default=None, index=True, unique=True)
     gene_symbols: Optional[str] = None  # TODO: link table
     ncbi_gene_ids: Optional[str] = None  # TODO: link table
@@ -123,7 +123,7 @@ class cell_marker(SQLModel, table=True):  # type: ignore
 class version_zdno(SQLModel, table=True):  # type: ignore
     """Schema versions."""
 
-    v: Optional[str] = Field(primary_key=True)
+    v: str = Field(primary_key=True)
     migration: Optional[str] = None
     user_id: str = Field(foreign_key="user.id")
     created_at: datetime = CreatedAt

@@ -7,13 +7,11 @@ def featureset() -> str:
 
 
 def gene() -> str:
-    """Data object: 6 base62.
-
-    TODO: Lower once generated through bionty.
+    """Data object: 4 base62.
 
     Allows >1.5e7 genes.
     """
-    return base62(n_char=6)
+    return base62(n_char=4)
 
 
 def protein() -> str:
