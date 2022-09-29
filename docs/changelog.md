@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
+🩹 Fix type annotations of primary keys | [19](https://github.com/laminlabs/lnschema-bionty/pull/19) | [falexwolf](https://github.com/falexwolf) | 2022-09-29 |
 ✏️ Changed ids to str | [18](https://github.com/laminlabs/lnschema-bionty/pull/18) | [sunnyosun](https://github.com/sunnyosun) | 2022-09-29 | 0.4.2
 🍱 Added `description` and `version` columns to the gene table | [17](https://github.com/laminlabs/lnschema-bionty/pull/17) | [sunnyosun](https://github.com/sunnyosun) | 2022-09-27 | 0.4.1
 🚚 Update primary keys to universal ids | [16](https://github.com/laminlabs/lnschema-bionty/pull/16) | [falexwolf](https://github.com/falexwolf) | 2022-09-22 | 0.4.0
