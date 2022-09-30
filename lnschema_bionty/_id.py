@@ -7,19 +7,13 @@ def featureset() -> str:
 
 
 def gene() -> str:
-    """Data object: 4 base62.
-
-    Allows >1.5e7 genes.
-    """
-    return base62(n_char=4)
+    """Data object: 6 base62."""
+    return base62(n_char=6)
 
 
 def protein() -> str:
-    """Data object: 5 base62.
-
-    Allows >9.2e8 proteins.
-    """
-    return base62(n_char=5)
+    """Data object: 7 base62."""
+    return base62(n_char=7)
 
 
 def species() -> str:
