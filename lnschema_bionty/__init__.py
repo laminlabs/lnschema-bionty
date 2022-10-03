@@ -44,7 +44,7 @@ Auxiliary modules:
 
 """
 # This is lnschema-module zdno.
-_schema = "zdno"
+_schema_id = "zdno"
 _migration = "267d12e6f6f1"
 __version__ = "0.4.3"
 
