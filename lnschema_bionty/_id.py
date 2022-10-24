@@ -17,40 +17,25 @@ def protein() -> str:
 
 
 def species() -> str:
-    """Data object: 2 base62.
-
-    Allows >3844 species.
-    """
-    return base62(n_char=2)
+    """Data object: 3 base62."""
+    return base62(n_char=3)
 
 
 def tissue() -> str:
-    """Data object: 3 base62.
-
-    Allows >2.4e5 tissues.
-    """
-    return base62(n_char=3)
+    """Data object: 4 base62."""
+    return base62(n_char=4)
 
 
 def disease() -> str:
-    """Data object: 3 base62.
-
-    Allows >2.4e5 diseases.
-    """
-    return base62(n_char=3)
+    """Data object: 4 base62."""
+    return base62(n_char=4)
 
 
 def cell_type() -> str:
-    """Data object: 3 base62.
-
-    Allows >2.4e5 cell types.
-    """
-    return base62(n_char=3)
+    """Data object: 4 base62."""
+    return base62(n_char=4)
 
 
 def cell_marker() -> str:
-    """Data object: 3 base62.
-
-    Allows >2.4e5 cell markers.
-    """
-    return base62(n_char=3)
+    """Data object: 4 base62."""
+    return base62(n_char=4)
