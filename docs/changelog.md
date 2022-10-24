@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
+✏️ Updated species id to be 3 chars | [22](https://github.com/laminlabs/lnschema-bionty/pull/22) | [sunnyosun](https://github.com/sunnyosun) | 2022-10-24 |
 🧑‍💻 Added naming convention | [20](https://github.com/laminlabs/lnschema-bionty/pull/20) | [sunnyosun](https://github.com/sunnyosun) | 2022-10-20 |
 🩹 Fix type annotations of primary keys | [19](https://github.com/laminlabs/lnschema-bionty/pull/19) | [falexwolf](https://github.com/falexwolf) | 2022-09-29 | 0.4.3
 ✏️ Changed ids to str | [18](https://github.com/laminlabs/lnschema-bionty/pull/18) | [sunnyosun](https://github.com/sunnyosun) | 2022-09-29 | 0.4.2
