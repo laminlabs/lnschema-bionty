@@ -22,20 +22,20 @@ def species() -> str:
 
 
 def tissue() -> str:
-    """Data object: 4 base62."""
-    return base62(n_char=4)
+    """Data object: 5 base62."""
+    return base62(n_char=5)
 
 
 def disease() -> str:
-    """Data object: 4 base62."""
-    return base62(n_char=4)
+    """Data object: 5 base62."""
+    return base62(n_char=5)
 
 
 def cell_type() -> str:
-    """Data object: 4 base62."""
-    return base62(n_char=4)
+    """Data object: 5 base62."""
+    return base62(n_char=5)
 
 
 def cell_marker() -> str:
-    """Data object: 4 base62."""
-    return base62(n_char=4)
+    """Data object: 5 base62."""
+    return base62(n_char=5)
