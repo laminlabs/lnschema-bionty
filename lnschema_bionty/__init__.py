@@ -1,4 +1,4 @@
-"""Schema module for universal biological entities (`zdno`).
+"""Biological entities (`zdno`).
 
 Import the package::
 
@@ -9,58 +9,50 @@ Biological entities, all initialized via `Bionty <https://lamin.ai/docs/bionty>`
 .. autosummary::
    :toctree: .
 
-   gene
-   protein
-   cell_marker
-   cell_type
-   species
-   tissue
-   disease
-   featureset
+   Gene
+   Protein
+   CellMarker
+   CellType
+   Species
+   Tissue
+   Disease
 
-Link tables:
-
-.. autosummary::
-   :toctree: .
-
-   featureset_gene
-   featureset_protein
-   featureset_cell_marker
-
-Tracking versions & migrations:
+Feature sets:
 
 .. autosummary::
    :toctree: .
 
-   version_zdno
-   migration_zdno
+   Featureset
+   FeaturesetGene
+   FeaturesetProtein
+   FeaturesetCellMarker
 
-Auxiliary modules:
+Development tools:
 
 .. autosummary::
    :toctree: .
 
-   id
+   dev
 
 """
 # This is lnschema-module zdno.
 _schema_id = "zdno"
+_name = "bionty"
 _migration = "267d12e6f6f1"
 __version__ = "0.4.5"
 
-from . import id  # noqa
+from . import dev  # noqa
 from ._core import (  # noqa
-    cell_marker,
-    cell_type,
-    disease,
-    featureset,
-    featureset_cell_marker,
-    featureset_gene,
-    featureset_protein,
-    gene,
-    migration_zdno,
-    protein,
-    species,
-    tissue,
-    version_zdno,
+    CellMarker,
+    CellType,
+    Disease,
+    Featureset,
+    FeaturesetCellMarker,
+    FeaturesetGene,
+    FeaturesetProtein,
+    Gene,
+    Protein,
+    Species,
+    Tissue,
 )
+from .dev import id  # backward compat
