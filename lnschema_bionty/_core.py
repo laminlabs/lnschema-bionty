@@ -17,6 +17,7 @@ class Species(SQLModel, table=True):  # type: ignore
     common_name: str = Field(default=None, index=True, unique=True)
     taxon_id: str = Field(default=None, index=True, unique=True)
     scientific_name: str = Field(default=None, index=True, unique=True)
+    short_name: Optional[str] = None
 
     def __init__(
         self,
