@@ -42,6 +42,7 @@ def upgrade() -> None:
         op.execute("alter table public.gene set schema bionty")
         op.execute("alter table public.protein set schema bionty")
         op.execute("alter table public.cell_marker set schema bionty")
+        op.execute("alter table public.cell_type set schema bionty")
         op.execute("alter table public.species set schema bionty")
         op.execute("alter table public.tissue set schema bionty")
         op.execute("alter table public.disease set schema bionty")
