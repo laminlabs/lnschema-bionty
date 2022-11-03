@@ -3,7 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
-:art: Modularize and capitalize | [24](https://github.com/laminlabs/lnschema-bionty/pull/24) | [falexwolf](https://github.com/falexwolf) | 2022-11-03 |
+🎨 Modularize and capitalize | [24](https://github.com/laminlabs/lnschema-bionty/pull/24) | [falexwolf](https://github.com/falexwolf) | 2022-11-03 | 0.5.0
 🎨 Updated cell marker id gen | [23](https://github.com/laminlabs/lnschema-bionty/pull/23) | [sunnyosun](https://github.com/sunnyosun) | 2022-10-25 | 0.4.5
 ✏️ Updated species id to be 3 chars | [22](https://github.com/laminlabs/lnschema-bionty/pull/22) | [sunnyosun](https://github.com/sunnyosun) | 2022-10-24 | 0.4.4
 🧑‍💻 Added naming convention | [20](https://github.com/laminlabs/lnschema-bionty/pull/20) | [sunnyosun](https://github.com/sunnyosun) | 2022-10-20 |
