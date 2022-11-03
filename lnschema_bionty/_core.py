@@ -22,7 +22,7 @@ class Species(SQLModel, table=True):  # type: ignore
 class FeaturesetGene(SQLModel, table=True):  # type: ignore
     """Link table."""
 
-    __tablename__ = "{prefix}featureset_gene"
+    __tablename__ = f"{prefix}featureset_gene"
 
     featureset_id: str = Field(foreign_key="bionty.featureset.id", primary_key=True)
     gene_id: str = Field(foreign_key="bionty.gene.id", primary_key=True)
@@ -31,7 +31,7 @@ class FeaturesetGene(SQLModel, table=True):  # type: ignore
 class FeaturesetProtein(SQLModel, table=True):  # type: ignore
     """Link table."""
 
-    __tablename__ = "{prefix}featureset_protein"
+    __tablename__ = f"{prefix}featureset_protein"
 
     featureset_id: str = Field(foreign_key="bionty.featureset.id", primary_key=True)
     protein_id: str = Field(foreign_key="bionty.protein.id", primary_key=True)
@@ -40,7 +40,7 @@ class FeaturesetProtein(SQLModel, table=True):  # type: ignore
 class FeaturesetCellMarker(SQLModel, table=True):  # type: ignore
     """Link table."""
 
-    __tablename__ = "{prefix}featureset_cell_marker"
+    __tablename__ = f"{prefix}featureset_cell_marker"
 
     featureset_id: str = Field(foreign_key="bionty.featureset.id", primary_key=True)
     cell_marker_id: str = Field(foreign_key="bionty.cell_marker.id", primary_key=True)
@@ -103,7 +103,7 @@ class Tissue(SQLModel, table=True):  # type: ignore
 class CellType(SQLModel, table=True):  # type: ignore
     """Cell types."""
 
-    __tablename__ = "{prefix}cell_type"
+    __tablename__ = f"{prefix}cell_type"
 
     id: str = Field(default_factory=idg.cell_type, primary_key=True)
     ontology_id: str = Field(default=None, index=True, unique=True)
@@ -121,7 +121,7 @@ class Disease(SQLModel, table=True):  # type: ignore
 class CellMarker(SQLModel, table=True):  # type: ignore
     """Cell markers: protein complexes."""
 
-    __tablename__ = "{prefix}cell_marker"
+    __tablename__ = f"{prefix}cell_marker"
 
     id: str = Field(default_factory=idg.cell_marker, primary_key=True)
     name: str = Field(default=None, index=True, unique=True)
