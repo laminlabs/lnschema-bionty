@@ -1,5 +1,6 @@
 from typing import Optional  # noqa
 
+from bionty import Species as btSpecies
 from lnschema_core.dev.sqlmodel import schema_sqlmodel
 from sqlmodel import Field
 
@@ -16,7 +17,35 @@ class Species(SQLModel, table=True):  # type: ignore
     common_name: str = Field(default=None, index=True, unique=True)
     taxon_id: str = Field(default=None, index=True, unique=True)
     scientific_name: str = Field(default=None, index=True, unique=True)
-    short_name: Optional[str] = None
+
+    def __init__(
+        self,
+        id: str = None,
+        common_name: str = None,
+        taxon_id: str = None,
+        scientific_name: str = None,
+    ):
+        super().__init__(
+            id=id,
+            common_name=common_name,
+            taxon_id=taxon_id,
+            scientific_name=scientific_name,
+        )
+        if id:
+            kwargs = btSpecies(id="id").df.loc[id]
+        elif common_name:
+            kwargs = btSpecies(id="common_name").df.loc[common_name]
+        elif taxon_id:
+            kwargs = btSpecies(id="taxon_id").df.loc[taxon_id]
+        elif scientific_name:
+            kwargs = btSpecies(id="scientific_name").df.loc[scientific_name]
+        else:
+            return
+
+        for k, v in kwargs.items():
+            if k not in self.__fields__:
+                continue
+            super().__setattr__(k, v)
 
 
 class FeaturesetGene(SQLModel, table=True):  # type: ignore
