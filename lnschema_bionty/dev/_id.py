@@ -1,4 +1,4 @@
-from lnschema_core.id import base62
+from lnschema_core.dev.id import base62
 
 
 def featureset() -> str:
