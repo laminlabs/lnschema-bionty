@@ -4,7 +4,7 @@ from lnschema_core.dev.sqlmodel import schema_sqlmodel
 from sqlmodel import Field
 
 from . import _name as schema_name
-from . import id as idg
+from .dev import id as idg
 
 SQLModel, prefix, schema_arg = schema_sqlmodel(schema_name)
 
