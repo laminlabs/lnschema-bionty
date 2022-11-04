@@ -1,6 +1,9 @@
+from datetime import datetime as datetime
 from typing import Optional  # noqa
 
 from bionty import Species as btSpecies
+from lnschema_core._timestamps import CreatedAt
+from lnschema_core._users import CreatedBy
 from lnschema_core.dev.sqlmodel import schema_sqlmodel
 from sqlmodel import Field
 
@@ -17,7 +20,6 @@ class Species(SQLModel, table=True):  # type: ignore
     common_name: str = Field(default=None, index=True, unique=True)
     taxon_id: str = Field(default=None, index=True, unique=True)
     scientific_name: str = Field(default=None, index=True, unique=True)
-    short_name: Optional[str] = None
 
     def __init__(
         self,
@@ -85,6 +87,8 @@ class Featureset(SQLModel, table=True):  # type: ignore
     id: str = Field(default_factory=idg.featureset, primary_key=True)
     feature_entity: str
     name: str = Field(default=None, unique=True)
+    created_by: str = CreatedBy
+    created_at: datetime = CreatedAt
 
 
 class Gene(SQLModel, table=True):  # type: ignore
