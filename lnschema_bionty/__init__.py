@@ -38,8 +38,8 @@ Development tools:
 # This is lnschema-module zdno.
 _schema_id = "zdno"
 _name = "bionty"
-_migration = "afda12fc80a8"
-__version__ = "0.5.1"
+_migration = "edff8c04b030"
+__version__ = "0.5.2"
 
 from . import dev  # noqa
 from ._core import (  # noqa
