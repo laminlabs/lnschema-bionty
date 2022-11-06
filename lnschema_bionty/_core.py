@@ -1,7 +1,7 @@
 from datetime import datetime as datetime
 from typing import Optional  # noqa
 
-from bionty import Species as btSpecies
+from bionty import Species as SpeciesBionty
 from lnschema_core._timestamps import CreatedAt
 from lnschema_core._users import CreatedBy
 from lnschema_core.dev.sqlmodel import schema_sqlmodel
@@ -9,6 +9,7 @@ from sqlmodel import Field
 
 from . import _name as schema_name
 from .dev import id as idg
+from .dev._bionty import populate_columns_from_knowledge
 
 SQLModel, prefix, schema_arg = schema_sqlmodel(schema_name)
 
@@ -28,21 +29,13 @@ class Species(SQLModel, table=True):  # type: ignore
         taxon_id: str = None,
         scientific_name: str = None,
     ):
-        super().__init__(
-            id=id,
-            common_name=common_name,
-            taxon_id=taxon_id,
-            scientific_name=scientific_name,
+        local, kwargs = populate_columns_from_knowledge(
+            local=locals(), knowledge_table=SpeciesBionty, default_factory_col="id"
         )
-        if id:
-            kwargs = btSpecies(id="id").df.loc[id]
-        elif common_name:
-            kwargs = btSpecies(id="common_name").df.loc[common_name]
-        elif taxon_id:
-            kwargs = btSpecies(id="taxon_id").df.loc[taxon_id]
-        elif scientific_name:
-            kwargs = btSpecies(id="scientific_name").df.loc[scientific_name]
-        else:
+
+        super().__init__(**local)
+
+        if len(kwargs) == 0:
             return
 
         for k, v in kwargs.items():
