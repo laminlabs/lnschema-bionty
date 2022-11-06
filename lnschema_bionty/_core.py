@@ -9,11 +9,14 @@ from sqlmodel import Field
 
 from . import _name as schema_name
 from .dev import id as idg
-from .dev._bionty import populate_columns_from_knowledge
+from .dev._bionty import fields_from_knowledge, init_sqlmodel_parent
 
 SQLModel, prefix, schema_arg = schema_sqlmodel(schema_name)
 
 
+# refactor further to
+# @knowledge(SpeciesBionty)
+# based on https://github.com/python/cpython/blob/7dcd28eb41abeb29ddefd0a49fa9f7a9ebd61e16/Lib/dataclasses.py#L1209-L1237  # noqa
 class Species(SQLModel, table=True):  # type: ignore
     """Species."""
 
@@ -29,19 +32,16 @@ class Species(SQLModel, table=True):  # type: ignore
         taxon_id: str = None,
         scientific_name: str = None,
     ):
-        local, kwargs = populate_columns_from_knowledge(
-            locals=locals(), knowledge_table=SpeciesBionty, default_factory_col="id"
+        init_kwargs, pydantic_attrs = fields_from_knowledge(
+            locals=locals(),
+            knowledge_table=SpeciesBionty,
         )
-
-        super().__init__(**local)
-
-        if len(kwargs) == 0:
-            return
-
-        for k, v in kwargs.items():
-            if k not in self.__fields__:
-                continue
-            super().__setattr__(k, v)
+        init_sqlmodel_parent(
+            super(),
+            self,
+            init_kwargs,
+            pydantic_attrs,
+        )
 
 
 class FeaturesetGene(SQLModel, table=True):  # type: ignore
