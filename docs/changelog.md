@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
+✨ Use bionty to populate species | [27](https://github.com/laminlabs/lnschema-bionty/pull/27) | [sunnyosun](https://github.com/sunnyosun) | 2022-11-06 |
 🐛 Fix prefix | [26](https://github.com/laminlabs/lnschema-bionty/pull/26) | [falexwolf](https://github.com/falexwolf) | 2022-11-03 | 0.5.1
 🎨 Modularize and capitalize | [24](https://github.com/laminlabs/lnschema-bionty/pull/24) | [falexwolf](https://github.com/falexwolf) | 2022-11-03 | 0.5.0
 🎨 Updated cell marker id gen | [23](https://github.com/laminlabs/lnschema-bionty/pull/23) | [sunnyosun](https://github.com/sunnyosun) | 2022-10-25 | 0.4.5
