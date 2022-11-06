@@ -30,7 +30,7 @@ class Species(SQLModel, table=True):  # type: ignore
         scientific_name: str = None,
     ):
         local, kwargs = populate_columns_from_knowledge(
-            local=locals(), knowledge_table=SpeciesBionty, default_factory_col="id"
+            locals=locals(), knowledge_table=SpeciesBionty, default_factory_col="id"
         )
 
         super().__init__(**local)
