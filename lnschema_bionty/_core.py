@@ -1,10 +1,15 @@
+from datetime import datetime as datetime
 from typing import Optional  # noqa
 
+from bionty import Species as SpeciesBionty
+from lnschema_core._timestamps import CreatedAt
+from lnschema_core._users import CreatedBy
 from lnschema_core.dev.sqlmodel import schema_sqlmodel
 from sqlmodel import Field
 
 from . import _name as schema_name
 from .dev import id as idg
+from .dev._bionty import populate_columns_from_knowledge
 
 SQLModel, prefix, schema_arg = schema_sqlmodel(schema_name)
 
@@ -16,7 +21,27 @@ class Species(SQLModel, table=True):  # type: ignore
     common_name: str = Field(default=None, index=True, unique=True)
     taxon_id: str = Field(default=None, index=True, unique=True)
     scientific_name: str = Field(default=None, index=True, unique=True)
-    short_name: Optional[str] = None
+
+    def __init__(
+        self,
+        id: str = None,
+        common_name: str = None,
+        taxon_id: str = None,
+        scientific_name: str = None,
+    ):
+        local, kwargs = populate_columns_from_knowledge(
+            local=locals(), knowledge_table=SpeciesBionty, default_factory_col="id"
+        )
+
+        super().__init__(**local)
+
+        if len(kwargs) == 0:
+            return
+
+        for k, v in kwargs.items():
+            if k not in self.__fields__:
+                continue
+            super().__setattr__(k, v)
 
 
 class FeaturesetGene(SQLModel, table=True):  # type: ignore
@@ -55,6 +80,8 @@ class Featureset(SQLModel, table=True):  # type: ignore
     id: str = Field(default_factory=idg.featureset, primary_key=True)
     feature_entity: str
     name: str = Field(default=None, unique=True)
+    created_by: str = CreatedBy
+    created_at: datetime = CreatedAt
 
 
 class Gene(SQLModel, table=True):  # type: ignore
