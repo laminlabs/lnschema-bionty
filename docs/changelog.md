@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
+♻️ Refactor knowledge population | [29](https://github.com/laminlabs/lnschema-bionty/pull/29) | [falexwolf](https://github.com/falexwolf) | 2022-11-06 |
 🐛 Fixed postgres migration script | [28](https://github.com/laminlabs/lnschema-bionty/pull/28) | [sunnyosun](https://github.com/sunnyosun) | 2022-11-06 | 0.5.3
 ✨ Use bionty to populate species | [27](https://github.com/laminlabs/lnschema-bionty/pull/27) | [sunnyosun](https://github.com/sunnyosun) | 2022-11-06 | 0.5.2
 🐛 Fix prefix | [26](https://github.com/laminlabs/lnschema-bionty/pull/26) | [falexwolf](https://github.com/falexwolf) | 2022-11-03 | 0.5.1
