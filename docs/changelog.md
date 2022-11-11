@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
+⚡ Implemented knowledge as a decorator | [31](https://github.com/laminlabs/lnschema-bionty/pull/31) | [sunnyosun](https://github.com/sunnyosun) | 2022-11-11 |
 ✨ Added populator for ontologies | [30](https://github.com/laminlabs/lnschema-bionty/pull/30) | [sunnyosun](https://github.com/sunnyosun) | 2022-11-11 |
 ♻️ Refactor knowledge population | [29](https://github.com/laminlabs/lnschema-bionty/pull/29) | [falexwolf](https://github.com/falexwolf) | 2022-11-06 |
 🐛 Fixed postgres migration script | [28](https://github.com/laminlabs/lnschema-bionty/pull/28) | [sunnyosun](https://github.com/sunnyosun) | 2022-11-06 | 0.5.3
