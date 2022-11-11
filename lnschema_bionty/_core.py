@@ -9,14 +9,12 @@ from sqlmodel import Field
 
 from . import _name as schema_name
 from .dev import id as idg
-from .dev._bionty import fields_from_knowledge, init_sqlmodel_parent
+from .dev._bionty import knowledge
 
 SQLModel, prefix, schema_arg = schema_sqlmodel(schema_name)
 
 
-# refactor further to
-# @knowledge(SpeciesBionty)
-# based on https://github.com/python/cpython/blob/7dcd28eb41abeb29ddefd0a49fa9f7a9ebd61e16/Lib/dataclasses.py#L1209-L1237  # noqa
+@knowledge(bt.Species)
 class Species(SQLModel, table=True):  # type: ignore
     """Species."""
 
@@ -24,24 +22,6 @@ class Species(SQLModel, table=True):  # type: ignore
     common_name: str = Field(default=None, index=True, unique=True)
     taxon_id: str = Field(default=None, index=True, unique=True)
     scientific_name: str = Field(default=None, index=True, unique=True)
-
-    def __init__(
-        self,
-        id: str = None,
-        common_name: str = None,
-        taxon_id: str = None,
-        scientific_name: str = None,
-    ):
-        init_kwargs, pydantic_attrs = fields_from_knowledge(
-            locals=locals(),
-            knowledge_table=bt.Species,
-        )
-        init_sqlmodel_parent(
-            super(),
-            self,
-            init_kwargs,
-            pydantic_attrs,
-        )
 
 
 class FeaturesetGene(SQLModel, table=True):  # type: ignore
@@ -119,6 +99,7 @@ class Protein(SQLModel, table=True):  # type: ignore
     ncbi_gene_ids: Optional[str] = Field(default=None, index=True)
 
 
+@knowledge(bt.Tissue)
 class Tissue(SQLModel, table=True):  # type: ignore
     """Tissues."""
 
@@ -126,24 +107,8 @@ class Tissue(SQLModel, table=True):  # type: ignore
     ontology_id: Optional[str] = Field(default=None, index=True, unique=True)
     name: str = Field(default=None, index=True)
 
-    def __init__(
-        self,
-        id: str = None,
-        ontology_id: str = None,
-        name: str = None,
-    ):
-        init_kwargs, pydantic_attrs = fields_from_knowledge(
-            locals=locals(),
-            knowledge_table=bt.Tissue,
-        )
-        init_sqlmodel_parent(
-            super(),
-            self,
-            init_kwargs,
-            pydantic_attrs,
-        )
 
-
+@knowledge(bt.CellType)
 class CellType(SQLModel, table=True):  # type: ignore
     """Cell types."""
 
@@ -153,47 +118,14 @@ class CellType(SQLModel, table=True):  # type: ignore
     ontology_id: str = Field(default=None, index=True, unique=True)
     name: str = Field(default=None, index=True)
 
-    def __init__(
-        self,
-        id: str = None,
-        ontology_id: str = None,
-        name: str = None,
-    ):
-        init_kwargs, pydantic_attrs = fields_from_knowledge(
-            locals=locals(),
-            knowledge_table=bt.CellType,
-        )
-        init_sqlmodel_parent(
-            super(),
-            self,
-            init_kwargs,
-            pydantic_attrs,
-        )
 
-
+@knowledge(bt.Disease)
 class Disease(SQLModel, table=True):  # type: ignore
     """Diseases."""
 
     id: str = Field(default_factory=idg.tissue, primary_key=True)
     ontology_id: str = Field(default=None, index=True, unique=True)
     name: str = Field(default=None, index=True)
-
-    def __init__(
-        self,
-        id: str = None,
-        ontology_id: str = None,
-        name: str = None,
-    ):
-        init_kwargs, pydantic_attrs = fields_from_knowledge(
-            locals=locals(),
-            knowledge_table=bt.Disease,
-        )
-        init_sqlmodel_parent(
-            super(),
-            self,
-            init_kwargs,
-            pydantic_attrs,
-        )
 
 
 class CellMarker(SQLModel, table=True):  # type: ignore
