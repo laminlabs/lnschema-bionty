@@ -39,7 +39,7 @@ Development tools:
 _schema_id = "zdno"
 _name = "bionty"
 _migration = "edff8c04b030"
-__version__ = "0.5.3"
+__version__ = "0.5.4"
 
 from . import dev  # noqa
 from ._core import (  # noqa
