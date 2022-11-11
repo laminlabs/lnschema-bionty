@@ -1,7 +1,7 @@
 from datetime import datetime as datetime
 from typing import Optional  # noqa
 
-from bionty import Species as SpeciesBionty
+import bionty as bt
 from lnschema_core._timestamps import CreatedAt
 from lnschema_core._users import CreatedBy
 from lnschema_core.dev.sqlmodel import schema_sqlmodel
@@ -34,7 +34,7 @@ class Species(SQLModel, table=True):  # type: ignore
     ):
         init_kwargs, pydantic_attrs = fields_from_knowledge(
             locals=locals(),
-            knowledge_table=SpeciesBionty,
+            knowledge_table=bt.Species,
         )
         init_sqlmodel_parent(
             super(),
@@ -126,6 +126,23 @@ class Tissue(SQLModel, table=True):  # type: ignore
     ontology_id: Optional[str] = Field(default=None, index=True, unique=True)
     name: str = Field(default=None, index=True)
 
+    def __init__(
+        self,
+        id: str = None,
+        ontology_id: str = None,
+        name: str = None,
+    ):
+        init_kwargs, pydantic_attrs = fields_from_knowledge(
+            locals=locals(),
+            knowledge_table=bt.Tissue,
+        )
+        init_sqlmodel_parent(
+            super(),
+            self,
+            init_kwargs,
+            pydantic_attrs,
+        )
+
 
 class CellType(SQLModel, table=True):  # type: ignore
     """Cell types."""
@@ -136,6 +153,23 @@ class CellType(SQLModel, table=True):  # type: ignore
     ontology_id: str = Field(default=None, index=True, unique=True)
     name: str = Field(default=None, index=True)
 
+    def __init__(
+        self,
+        id: str = None,
+        ontology_id: str = None,
+        name: str = None,
+    ):
+        init_kwargs, pydantic_attrs = fields_from_knowledge(
+            locals=locals(),
+            knowledge_table=bt.CellType,
+        )
+        init_sqlmodel_parent(
+            super(),
+            self,
+            init_kwargs,
+            pydantic_attrs,
+        )
+
 
 class Disease(SQLModel, table=True):  # type: ignore
     """Diseases."""
@@ -143,6 +177,23 @@ class Disease(SQLModel, table=True):  # type: ignore
     id: str = Field(default_factory=idg.tissue, primary_key=True)
     ontology_id: str = Field(default=None, index=True, unique=True)
     name: str = Field(default=None, index=True)
+
+    def __init__(
+        self,
+        id: str = None,
+        ontology_id: str = None,
+        name: str = None,
+    ):
+        init_kwargs, pydantic_attrs = fields_from_knowledge(
+            locals=locals(),
+            knowledge_table=bt.Disease,
+        )
+        init_sqlmodel_parent(
+            super(),
+            self,
+            init_kwargs,
+            pydantic_attrs,
+        )
 
 
 class CellMarker(SQLModel, table=True):  # type: ignore
