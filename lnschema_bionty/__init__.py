@@ -17,16 +17,6 @@ Biological entities, all initialized via `Bionty <https://lamin.ai/docs/bionty>`
    Tissue
    Disease
 
-Feature sets:
-
-.. autosummary::
-   :toctree: .
-
-   Featureset
-   FeaturesetGene
-   FeaturesetProtein
-   FeaturesetCellMarker
-
 Development tools:
 
 .. autosummary::
@@ -46,13 +36,12 @@ from ._core import (  # noqa
     CellMarker,
     CellType,
     Disease,
-    Featureset,
-    FeaturesetCellMarker,
-    FeaturesetGene,
-    FeaturesetProtein,
     Gene,
     Protein,
     Species,
     Tissue,
+    features_cell_marker,
+    features_gene,
+    features_protein,
 )
 from .dev import id  # backward compat

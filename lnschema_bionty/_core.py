@@ -1,11 +1,11 @@
-from datetime import datetime as datetime
-from typing import Optional  # noqa
+from typing import List, Optional  # noqa
 
 import bionty as bt
-from lnschema_core._timestamps import CreatedAt
-from lnschema_core._users import CreatedBy
+from lnschema_core import Features
 from lnschema_core.dev.sqlmodel import schema_sqlmodel
-from sqlmodel import Field
+from sqlalchemy import Column, ForeignKey, Table
+from sqlalchemy.orm import relationship
+from sqlmodel import Field, Relationship
 
 from . import _name as schema_name
 from .dev import id as idg
@@ -24,44 +24,26 @@ class Species(SQLModel, table=True):  # type: ignore
     scientific_name: str = Field(default=None, index=True, unique=True)
 
 
-class FeaturesetGene(SQLModel, table=True):  # type: ignore
-    """Link table."""
+features_gene = Table(
+    f"{prefix}features_gene",
+    SQLModel.metadata,
+    Column("features_id", ForeignKey("core.features.id"), primary_key=True),
+    Column("gene_id", ForeignKey("bionty.gene.id"), primary_key=True),
+)
 
-    __tablename__ = f"{prefix}featureset_gene"
+features_protein = Table(
+    f"{prefix}features_protein",
+    SQLModel.metadata,
+    Column("features_id", ForeignKey("core.features.id"), primary_key=True),
+    Column("protein_id", ForeignKey("bionty.protein.id"), primary_key=True),
+)
 
-    featureset_id: str = Field(foreign_key="bionty.featureset.id", primary_key=True)
-    gene_id: str = Field(foreign_key="bionty.gene.id", primary_key=True)
-
-
-class FeaturesetProtein(SQLModel, table=True):  # type: ignore
-    """Link table."""
-
-    __tablename__ = f"{prefix}featureset_protein"
-
-    featureset_id: str = Field(foreign_key="bionty.featureset.id", primary_key=True)
-    protein_id: str = Field(foreign_key="bionty.protein.id", primary_key=True)
-
-
-class FeaturesetCellMarker(SQLModel, table=True):  # type: ignore
-    """Link table."""
-
-    __tablename__ = f"{prefix}featureset_cell_marker"
-
-    featureset_id: str = Field(foreign_key="bionty.featureset.id", primary_key=True)
-    cell_marker_id: str = Field(foreign_key="bionty.cell_marker.id", primary_key=True)
-
-
-class Featureset(SQLModel, table=True):  # type: ignore
-    """Sets of biological features.
-
-    See the corresponding link tables.
-    """
-
-    id: str = Field(default_factory=idg.featureset, primary_key=True)
-    feature_entity: str
-    name: str = Field(default=None, unique=True)
-    created_by: str = CreatedBy
-    created_at: datetime = CreatedAt
+features_cell_marker = Table(
+    f"{prefix}features_cell_marker",
+    SQLModel.metadata,
+    Column("features_id", ForeignKey("core.features.id"), primary_key=True),
+    Column("cell_marker_id", ForeignKey("bionty.cell_marker.id"), primary_key=True),
+)
 
 
 class Gene(SQLModel, table=True):  # type: ignore
@@ -81,6 +63,12 @@ class Gene(SQLModel, table=True):  # type: ignore
         default=None, foreign_key="bionty.species.id", index=True
     )
     version: Optional[str] = None
+    features: Features = Relationship(
+        back_populates="genes", sa_relationship_kwargs=dict(secondary=features_gene)
+    )
+
+
+Features.genes = relationship(Gene, back_populates="features", secondary=features_gene)
 
 
 class Protein(SQLModel, table=True):  # type: ignore
@@ -97,6 +85,15 @@ class Protein(SQLModel, table=True):  # type: ignore
     gene_synonyms: Optional[str] = None
     ensembl_transcript_ids: Optional[str] = Field(default=None, index=True)
     ncbi_gene_ids: Optional[str] = Field(default=None, index=True)
+    features: Features = Relationship(
+        back_populates="proteins",
+        sa_relationship_kwargs=dict(secondary=features_protein),
+    )
+
+
+Features.proteins = relationship(
+    Protein, back_populates="features", secondary=features_protein
+)
 
 
 @knowledge(bt.Tissue)
@@ -140,3 +137,12 @@ class CellMarker(SQLModel, table=True):  # type: ignore
     protein_names: Optional[str] = None  # TODO: link table
     uniprotkb_ids: Optional[str] = None  # TODO: link table
     species_id: str = Field(default=None, foreign_key="bionty.species.id")
+    features: Features = Relationship(
+        back_populates="cell_markers",
+        sa_relationship_kwargs=dict(secondary=features_cell_marker),
+    )
+
+
+Features.cell_markers = relationship(
+    CellMarker, back_populates="features", secondary=features_cell_marker
+)
