@@ -10,7 +10,7 @@ dynamic = ["version", "description"]
 dependencies = [
     "nbproject",
     "sqlmodel",
-    "lnschema_core",
+    "lnschema_core>=0.19.0",
     "bionty>=0.5.2",
 ]
 
