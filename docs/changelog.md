@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
+✨ Added `bionty_versions` table | [33](https://github.com/laminlabs/lnschema-bionty/pull/33) | [sunnyosun](https://github.com/sunnyosun) | 2022-11-18 |
 🏗️ Introduce relationships, move Features table to core | [32](https://github.com/laminlabs/lnschema-bionty/pull/32) | [falexwolf](https://github.com/falexwolf) | 2022-11-17 | 0.6.0
 ⚡ Implemented knowledge as a decorator | [31](https://github.com/laminlabs/lnschema-bionty/pull/31) | [sunnyosun](https://github.com/sunnyosun) | 2022-11-11 | 0.5.4
 ✨ Added populator for ontologies | [30](https://github.com/laminlabs/lnschema-bionty/pull/30) | [sunnyosun](https://github.com/sunnyosun) | 2022-11-11 |
