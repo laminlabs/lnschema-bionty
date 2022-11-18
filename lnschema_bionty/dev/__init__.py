@@ -8,6 +8,13 @@ Tracking versions & migrations:
    version_zdno
    migration_zdno
 
+Version of knowledge tables
+
+.. autosummary::
+   :toctree: .
+
+   bionty_versions
+
 Auxiliary modules:
 
 .. autosummary::
@@ -16,4 +23,5 @@ Auxiliary modules:
    id
 """
 from . import id
+from ._bionty_versions import bionty_versions
 from ._versions import migration_zdno, version_zdno
