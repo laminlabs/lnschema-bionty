@@ -1,4 +1,4 @@
-from typing import List, Optional  # noqa
+from typing import Optional
 
 import bionty as bt
 from lnschema_core import Features
