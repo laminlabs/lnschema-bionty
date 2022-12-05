@@ -9,8 +9,8 @@ from sqlmodel import Field, SQLModel
 class bionty_versions(SQLModel, table=True):  # type: ignore
     """Versions of the knowledge tables."""
 
-    id: int = Field(primary_key=True)
-    table: str = Field(index=True)
+    id: Optional[int] = Field(default=None, primary_key=True)
+    entity: str = Field(index=True)
     database: str = Field(index=True)
     database_v: str = Field(index=True)
     database_url: Optional[str] = None
