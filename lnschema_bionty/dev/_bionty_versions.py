@@ -17,3 +17,12 @@ class bionty_versions(SQLModel, table=True):  # type: ignore
     created_by: str = CreatedBy
     created_at: datetime = CreatedAt
     updated_at: Optional[datetime] = UpdatedAt
+
+
+class bionty_version(SQLModel, table=True):  # type: ignore
+    """In-use version of the knowledge tables."""
+
+    id: int = Field(primary_key=True, foreign_key="bionty_versions.id")
+    created_by: str = CreatedBy
+    created_at: datetime = CreatedAt
+    updated_at: Optional[datetime] = UpdatedAt
