@@ -6,7 +6,7 @@ from lnschema_core._users import CreatedBy
 from sqlmodel import Field, SQLModel
 
 
-class bionty_versions(SQLModel, table=True):  # type: ignore
+class BiontyVersions(SQLModel, table=True):  # type: ignore
     """Versions of the knowledge tables."""
 
     id: Optional[int] = Field(default=None, primary_key=True)
@@ -19,10 +19,11 @@ class bionty_versions(SQLModel, table=True):  # type: ignore
     updated_at: Optional[datetime] = UpdatedAt
 
 
-class bionty_version(SQLModel, table=True):  # type: ignore
+class CurrentBiontyVersions(SQLModel, table=True):  # type: ignore
     """In-use version of the knowledge tables."""
 
     id: int = Field(primary_key=True, foreign_key="bionty_versions.id")
+    entity: str = Field(index=True, unique=True)
     created_by: str = CreatedBy
     created_at: datetime = CreatedAt
     updated_at: Optional[datetime] = UpdatedAt

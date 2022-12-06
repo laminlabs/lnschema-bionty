@@ -13,8 +13,8 @@ Version of knowledge tables
 .. autosummary::
    :toctree: .
 
-   bionty_versions
-   bionty_version
+   BiontyVersions
+   CurrentBiontyVersions
 
 Auxiliary modules:
 
@@ -24,5 +24,5 @@ Auxiliary modules:
    id
 """
 from . import id
-from ._bionty_versions import bionty_version, bionty_versions
+from ._bionty_versions import BiontyVersions, CurrentBiontyVersions
 from ._versions import migration_zdno, version_zdno
