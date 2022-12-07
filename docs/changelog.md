@@ -3,7 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
-✨ Added bionty_version table | [35](https://github.com/laminlabs/lnschema-bionty/pull/35) | [sunnyosun](https://github.com/sunnyosun) | 2022-12-07 |
+✨ Added bionty_version table | [35](https://github.com/laminlabs/lnschema-bionty/pull/35) | [sunnyosun](https://github.com/sunnyosun) | 2022-12-07 | 0.6.2
 🎨 Updated bionty_versions | [34](https://github.com/laminlabs/lnschema-bionty/pull/34) | [sunnyosun](https://github.com/sunnyosun) | 2022-12-05 |
 ✨ Added `bionty_versions` table | [33](https://github.com/laminlabs/lnschema-bionty/pull/33) | [sunnyosun](https://github.com/sunnyosun) | 2022-11-18 | 0.6.1
 🏗️ Introduce relationships, move Features table to core | [32](https://github.com/laminlabs/lnschema-bionty/pull/32) | [falexwolf](https://github.com/falexwolf) | 2022-11-17 | 0.6.0
