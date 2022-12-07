@@ -12,6 +12,7 @@ dependencies = [
     "sqlmodel",
     "lnschema_core>=0.19.0",
     "bionty>=0.5.5",
+    "requests",
 ]
 
 [project.urls]
