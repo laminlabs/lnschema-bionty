@@ -22,7 +22,7 @@ class BiontyVersions(SQLModel, table=True):  # type: ignore
 class CurrentBiontyVersions(SQLModel, table=True):  # type: ignore
     """In-use version of the knowledge tables."""
 
-    id: int = Field(primary_key=True, foreign_key="bionty_versions.id")
+    id: int = Field(primary_key=True, foreign_key="biontyversions.id")
     entity: str = Field(index=True, unique=True)
     created_by: str = CreatedBy
     created_at: datetime = CreatedAt
