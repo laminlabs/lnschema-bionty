@@ -7,7 +7,7 @@ from sqlmodel import SQLModel
 config = context.config
 
 if config.config_file_name is not None:
-    fileConfig(config.config_file_name)
+    fileConfig(config.config_file_name, disable_existing_loggers=False)
 
 target_metadata = SQLModel.metadata
 target_metadata.naming_convention = {
@@ -19,6 +19,7 @@ target_metadata.naming_convention = {
 }
 
 from lnschema_bionty import *  # noqa
+from lnschema_bionty import _schema_id  # noqa
 
 
 def run_migrations_offline() -> None:
@@ -52,18 +53,30 @@ def run_migrations_online() -> None:
     and associate a connection with the context.
 
     """
-    connectable = engine_from_config(
-        config.get_section(config.config_ini_section),
-        prefix="sqlalchemy.",
-        poolclass=pool.NullPool,
-    )
+    config_section = config.get_section(config.config_ini_section)
+    # see https://pytest-alembic.readthedocs.io/en/latest/setup.html#env-py
+    connectable = context.config.attributes.get("connection", None)
+    # below follows the standard case
+    if connectable is None:
+        connectable = engine_from_config(
+            config_section,
+            prefix="sqlalchemy.",
+            poolclass=pool.NullPool,
+        )
+
+    if "sqlalchemy.url" in config_section:
+        render_as_batch = config_section["sqlalchemy.url"].startswith("sqlite:///")
+    else:
+        render_as_batch = False
 
     with connectable.connect() as connection:
         context.configure(
             connection=connection,
             target_metadata=target_metadata,
-            version_table="migration_%s" % config.config_ini_section,
-            render_as_batch=True,  # comment this out if necessary
+            version_table=f"migration_{_schema_id}",
+            render_as_batch=render_as_batch,
+            compare_type=True,
+            include_schemas=True,
         )
 
         with context.begin_transaction():
