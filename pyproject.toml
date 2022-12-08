@@ -26,6 +26,7 @@ dev = [
 test = [
     "pytest>=6.0",
     "pytest-cov",
+    "lndb_setup",
 ]
 
 [tool.black]
