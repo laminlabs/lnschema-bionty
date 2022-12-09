@@ -101,7 +101,7 @@ class Tissue(SQLModel, table=True):  # type: ignore
     """Tissues."""
 
     id: str = Field(default_factory=idg.tissue, primary_key=True)
-    ontology_id: Optional[str] = Field(default=None, index=True, unique=True)
+    ontology_id: str = Field(default=None, index=True, unique=True)
     name: str = Field(default=None, index=True)
 
 
