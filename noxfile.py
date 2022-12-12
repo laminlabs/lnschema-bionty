@@ -1,9 +1,9 @@
 import nox
 from lndb_setup.test.nox import (
     build_docs,
-    install_and_run_pytest,
     login_testuser1,
     run_pre_commit,
+    run_pytest,
     setup_test_instances_from_main_branch,
 )
 
@@ -19,5 +19,6 @@ def lint(session: nox.Session) -> None:
 def build(session):
     login_testuser1(session)
     setup_test_instances_from_main_branch(session)
-    install_and_run_pytest(session)
+    session.install(".[dev,test]")
+    run_pytest(session)
     build_docs(session)
