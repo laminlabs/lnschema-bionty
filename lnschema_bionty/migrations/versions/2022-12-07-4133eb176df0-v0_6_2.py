@@ -53,9 +53,7 @@ def upgrade() -> None:
             ),
             sa.PrimaryKeyConstraint("id", name=op.f("pk_bionty_currentbiontyversions")),
         )
-        with op.batch_alter_table(
-            "bionty.currentbiontyversions", schema=None
-        ) as batch_op:
+        with op.batch_alter_table("bionty.currentbiontyversions", schema=None) as batch_op:
             batch_op.create_index(
                 batch_op.f("ix_bionty_currentbiontyversions_created_at"),
                 ["created_at"],

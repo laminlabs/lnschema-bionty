@@ -19,17 +19,13 @@ def upgrade() -> None:
     if bind.engine.name == "sqlite":
         op.rename_table(old_table_name="gene", new_table_name="bionty.gene")
         op.rename_table(old_table_name="protein", new_table_name="bionty.protein")
-        op.rename_table(
-            old_table_name="cell_marker", new_table_name="bionty.cell_marker"
-        )
+        op.rename_table(old_table_name="cell_marker", new_table_name="bionty.cell_marker")
         op.rename_table(old_table_name="cell_type", new_table_name="bionty.cell_type")
         op.rename_table(old_table_name="species", new_table_name="bionty.species")
         op.rename_table(old_table_name="tissue", new_table_name="bionty.tissue")
         op.rename_table(old_table_name="disease", new_table_name="bionty.disease")
         op.rename_table(old_table_name="featureset", new_table_name="bionty.featureset")
-        op.rename_table(
-            old_table_name="featureset_gene", new_table_name="bionty.featureset_gene"
-        )
+        op.rename_table(old_table_name="featureset_gene", new_table_name="bionty.featureset_gene")
         op.rename_table(
             old_table_name="featureset_protein",
             new_table_name="bionty.featureset_protein",

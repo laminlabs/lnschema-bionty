@@ -26,9 +26,7 @@ def upgrade() -> None:
                 nullable=False,
             )
         )
-        batch_op.create_index(
-            batch_op.f("ix_version_zdno_created_at"), ["created_at"], unique=False
-        )
+        batch_op.create_index(batch_op.f("ix_version_zdno_created_at"), ["created_at"], unique=False)
         batch_op.drop_column("time_created")
 
 

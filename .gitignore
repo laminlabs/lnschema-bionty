@@ -2,6 +2,7 @@
 .DS_Store
 .AppleDouble
 .LSOverride
+testdb/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

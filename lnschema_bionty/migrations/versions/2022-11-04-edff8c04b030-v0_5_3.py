@@ -35,11 +35,7 @@ def upgrade() -> None:
                 ["created_at"],
                 unique=False,
             )
-            batch_op.add_column(
-                sa.Column(
-                    "created_by", sqlmodel.sql.sqltypes.AutoString(), nullable=False
-                )
-            )
+            batch_op.add_column(sa.Column("created_by", sqlmodel.sql.sqltypes.AutoString(), nullable=False))
             batch_op.create_index(
                 batch_op.f("ix_bionty_featureset_created_by"),
                 ["created_by"],
