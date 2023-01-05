@@ -19,7 +19,7 @@ class Species(SQLModel, table=True):  # type: ignore
     """Species."""
 
     id: str = Field(default_factory=idg.species, primary_key=True)
-    common_name: str = Field(default=None, index=True, unique=True)
+    name: str = Field(default=None, index=True, unique=True)
     taxon_id: str = Field(default=None, index=True, unique=True)
     scientific_name: str = Field(default=None, index=True, unique=True)
 
