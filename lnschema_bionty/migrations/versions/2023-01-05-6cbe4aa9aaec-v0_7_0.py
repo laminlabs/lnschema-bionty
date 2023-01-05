@@ -25,7 +25,7 @@ def upgrade() -> None:
     else:
         prefix, schema = "", "bionty"
 
-    op.alter_column("species", column_name="common_name", new_column_name="name")
+    op.alter_column(f"{prefix}species", column_name="common_name", new_column_name="name", schema=schema)
 
     if sqlite:
         with op.batch_alter_table(f"{prefix}species") as batch_op:
