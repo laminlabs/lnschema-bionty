@@ -30,10 +30,10 @@ def upgrade() -> None:
         op.execute(f"ALTER TABLE features_gene set SCHEMA {schema}")
         op.execute(f"ALTER TABLE features_protein set SCHEMA {schema}")
         op.execute(f"ALTER TABLE features_cell_marker set SCHEMA {schema}")
-
-    op.rename_table("features_gene", f"{prefix}features_gene", schema=schema)
-    op.rename_table("features_protein", f"{prefix}features_protein", schema=schema)
-    op.rename_table("features_cell_marker", f"{prefix}features_cell_marker", schema=schema)
+    else:
+        op.rename_table("features_gene", f"{prefix}features_gene", schema=schema)
+        op.rename_table("features_protein", f"{prefix}features_protein", schema=schema)
+        op.rename_table("features_cell_marker", f"{prefix}features_cell_marker", schema=schema)
 
 
 def downgrade() -> None:
