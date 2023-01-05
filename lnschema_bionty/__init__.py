@@ -33,16 +33,5 @@ _migration = "078d771bc2a0"
 __version__ = "0.6.3"
 
 from . import dev, link  # noqa
-from ._core import (  # noqa
-    CellMarker,
-    CellType,
-    Disease,
-    Gene,
-    Protein,
-    Species,
-    Tissue,
-    features_cell_marker,
-    features_gene,
-    features_protein,
-)
+from ._core import CellMarker, CellType, Disease, Gene, Protein, Species, Tissue  # noqa
 from .dev import id  # backward compat
