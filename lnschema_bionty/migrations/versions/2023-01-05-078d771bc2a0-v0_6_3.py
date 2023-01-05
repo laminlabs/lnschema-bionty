@@ -20,9 +20,9 @@ def upgrade() -> None:
     sqlite = bind.engine.name == "sqlite"
 
     if sqlite:
-        prefix, schema = "core.", None
+        prefix, schema = "bionty.", None
     else:
-        prefix, schema = "", "core"
+        prefix, schema = "", "bionty"
 
     op.rename_table("biontyversions", f"{prefix}bionty_versions", schema=schema)
     op.rename_table(
