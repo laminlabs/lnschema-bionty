@@ -24,15 +24,15 @@ def upgrade() -> None:
     else:
         prefix, schema = "", "bionty"
 
-    if sqlite:
-        op.rename_table("biontyversions", f"{prefix}bionty_versions")
-        op.rename_table("currentbiontyversions", f"{prefix}current_bionty_versions")
-    else:
-        op.execute(f"ALTER TABLE biontyversions RENAME TO {schema}.bionty_versions")
-        op.execute(
-            "ALTER TABLE currentbiontyversions RENAME TO"
-            f" {schema}.current_bionty_versions"
-        )
+    if not sqlite:
+        # move to new schema
+        op.execute(f"ALTER TABLE biontyversions set SCHEMA {schema}")
+        op.execute(f"ALTER TABLE currentbiontyversions set SCHEMA {schema}")
+
+    op.rename_table("biontyversions", f"{prefix}bionty_versions", schema=schema)
+    op.rename_table(
+        "currentbiontyversions", f"{prefix}current_bionty_versions", schema=schema
+    )
 
 
 def downgrade() -> None:
