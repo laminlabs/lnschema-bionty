@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
+🐛 Fix migration for sqlite | [40](https://github.com/laminlabs/lnschema-bionty/pull/40) | [falexwolf](https://github.com/falexwolf) | 2023-01-05 |
 ♻️ Treat link tables as in all other schema modules | [39](https://github.com/laminlabs/lnschema-bionty/pull/39) | [falexwolf](https://github.com/falexwolf) | 2023-01-05 | 0.6.4
 🚚 Move knowledge version tables into module | [38](https://github.com/laminlabs/lnschema-bionty/pull/38) | [falexwolf](https://github.com/falexwolf) | 2023-01-05 | 0.6.3
 🧪 Added test for ontology autopopulate | [37](https://github.com/laminlabs/lnschema-bionty/pull/37) | [sunnyosun](https://github.com/sunnyosun) | 2022-12-09 |
