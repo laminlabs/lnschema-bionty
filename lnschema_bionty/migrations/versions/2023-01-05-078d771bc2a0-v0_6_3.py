@@ -32,16 +32,8 @@ def upgrade() -> None:
     op.rename_table("biontyversions", f"{prefix}bionty_versions", schema=schema)
     op.rename_table("currentbiontyversions", f"{prefix}current_bionty_versions", schema=schema)
 
-    op.drop_index(
-        "ix_biontyversions_created_at",
-        table_name=f"{prefix}bionty_versions",
-        schema=schema,
-    )
-    op.drop_index(
-        "ix_biontyversions_created_by",
-        table_name=f"{prefix}bionty_versions",
-        schema=schema,
-    )
+    op.drop_index("ix_biontyversions_created_at", table_name=f"{prefix}bionty_versions", schema=schema)
+    op.drop_index("ix_biontyversions_created_by", table_name=f"{prefix}bionty_versions", schema=schema)
     op.drop_index(
         "ix_biontyversions_database",
         table_name=f"{prefix}bionty_versions",
