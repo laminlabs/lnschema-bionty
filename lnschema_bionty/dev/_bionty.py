@@ -35,9 +35,7 @@ def knowledge(knowledge_table: EntityTable):
         orig_init = original_class.__init__
 
         def __init__(self, **kwargs):
-            init_kwargs, pydantic_attrs = fields_from_knowledge(
-                locals=kwargs, knowledge_table=knowledge_table
-            )
+            init_kwargs, pydantic_attrs = fields_from_knowledge(locals=kwargs, knowledge_table=knowledge_table)
 
             orig_init(self, **kwargs)
 

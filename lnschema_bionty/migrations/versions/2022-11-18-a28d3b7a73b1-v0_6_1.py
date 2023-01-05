@@ -25,9 +25,7 @@ def upgrade() -> None:
             sa.Column("table", sqlmodel.sql.sqltypes.AutoString(), nullable=False),
             sa.Column("database", sqlmodel.sql.sqltypes.AutoString(), nullable=False),
             sa.Column("database_v", sqlmodel.sql.sqltypes.AutoString(), nullable=False),
-            sa.Column(
-                "database_url", sqlmodel.sql.sqltypes.AutoString(), nullable=True
-            ),
+            sa.Column("database_url", sqlmodel.sql.sqltypes.AutoString(), nullable=True),
             sa.Column("created_by", sqlmodel.sql.sqltypes.AutoString(), nullable=False),
             sa.Column(
                 "created_at",
@@ -65,9 +63,7 @@ def upgrade() -> None:
                 ["database_v"],
                 unique=False,
             )
-            batch_op.create_index(
-                batch_op.f("ix_bionty_bionty_versions_table"), ["table"], unique=False
-            )
+            batch_op.create_index(batch_op.f("ix_bionty_bionty_versions_table"), ["table"], unique=False)
             batch_op.create_index(
                 batch_op.f("ix_bionty_bionty_versions_updated_at"),
                 ["updated_at"],
@@ -80,9 +76,7 @@ def upgrade() -> None:
             sa.Column("table", sqlmodel.sql.sqltypes.AutoString(), nullable=False),
             sa.Column("database", sqlmodel.sql.sqltypes.AutoString(), nullable=False),
             sa.Column("database_v", sqlmodel.sql.sqltypes.AutoString(), nullable=False),
-            sa.Column(
-                "database_url", sqlmodel.sql.sqltypes.AutoString(), nullable=True
-            ),
+            sa.Column("database_url", sqlmodel.sql.sqltypes.AutoString(), nullable=True),
             sa.Column("created_by", sqlmodel.sql.sqltypes.AutoString(), nullable=False),
             sa.Column(
                 "created_at",

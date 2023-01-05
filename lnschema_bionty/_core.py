@@ -59,13 +59,9 @@ class Gene(SQLModel, table=True):  # type: ignore
     mgi_id: Optional[str] = Field(default=None, index=True)
     omim_id: Optional[int] = Field(default=None, index=True)
     synonyms: Optional[str] = Field(default=None, index=True)
-    species_id: Optional[str] = Field(
-        default=None, foreign_key="bionty.species.id", index=True
-    )
+    species_id: Optional[str] = Field(default=None, foreign_key="bionty.species.id", index=True)
     version: Optional[str] = None
-    features: Features = Relationship(
-        back_populates="genes", sa_relationship_kwargs=dict(secondary=features_gene)
-    )
+    features: Features = Relationship(back_populates="genes", sa_relationship_kwargs=dict(secondary=features_gene))
 
 
 Features.genes = relationship(Gene, back_populates="features", secondary=features_gene)
@@ -91,9 +87,7 @@ class Protein(SQLModel, table=True):  # type: ignore
     )
 
 
-Features.proteins = relationship(
-    Protein, back_populates="features", secondary=features_protein
-)
+Features.proteins = relationship(Protein, back_populates="features", secondary=features_protein)
 
 
 @knowledge(bt.Tissue)
@@ -143,6 +137,4 @@ class CellMarker(SQLModel, table=True):  # type: ignore
     )
 
 
-Features.cell_markers = relationship(
-    CellMarker, back_populates="features", secondary=features_cell_marker
-)
+Features.cell_markers = relationship(CellMarker, back_populates="features", secondary=features_cell_marker)

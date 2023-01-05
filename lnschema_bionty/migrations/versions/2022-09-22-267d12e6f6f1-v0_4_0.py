@@ -18,18 +18,12 @@ depends_on = None
 
 def upgrade() -> None:
     with op.batch_alter_table("gene", schema=None) as batch_op:
-        batch_op.create_index(
-            batch_op.f("ix_gene_gene_type"), ["gene_type"], unique=False
-        )
+        batch_op.create_index(batch_op.f("ix_gene_gene_type"), ["gene_type"], unique=False)
         batch_op.create_index(batch_op.f("ix_gene_hgnc_id"), ["hgnc_id"], unique=False)
         batch_op.create_index(batch_op.f("ix_gene_mgi_id"), ["mgi_id"], unique=False)
         batch_op.create_index(batch_op.f("ix_gene_omim_id"), ["omim_id"], unique=False)
-        batch_op.create_index(
-            batch_op.f("ix_gene_species_id"), ["species_id"], unique=False
-        )
-        batch_op.create_index(
-            batch_op.f("ix_gene_synonyms"), ["synonyms"], unique=False
-        )
+        batch_op.create_index(batch_op.f("ix_gene_species_id"), ["species_id"], unique=False)
+        batch_op.create_index(batch_op.f("ix_gene_synonyms"), ["synonyms"], unique=False)
 
     with op.batch_alter_table("protein", schema=None) as batch_op:
         batch_op.create_index(
@@ -37,12 +31,8 @@ def upgrade() -> None:
             ["ensembl_transcript_ids"],
             unique=False,
         )
-        batch_op.create_index(
-            batch_op.f("ix_protein_ncbi_gene_ids"), ["ncbi_gene_ids"], unique=False
-        )
-        batch_op.create_index(
-            batch_op.f("ix_protein_protein_names"), ["protein_names"], unique=False
-        )
+        batch_op.create_index(batch_op.f("ix_protein_ncbi_gene_ids"), ["ncbi_gene_ids"], unique=False)
+        batch_op.create_index(batch_op.f("ix_protein_protein_names"), ["protein_names"], unique=False)
 
 
 def downgrade() -> None:
