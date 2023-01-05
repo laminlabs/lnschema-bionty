@@ -23,6 +23,7 @@ Development tools:
    :toctree: .
 
    dev
+   link
 
 """
 # This is lnschema-module zdno.
@@ -31,7 +32,7 @@ _name = "bionty"
 _migration = "078d771bc2a0"
 __version__ = "0.6.3"
 
-from . import dev  # noqa
+from . import dev, link  # noqa
 from ._core import (  # noqa
     CellMarker,
     CellType,
