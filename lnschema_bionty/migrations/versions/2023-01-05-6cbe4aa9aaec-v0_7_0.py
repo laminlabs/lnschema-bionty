@@ -25,11 +25,15 @@ def upgrade() -> None:
     else:
         prefix, schema = "", "bionty"
 
-    with op.batch_alter_table(f"{prefix}species", schema=schema) as batch_op:
-        batch_op.add_column(sa.Column("name", sqlmodel.sql.sqltypes.AutoString(), nullable=True))
-        batch_op.drop_index("ix_bionty.species_common_name")
-        batch_op.create_index(batch_op.f("ix_bionty.species_name"), ["name"], unique=True)
-        batch_op.drop_column("common_name")
+    op.alter_column("species", column_name="common_name", new_column_name="name")
+
+    if sqlite:
+        with op.batch_alter_table(f"{prefix}species") as batch_op:
+            batch_op.drop_index("ix_bionty.species_common_name")
+            batch_op.create_index(batch_op.f("ix_bionty.species_name"), ["name"], unique=True)
+    else:
+        op.drop_index("ix_bionty_species_common_name", table_name="species", schema=schema)
+        op.create_index(op.f("ix_bionty_species_name"), "species", ["name"], unique=True, schema=schema)
 
 
 def downgrade() -> None:
