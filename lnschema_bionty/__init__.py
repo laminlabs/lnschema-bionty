@@ -23,25 +23,15 @@ Development tools:
    :toctree: .
 
    dev
+   link
 
 """
 # This is lnschema-module zdno.
 _schema_id = "zdno"
 _name = "bionty"
-_migration = "078d771bc2a0"
+_migration = "076bc2188ec3"
 __version__ = "0.6.3"
 
-from . import dev  # noqa
-from ._core import (  # noqa
-    CellMarker,
-    CellType,
-    Disease,
-    Gene,
-    Protein,
-    Species,
-    Tissue,
-    features_cell_marker,
-    features_gene,
-    features_protein,
-)
+from . import dev, link  # noqa
+from ._core import CellMarker, CellType, Disease, Gene, Protein, Species, Tissue  # noqa
 from .dev import id  # backward compat

@@ -3,11 +3,11 @@ from typing import Optional
 import bionty as bt
 from lnschema_core import Features
 from lnschema_core.dev.sqlmodel import schema_sqlmodel
-from sqlalchemy import Column, ForeignKey, Table
 from sqlalchemy.orm import relationship
 from sqlmodel import Field, Relationship
 
 from . import _name as schema_name
+from ._link import FeaturesCellMarker, FeaturesGene, FeaturesProtein
 from .dev import id as idg
 from .dev._bionty import knowledge
 
@@ -22,28 +22,6 @@ class Species(SQLModel, table=True):  # type: ignore
     common_name: str = Field(default=None, index=True, unique=True)
     taxon_id: str = Field(default=None, index=True, unique=True)
     scientific_name: str = Field(default=None, index=True, unique=True)
-
-
-features_gene = Table(
-    f"{prefix}features_gene",
-    SQLModel.metadata,
-    Column("features_id", ForeignKey("core.features.id"), primary_key=True),
-    Column("gene_id", ForeignKey("bionty.gene.id"), primary_key=True),
-)
-
-features_protein = Table(
-    f"{prefix}features_protein",
-    SQLModel.metadata,
-    Column("features_id", ForeignKey("core.features.id"), primary_key=True),
-    Column("protein_id", ForeignKey("bionty.protein.id"), primary_key=True),
-)
-
-features_cell_marker = Table(
-    f"{prefix}features_cell_marker",
-    SQLModel.metadata,
-    Column("features_id", ForeignKey("core.features.id"), primary_key=True),
-    Column("cell_marker_id", ForeignKey("bionty.cell_marker.id"), primary_key=True),
-)
 
 
 class Gene(SQLModel, table=True):  # type: ignore
@@ -61,10 +39,10 @@ class Gene(SQLModel, table=True):  # type: ignore
     synonyms: Optional[str] = Field(default=None, index=True)
     species_id: Optional[str] = Field(default=None, foreign_key="bionty.species.id", index=True)
     version: Optional[str] = None
-    features: Features = Relationship(back_populates="genes", sa_relationship_kwargs=dict(secondary=features_gene))
+    features: Features = Relationship(back_populates="genes", sa_relationship_kwargs=dict(secondary=FeaturesGene.__table__))
 
 
-Features.genes = relationship(Gene, back_populates="features", secondary=features_gene)
+Features.genes = relationship(Gene, back_populates="features", secondary=FeaturesGene.__table__)
 
 
 class Protein(SQLModel, table=True):  # type: ignore
@@ -83,11 +61,11 @@ class Protein(SQLModel, table=True):  # type: ignore
     ncbi_gene_ids: Optional[str] = Field(default=None, index=True)
     features: Features = Relationship(
         back_populates="proteins",
-        sa_relationship_kwargs=dict(secondary=features_protein),
+        sa_relationship_kwargs=dict(secondary=FeaturesProtein.__table__),
     )
 
 
-Features.proteins = relationship(Protein, back_populates="features", secondary=features_protein)
+Features.proteins = relationship(Protein, back_populates="features", secondary=FeaturesProtein.__table__)
 
 
 @knowledge(bt.Tissue)
@@ -133,8 +111,8 @@ class CellMarker(SQLModel, table=True):  # type: ignore
     species_id: str = Field(default=None, foreign_key="bionty.species.id")
     features: Features = Relationship(
         back_populates="cell_markers",
-        sa_relationship_kwargs=dict(secondary=features_cell_marker),
+        sa_relationship_kwargs=dict(secondary=FeaturesCellMarker.__table__),
     )
 
 
-Features.cell_markers = relationship(CellMarker, back_populates="features", secondary=features_cell_marker)
+Features.cell_markers = relationship(CellMarker, back_populates="features", secondary=FeaturesCellMarker.__table__)
