@@ -30,9 +30,7 @@ def upgrade() -> None:
         op.execute(f"ALTER TABLE currentbiontyversions set SCHEMA {schema}")
 
     op.rename_table("biontyversions", f"{prefix}bionty_versions", schema=schema)
-    op.rename_table(
-        "currentbiontyversions", f"{prefix}current_bionty_versions", schema=schema
-    )
+    op.rename_table("currentbiontyversions", f"{prefix}current_bionty_versions", schema=schema)
 
     op.drop_index(
         "ix_biontyversions_created_at",
@@ -54,9 +52,7 @@ def upgrade() -> None:
         table_name=f"{prefix}bionty_versions",
         schema=schema,
     )
-    op.drop_index(
-        "ix_biontyversions_entity", table_name=f"{prefix}bionty_versions", schema=schema
-    )
+    op.drop_index("ix_biontyversions_entity", table_name=f"{prefix}bionty_versions", schema=schema)
     op.drop_index(
         "ix_biontyversions_updated_at",
         table_name=f"{prefix}bionty_versions",
@@ -152,6 +148,31 @@ def upgrade() -> None:
         unique=False,
         schema=schema,
     )
+
+    if sqlite:
+        with op.batch_alter_table("bionty.bionty_versions", schema=None) as batch_op:
+            batch_op.drop_index("ix_bionty_bionty_versions_created_at")
+            batch_op.drop_index("ix_bionty_bionty_versions_created_by")
+            batch_op.drop_index("ix_bionty_bionty_versions_database")
+            batch_op.drop_index("ix_bionty_bionty_versions_database_v")
+            batch_op.drop_index("ix_bionty_bionty_versions_entity")
+            batch_op.drop_index("ix_bionty_bionty_versions_updated_at")
+            batch_op.create_index(batch_op.f("ix_bionty.bionty_versions_created_at"), ["created_at"], unique=False)
+            batch_op.create_index(batch_op.f("ix_bionty.bionty_versions_created_by"), ["created_by"], unique=False)
+            batch_op.create_index(batch_op.f("ix_bionty.bionty_versions_database"), ["database"], unique=False)
+            batch_op.create_index(batch_op.f("ix_bionty.bionty_versions_database_v"), ["database_v"], unique=False)
+            batch_op.create_index(batch_op.f("ix_bionty.bionty_versions_entity"), ["entity"], unique=False)
+            batch_op.create_index(batch_op.f("ix_bionty.bionty_versions_updated_at"), ["updated_at"], unique=False)
+
+        with op.batch_alter_table("bionty.current_bionty_versions", schema=None) as batch_op:
+            batch_op.drop_index("ix_bionty_current_bionty_versions_created_at")
+            batch_op.drop_index("ix_bionty_current_bionty_versions_created_by")
+            batch_op.drop_index("ix_bionty_current_bionty_versions_entity")
+            batch_op.drop_index("ix_bionty_current_bionty_versions_updated_at")
+            batch_op.create_index(batch_op.f("ix_bionty.current_bionty_versions_created_at"), ["created_at"], unique=False)
+            batch_op.create_index(batch_op.f("ix_bionty.current_bionty_versions_created_by"), ["created_by"], unique=False)
+            batch_op.create_index(batch_op.f("ix_bionty.current_bionty_versions_entity"), ["entity"], unique=True)
+            batch_op.create_index(batch_op.f("ix_bionty.current_bionty_versions_updated_at"), ["updated_at"], unique=False)
 
 
 def downgrade() -> None:
