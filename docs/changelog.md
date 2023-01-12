@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
+👷 Extend CI to py3.8-3.10 | [42](https://github.com/laminlabs/lnschema-bionty/pull/42) | [sunnyosun](https://github.com/sunnyosun) | 2023-01-12 |
 🚚 Rename `Species.common_name` to `Species.name` | [41](https://github.com/laminlabs/lnschema-bionty/pull/41) | [falexwolf](https://github.com/falexwolf) | 2023-01-05 |
 🐛 Fix migration for sqlite | [40](https://github.com/laminlabs/lnschema-bionty/pull/40) | [falexwolf](https://github.com/falexwolf) | 2023-01-05 | 0.6.5
 ♻️ Treat link tables as in all other schema modules | [39](https://github.com/laminlabs/lnschema-bionty/pull/39) | [falexwolf](https://github.com/falexwolf) | 2023-01-05 | 0.6.4
