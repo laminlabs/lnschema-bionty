@@ -25,14 +25,13 @@ def upgrade() -> None:
     else:
         prefix, schema = "", "bionty"
 
-    op.alter_column(
-        f"{prefix}species",
-        "taxon_id",
-        existing_type=sa.VARCHAR(),
-        type_=sa.Integer(),
-        existing_nullable=True,
-        schema=schema,
-    )
+    with op.batch_alter_table(f"{prefix}species", schema=schema) as batch_op:
+        batch_op.alter_column(
+            "taxon_id",
+            existing_type=sa.VARCHAR(),
+            type_=sa.Integer(),
+            existing_nullable=True,
+        )
 
 
 def downgrade() -> None:
