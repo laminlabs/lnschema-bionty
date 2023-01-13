@@ -20,7 +20,7 @@ class Species(SQLModel, table=True):  # type: ignore
 
     id: str = Field(default_factory=idg.species, primary_key=True)
     name: str = Field(default=None, index=True, unique=True)
-    taxon_id: str = Field(default=None, index=True, unique=True)
+    taxon_id: int = Field(default=None, index=True, unique=True)
     scientific_name: str = Field(default=None, index=True, unique=True)
 
 
@@ -39,7 +39,10 @@ class Gene(SQLModel, table=True):  # type: ignore
     synonyms: Optional[str] = Field(default=None, index=True)
     species_id: Optional[str] = Field(default=None, foreign_key="bionty.species.id", index=True)
     version: Optional[str] = None
-    features: Features = Relationship(back_populates="genes", sa_relationship_kwargs=dict(secondary=FeaturesGene.__table__))
+    features: Features = Relationship(
+        back_populates="genes",
+        sa_relationship_kwargs=dict(secondary=FeaturesGene.__table__),
+    )
 
 
 Features.genes = relationship(Gene, back_populates="features", secondary=FeaturesGene.__table__)

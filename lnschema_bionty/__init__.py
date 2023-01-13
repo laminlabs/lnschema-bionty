@@ -29,7 +29,7 @@ Development tools:
 # This is lnschema-module zdno.
 _schema_id = "zdno"
 _name = "bionty"
-_migration = "6cbe4aa9aaec"
+_migration = "1df05e5b531f"
 __version__ = "0.6.5"
 
 from . import dev, link  # noqa
