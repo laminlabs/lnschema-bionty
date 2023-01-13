@@ -46,15 +46,6 @@ def upgrade() -> None:
             schema=schema,
         )
 
-    op.alter_column(
-        f"{prefix}species",
-        "taxon_id",
-        existing_type=sa.VARCHAR(),
-        type_=sa.Integer(),
-        existing_nullable=True,
-        schema=schema,
-    )
-
 
 def downgrade() -> None:
     pass
