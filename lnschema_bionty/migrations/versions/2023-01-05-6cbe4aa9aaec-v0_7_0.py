@@ -25,15 +25,35 @@ def upgrade() -> None:
     else:
         prefix, schema = "", "bionty"
 
-    op.alter_column(f"{prefix}species", column_name="common_name", new_column_name="name", schema=schema)
+    op.alter_column(
+        f"{prefix}species",
+        column_name="common_name",
+        new_column_name="name",
+        schema=schema,
+    )
 
     if sqlite:
         with op.batch_alter_table(f"{prefix}species") as batch_op:
             batch_op.drop_index("ix_bionty.species_common_name")
             batch_op.create_index(batch_op.f("ix_bionty.species_name"), ["name"], unique=True)
+
     else:
         op.drop_index("ix_bionty_species_common_name", table_name="species", schema=schema)
-        op.create_index(op.f("ix_bionty_species_name"), "species", ["name"], unique=True, schema=schema)
+        op.create_index(
+            op.f("ix_bionty_species_name"),
+            "species",
+            ["name"],
+            unique=True,
+            schema=schema,
+        )
+
+    with op.batch_alter_table(f"{prefix}species", schema=schema) as batch_op:
+        batch_op.alter_column(
+            "taxon_id",
+            existing_type=sa.VARCHAR(),
+            type_=sa.Integer(),
+            existing_nullable=True,
+        )
 
 
 def downgrade() -> None:
