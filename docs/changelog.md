@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
+🐛 Fixed taxon_id type | [48](https://github.com/laminlabs/lnschema-bionty/pull/48) | [sunnyosun](https://github.com/sunnyosun) | 2023-01-17 |
 ⬆️ Upgrade dependencies | [47](https://github.com/laminlabs/lnschema-bionty/pull/47) | [sunnyosun](https://github.com/sunnyosun) | 2023-01-17 | 0.6.7
 ⏪ Revert the last PR | [46](https://github.com/laminlabs/lnschema-bionty/pull/46) | [sunnyosun](https://github.com/sunnyosun) | 2023-01-17 |
 🐛 Fixed typo for postgres | [45](https://github.com/laminlabs/lnschema-bionty/pull/45) | [sunnyosun](https://github.com/sunnyosun) | 2023-01-16 | 0.6.6
