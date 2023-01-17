@@ -31,7 +31,7 @@ class CurrentBiontyVersions(SQLModel, table=True):  # type: ignore
 
     __tablename__ = f"{prefix}current_bionty_versions"
 
-    id: int = Field(primary_key=True, foreign_key=f"{prefix}bionty_versions.id")
+    id: int = Field(primary_key=True, foreign_key="bionty.bionty_versions.id")
     entity: str = Field(index=True, unique=True)
     created_by: str = CreatedBy
     created_at: datetime = CreatedAt
