@@ -14,10 +14,9 @@ def fields_from_knowledge(
         df = knowledge_table(id=k).df
         if v not in df.index:
             continue
-        kwargs = df.loc[v]
-    init_kwargs = locals
+        kwargs = df.loc[v].to_dict()
     pydantic_attrs = kwargs
-    return init_kwargs, pydantic_attrs
+    return pydantic_attrs
 
 
 def init_sqlmodel_parent(model, pydantic_attrs):
@@ -35,7 +34,7 @@ def knowledge(knowledge_table: EntityTable):
         orig_init = original_class.__init__
 
         def __init__(self, **kwargs):
-            init_kwargs, pydantic_attrs = fields_from_knowledge(locals=kwargs, knowledge_table=knowledge_table)
+            pydantic_attrs = fields_from_knowledge(locals=kwargs, knowledge_table=knowledge_table)
 
             orig_init(self, **kwargs)
 
