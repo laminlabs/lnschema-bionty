@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
+⬆️ Upgrade dependencies | [47](https://github.com/laminlabs/lnschema-bionty/pull/47) | [sunnyosun](https://github.com/sunnyosun) | 2023-01-17 |
 ⏪ Revert the last PR | [46](https://github.com/laminlabs/lnschema-bionty/pull/46) | [sunnyosun](https://github.com/sunnyosun) | 2023-01-17 |
 🐛 Fixed typo for postgres | [45](https://github.com/laminlabs/lnschema-bionty/pull/45) | [sunnyosun](https://github.com/sunnyosun) | 2023-01-16 | 0.6.6
 🎨 Change `Species.taxon_id` type to int | [43](https://github.com/laminlabs/lnschema-bionty/pull/43) | [sunnyosun](https://github.com/sunnyosun) | 2023-01-13 |
