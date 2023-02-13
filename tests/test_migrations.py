@@ -1,4 +1,4 @@
-from lndb_setup.test import (
+from lndb.test import (
     get_package_name,
     migrate_clones,
     migration_id_is_consistent,

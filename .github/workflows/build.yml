@@ -55,7 +55,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install nox lndb_setup
+          pip install nox lndb
           sudo apt-get -y install graphviz
           sudo apt-get install sqlite3-tools=3.37.2-2
       - name: Lint
