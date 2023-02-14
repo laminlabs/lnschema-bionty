@@ -30,7 +30,7 @@ Development tools:
 _schema_id = "zdno"
 _name = "bionty"
 _migration = "1df05e5b531f"
-__version__ = "0.6.8"
+__version__ = "0.6.9"
 
 from . import dev, link  # noqa
 from ._core import CellMarker, CellType, Disease, Gene, Protein, Species, Tissue  # noqa

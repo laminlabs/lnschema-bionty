@@ -3,7 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
-⬆️ Upgrade and rename `lndb_setup` to `lndb` (v0.32.0) | [49](https://github.com/laminlabs/lnschema-bionty/pull/49) | [bpenteado](https://github.com/bpenteado) | 2023-02-14 |
+⬆️ Upgrade and rename `lndb_setup` to `lndb` (v0.32.0) | [49](https://github.com/laminlabs/lnschema-bionty/pull/49) | [bpenteado](https://github.com/bpenteado) | 2023-02-14 | 0.6.9
 🐛 Fixed taxon_id type | [48](https://github.com/laminlabs/lnschema-bionty/pull/48) | [sunnyosun](https://github.com/sunnyosun) | 2023-01-17 | 0.6.8
 ⬆️ Upgrade dependencies | [47](https://github.com/laminlabs/lnschema-bionty/pull/47) | [sunnyosun](https://github.com/sunnyosun) | 2023-01-17 | 0.6.7
 ⏪ Revert the last PR | [46](https://github.com/laminlabs/lnschema-bionty/pull/46) | [sunnyosun](https://github.com/sunnyosun) | 2023-01-17 |
