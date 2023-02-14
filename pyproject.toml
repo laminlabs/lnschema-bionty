@@ -33,6 +33,7 @@ test = [
     "pytest>=6.0",
     "pytest-cov",
     "lndb>=0.32.4",
+    "lnschema_core==0.26.0"
 ]
 
 [tool.black]
