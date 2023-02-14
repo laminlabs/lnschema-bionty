@@ -22,7 +22,7 @@ def test_migrate_clones_sqlite():
         raise RuntimeError("Migration e2e test failed.")
 
 
-# def test_migrate_clones_postgres():
-#     results = migrate_clones(package_name, n_instances=1, dialect_name="postgresql")
-#     if "migrate-failed" in results:
-#          raise RuntimeError("Migration e2e test failed.")
+def test_migrate_clones_postgres():
+    results = migrate_clones(package_name, n_instances=1, dialect_name="postgresql")
+    if "migrate-failed" in results:
+        raise RuntimeError("Migration e2e test failed.")
