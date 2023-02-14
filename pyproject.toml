@@ -32,7 +32,7 @@ dev = [
 test = [
     "pytest>=6.0",
     "pytest-cov",
-    "lndb>=0.32.0",
+    "lndb>=0.32.4",
 ]
 
 [tool.black]
