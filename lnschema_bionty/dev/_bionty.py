@@ -1,9 +1,9 @@
-from bionty import EntityTable
+from bionty import Entity
 
 
 def fields_from_knowledge(
     locals: dict,
-    knowledge_table: EntityTable,
+    knowledge_table: Entity,
     default_factory_col="id",
 ):
     all_locals = locals.copy()
@@ -29,7 +29,7 @@ def init_sqlmodel_parent(model, pydantic_attrs):
         model.__setattr__(k, v)
 
 
-def knowledge(knowledge_table: EntityTable):
+def knowledge(knowledge_table: Entity):
     def test(original_class):
         orig_init = original_class.__init__
 

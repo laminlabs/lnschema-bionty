@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from lndb._migrations import generate_module_files
+from lndb._migrate import generate_module_files
 from lndb.test import (
     get_package_name,
     migrate_clones,
