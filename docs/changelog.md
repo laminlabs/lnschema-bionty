@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
+:arrow_up: Upgrade bionty | [56](https://github.com/laminlabs/lnschema-bionty/pull/56) | [falexwolf](https://github.com/falexwolf) | 2023-03-06 |
 🔥 Remove migration files | [51](https://github.com/laminlabs/lnschema-bionty/pull/51) | [sunnyosun](https://github.com/sunnyosun) | 2023-02-14 | 0.7.0
 ⬆️ Upgrade and rename `lndb_setup` to `lndb` (v0.32.0) | [49](https://github.com/laminlabs/lnschema-bionty/pull/49) | [bpenteado](https://github.com/bpenteado) | 2023-02-14 | 0.6.9
 🐛 Fixed taxon_id type | [48](https://github.com/laminlabs/lnschema-bionty/pull/48) | [sunnyosun](https://github.com/sunnyosun) | 2023-01-17 | 0.6.8
