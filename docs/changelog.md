@@ -3,7 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
-✨ Use ontology_id as the id for Tissue, CellType, Disease | [57](https://github.com/laminlabs/lnschema-bionty/pull/57) | [sunnyosun](https://github.com/sunnyosun) | 2023-03-07 |
+✨ Use ontology_id as the id for Tissue, CellType, Disease | [57](https://github.com/laminlabs/lnschema-bionty/pull/57) | [sunnyosun](https://github.com/sunnyosun) | 2023-03-07 | 0.7.1rc1
 :arrow_up: Upgrade bionty | [56](https://github.com/laminlabs/lnschema-bionty/pull/56) | [falexwolf](https://github.com/falexwolf) | 2023-03-06 |
 🔥 Remove migration files | [51](https://github.com/laminlabs/lnschema-bionty/pull/51) | [sunnyosun](https://github.com/sunnyosun) | 2023-02-14 | 0.7.0
 ⬆️ Upgrade and rename `lndb_setup` to `lndb` (v0.32.0) | [49](https://github.com/laminlabs/lnschema-bionty/pull/49) | [bpenteado](https://github.com/bpenteado) | 2023-02-14 | 0.6.9
