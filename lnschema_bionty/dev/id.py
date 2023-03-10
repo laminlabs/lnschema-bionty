@@ -12,15 +12,5 @@ Entity-related generators:
    disease
    tissue
    cell_type
-   featureset
 """
-from ._id import (  # noqa
-    cell_marker,
-    cell_type,
-    disease,
-    featureset,
-    gene,
-    protein,
-    species,
-    tissue,
-)
+from ._id import cell_marker, cell_type, disease, gene, protein, species, tissue  # noqa
