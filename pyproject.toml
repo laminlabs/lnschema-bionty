@@ -32,7 +32,7 @@ dev = [
 test = [
     "pytest>=6.0",
     "pytest-cov",
-    "lamin",
+    "lndb>=0.37.4",
 ]
 
 [tool.black]
