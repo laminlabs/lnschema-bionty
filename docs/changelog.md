@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
+💚 Fix CI | [62](https://github.com/laminlabs/lnschema-bionty/pull/62) | [sunnyosun](https://github.com/sunnyosun) | 2023-03-21 |
 ⬆️ Upgrade to bionty 0.9.0 | [61](https://github.com/laminlabs/lnschema-bionty/pull/61) | [sunnyosun](https://github.com/sunnyosun) | 2023-03-20 | 0.8.1
 🎨 Allow hashing external IDs | [60](https://github.com/laminlabs/lnschema-bionty/pull/60) | [falexwolf](https://github.com/falexwolf) | 2023-03-10 |
 ⬆️ Stable release of bionty 0.8.0 | [59](https://github.com/laminlabs/lnschema-bionty/pull/59) | [sunnyosun](https://github.com/sunnyosun) | 2023-03-09 | 0.8.0
