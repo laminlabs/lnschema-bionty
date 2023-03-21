@@ -13,9 +13,12 @@ Biological entities, all initialized via `Bionty <https://lamin.ai/docs/bionty>`
    Protein
    CellMarker
    CellType
+   CellLine
    Species
    Tissue
    Disease
+   Pathway
+   Phenotype
 
 Development tools:
 
@@ -29,9 +32,20 @@ Development tools:
 # This is lnschema-module zdno.
 _schema_id = "zdno"
 _name = "bionty"
-_migration = "1df05e5b531f"
+_migration = "4429de4e490b"
 __version__ = "0.8.1"  # Denote a release candidate of version 0.1.0 with 0.1rc1
 
 from . import dev, link  # noqa
-from ._core import CellMarker, CellType, Disease, Gene, Protein, Species, Tissue  # noqa
+from ._core import (  # noqa
+    CellLine,
+    CellMarker,
+    CellType,
+    Disease,
+    Gene,
+    Pathway,
+    Phenotype,
+    Protein,
+    Species,
+    Tissue,
+)
 from .dev import id  # backward compat

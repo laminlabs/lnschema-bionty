@@ -61,3 +61,18 @@ def cell_type(input_id: Optional[str] = None) -> str:
 def cell_marker(input_id: Optional[str] = None) -> str:
     """8 base62."""
     return hash_id(input_id, n_char=8)
+
+
+def cell_line(input_id: Optional[str] = None) -> str:
+    """8 base62."""
+    return hash_id(input_id, n_char=8)
+
+
+def pathway(input_id: Optional[str] = None) -> str:
+    """8 base62."""
+    return hash_id(input_id, n_char=8)
+
+
+def phenotype(input_id: Optional[str] = None) -> str:
+    """8 base62."""
+    return hash_id(input_id, n_char=8)
