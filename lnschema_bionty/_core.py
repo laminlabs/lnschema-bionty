@@ -71,6 +71,27 @@ class Protein(SQLModel, table=True):  # type: ignore
 Features.proteins = relationship(Protein, back_populates="features", secondary=FeaturesProtein.__table__)
 
 
+class CellMarker(SQLModel, table=True):  # type: ignore
+    """Cell markers: protein complexes."""
+
+    __tablename__ = f"{prefix}cell_marker"
+
+    id: str = Field(default_factory=idg.cell_marker, primary_key=True)
+    name: str = Field(default=None, index=True, unique=True)
+    gene_symbols: Optional[str] = None  # TODO: link table
+    ncbi_gene_ids: Optional[str] = None  # TODO: link table
+    protein_names: Optional[str] = None  # TODO: link table
+    uniprotkb_ids: Optional[str] = None  # TODO: link table
+    species_id: str = Field(default=None, foreign_key="bionty.species.id")
+    features: Features = Relationship(
+        back_populates="cell_markers",
+        sa_relationship_kwargs=dict(secondary=FeaturesCellMarker.__table__),
+    )
+
+
+Features.cell_markers = relationship(CellMarker, back_populates="features", secondary=FeaturesCellMarker.__table__)
+
+
 @knowledge(bt.Tissue)
 class Tissue(SQLModel, table=True):  # type: ignore
     """Tissues."""
@@ -95,27 +116,35 @@ class CellType(SQLModel, table=True):  # type: ignore
 class Disease(SQLModel, table=True):  # type: ignore
     """Diseases."""
 
-    id: str = Field(default_factory=idg.tissue, primary_key=True)
+    id: str = Field(default_factory=idg.disease, primary_key=True)
     ontology_id: str = Field(default=None, index=True, unique=True)
     name: str = Field(default=None, index=True)
 
 
-class CellMarker(SQLModel, table=True):  # type: ignore
-    """Cell markers: protein complexes."""
+@knowledge(bt.CellLine)
+class CellLine(SQLModel, table=True):  # type: ignore
+    """Cell lines."""
 
-    __tablename__ = f"{prefix}cell_marker"
+    __tablename__ = f"{prefix}cell_line"
 
-    id: str = Field(default_factory=idg.cell_marker, primary_key=True)
-    name: str = Field(default=None, index=True, unique=True)
-    gene_symbols: Optional[str] = None  # TODO: link table
-    ncbi_gene_ids: Optional[str] = None  # TODO: link table
-    protein_names: Optional[str] = None  # TODO: link table
-    uniprotkb_ids: Optional[str] = None  # TODO: link table
-    species_id: str = Field(default=None, foreign_key="bionty.species.id")
-    features: Features = Relationship(
-        back_populates="cell_markers",
-        sa_relationship_kwargs=dict(secondary=FeaturesCellMarker.__table__),
-    )
+    id: str = Field(default_factory=idg.cell_line, primary_key=True)
+    ontology_id: str = Field(default=None, index=True, unique=True)
+    name: str = Field(default=None, index=True)
 
 
-Features.cell_markers = relationship(CellMarker, back_populates="features", secondary=FeaturesCellMarker.__table__)
+@knowledge(bt.Pathway)
+class Pathway(SQLModel, table=True):  # type: ignore
+    """Pathways."""
+
+    id: str = Field(default_factory=idg.pathway, primary_key=True)
+    ontology_id: str = Field(default=None, index=True, unique=True)
+    name: str = Field(default=None, index=True)
+
+
+@knowledge(bt.Phenotype)
+class Phenotype(SQLModel, table=True):  # type: ignore
+    """Phenotypes."""
+
+    id: str = Field(default_factory=idg.phenotype, primary_key=True)
+    ontology_id: str = Field(default=None, index=True, unique=True)
+    name: str = Field(default=None, index=True)
