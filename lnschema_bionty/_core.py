@@ -72,7 +72,7 @@ Features.proteins = relationship(Protein, back_populates="features", secondary=F
 
 
 class CellMarker(SQLModel, table=True):  # type: ignore
-    """Cell markers: protein complexes."""
+    """Cell markers."""
 
     __tablename__ = f"{prefix}cell_marker"
 
