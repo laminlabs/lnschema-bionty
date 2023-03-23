@@ -3,7 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
-🐛 Fix Readout population | [68](https://github.com/laminlabs/lnschema-bionty/pull/68) | [sunnyosun](https://github.com/sunnyosun) | 2023-03-23 |
+🐛 Fix Readout population | [68](https://github.com/laminlabs/lnschema-bionty/pull/68) | [sunnyosun](https://github.com/sunnyosun) | 2023-03-23 | 0.10.1
 ⬆️ Update CellMarker columns for bionty 0.10 | [64](https://github.com/laminlabs/lnschema-bionty/pull/64) | [sunnyosun](https://github.com/sunnyosun) | 2023-03-21 | 0.10.0
 ✨ Add CellLine, Pathway, Phenotype | [63](https://github.com/laminlabs/lnschema-bionty/pull/63) | [sunnyosun](https://github.com/sunnyosun) | 2023-03-21 | 0.9.0
 💚 Fix CI | [62](https://github.com/laminlabs/lnschema-bionty/pull/62) | [sunnyosun](https://github.com/sunnyosun) | 2023-03-21 |
