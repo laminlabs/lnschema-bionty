@@ -1,6 +1,16 @@
 from bionty import Entity
 
 
+# https://stackoverflow.com/questions/128573/using-property-on-classmethods/64738850#64738850
+class classproperty(object):
+    def __init__(self, fget):
+        self.fget = fget
+
+    def __get__(self, owner_self, owner_cls):
+        """Get."""
+        return self.fget(owner_cls)
+
+
 def fields_from_knowledge(
     locals: dict,
     entity: Entity,
@@ -31,9 +41,22 @@ def init_sqlmodel_parent(model, pydantic_attrs):
 
 
 def knowledge(bioentity: Entity):
+    entity = bioentity()
+
+    @classproperty
+    def lookup(cls):
+        return entity.lookup
+
+    @classproperty
+    def df(cls):
+        return entity.df
+
+    @classproperty
+    def ontology(cls):
+        return entity.ontology
+
     def wrapper(original_class):
         orig_init = original_class.__init__
-        entity = bioentity()
 
         def __init__(self, **kwargs):
             pydantic_attrs = fields_from_knowledge(locals=kwargs, entity=entity)
@@ -42,26 +65,14 @@ def knowledge(bioentity: Entity):
 
             init_sqlmodel_parent(self, pydantic_attrs)
 
-        @property
-        def lookup(self):
-            return entity.lookup
-
-        @property
-        def df(self):
-            return entity.df
-
-        @property
-        def ontology(self):
-            return entity.ontology
-
         original_class.__init__ = __init__
-        original_class.curate = entity.curate
+        setattr(original_class, "curate", classmethod(entity.curate))
         original_class.lookup = lookup
         original_class.df = df
         original_class.ontology = ontology
-        original_class.database = entity.database
-        original_class.version = entity.version
-        original_class.lookup_field = entity.lookup_field
+        setattr(original_class, "database", entity.database)
+        setattr(original_class, "version", entity.version)
+        setattr(original_class, "lookup_field", entity.lookup_field)
 
         return original_class
 
