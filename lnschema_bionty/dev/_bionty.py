@@ -3,18 +3,18 @@ from bionty import Entity
 
 def fields_from_knowledge(
     locals: dict,
-    knowledge_table: Entity,
+    entity: Entity,
 ):
     kwargs = {}
     for k, v in locals.items():
-        df = knowledge_table(id=k).df
+        df = entity.df.reset_index().set_index(k)
         if v not in df.index:
             continue
         kwargs = df.loc[v].to_dict()
         if "ontology_id" in kwargs:
             # TODO: save to Readout.df like others
-            if knowledge_table.__class__.__name__ == "Readout":
-                kwargs = knowledge_table().get_term(kwargs["ontology_id"])
+            if entity.entity == "readout":
+                kwargs = entity.get_term(kwargs["ontology_id"])
             kwargs["id"] = kwargs["ontology_id"]
     pydantic_attrs = kwargs
     return pydantic_attrs
@@ -30,19 +30,39 @@ def init_sqlmodel_parent(model, pydantic_attrs):
         model.__setattr__(k, v)
 
 
-def knowledge(knowledge_table: Entity):
-    def test(original_class):
+def knowledge(bioentity: Entity):
+    def wrapper(original_class):
         orig_init = original_class.__init__
+        entity = bioentity()
 
         def __init__(self, **kwargs):
-            pydantic_attrs = fields_from_knowledge(locals=kwargs, knowledge_table=knowledge_table)
+            pydantic_attrs = fields_from_knowledge(locals=kwargs, entity=entity)
 
             orig_init(self, **kwargs)
 
             init_sqlmodel_parent(self, pydantic_attrs)
 
+        @property
+        def lookup(self):
+            return entity.lookup
+
+        @property
+        def df(self):
+            return entity.df
+
+        @property
+        def ontology(self):
+            return entity.ontology
+
         original_class.__init__ = __init__
+        original_class.curate = entity.curate
+        original_class.lookup = lookup
+        original_class.df = df
+        original_class.ontology = ontology
+        original_class.database = entity.database
+        original_class.version = entity.version
+        original_class.lookup_field = entity.lookup_field
 
         return original_class
 
-    return test
+    return wrapper
