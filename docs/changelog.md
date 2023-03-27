@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
+👷 Upgrade to latest cookiecutter | [73](https://github.com/laminlabs/lnschema-bionty/pull/73) | [falexwolf](https://github.com/falexwolf) | 2023-03-27 |
 🚑 Fix get_term | [72](https://github.com/laminlabs/lnschema-bionty/pull/72) | [sunnyosun](https://github.com/sunnyosun) | 2023-03-25 | 0.12.1
 ♻️ Switch to class property | [70](https://github.com/laminlabs/lnschema-bionty/pull/70) | [sunnyosun](https://github.com/sunnyosun) | 2023-03-24 | 0.12.0
 ✨ Expose bionty functions with knowledge decorator | [69](https://github.com/laminlabs/lnschema-bionty/pull/69) | [sunnyosun](https://github.com/sunnyosun) | 2023-03-24 | 0.11.0
