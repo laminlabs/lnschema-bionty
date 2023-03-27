@@ -3,7 +3,10 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
-♻️ Switch to class property | [70](https://github.com/laminlabs/lnschema-bionty/pull/70) | [sunnyosun](https://github.com/sunnyosun) | 2023-03-24 |
+⬆️ Updated bionty and lamindb deps | [74](https://github.com/laminlabs/lnschema-bionty/pull/74) | [sunnyosun](https://github.com/sunnyosun) | 2023-03-27 | 0.12.2
+👷 Upgrade to latest cookiecutter | [73](https://github.com/laminlabs/lnschema-bionty/pull/73) | [falexwolf](https://github.com/falexwolf) | 2023-03-27 |
+🚑 Fix get_term | [72](https://github.com/laminlabs/lnschema-bionty/pull/72) | [sunnyosun](https://github.com/sunnyosun) | 2023-03-25 | 0.12.1
+♻️ Switch to class property | [70](https://github.com/laminlabs/lnschema-bionty/pull/70) | [sunnyosun](https://github.com/sunnyosun) | 2023-03-24 | 0.12.0
 ✨ Expose bionty functions with knowledge decorator | [69](https://github.com/laminlabs/lnschema-bionty/pull/69) | [sunnyosun](https://github.com/sunnyosun) | 2023-03-24 | 0.11.0
 🐛 Fix Readout population | [68](https://github.com/laminlabs/lnschema-bionty/pull/68) | [sunnyosun](https://github.com/sunnyosun) | 2023-03-23 | 0.10.1
 ⬆️ Update CellMarker columns for bionty 0.10 | [64](https://github.com/laminlabs/lnschema-bionty/pull/64) | [sunnyosun](https://github.com/sunnyosun) | 2023-03-21 | 0.10.0
