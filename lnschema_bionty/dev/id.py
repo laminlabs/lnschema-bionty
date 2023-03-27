@@ -15,6 +15,7 @@ Entity-related generators:
    cell_line
    pathway
    phenotype
+   readout
 """
 
 from ._id import (  # noqa
@@ -26,6 +27,7 @@ from ._id import (  # noqa
     pathway,
     phenotype,
     protein,
+    readout,
     species,
     tissue,
 )
