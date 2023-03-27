@@ -76,3 +76,8 @@ def pathway(input_id: Optional[str] = None) -> str:
 def phenotype(input_id: Optional[str] = None) -> str:
     """8 base62."""
     return hash_id(input_id, n_char=8)
+
+
+def readout(input_id: Optional[str] = None) -> str:
+    """8 base62."""
+    return hash_id(input_id, n_char=8)

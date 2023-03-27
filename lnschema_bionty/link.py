@@ -6,6 +6,12 @@
    FeaturesGene
    FeaturesProtein
    FeaturesCellMarker
-
+   FileReadout
 """
-from ._link import FeaturesCellMarker, FeaturesGene, FeaturesProtein  # noqa
+
+from ._link import (  # noqa
+    FeaturesCellMarker,
+    FeaturesGene,
+    FeaturesProtein,
+    FileReadout,
+)

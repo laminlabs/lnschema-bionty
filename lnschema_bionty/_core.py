@@ -1,13 +1,16 @@
+from datetime import datetime as datetime
 from typing import Optional
 
 import bionty as bt
-from lnschema_core import Features
+from lnschema_core import Features, File
+from lnschema_core._timestamps import CreatedAt, UpdatedAt
+from lnschema_core._users import CreatedBy
 from lnschema_core.dev.sqlmodel import schema_sqlmodel
 from sqlalchemy.orm import relationship
 from sqlmodel import Field, Relationship
 
 from . import _name as schema_name
-from ._link import FeaturesCellMarker, FeaturesGene, FeaturesProtein
+from ._link import FeaturesCellMarker, FeaturesGene, FeaturesProtein, FileReadout
 from .dev import id as idg
 from .dev._bionty import knowledge
 
@@ -148,3 +151,31 @@ class Phenotype(SQLModel, table=True):  # type: ignore
     id: str = Field(default_factory=idg.phenotype, primary_key=True)
     ontology_id: str = Field(default=None, index=True, unique=True)
     name: str = Field(default=None, index=True)
+
+
+@knowledge(bt.Readout)
+class Readout(SQLModel, table=True):  # type: ignore
+    """Biological readouts."""
+
+    id: str = Field(default_factory=idg.readout, primary_key=True)
+    efo_id: Optional[str] = Field(default=None, unique=True, index=True)
+    name: Optional[str] = None
+    molecule: Optional[str] = None
+    instrument: Optional[str] = None
+    measurement: Optional[str] = None
+    created_by: str = CreatedBy
+    created_at: datetime = CreatedAt
+    updated_at: Optional[datetime] = UpdatedAt
+
+    files: File = Relationship(
+        back_populates="readouts",
+        sa_relationship_kwargs=dict(secondary=FileReadout.__table__),
+    )
+
+
+File.readouts = relationship(
+    Readout,
+    back_populates="files",
+    secondary=FileReadout.__table__,
+)
+File.__sqlmodel_relationships__["readouts"] = None
