@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
+✨ Added Readout | [75](https://github.com/laminlabs/lnschema-bionty/pull/75) | [sunnyosun](https://github.com/sunnyosun) | 2023-03-27 |
 :memo: Move knowledge guide from lamindb here | [71](https://github.com/laminlabs/lnschema-bionty/pull/71) | [falexwolf](https://github.com/falexwolf) | 2023-03-27 |
 ⬆️ Updated bionty and lamindb deps | [74](https://github.com/laminlabs/lnschema-bionty/pull/74) | [sunnyosun](https://github.com/sunnyosun) | 2023-03-27 | 0.12.2
 👷 Upgrade to latest cookiecutter | [73](https://github.com/laminlabs/lnschema-bionty/pull/73) | [falexwolf](https://github.com/falexwolf) | 2023-03-27 |
