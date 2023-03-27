@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
+🐛 Fix import | [76](https://github.com/laminlabs/lnschema-bionty/pull/76) | [sunnyosun](https://github.com/sunnyosun) | 2023-03-27 |
 ✨ Added Readout | [75](https://github.com/laminlabs/lnschema-bionty/pull/75) | [sunnyosun](https://github.com/sunnyosun) | 2023-03-27 | 0.13.0
 :memo: Move knowledge guide from lamindb here | [71](https://github.com/laminlabs/lnschema-bionty/pull/71) | [falexwolf](https://github.com/falexwolf) | 2023-03-27 |
 ⬆️ Updated bionty and lamindb deps | [74](https://github.com/laminlabs/lnschema-bionty/pull/74) | [sunnyosun](https://github.com/sunnyosun) | 2023-03-27 | 0.12.2
