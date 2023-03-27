@@ -19,6 +19,7 @@ Biological entities, all initialized via `Bionty <https://lamin.ai/docs/bionty>`
    Disease
    Pathway
    Phenotype
+   Readout
 
 Development tools:
 
@@ -45,6 +46,7 @@ from ._core import (  # noqa
     Pathway,
     Phenotype,
     Protein,
+    Readout,
     Species,
     Tissue,
 )
