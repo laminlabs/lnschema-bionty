@@ -33,6 +33,7 @@ test = [
     "pytest>=6.0",
     "pytest-cov",
     "lndb>=0.38.0",
+    "lamindb>=0.35.0",
 ]
 
 [tool.black]
