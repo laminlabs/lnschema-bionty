@@ -1,4 +1,6 @@
-from bionty import Entity
+from typing import Optional
+
+import bionty
 
 
 # https://stackoverflow.com/questions/128573/using-property-on-classmethods/64738850#64738850
@@ -13,7 +15,7 @@ class classproperty(object):
 
 def fields_from_knowledge(
     locals: dict,
-    entity: Entity,
+    entity: bionty.Entity,
 ):
     kwargs = {}
     for k, v in locals.items():
@@ -30,7 +32,7 @@ def fields_from_knowledge(
     return pydantic_attrs
 
 
-def init_sqlmodel_parent(model, pydantic_attrs):
+def set_attributes(model, pydantic_attrs):
     if len(pydantic_attrs) == 0:
         return
 
@@ -40,8 +42,12 @@ def init_sqlmodel_parent(model, pydantic_attrs):
         model.__setattr__(k, v)
 
 
-def knowledge(bioentity: Entity):
-    entity = bioentity()
+def knowledge(sqlmodel_class):
+    name = sqlmodel_class.__name__
+    Entity = getattr(bionty, name)
+    entity = Entity()
+
+    features_entities = ["Gene", "Protein", "CellMarker"]
 
     @classproperty
     def lookup(cls):
@@ -55,25 +61,59 @@ def knowledge(bioentity: Entity):
     def ontology(cls):
         return entity.ontology
 
-    def wrapper(original_class):
-        orig_init = original_class.__init__
+    orig_init = sqlmodel_class.__init__
+    orig_new = sqlmodel_class.__new__
 
-        def __init__(self, **kwargs):
+    def __init__(
+        self,
+        database: Optional[str] = None,
+        version: Optional[str] = None,
+        species: Optional[str] = None,
+        knowledge_coupling: Optional[bool] = None,
+        **kwargs,
+    ):
+        orig_init(self, **kwargs)
+
+        if knowledge_coupling is None:
+            if name in features_entities:
+                knowledge_coupling = False
+            else:
+                knowledge_coupling = True
+
+        if knowledge_coupling:
             pydantic_attrs = fields_from_knowledge(locals=kwargs, entity=entity)
+            set_attributes(self, pydantic_attrs)
 
-            orig_init(self, **kwargs)
+    def __new__(
+        cls,
+        database: Optional[str] = None,
+        version: Optional[str] = None,
+        species: Optional[str] = None,
+        knowledge_coupling: bool = True,
+        **kwargs,
+    ):
+        entity_kwargs = {k: v for k, v in locals().items() if v is not None and k in ["database", "version", "species"]}
+        if database is not None or species is not None:
+            return Entity(**entity_kwargs)
+        else:
+            return orig_new(cls)
 
-            init_sqlmodel_parent(self, pydantic_attrs)
+    def add_attributes(sqlmodel_class):
+        sqlmodel_class.lookup = lookup
+        sqlmodel_class.df = df
+        sqlmodel_class.ontology = ontology
+        setattr(sqlmodel_class, "lookup_field", entity.lookup_field)
+        setattr(sqlmodel_class, "curate", classmethod(entity.curate))
+        setattr(sqlmodel_class, "database", entity.database)
+        setattr(sqlmodel_class, "version", entity.version)
 
-        original_class.__init__ = __init__
-        setattr(original_class, "curate", classmethod(entity.curate))
-        original_class.lookup = lookup
-        original_class.df = df
-        original_class.ontology = ontology
-        setattr(original_class, "database", entity.database)
-        setattr(original_class, "version", entity.version)
-        setattr(original_class, "lookup_field", entity.lookup_field)
+    def __call__(cls, knowledge_coupling=True, **kwargs):
+        return sqlmodel_class(knowledge_coupling=knowledge_coupling, **kwargs)
 
-        return original_class
+    sqlmodel_class.__init__ = __init__
+    sqlmodel_class.__new__ = __new__
+    if name not in features_entities:
+        add_attributes(sqlmodel_class)
+    Entity.__call__ = __call__
 
-    return wrapper
+    return sqlmodel_class
