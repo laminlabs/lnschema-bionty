@@ -1,7 +1,6 @@
 from datetime import datetime as datetime
 from typing import Optional
 
-import bionty as bt
 from lnschema_core import Features, File
 from lnschema_core._timestamps import CreatedAt, UpdatedAt
 from lnschema_core._users import CreatedBy
@@ -17,7 +16,7 @@ from .dev._bionty import knowledge
 SQLModel, prefix, schema_arg = schema_sqlmodel(schema_name)
 
 
-@knowledge(bt.Species)
+@knowledge
 class Species(SQLModel, table=True):  # type: ignore
     """Species."""
 
@@ -27,6 +26,7 @@ class Species(SQLModel, table=True):  # type: ignore
     scientific_name: str = Field(default=None, index=True, unique=True)
 
 
+@knowledge
 class Gene(SQLModel, table=True):  # type: ignore
     """Genes."""
 
@@ -51,6 +51,7 @@ class Gene(SQLModel, table=True):  # type: ignore
 Features.genes = relationship(Gene, back_populates="features", secondary=FeaturesGene.__table__)
 
 
+@knowledge
 class Protein(SQLModel, table=True):  # type: ignore
     """Proteins."""
 
@@ -74,6 +75,7 @@ class Protein(SQLModel, table=True):  # type: ignore
 Features.proteins = relationship(Protein, back_populates="features", secondary=FeaturesProtein.__table__)
 
 
+@knowledge
 class CellMarker(SQLModel, table=True):  # type: ignore
     """Cell markers."""
 
@@ -95,7 +97,7 @@ class CellMarker(SQLModel, table=True):  # type: ignore
 Features.cell_markers = relationship(CellMarker, back_populates="features", secondary=FeaturesCellMarker.__table__)
 
 
-@knowledge(bt.Tissue)
+@knowledge
 class Tissue(SQLModel, table=True):  # type: ignore
     """Tissues."""
 
@@ -104,7 +106,7 @@ class Tissue(SQLModel, table=True):  # type: ignore
     name: str = Field(default=None, index=True)
 
 
-@knowledge(bt.CellType)
+@knowledge
 class CellType(SQLModel, table=True):  # type: ignore
     """Cell types."""
 
@@ -115,7 +117,7 @@ class CellType(SQLModel, table=True):  # type: ignore
     name: str = Field(default=None, index=True)
 
 
-@knowledge(bt.Disease)
+@knowledge
 class Disease(SQLModel, table=True):  # type: ignore
     """Diseases."""
 
@@ -124,7 +126,7 @@ class Disease(SQLModel, table=True):  # type: ignore
     name: str = Field(default=None, index=True)
 
 
-@knowledge(bt.CellLine)
+@knowledge
 class CellLine(SQLModel, table=True):  # type: ignore
     """Cell lines."""
 
@@ -135,7 +137,7 @@ class CellLine(SQLModel, table=True):  # type: ignore
     name: str = Field(default=None, index=True)
 
 
-@knowledge(bt.Pathway)
+@knowledge
 class Pathway(SQLModel, table=True):  # type: ignore
     """Pathways."""
 
@@ -144,7 +146,7 @@ class Pathway(SQLModel, table=True):  # type: ignore
     name: str = Field(default=None, index=True)
 
 
-@knowledge(bt.Phenotype)
+@knowledge
 class Phenotype(SQLModel, table=True):  # type: ignore
     """Phenotypes."""
 
@@ -153,7 +155,7 @@ class Phenotype(SQLModel, table=True):  # type: ignore
     name: str = Field(default=None, index=True)
 
 
-@knowledge(bt.Readout)
+@knowledge
 class Readout(SQLModel, table=True):  # type: ignore
     """Biological readouts."""
 
