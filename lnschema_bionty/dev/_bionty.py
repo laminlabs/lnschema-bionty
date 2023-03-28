@@ -93,7 +93,7 @@ def knowledge(sqlmodel_class):
         **kwargs,
     ):
         entity_kwargs = {k: v for k, v in locals().items() if v is not None and k in ["database", "version", "species"]}
-        if any([i for i in [database, version, species]]):
+        if database is not None or species is not None:
             return Entity(**entity_kwargs)
         else:
             return orig_new(cls)
