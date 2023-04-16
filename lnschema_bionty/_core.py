@@ -41,6 +41,7 @@ class Gene(SQLModel, table=True):  # type: ignore
     omim_id: Optional[int] = Field(default=None, index=True)
     synonyms: Optional[str] = Field(default=None, index=True)
     species_id: Optional[str] = Field(default=None, foreign_key="bionty.species.id", index=True)
+    species: Species = Relationship()
     version: Optional[str] = None
     features: Features = Relationship(
         back_populates="genes",
@@ -62,6 +63,7 @@ class Protein(SQLModel, table=True):  # type: ignore
     protein_names: Optional[str] = Field(default=None, index=True)
     length: Optional[int] = None
     species_id: str = Field(default=None, foreign_key="bionty.species.id")
+    species: Species = Relationship()
     gene_symbols: Optional[str] = None
     gene_synonyms: Optional[str] = None
     ensembl_transcript_ids: Optional[str] = Field(default=None, index=True)
@@ -88,6 +90,7 @@ class CellMarker(SQLModel, table=True):  # type: ignore
     gene_name: Optional[str] = None
     uniprotkb_id: Optional[str] = None
     species_id: str = Field(default=None, foreign_key="bionty.species.id")
+    species: Species = Relationship()
     features: Features = Relationship(
         back_populates="cell_markers",
         sa_relationship_kwargs=dict(secondary=FeaturesCellMarker.__table__),
