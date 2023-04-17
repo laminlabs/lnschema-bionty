@@ -28,6 +28,7 @@ def fields_from_knowledge(
         if v not in df.index:
             continue
         kwargs = df.loc[v].to_dict()
+        kwargs[k] = v
         if "ontology_id" in kwargs:
             # TODO: save to Readout.df like others
             if entity.entity == "readout":
@@ -104,18 +105,26 @@ def knowledge(sqlmodel_class):
     # orig_new = sqlmodel_class.__new__
 
     @classmethod
-    def from_bionty(cls, **kwargs):
+    def curate(cls, df, **kwargs):
         init_entity()
-        pydantic_attrs = fields_from_knowledge(locals=kwargs, entity=sqlmodel_class._entity)
-        if len(pydantic_attrs) == 0:
-            raise ValueError(
-                "No entry is found in bionty reference table with kwargs!\nPlease check"
-                " you configured the correct species with `.config_bionty(species=...)`"
-            )
-        if "id" in pydantic_attrs:
-            id_encoder = getattr(id, sqlmodel_class.__table__.name.split(".")[-1])
-            pydantic_attrs["id"] = id_encoder(pydantic_attrs["id"])
+        return sqlmodel_class._entity.curate(df=df, **kwargs)
 
+    @classmethod
+    def from_bionty(cls, lookup_result: Optional[tuple] = None, **kwargs):
+        init_entity()
+        if isinstance(lookup_result, tuple) and lookup_result is not None:
+            return sqlmodel_class(lookup_result=lookup_result)
+        else:
+            pydantic_attrs = fields_from_knowledge(locals=kwargs, entity=sqlmodel_class._entity)
+            if len(pydantic_attrs) == 0:
+                raise ValueError(
+                    "No entry is found in bionty reference table with kwargs!\nPlease"
+                    " check you configured the correct species with"
+                    " `.config_bionty(species=...)`"
+                )
+            return sqlmodel_class(**pydantic_attrs)
+
+    def _add_species(pydantic_attrs: dict):
         if "species_id" in sqlmodel_class.__fields__:
             import lamindb as ln
 
@@ -125,12 +134,26 @@ def knowledge(sqlmodel_class):
             if sp is None:
                 sp = Species.from_bionty(name=config_bionty_species)
             pydantic_attrs["species"] = sp
-        return sqlmodel_class(**pydantic_attrs)
 
-    @classmethod
-    def curate(cls, df, **kwargs):
+        return pydantic_attrs
+
+    def _encode_id(pydantic_attrs: dict):
+        if "id" in pydantic_attrs:
+            id_encoder = getattr(id, sqlmodel_class.__table__.name.split(".")[-1])
+            pydantic_attrs["id"] = id_encoder(pydantic_attrs["id"])
+        return pydantic_attrs
+
+    orig_init = sqlmodel_class.__init__
+
+    def __init__(self, lookup_result: Optional[tuple] = None, **kwargs):
         init_entity()
-        return sqlmodel_class._entity.curate(df=df, **kwargs)
+        if isinstance(lookup_result, tuple) and lookup_result is not None:
+            kwargs = lookup_result._asdict()  # type:ignore
+
+        kwargs = _encode_id(kwargs)
+        kwargs = _add_species(kwargs)
+
+        orig_init(self, **kwargs)
 
     # def __init__(
     #     self,
@@ -180,7 +203,7 @@ def knowledge(sqlmodel_class):
     # def __call__(cls, knowledge_coupling=True, **kwargs):
     #     return sqlmodel_class(knowledge_coupling=knowledge_coupling, **kwargs)
 
-    # sqlmodel_class.__init__ = __init__
+    sqlmodel_class.__init__ = __init__
     # sqlmodel_class.__new__ = __new__
     # if name not in features_entities:
     #     add_attributes(sqlmodel_class)
