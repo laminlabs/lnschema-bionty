@@ -3,14 +3,14 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
-🎨 New design of the knowledge API | [80](https://github.com/laminlabs/lnschema-bionty/pull/80) | [sunnyosun](https://github.com/sunnyosun) | 2023-04-17 |
+🎨 New design of the knowledge API | [80](https://github.com/laminlabs/lnschema-bionty/pull/80) | [sunnyosun](https://github.com/sunnyosun) | 2023-04-17 | 0.15.0
 ♻️ Refactor knowledge | [77](https://github.com/laminlabs/lnschema-bionty/pull/77) | [sunnyosun](https://github.com/sunnyosun) | 2023-03-28 | 0.14.0
 🐛 Fix import | [76](https://github.com/laminlabs/lnschema-bionty/pull/76) | [sunnyosun](https://github.com/sunnyosun) | 2023-03-27 | 0.13.1
 ✨ Added Readout | [75](https://github.com/laminlabs/lnschema-bionty/pull/75) | [sunnyosun](https://github.com/sunnyosun) | 2023-03-27 | 0.13.0
-:memo: Move knowledge guide from lamindb here | [71](https://github.com/laminlabs/lnschema-bionty/pull/71) | [falexwolf](https://github.com/falexwolf) | 2023-03-27 |
+📝 Move knowledge guide from lamindb here | [71](https://github.com/laminlabs/lnschema-bionty/pull/71) | [falexwolf](https://github.com/falexwolf) | 2023-03-27 |
 ⬆️ Updated bionty and lamindb deps | [74](https://github.com/laminlabs/lnschema-bionty/pull/74) | [sunnyosun](https://github.com/sunnyosun) | 2023-03-27 | 0.12.2
 👷 Upgrade to latest cookiecutter | [73](https://github.com/laminlabs/lnschema-bionty/pull/73) | [falexwolf](https://github.com/falexwolf) | 2023-03-27 |
-🚑 Fix get_term | [72](https://github.com/laminlabs/lnschema-bionty/pull/72) | [sunnyosun](https://github.com/sunnyosun) | 2023-03-25 | 0.12.1
+🚑 Fix `get_term` | [72](https://github.com/laminlabs/lnschema-bionty/pull/72) | [sunnyosun](https://github.com/sunnyosun) | 2023-03-25 | 0.12.1
 ♻️ Switch to class property | [70](https://github.com/laminlabs/lnschema-bionty/pull/70) | [sunnyosun](https://github.com/sunnyosun) | 2023-03-24 | 0.12.0
 ✨ Expose bionty functions with knowledge decorator | [69](https://github.com/laminlabs/lnschema-bionty/pull/69) | [sunnyosun](https://github.com/sunnyosun) | 2023-03-24 | 0.11.0
 🐛 Fix Readout population | [68](https://github.com/laminlabs/lnschema-bionty/pull/68) | [sunnyosun](https://github.com/sunnyosun) | 2023-03-23 | 0.10.1
@@ -22,7 +22,7 @@ Name | PR | Developer | Date | Version
 ⬆️ Stable release of bionty 0.8.0 | [59](https://github.com/laminlabs/lnschema-bionty/pull/59) | [sunnyosun](https://github.com/sunnyosun) | 2023-03-09 | 0.8.0
 ⬆️ Bionty>=0.8rc3 | [58](https://github.com/laminlabs/lnschema-bionty/pull/58) | [sunnyosun](https://github.com/sunnyosun) | 2023-03-09 | 0.8rc2
 ✨ Use ontology_id as the id for Tissue, CellType, Disease | [57](https://github.com/laminlabs/lnschema-bionty/pull/57) | [sunnyosun](https://github.com/sunnyosun) | 2023-03-07 | 0.8.0rc1
-:arrow_up: Upgrade bionty | [56](https://github.com/laminlabs/lnschema-bionty/pull/56) | [falexwolf](https://github.com/falexwolf) | 2023-03-06 |
+⬆️ Upgrade bionty | [56](https://github.com/laminlabs/lnschema-bionty/pull/56) | [falexwolf](https://github.com/falexwolf) | 2023-03-06 |
 🔥 Remove migration files | [51](https://github.com/laminlabs/lnschema-bionty/pull/51) | [sunnyosun](https://github.com/sunnyosun) | 2023-02-14 | 0.7.0
 ⬆️ Upgrade and rename `lndb_setup` to `lndb` (v0.32.0) | [49](https://github.com/laminlabs/lnschema-bionty/pull/49) | [bpenteado](https://github.com/bpenteado) | 2023-02-14 | 0.6.9
 🐛 Fixed taxon_id type | [48](https://github.com/laminlabs/lnschema-bionty/pull/48) | [sunnyosun](https://github.com/sunnyosun) | 2023-01-17 | 0.6.8
