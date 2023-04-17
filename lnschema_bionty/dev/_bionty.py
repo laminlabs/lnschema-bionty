@@ -19,7 +19,7 @@ class classproperty(object):
         if "sphinx" not in sys.modules:
             return self.fget(owner_cls)
         else:
-            return "property"
+            return "sphinx-build: property"
 
 
 def fields_from_knowledge(
