@@ -19,7 +19,7 @@ class classproperty(object):
         if "sphinx" not in sys.modules:
             return self.fget(owner_cls)
         else:
-            return "sphinx-build: property"
+            return "see bionty.Entity"
 
 
 def fields_from_knowledge(
@@ -52,17 +52,33 @@ def set_attributes(model, pydantic_attrs):
         model.__setattr__(k, v)
 
 
+def config_bionty(species: Optional[str] = None):
+    global config_bionty_species
+    if species is not None:
+        config_bionty_species_ = config_bionty_species
+        config_bionty_species = species
+        if species != config_bionty_species_:
+            logger.info(f"Configured species as {species}.")
+
+
+@classmethod  # type: ignore
+def from_bionty(cls, lookup_result: Optional[tuple] = None, **kwargs):
+    if isinstance(lookup_result, tuple) and lookup_result is not None:
+        return cls(lookup_result=lookup_result)
+    else:
+        pydantic_attrs = fields_from_knowledge(locals=kwargs, entity=cls._entity)
+        if len(pydantic_attrs) == 0:
+            raise ValueError(
+                "No entry is found in bionty reference table with kwargs!\nPlease"
+                " check you configured the correct species with"
+                " `.config_bionty(species=...)`"
+            )
+        return cls(**pydantic_attrs)
+
+
 def knowledge(sqlmodel_class):
     name = sqlmodel_class.__name__
     Entity = getattr(bionty, name)
-
-    def config_bionty(species: Optional[str] = None):
-        global config_bionty_species
-        if species is not None:
-            config_bionty_species_ = config_bionty_species
-            config_bionty_species = species
-            if species != config_bionty_species_:
-                logger.info(f"Configured species as {species}.")
 
     def init_entity():
         try:
@@ -112,21 +128,6 @@ def knowledge(sqlmodel_class):
     def curate(cls, df, **kwargs):
         init_entity()
         return sqlmodel_class._entity.curate(df=df, **kwargs)
-
-    @classmethod
-    def from_bionty(cls, lookup_result: Optional[tuple] = None, **kwargs):
-        init_entity()
-        if isinstance(lookup_result, tuple) and lookup_result is not None:
-            return sqlmodel_class(lookup_result=lookup_result)
-        else:
-            pydantic_attrs = fields_from_knowledge(locals=kwargs, entity=sqlmodel_class._entity)
-            if len(pydantic_attrs) == 0:
-                raise ValueError(
-                    "No entry is found in bionty reference table with kwargs!\nPlease"
-                    " check you configured the correct species with"
-                    " `.config_bionty(species=...)`"
-                )
-            return sqlmodel_class(**pydantic_attrs)
 
     def _add_species(pydantic_attrs: dict):
         if "species_id" in sqlmodel_class.__fields__:
