@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
+🎨 New design of the knowledge API | [80](https://github.com/laminlabs/lnschema-bionty/pull/80) | [sunnyosun](https://github.com/sunnyosun) | 2023-04-17 |
 ♻️ Refactor knowledge | [77](https://github.com/laminlabs/lnschema-bionty/pull/77) | [sunnyosun](https://github.com/sunnyosun) | 2023-03-28 | 0.14.0
 🐛 Fix import | [76](https://github.com/laminlabs/lnschema-bionty/pull/76) | [sunnyosun](https://github.com/sunnyosun) | 2023-03-27 | 0.13.1
 ✨ Added Readout | [75](https://github.com/laminlabs/lnschema-bionty/pull/75) | [sunnyosun](https://github.com/sunnyosun) | 2023-03-27 | 0.13.0
