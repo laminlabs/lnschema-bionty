@@ -1,3 +1,4 @@
+import sys
 from typing import Optional
 
 import bionty
@@ -15,7 +16,10 @@ class classproperty(object):
 
     def __get__(self, owner_self, owner_cls):
         """Get."""
-        return self.fget(owner_cls)
+        if "sphinx" not in sys.modules:
+            return self.fget(owner_cls)
+        else:
+            return "property"
 
 
 def fields_from_knowledge(
