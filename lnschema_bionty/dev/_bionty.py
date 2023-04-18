@@ -52,57 +52,54 @@ def set_attributes(model, pydantic_attrs):
         model.__setattr__(k, v)
 
 
+def config_bionty(species: Optional[str] = None):
+    global config_bionty_species
+    if species is not None:
+        config_bionty_species_ = config_bionty_species
+        config_bionty_species = species
+        if species != config_bionty_species_:
+            logger.info(f"Configured species as {species}.")
+
+
 def knowledge(sqlmodel_class):
     name = sqlmodel_class.__name__
     Entity = getattr(bionty, name)
 
-    def config_bionty(species: Optional[str] = None):
-        global config_bionty_species
-        if species is not None:
-            config_bionty_species_ = config_bionty_species
-            config_bionty_species = species
-            if species != config_bionty_species_:
-                logger.info(f"Configured species as {species}.")
-
     def init_entity():
         try:
-            sqlmodel_class._entity = Entity(species=config_bionty_species)
+            return Entity(species=config_bionty_species)
         except TypeError:
             # For the Species entity
-            sqlmodel_class._entity = Entity()
-
-    init_entity()
+            return Entity()
 
     # features_entities = ["Gene", "Protein", "CellMarker"]
 
     @classproperty
+    def _entity(cls):
+        return init_entity()
+
+    @classproperty
     def lookup(cls):
-        init_entity()
         return sqlmodel_class._entity.lookup
 
     @classproperty
     def df(cls):
-        init_entity()
         return sqlmodel_class._entity.df
 
     @classproperty
     def ontology(cls):
-        init_entity()
         return sqlmodel_class._entity.ontology
 
     @classproperty
     def lookup_field(cls):
-        init_entity()
         return sqlmodel_class._entity.lookup_field
 
     @classproperty
     def database(cls):
-        init_entity()
         return sqlmodel_class._entity.database
 
     @classproperty
     def version(cls):
-        init_entity()
         return sqlmodel_class._entity.version
 
     # orig_init = sqlmodel_class.__init__
@@ -110,12 +107,10 @@ def knowledge(sqlmodel_class):
 
     @classmethod
     def curate(cls, df, **kwargs):
-        init_entity()
         return sqlmodel_class._entity.curate(df=df, **kwargs)
 
     @classmethod
     def from_bionty(cls, lookup_result: Optional[tuple] = None, **kwargs):
-        init_entity()
         if isinstance(lookup_result, tuple) and lookup_result is not None:
             return sqlmodel_class(lookup_result=lookup_result)
         else:
@@ -155,7 +150,8 @@ def knowledge(sqlmodel_class):
             kwargs = lookup_result._asdict()  # type:ignore
 
         kwargs = _encode_id(kwargs)
-        kwargs = _add_species(kwargs)
+        if "species_id" not in kwargs and "species" not in kwargs:
+            kwargs = _add_species(kwargs)
 
         orig_init(self, **kwargs)
 
@@ -215,5 +211,6 @@ def knowledge(sqlmodel_class):
     sqlmodel_class.from_bionty = from_bionty
     sqlmodel_class.config_bionty = config_bionty
     sqlmodel_class.curate = curate
+    sqlmodel_class._entity = _entity
 
     return sqlmodel_class
