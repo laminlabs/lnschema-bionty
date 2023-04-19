@@ -121,6 +121,9 @@ def knowledge(sqlmodel_class):
                     " check you configured the correct species with"
                     " `.config_bionty(species=...)`"
                 )
+            pydantic_attrs = _encode_id(pydantic_attrs)
+            if "species_id" not in pydantic_attrs and "species" not in pydantic_attrs:
+                pydantic_attrs = _add_species(pydantic_attrs)
             return sqlmodel_class(**pydantic_attrs)
 
     def _add_species(pydantic_attrs: dict):
@@ -145,13 +148,11 @@ def knowledge(sqlmodel_class):
     orig_init = sqlmodel_class.__init__
 
     def __init__(self, lookup_result: Optional[tuple] = None, **kwargs):
-        init_entity()
         if isinstance(lookup_result, tuple) and lookup_result is not None:
             kwargs = lookup_result._asdict()  # type:ignore
-
-        kwargs = _encode_id(kwargs)
-        if "species_id" not in kwargs and "species" not in kwargs:
-            kwargs = _add_species(kwargs)
+            kwargs = _encode_id(kwargs)
+            if "species_id" not in kwargs and "species" not in kwargs:
+                kwargs = _add_species(kwargs)
 
         orig_init(self, **kwargs)
 

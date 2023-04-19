@@ -16,8 +16,8 @@ classifiers = [
 dependencies = [
     "nbproject",
     "sqlmodel",
-    "lnschema_core>=0.30rc5",
-    "bionty>=0.11.1",
+    "lnschema_core>=0.33.0",
+    "bionty>=0.11.4",
     "requests",
 ]
 
@@ -32,8 +32,7 @@ dev = [
 test = [
     "pytest>=6.0",
     "pytest-cov",
-    "lndb>=0.38.0",
-    "lamindb>=0.35.0",
+    "lamindb>=0.38.0",
 ]
 
 [tool.black]
