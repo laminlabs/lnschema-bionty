@@ -3,7 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
-⚡ Fix adding species | [84](https://github.com/laminlabs/lnschema-bionty/pull/84) | [sunnyosun](https://github.com/sunnyosun) | 2023-04-19 |
+⚡ Fix adding species | [84](https://github.com/laminlabs/lnschema-bionty/pull/84) | [sunnyosun](https://github.com/sunnyosun) | 2023-04-19 | 0.15.2
 ✨ Add ._entity to knowledge class for features parsing | [83](https://github.com/laminlabs/lnschema-bionty/pull/83) | [sunnyosun](https://github.com/sunnyosun) | 2023-04-18 | 0.15.1
 🎨 New design of the knowledge API | [80](https://github.com/laminlabs/lnschema-bionty/pull/80) | [sunnyosun](https://github.com/sunnyosun) | 2023-04-17 | 0.15.0
 ♻️ Refactor knowledge | [77](https://github.com/laminlabs/lnschema-bionty/pull/77) | [sunnyosun](https://github.com/sunnyosun) | 2023-03-28 | 0.14.0
