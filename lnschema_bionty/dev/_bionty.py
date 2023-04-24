@@ -1,7 +1,7 @@
 import sys
 from typing import Optional
 
-import bionty
+import bionty as bt
 from lamin_logger import logger
 
 from ..dev import id
@@ -24,7 +24,7 @@ class classproperty(object):
 
 def fields_from_knowledge(
     locals: dict,
-    entity: bionty.Entity,
+    entity: bt.Entity,
 ):
     kwargs = {}
     for k, v in locals.items():
@@ -63,7 +63,7 @@ def config_bionty(species: Optional[str] = None):
 
 def knowledge(sqlmodel_class):
     name = sqlmodel_class.__name__
-    Entity = getattr(bionty, name)
+    Entity = getattr(bt, name)
 
     def init_entity():
         try:
@@ -72,49 +72,16 @@ def knowledge(sqlmodel_class):
             # For the Species entity
             return Entity()
 
-    # features_entities = ["Gene", "Protein", "CellMarker"]
-
     @classproperty
-    def _entity(cls):
+    def bionty(cls):
         return init_entity()
-
-    @classproperty
-    def lookup(cls):
-        return sqlmodel_class._entity.lookup
-
-    @classproperty
-    def df(cls):
-        return sqlmodel_class._entity.df
-
-    @classproperty
-    def ontology(cls):
-        return sqlmodel_class._entity.ontology
-
-    @classproperty
-    def lookup_field(cls):
-        return sqlmodel_class._entity.lookup_field
-
-    @classproperty
-    def database(cls):
-        return sqlmodel_class._entity.database
-
-    @classproperty
-    def version(cls):
-        return sqlmodel_class._entity.version
-
-    # orig_init = sqlmodel_class.__init__
-    # orig_new = sqlmodel_class.__new__
-
-    @classmethod
-    def curate(cls, df, **kwargs):
-        return sqlmodel_class._entity.curate(df=df, **kwargs)
 
     @classmethod
     def from_bionty(cls, lookup_result: Optional[tuple] = None, **kwargs):
         if isinstance(lookup_result, tuple) and lookup_result is not None:
             return sqlmodel_class(lookup_result=lookup_result)
         else:
-            pydantic_attrs = fields_from_knowledge(locals=kwargs, entity=sqlmodel_class._entity)
+            pydantic_attrs = fields_from_knowledge(locals=kwargs, entity=sqlmodel_class.bionty)
             if len(pydantic_attrs) == 0:
                 raise ValueError(
                     "No entry is found in bionty reference table with kwargs!\nPlease"
@@ -194,24 +161,14 @@ def knowledge(sqlmodel_class):
     #     else:
     #         return orig_new(cls)
 
-    sqlmodel_class.lookup = lookup
-    sqlmodel_class.df = df
-    sqlmodel_class.ontology = ontology
-    sqlmodel_class.lookup_field = lookup_field
-    sqlmodel_class.database = database
-    sqlmodel_class.version = version
-
     # def __call__(cls, knowledge_coupling=True, **kwargs):
     #     return sqlmodel_class(knowledge_coupling=knowledge_coupling, **kwargs)
 
     sqlmodel_class.__init__ = __init__
     # sqlmodel_class.__new__ = __new__
-    # if name not in features_entities:
-    #     add_attributes(sqlmodel_class)
     # Entity.__call__ = __call__
     sqlmodel_class.from_bionty = from_bionty
     sqlmodel_class.config_bionty = config_bionty
-    sqlmodel_class.curate = curate
-    sqlmodel_class._entity = _entity
+    sqlmodel_class.bionty = bionty
 
     return sqlmodel_class
