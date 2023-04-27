@@ -3,7 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
-🎨 Move ._entity to private | [89](https://github.com/laminlabs/lnschema-bionty/pull/89) | [sunnyosun](https://github.com/sunnyosun) | 2023-04-27 |
+🎨 Move ._entity to private | [89](https://github.com/laminlabs/lnschema-bionty/pull/89) | [sunnyosun](https://github.com/sunnyosun) | 2023-04-27 | 0.16.1
 💥 Enable `.bionty` for accessing bionty functionalities | [87](https://github.com/laminlabs/lnschema-bionty/pull/87) | [sunnyosun](https://github.com/sunnyosun) | 2023-04-24 | 0.16.0
 ⚡ Fix adding species | [84](https://github.com/laminlabs/lnschema-bionty/pull/84) | [sunnyosun](https://github.com/sunnyosun) | 2023-04-19 | 0.15.2
 ✨ Add ._entity to knowledge class for features parsing | [83](https://github.com/laminlabs/lnschema-bionty/pull/83) | [sunnyosun](https://github.com/sunnyosun) | 2023-04-18 | 0.15.1
