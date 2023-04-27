@@ -28,13 +28,13 @@ def fields_from_knowledge(
 ):
     kwargs = {}
     for k, v in locals.items():
-        df = entity.df.reset_index().set_index(k)
+        df = entity.df().reset_index().set_index(k)
         if v not in df.index:
             continue
         kwargs = df.loc[v].to_dict()
         kwargs[k] = v
         if "ontology_id" in kwargs:
-            # TODO: save to Readout.df like others
+            # TODO: save to Readout.df() like others
             if entity._entity == "readout":
                 kwargs = entity.get(kwargs["ontology_id"])
             kwargs["id"] = kwargs["ontology_id"]
