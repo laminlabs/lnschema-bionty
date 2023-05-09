@@ -3,7 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
-✨ Added synonyms field to CellMarker | [91](https://github.com/laminlabs/lnschema-bionty/pull/91) | [sunnyosun](https://github.com/sunnyosun) | 2023-05-09 |
+✨ Added synonyms field to CellMarker | [91](https://github.com/laminlabs/lnschema-bionty/pull/91) | [sunnyosun](https://github.com/sunnyosun) | 2023-05-09 | 0.16.3
 💚 Fix dependencies | [90](https://github.com/laminlabs/lnschema-bionty/pull/90) | [sunnyosun](https://github.com/sunnyosun) | 2023-04-27 | 0.16.2
 🎨 Move ._entity to private | [89](https://github.com/laminlabs/lnschema-bionty/pull/89) | [sunnyosun](https://github.com/sunnyosun) | 2023-04-27 | 0.16.1
 💥 Enable `.bionty` for accessing bionty functionalities | [87](https://github.com/laminlabs/lnschema-bionty/pull/87) | [sunnyosun](https://github.com/sunnyosun) | 2023-04-24 | 0.16.0
