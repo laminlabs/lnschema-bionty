@@ -85,10 +85,11 @@ class CellMarker(SQLModel, table=True):  # type: ignore
 
     id: str = Field(default_factory=idg.cell_marker, primary_key=True)
     name: str = Field(default=None, index=True, unique=True)
-    ncbi_gene_id: Optional[str] = None
-    gene_symbol: Optional[str] = None
-    gene_name: Optional[str] = None
-    uniprotkb_id: Optional[str] = None
+    ncbi_gene_id: Optional[str] = Field(default=None, index=True)
+    gene_symbol: Optional[str] = Field(default=None, index=True)
+    gene_name: Optional[str] = Field(default=None, index=True)
+    uniprotkb_id: Optional[str] = Field(default=None, index=True)
+    synonyms: Optional[str] = Field(default=None, index=True)
     species_id: str = Field(default=None, foreign_key="bionty.species.id")
     species: Species = Relationship()
     features: Features = Relationship(
