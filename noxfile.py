@@ -12,12 +12,12 @@ from laminci.nox import (
 nox.options.reuse_existing_virtualenvs = True
 
 
-@nox.session(python=["3.7", "3.8", "3.9", "3.10", "3.11"])
+@nox.session(python=["3.8", "3.9", "3.10", "3.11"])
 def lint(session: nox.Session) -> None:
     run_pre_commit(session)
 
 
-@nox.session(python=["3.7", "3.8", "3.9", "3.10", "3.11"])
+@nox.session(python=["3.8", "3.9", "3.10", "3.11"])
 def build(session):
     login_testuser1(session)
     setup_test_instances_from_main_branch(session)
