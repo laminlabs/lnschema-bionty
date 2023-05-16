@@ -19,6 +19,7 @@ Entity-related generators:
 """
 
 from ._id import (  # noqa
+    bfxpipeline,
     cell_line,
     cell_marker,
     cell_type,

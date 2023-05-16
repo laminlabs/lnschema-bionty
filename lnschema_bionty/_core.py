@@ -185,3 +185,12 @@ File.readouts = relationship(
     secondary=FileReadout.__table__,
 )
 File.__sqlmodel_relationships__["readouts"] = None
+
+
+@knowledge
+class BFXPipeline(SQLModel, table=True):  # type: ignore
+    """Bioinformatics Pipelines."""
+
+    id: str = Field(default_factory=idg.bfxpipeline, primary_key=True)
+    ontology_id: str = Field(default=None, index=True, unique=True)
+    name: str = Field(default=None, index=True)
