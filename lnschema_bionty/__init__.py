@@ -20,6 +20,7 @@ Biological entities, all initialized via `Bionty <https://lamin.ai/docs/bionty>`
    Pathway
    Phenotype
    Readout
+   BFXPipeline
 
 Development tools:
 
@@ -49,5 +50,6 @@ from ._core import (  # noqa
     Readout,
     Species,
     Tissue,
+    BFXPipeline
 )
 from .dev import id  # backward compat
