@@ -24,7 +24,7 @@ class classproperty(object):
 
 def fields_from_knowledge(
     locals: dict,
-    entity: bt.Entity,
+    entity: bt.Bionty,
 ):
     kwargs = {}
     for k, v in locals.items():
