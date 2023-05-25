@@ -1,7 +1,11 @@
 import lnschema_core
-from lnschema_core.dev.sqlmodel import BaseORM as SQLModel
+from lnschema_core.dev.sqlmodel import get_orm
 from packaging import version
 from sqlmodel import Field
+
+from . import __name__ as module_name
+
+SQLModel = get_orm(module_name)
 
 prefix = "lnschema_core_" if version.parse(lnschema_core.version) > version.parse("0.4a1") else "core."
 

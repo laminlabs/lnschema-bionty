@@ -4,18 +4,21 @@ from typing import Optional
 from lnschema_core import Features, File
 from lnschema_core._timestamps import CreatedAt, UpdatedAt
 from lnschema_core._users import CreatedBy
-from lnschema_core.dev.sqlmodel import BaseORM as SQLModel
-from lnschema_core.dev.sqlmodel import schema_sqlmodel
+from lnschema_core.dev.sqlmodel import get_orm, schema_sqlmodel
 from sqlalchemy.orm import relationship
 from sqlmodel import Field, Relationship
 
+from . import __name__ as module_name
 from . import _name as schema_name
 from ._link import FeaturesCellMarker, FeaturesGene, FeaturesProtein, FileReadout
 from .dev import id as idg
 from .dev._bionty import knowledge
 
-# just for backward compat
+# this is for backward compat
 schema_sqlmodel(schema_name)
+
+# this is the current way
+SQLModel = get_orm(module_name)
 
 
 @knowledge
