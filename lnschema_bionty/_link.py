@@ -1,42 +1,34 @@
-from lnschema_core.dev.sqlmodel import schema_sqlmodel
+import lnschema_core
+from lnschema_core.dev.sqlmodel import BaseORM as SQLModel
+from packaging import version
 from sqlmodel import Field
 
-from . import _name as schema_name
-
-SQLModel, prefix, schema_arg = schema_sqlmodel(schema_name)
+prefix = "lnschema_core_" if version.parse(lnschema_core.version) > version.parse("0.4a1") else "core."
 
 
 class FeaturesGene(SQLModel, table=True):  # type: ignore
     """Genes as features."""
 
-    __tablename__ = f"{prefix}features_gene"
-
-    features_id: str = Field(foreign_key="core.features.id", primary_key=True)
-    gene_id: str = Field(foreign_key="bionty.gene.id", primary_key=True)
+    features_id: str = Field(foreign_key=f"{prefix}features.id", primary_key=True)
+    gene_id: str = Field(foreign_key="lnschema_bionty_gene.id", primary_key=True)
 
 
 class FeaturesProtein(SQLModel, table=True):  # type: ignore
     """Genes as features."""
 
-    __tablename__ = f"{prefix}features_protein"
-
-    features_id: str = Field(foreign_key="core.features.id", primary_key=True)
-    protein_id: str = Field(foreign_key="bionty.protein.id", primary_key=True)
+    features_id: str = Field(foreign_key=f"{prefix}features.id", primary_key=True)
+    protein_id: str = Field(foreign_key="lnschema_bionty_protein.id", primary_key=True)
 
 
 class FeaturesCellMarker(SQLModel, table=True):  # type: ignore
     """Genes as features."""
 
-    __tablename__ = f"{prefix}features_cell_marker"
-
-    features_id: str = Field(foreign_key="core.features.id", primary_key=True)
-    cell_marker_id: str = Field(foreign_key="bionty.cell_marker.id", primary_key=True)
+    features_id: str = Field(foreign_key=f"{prefix}features.id", primary_key=True)
+    cell_marker_id: str = Field(foreign_key="lnschema_bionty_cell_marker.id", primary_key=True)
 
 
 class FileReadout(SQLModel, table=True):  # type: ignore
     """Links for `File` and `Readout`."""
 
-    __tablename__ = f"{prefix}file_readout"
-
-    file_id: str = Field(foreign_key="core.file.id", primary_key=True)
-    readout_id: str = Field(foreign_key="bionty.readout.id", primary_key=True)
+    file_id: str = Field(foreign_key=f"{prefix}file.id", primary_key=True)
+    readout_id: str = Field(foreign_key="lnschema_bionty_readout.id", primary_key=True)
