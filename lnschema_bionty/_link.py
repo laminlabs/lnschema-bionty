@@ -7,7 +7,7 @@ from . import __name__ as module_name
 
 SQLModel = get_orm(module_name)
 
-prefix = "lnschema_core_" if version.parse(lnschema_core.version) > version.parse("0.4a1") else "core."
+prefix = "lnschema_core_" if version.parse(lnschema_core.__version__) > version.parse("0.4a1") else "core."
 
 
 class FeaturesGene(SQLModel, table=True):  # type: ignore
@@ -28,7 +28,7 @@ class FeaturesCellMarker(SQLModel, table=True):  # type: ignore
     """Genes as features."""
 
     features_id: str = Field(foreign_key=f"{prefix}features.id", primary_key=True)
-    cell_marker_id: str = Field(foreign_key="lnschema_bionty_cell_marker.id", primary_key=True)
+    cell_marker_id: str = Field(foreign_key="lnschema_bionty_cellmarker.id", primary_key=True)
 
 
 class FileReadout(SQLModel, table=True):  # type: ignore
