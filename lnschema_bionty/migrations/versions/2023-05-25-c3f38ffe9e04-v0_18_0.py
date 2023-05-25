@@ -4,7 +4,7 @@ import sqlmodel  # noqa
 from alembic import op
 
 revision = "c3f38ffe9e04"
-down_revision = "6a73c00555b4"
+down_revision = "017ac3ec86c5"
 
 
 def upgrade() -> None:
@@ -17,7 +17,6 @@ def upgrade() -> None:
         op.rename_table(old_table_name="bionty.tissue", new_table_name="lnschema_bionty_tissue")
         op.rename_table(old_table_name="bionty.disease", new_table_name="lnschema_bionty_disease")
         op.rename_table(old_table_name="bionty.cellline", new_table_name="lnschema_bionty_cellline")
-        op.rename_table(old_table_name="bionty.features", new_table_name="lnschema_bionty_features")
         op.rename_table(old_table_name="bionty.pathway", new_table_name="lnschema_bionty_pathway")
         op.rename_table(old_table_name="bionty.phenotype", new_table_name="lnschema_bionty_phenotype")
         op.rename_table(old_table_name="bionty.readout", new_table_name="lnschema_bionty_readout")
@@ -33,7 +32,6 @@ def upgrade() -> None:
         op.rename_table(old_table_name="tissue", new_table_name="lnschema_bionty_tissue", schema="bionty")
         op.rename_table(old_table_name="disease", new_table_name="lnschema_bionty_disease", schema="bionty")
         op.rename_table(old_table_name="cellline", new_table_name="lnschema_bionty_cellline", schema="bionty")
-        op.rename_table(old_table_name="features", new_table_name="lnschema_bionty_features", schema="bionty")
         op.rename_table(old_table_name="pathway", new_table_name="lnschema_bionty_pathway", schema="bionty")
         op.rename_table(old_table_name="phenotype", new_table_name="lnschema_bionty_phenotype", schema="bionty")
         op.rename_table(old_table_name="readout", new_table_name="lnschema_bionty_readout", schema="bionty")
@@ -49,7 +47,6 @@ def upgrade() -> None:
         op.execute("alter table bionty.lnschema_bionty_tissue set schema public")
         op.execute("alter table bionty.lnschema_bionty_disease set schema public")
         op.execute("alter table bionty.lnschema_bionty_cellline set schema public")
-        op.execute("alter table bionty.lnschema_bionty_features set schema public")
         op.execute("alter table bionty.lnschema_bionty_pathway set schema public")
         op.execute("alter table bionty.lnschema_bionty_phenotype set schema public")
         op.execute("alter table bionty.lnschema_bionty_readout set schema public")
