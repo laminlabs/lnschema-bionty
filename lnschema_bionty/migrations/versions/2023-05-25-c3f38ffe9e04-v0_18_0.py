@@ -24,6 +24,8 @@ def upgrade() -> None:
         op.rename_table(old_table_name="bionty.features_protein", new_table_name="lnschema_bionty_featuresprotein")
         op.rename_table(old_table_name="bionty.features_cellmarker", new_table_name="lnschema_bionty_featurescellmarker")
         op.rename_table(old_table_name="bionty.file_readout", new_table_name="lnschema_bionty_filereadout")
+        op.rename_table(old_table_name="bionty.bionty_versions", new_table_name="lnschema_bionty_biontyversions")
+        op.rename_table(old_table_name="bionty.current_bionty_versions", new_table_name="lnschema_bionty_currentbiontyversions")
     else:
         op.rename_table(old_table_name="species", new_table_name="lnschema_bionty_species", schema="bionty")
         op.rename_table(old_table_name="gene", new_table_name="lnschema_bionty_gene", schema="bionty")
@@ -39,6 +41,8 @@ def upgrade() -> None:
         op.rename_table(old_table_name="features_protein", new_table_name="lnschema_bionty_featuresprotein", schema="bionty")
         op.rename_table(old_table_name="features_cell_marker", new_table_name="lnschema_bionty_featurescellmarker", schema="bionty")
         op.rename_table(old_table_name="file_readout", new_table_name="lnschema_bionty_filereadout", schema="bionty")
+        op.rename_table(old_table_name="bionty_versions", new_table_name="lnschema_bionty_biontyversions", schema="bionty")
+        op.rename_table(old_table_name="current_bionty_versions", new_table_name="lnschema_bionty_currentbiontyversions", schema="bionty")
         # there seems to be a bug in alembic autogenerate that doesn't pick this up
         op.execute("alter table bionty.lnschema_bionty_species set schema public")
         op.execute("alter table bionty.lnschema_bionty_gene set schema public")
@@ -54,6 +58,8 @@ def upgrade() -> None:
         op.execute("alter table bionty.lnschema_bionty_featuresprotein set schema public")
         op.execute("alter table bionty.lnschema_bionty_featurescellmarker set schema public")
         op.execute("alter table bionty.lnschema_bionty_filereadout set schema public")
+        op.execute("alter table bionty.lnschema_bionty_biontyversions set schema public")
+        op.execute("alter table bionty.lnschema_bionty_currentbiontyversions set schema public")
 
 
 def downgrade() -> None:
