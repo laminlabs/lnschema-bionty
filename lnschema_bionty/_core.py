@@ -24,7 +24,7 @@ class Species(SQLModel, table=True):  # type: ignore
     name: str = Field(default=None, index=True, unique=True)
     taxon_id: int = Field(default=None, index=True, unique=True)
     scientific_name: str = Field(default=None, index=True, unique=True)
-    created_by: str = CreatedBy
+    created_by_id: Optional[str] = CreatedBy
     created_at: datetime = CreatedAt
     updated_at: Optional[datetime] = UpdatedAt
 
@@ -50,7 +50,7 @@ class Gene(SQLModel, table=True):  # type: ignore
         back_populates="genes",
         sa_relationship_kwargs=dict(secondary=FeaturesGene.__table__),
     )
-    created_by: str = CreatedBy
+    created_by_id: Optional[str] = CreatedBy
     created_at: datetime = CreatedAt
     updated_at: Optional[datetime] = UpdatedAt
 
@@ -78,7 +78,7 @@ class Protein(SQLModel, table=True):  # type: ignore
         back_populates="proteins",
         sa_relationship_kwargs=dict(secondary=FeaturesProtein.__table__),
     )
-    created_by: str = CreatedBy
+    created_by_id: Optional[str] = CreatedBy
     created_at: datetime = CreatedAt
     updated_at: Optional[datetime] = UpdatedAt
 
@@ -105,7 +105,7 @@ class CellMarker(SQLModel, table=True):  # type: ignore
         back_populates="cell_markers",
         sa_relationship_kwargs=dict(secondary=FeaturesCellMarker.__table__),
     )
-    created_by: str = CreatedBy
+    created_by_id: Optional[str] = CreatedBy
     created_at: datetime = CreatedAt
     updated_at: Optional[datetime] = UpdatedAt
 
@@ -120,7 +120,7 @@ class Tissue(SQLModel, table=True):  # type: ignore
     id: str = Field(default_factory=idg.tissue, primary_key=True)
     ontology_id: str = Field(default=None, index=True, unique=True)
     name: str = Field(default=None, index=True)
-    created_by: str = CreatedBy
+    created_by_id: Optional[str] = CreatedBy
     created_at: datetime = CreatedAt
     updated_at: Optional[datetime] = UpdatedAt
 
@@ -134,7 +134,7 @@ class CellType(SQLModel, table=True):  # type: ignore
     id: str = Field(default_factory=idg.cell_type, primary_key=True)
     ontology_id: str = Field(default=None, index=True, unique=True)
     name: str = Field(default=None, index=True)
-    created_by: str = CreatedBy
+    created_by_id: Optional[str] = CreatedBy
     created_at: datetime = CreatedAt
     updated_at: Optional[datetime] = UpdatedAt
 
@@ -146,7 +146,7 @@ class Disease(SQLModel, table=True):  # type: ignore
     id: str = Field(default_factory=idg.disease, primary_key=True)
     ontology_id: str = Field(default=None, index=True, unique=True)
     name: str = Field(default=None, index=True)
-    created_by: str = CreatedBy
+    created_by_id: Optional[str] = CreatedBy
     created_at: datetime = CreatedAt
     updated_at: Optional[datetime] = UpdatedAt
 
@@ -160,7 +160,7 @@ class CellLine(SQLModel, table=True):  # type: ignore
     id: str = Field(default_factory=idg.cell_line, primary_key=True)
     ontology_id: str = Field(default=None, index=True, unique=True)
     name: str = Field(default=None, index=True)
-    created_by: str = CreatedBy
+    created_by_id: Optional[str] = CreatedBy
     created_at: datetime = CreatedAt
     updated_at: Optional[datetime] = UpdatedAt
 
@@ -172,7 +172,7 @@ class Pathway(SQLModel, table=True):  # type: ignore
     id: str = Field(default_factory=idg.pathway, primary_key=True)
     ontology_id: str = Field(default=None, index=True, unique=True)
     name: str = Field(default=None, index=True)
-    created_by: str = CreatedBy
+    created_by_id: Optional[str] = CreatedBy
     created_at: datetime = CreatedAt
     updated_at: Optional[datetime] = UpdatedAt
 
@@ -184,7 +184,7 @@ class Phenotype(SQLModel, table=True):  # type: ignore
     id: str = Field(default_factory=idg.phenotype, primary_key=True)
     ontology_id: str = Field(default=None, index=True, unique=True)
     name: str = Field(default=None, index=True)
-    created_by: str = CreatedBy
+    created_by_id: Optional[str] = CreatedBy
     created_at: datetime = CreatedAt
     updated_at: Optional[datetime] = UpdatedAt
 
@@ -199,7 +199,7 @@ class Readout(SQLModel, table=True):  # type: ignore
     molecule: Optional[str] = None
     instrument: Optional[str] = None
     measurement: Optional[str] = None
-    created_by: str = CreatedBy
+    created_by_id: Optional[str] = CreatedBy
     created_at: datetime = CreatedAt
     updated_at: Optional[datetime] = UpdatedAt
 

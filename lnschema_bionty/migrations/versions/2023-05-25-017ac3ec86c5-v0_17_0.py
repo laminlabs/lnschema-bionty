@@ -12,7 +12,7 @@ def upgrade() -> None:
     sqlite, prefix, schema, delim = get_sqlite_prefix_schema_delim_from_alembic()
 
     with op.batch_alter_table(f"{prefix}cell_line", schema=schema) as batch_op:
-        batch_op.add_column(sa.Column("created_by", sqlmodel.sql.sqltypes.AutoString(), nullable=False))
+        batch_op.add_column(sa.Column("created_by_id", sqlmodel.sql.sqltypes.AutoString(), nullable=True))
         batch_op.add_column(
             sa.Column(
                 "created_at",
@@ -46,7 +46,7 @@ def upgrade() -> None:
         )
 
     with op.batch_alter_table(f"{prefix}cell_marker", schema=schema) as batch_op:
-        batch_op.add_column(sa.Column("created_by", sqlmodel.sql.sqltypes.AutoString(), nullable=False))
+        batch_op.add_column(sa.Column("created_by_id", sqlmodel.sql.sqltypes.AutoString(), nullable=True))
         batch_op.add_column(
             sa.Column(
                 "created_at",
@@ -80,7 +80,7 @@ def upgrade() -> None:
         )
 
     with op.batch_alter_table(f"{prefix}cell_type", schema=schema) as batch_op:
-        batch_op.add_column(sa.Column("created_by", sqlmodel.sql.sqltypes.AutoString(), nullable=False))
+        batch_op.add_column(sa.Column("created_by_id", sqlmodel.sql.sqltypes.AutoString(), nullable=True))
         batch_op.add_column(
             sa.Column(
                 "created_at",
@@ -114,7 +114,7 @@ def upgrade() -> None:
         )
 
     with op.batch_alter_table(f"{prefix}disease", schema=schema) as batch_op:
-        batch_op.add_column(sa.Column("created_by", sqlmodel.sql.sqltypes.AutoString(), nullable=False))
+        batch_op.add_column(sa.Column("created_by_id", sqlmodel.sql.sqltypes.AutoString(), nullable=True))
         batch_op.add_column(
             sa.Column(
                 "created_at",
@@ -148,7 +148,7 @@ def upgrade() -> None:
         )
 
     with op.batch_alter_table(f"{prefix}gene", schema=schema) as batch_op:
-        batch_op.add_column(sa.Column("created_by", sqlmodel.sql.sqltypes.AutoString(), nullable=False))
+        batch_op.add_column(sa.Column("created_by_id", sqlmodel.sql.sqltypes.AutoString(), nullable=True))
         batch_op.add_column(
             sa.Column(
                 "created_at",
@@ -170,7 +170,7 @@ def upgrade() -> None:
         )
 
     with op.batch_alter_table(f"{prefix}pathway", schema=schema) as batch_op:
-        batch_op.add_column(sa.Column("created_by", sqlmodel.sql.sqltypes.AutoString(), nullable=False))
+        batch_op.add_column(sa.Column("created_by_id", sqlmodel.sql.sqltypes.AutoString(), nullable=True))
         batch_op.add_column(
             sa.Column(
                 "created_at",
@@ -204,7 +204,7 @@ def upgrade() -> None:
         )
 
     with op.batch_alter_table(f"{prefix}phenotype", schema=schema) as batch_op:
-        batch_op.add_column(sa.Column("created_by", sqlmodel.sql.sqltypes.AutoString(), nullable=False))
+        batch_op.add_column(sa.Column("created_by_id", sqlmodel.sql.sqltypes.AutoString(), nullable=True))
         batch_op.add_column(
             sa.Column(
                 "created_at",
@@ -238,7 +238,7 @@ def upgrade() -> None:
         )
 
     with op.batch_alter_table(f"{prefix}protein", schema=schema) as batch_op:
-        batch_op.add_column(sa.Column("created_by", sqlmodel.sql.sqltypes.AutoString(), nullable=False))
+        batch_op.add_column(sa.Column("created_by_id", sqlmodel.sql.sqltypes.AutoString(), nullable=True))
         batch_op.add_column(
             sa.Column(
                 "created_at",
@@ -272,7 +272,7 @@ def upgrade() -> None:
         )
 
     with op.batch_alter_table(f"{prefix}species", schema=schema) as batch_op:
-        batch_op.add_column(sa.Column("created_by", sqlmodel.sql.sqltypes.AutoString(), nullable=False))
+        batch_op.add_column(sa.Column("created_by_id", sqlmodel.sql.sqltypes.AutoString(), nullable=True))
         batch_op.add_column(
             sa.Column(
                 "created_at",
@@ -306,7 +306,7 @@ def upgrade() -> None:
         )
 
     with op.batch_alter_table(f"{prefix}tissue", schema=schema) as batch_op:
-        batch_op.add_column(sa.Column("created_by", sqlmodel.sql.sqltypes.AutoString(), nullable=False))
+        batch_op.add_column(sa.Column("created_by_id", sqlmodel.sql.sqltypes.AutoString(), nullable=True))
         batch_op.add_column(
             sa.Column(
                 "created_at",
