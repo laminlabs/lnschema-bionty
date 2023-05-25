@@ -1,6 +1,7 @@
 from datetime import datetime as datetime
 from typing import Optional
 
+import sqlalchemy as sa
 from lnschema_core import Features, File
 from lnschema_core._timestamps import CreatedAt, UpdatedAt
 from lnschema_core._users import CreatedBy
@@ -34,16 +35,16 @@ class Gene(SQLModel, table=True):  # type: ignore
     """Genes."""
 
     id: str = Field(default_factory=idg.gene, primary_key=True)
-    ensembl_gene_id: Optional[str] = Field(default=None, index=True)
-    symbol: Optional[str] = Field(default=None, index=True)
-    gene_type: Optional[str] = Field(default=None, index=True)
+    ensembl_gene_id: str = Field(default=None, index=True)
+    symbol: str = Field(default=None, index=True)
+    gene_type: str = Field(default=None, index=True)
     description: Optional[str] = None
     ncbi_gene_id: int = Field(default=None, index=True)
-    hgnc_id: Optional[str] = Field(default=None, index=True)
-    mgi_id: Optional[str] = Field(default=None, index=True)
-    omim_id: Optional[int] = Field(default=None, index=True)
-    synonyms: Optional[str] = Field(default=None, index=True)
-    species_id: Optional[str] = Field(default=None, foreign_key="bionty.species.id", index=True)
+    hgnc_id: str = Field(default=None, index=True)
+    mgi_id: str = Field(default=None, index=True)
+    omim_id: int = Field(default=None, index=True)
+    synonyms: str = Field(default=None, index=True)
+    species_id: str = Field(default=None, foreign_key="bionty.species.id", index=True)
     species: Species = Relationship()
     version: Optional[str] = None
     features: Features = Relationship(
@@ -66,14 +67,14 @@ class Protein(SQLModel, table=True):  # type: ignore
     name: str = Field(default=None, index=True)
     uniprotkb_id: str = Field(default=None, index=True)
     uniprotkb_name: str = Field(default=None, index=True)
-    protein_names: Optional[str] = Field(default=None, index=True)
+    protein_names: str = Field(default=None, index=True)
     length: Optional[int] = None
     species_id: str = Field(default=None, foreign_key="bionty.species.id")
     species: Species = Relationship()
     gene_symbols: Optional[str] = None
     gene_synonyms: Optional[str] = None
-    ensembl_transcript_ids: Optional[str] = Field(default=None, index=True)
-    ncbi_gene_ids: Optional[str] = Field(default=None, index=True)
+    ensembl_transcript_ids: str = Field(default=None, index=True)
+    ncbi_gene_ids: str = Field(default=None, index=True)
     features: Features = Relationship(
         back_populates="proteins",
         sa_relationship_kwargs=dict(secondary=FeaturesProtein.__table__),
@@ -94,11 +95,11 @@ class CellMarker(SQLModel, table=True):  # type: ignore
 
     id: str = Field(default_factory=idg.cell_marker, primary_key=True)
     name: str = Field(default=None, index=True, unique=True)
-    ncbi_gene_id: Optional[str] = Field(default=None, index=True)
-    gene_symbol: Optional[str] = Field(default=None, index=True)
-    gene_name: Optional[str] = Field(default=None, index=True)
-    uniprotkb_id: Optional[str] = Field(default=None, index=True)
-    synonyms: Optional[str] = Field(default=None, index=True)
+    ncbi_gene_id: str = Field(default=None, index=True)
+    gene_symbol: str = Field(default=None, index=True)
+    gene_name: str = Field(default=None, index=True)
+    uniprotkb_id: str = Field(default=None, index=True)
+    synonyms: str = Field(default=None, index=True)
     species_id: str = Field(default=None, foreign_key="bionty.species.id")
     species: Species = Relationship()
     features: Features = Relationship(
@@ -117,9 +118,13 @@ Features.cell_markers = relationship(CellMarker, back_populates="features", seco
 class Tissue(SQLModel, table=True):  # type: ignore
     """Tissues."""
 
+    __table_args__ = (sa.UniqueConstraint("name", "ontology_id", name="uq_tissue_name_ontology_id"),)
+
     id: str = Field(default_factory=idg.tissue, primary_key=True)
-    ontology_id: str = Field(default=None, index=True, unique=True)
     name: str = Field(default=None, index=True)
+    short_name: str = Field(default=None, index=True)
+    synonyms: str = Field(default=None, index=True)
+    ontology_id: str = Field(default=None, index=True)
     created_by: str = CreatedBy
     created_at: datetime = CreatedAt
     updated_at: Optional[datetime] = UpdatedAt
@@ -131,9 +136,13 @@ class CellType(SQLModel, table=True):  # type: ignore
 
     __tablename__ = f"{prefix}cell_type"
 
+    __table_args__ = (sa.UniqueConstraint("name", "ontology_id", name="uq_cell_type_name_ontology_id"),)
+
     id: str = Field(default_factory=idg.cell_type, primary_key=True)
-    ontology_id: str = Field(default=None, index=True, unique=True)
     name: str = Field(default=None, index=True)
+    short_name: str = Field(default=None, index=True)
+    synonyms: str = Field(default=None, index=True)
+    ontology_id: str = Field(default=None, index=True)
     created_by: str = CreatedBy
     created_at: datetime = CreatedAt
     updated_at: Optional[datetime] = UpdatedAt
@@ -143,9 +152,13 @@ class CellType(SQLModel, table=True):  # type: ignore
 class Disease(SQLModel, table=True):  # type: ignore
     """Diseases."""
 
+    __table_args__ = (sa.UniqueConstraint("name", "ontology_id", name="uq_disease_name_ontology_id"),)
+
     id: str = Field(default_factory=idg.disease, primary_key=True)
-    ontology_id: str = Field(default=None, index=True, unique=True)
     name: str = Field(default=None, index=True)
+    short_name: str = Field(default=None, index=True)
+    synonyms: str = Field(default=None, index=True)
+    ontology_id: str = Field(default=None, index=True)
     created_by: str = CreatedBy
     created_at: datetime = CreatedAt
     updated_at: Optional[datetime] = UpdatedAt
@@ -157,9 +170,13 @@ class CellLine(SQLModel, table=True):  # type: ignore
 
     __tablename__ = f"{prefix}cell_line"
 
+    __table_args__ = (sa.UniqueConstraint("name", "ontology_id", name="uq_cell_line_name_ontology_id"),)
+
     id: str = Field(default_factory=idg.cell_line, primary_key=True)
-    ontology_id: str = Field(default=None, index=True, unique=True)
     name: str = Field(default=None, index=True)
+    short_name: str = Field(default=None, index=True)
+    synonyms: str = Field(default=None, index=True)
+    ontology_id: str = Field(default=None, index=True)
     created_by: str = CreatedBy
     created_at: datetime = CreatedAt
     updated_at: Optional[datetime] = UpdatedAt
@@ -169,9 +186,13 @@ class CellLine(SQLModel, table=True):  # type: ignore
 class Pathway(SQLModel, table=True):  # type: ignore
     """Pathways."""
 
+    __table_args__ = (sa.UniqueConstraint("name", "ontology_id", name="uq_pathway_name_ontology_id"),)
+
     id: str = Field(default_factory=idg.pathway, primary_key=True)
-    ontology_id: str = Field(default=None, index=True, unique=True)
     name: str = Field(default=None, index=True)
+    short_name: str = Field(default=None, index=True)
+    synonyms: str = Field(default=None, index=True)
+    ontology_id: str = Field(default=None, index=True)
     created_by: str = CreatedBy
     created_at: datetime = CreatedAt
     updated_at: Optional[datetime] = UpdatedAt
@@ -181,9 +202,13 @@ class Pathway(SQLModel, table=True):  # type: ignore
 class Phenotype(SQLModel, table=True):  # type: ignore
     """Phenotypes."""
 
+    __table_args__ = (sa.UniqueConstraint("name", "ontology_id", name="uq_phenotype_name_ontology_id"),)
+
     id: str = Field(default_factory=idg.phenotype, primary_key=True)
-    ontology_id: str = Field(default=None, index=True, unique=True)
     name: str = Field(default=None, index=True)
+    short_name: str = Field(default=None, index=True)
+    synonyms: str = Field(default=None, index=True)
+    ontology_id: str = Field(default=None, index=True)
     created_by: str = CreatedBy
     created_at: datetime = CreatedAt
     updated_at: Optional[datetime] = UpdatedAt
@@ -194,8 +219,10 @@ class Readout(SQLModel, table=True):  # type: ignore
     """Biological readouts."""
 
     id: str = Field(default_factory=idg.readout, primary_key=True)
+    name: Optional[str] = Field(default=None, index=True)
+    short_name: str = Field(default=None, index=True)
+    synonyms: str = Field(default=None, index=True)
     efo_id: Optional[str] = Field(default=None, unique=True, index=True)
-    name: Optional[str] = None
     molecule: Optional[str] = None
     instrument: Optional[str] = None
     measurement: Optional[str] = None
