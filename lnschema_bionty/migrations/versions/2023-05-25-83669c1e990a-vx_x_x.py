@@ -31,29 +31,6 @@ def upgrade() -> None:
             unique=False,
         )
         batch_op.create_unique_constraint("uq_cell_line_name_ontology_id", ["name", "ontology_id"])
-        batch_op.create_foreign_key(
-            batch_op.f(f"fk_bionty{delim}cell_line_created_by_user"),
-            "user",
-            ["created_by"],
-            ["id"],
-            referent_schema="core",
-        )
-
-    with op.batch_alter_table(f"{prefix}cell_marker", schema=schema) as batch_op:
-        batch_op.create_foreign_key(
-            batch_op.f(f"fk_bionty{delim}cell_marker_species_id_species"),
-            "species",
-            ["species_id"],
-            ["id"],
-            referent_schema="bionty",
-        )
-        batch_op.create_foreign_key(
-            batch_op.f(f"fk_bionty{delim}cell_marker_created_by_user"),
-            "user",
-            ["created_by"],
-            ["id"],
-            referent_schema="core",
-        )
 
     with op.batch_alter_table(f"{prefix}cell_type", schema=schema) as batch_op:
         batch_op.add_column(sa.Column("short_name", sqlmodel.sql.sqltypes.AutoString(), nullable=True))
@@ -75,13 +52,6 @@ def upgrade() -> None:
             unique=False,
         )
         batch_op.create_unique_constraint("uq_cell_type_name_ontology_id", ["name", "ontology_id"])
-        batch_op.create_foreign_key(
-            batch_op.f(f"fk_bionty{delim}cell_type_created_by_user"),
-            "user",
-            ["created_by"],
-            ["id"],
-            referent_schema="core",
-        )
 
     with op.batch_alter_table(f"{prefix}disease", schema=schema) as batch_op:
         batch_op.add_column(sa.Column("short_name", sqlmodel.sql.sqltypes.AutoString(), nullable=True))
@@ -99,29 +69,6 @@ def upgrade() -> None:
         )
         batch_op.create_index(batch_op.f(f"ix_bionty{delim}disease_synonyms"), ["synonyms"], unique=False)
         batch_op.create_unique_constraint("uq_disease_name_ontology_id", ["name", "ontology_id"])
-        batch_op.create_foreign_key(
-            batch_op.f(f"fk_bionty{delim}disease_created_by_user"),
-            "user",
-            ["created_by"],
-            ["id"],
-            referent_schema="core",
-        )
-
-    with op.batch_alter_table(f"{prefix}gene", schema=schema) as batch_op:
-        batch_op.create_foreign_key(
-            batch_op.f(f"fk_bionty{delim}gene_species_id_species"),
-            "species",
-            ["species_id"],
-            ["id"],
-            referent_schema="bionty",
-        )
-        batch_op.create_foreign_key(
-            batch_op.f(f"fk_bionty{delim}gene_created_by_user"),
-            "user",
-            ["created_by"],
-            ["id"],
-            referent_schema="core",
-        )
 
     with op.batch_alter_table(f"{prefix}pathway", schema=schema) as batch_op:
         batch_op.add_column(sa.Column("short_name", sqlmodel.sql.sqltypes.AutoString(), nullable=True))
@@ -139,13 +86,6 @@ def upgrade() -> None:
         )
         batch_op.create_index(batch_op.f(f"ix_bionty{delim}pathway_synonyms"), ["synonyms"], unique=False)
         batch_op.create_unique_constraint("uq_pathway_name_ontology_id", ["name", "ontology_id"])
-        batch_op.create_foreign_key(
-            batch_op.f(f"fk_bionty{delim}pathway_created_by_user"),
-            "user",
-            ["created_by"],
-            ["id"],
-            referent_schema="core",
-        )
 
     with op.batch_alter_table(f"{prefix}phenotype", schema=schema) as batch_op:
         batch_op.add_column(sa.Column("short_name", sqlmodel.sql.sqltypes.AutoString(), nullable=True))
@@ -167,29 +107,6 @@ def upgrade() -> None:
             unique=False,
         )
         batch_op.create_unique_constraint("uq_phenotype_name_ontology_id", ["name", "ontology_id"])
-        batch_op.create_foreign_key(
-            batch_op.f(f"fk_bionty{delim}phenotype_created_by_user"),
-            "user",
-            ["created_by"],
-            ["id"],
-            referent_schema="core",
-        )
-
-    with op.batch_alter_table(f"{prefix}protein", schema=schema) as batch_op:
-        batch_op.create_foreign_key(
-            batch_op.f(f"fk_bionty{delim}protein_created_by_user"),
-            "user",
-            ["created_by"],
-            ["id"],
-            referent_schema="core",
-        )
-        batch_op.create_foreign_key(
-            batch_op.f(f"fk_bionty{delim}protein_species_id_species"),
-            "species",
-            ["species_id"],
-            ["id"],
-            referent_schema="bionty",
-        )
 
     with op.batch_alter_table(f"{prefix}readout", schema=schema) as batch_op:
         batch_op.add_column(sa.Column("short_name", sqlmodel.sql.sqltypes.AutoString(), nullable=True))
@@ -201,15 +118,6 @@ def upgrade() -> None:
             unique=False,
         )
         batch_op.create_index(batch_op.f(f"ix_bionty{delim}readout_synonyms"), ["synonyms"], unique=False)
-
-    with op.batch_alter_table(f"{prefix}species", schema=schema) as batch_op:
-        batch_op.create_foreign_key(
-            batch_op.f(f"fk_bionty{delim}species_created_by_user"),
-            "user",
-            ["created_by"],
-            ["id"],
-            referent_schema="core",
-        )
 
     with op.batch_alter_table(f"{prefix}tissue", schema=schema) as batch_op:
         batch_op.add_column(sa.Column("short_name", sqlmodel.sql.sqltypes.AutoString(), nullable=True))
@@ -227,13 +135,6 @@ def upgrade() -> None:
         )
         batch_op.create_index(batch_op.f(f"ix_bionty{delim}tissue_synonyms"), ["synonyms"], unique=False)
         batch_op.create_unique_constraint("uq_tissue_name_ontology_id", ["name", "ontology_id"])
-        batch_op.create_foreign_key(
-            batch_op.f(f"fk_bionty{delim}tissue_created_by_user"),
-            "user",
-            ["created_by"],
-            ["id"],
-            referent_schema="core",
-        )
 
 
 def downgrade() -> None:
