@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
+:ambulance: Fix last migration | [98](https://github.com/laminlabs/lnschema-bionty/pull/98) | [falexwolf](https://github.com/falexwolf) | 2023-05-25 |
 🍱 Add CreatedBy and CreatedAt to all entities | [95](https://github.com/laminlabs/lnschema-bionty/pull/95) | [sunnyosun](https://github.com/sunnyosun) | 2023-05-25 | 0.17.0
 🚚 Rename bt.Entity to bt.Bionty | [94](https://github.com/laminlabs/lnschema-bionty/pull/94) | [sunnyosun](https://github.com/sunnyosun) | 2023-05-25 |
 ⬆️ Upgrade to bionty 0.13 | [92](https://github.com/laminlabs/lnschema-bionty/pull/92) | [sunnyosun](https://github.com/sunnyosun) | 2023-05-09 | 0.16.4
