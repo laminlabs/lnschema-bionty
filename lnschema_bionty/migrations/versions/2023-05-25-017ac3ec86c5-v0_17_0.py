@@ -9,7 +9,7 @@ from packaging import version
 revision = "017ac3ec86c5"
 down_revision = "3bd9e094a433"
 
-if version.parse(lnschema_core.__version__) >= version.parse("0.43a2"):
+if version.parse(lnschema_core.__version__) >= version.parse("0.34a2"):
     user_table_name = "lnschema_core_user"
     referent_schema = "public"
 else:
