@@ -28,17 +28,17 @@ def upgrade() -> None:
         op.rename_table(old_table_name="species", new_table_name="lnschema_bionty_species", schema="bionty")
         op.rename_table(old_table_name="gene", new_table_name="lnschema_bionty_gene", schema="bionty")
         op.rename_table(old_table_name="protein", new_table_name="lnschema_bionty_protein", schema="bionty")
-        op.rename_table(old_table_name="cellmarker", new_table_name="lnschema_bionty_cellmarker", schema="bionty")
+        op.rename_table(old_table_name="cell_marker", new_table_name="lnschema_bionty_cellmarker", schema="bionty")
         op.rename_table(old_table_name="tissue", new_table_name="lnschema_bionty_tissue", schema="bionty")
         op.rename_table(old_table_name="disease", new_table_name="lnschema_bionty_disease", schema="bionty")
-        op.rename_table(old_table_name="cellline", new_table_name="lnschema_bionty_cellline", schema="bionty")
+        op.rename_table(old_table_name="cell_line", new_table_name="lnschema_bionty_cellline", schema="bionty")
         op.rename_table(old_table_name="pathway", new_table_name="lnschema_bionty_pathway", schema="bionty")
         op.rename_table(old_table_name="phenotype", new_table_name="lnschema_bionty_phenotype", schema="bionty")
         op.rename_table(old_table_name="readout", new_table_name="lnschema_bionty_readout", schema="bionty")
         op.rename_table(old_table_name="features_gene", new_table_name="lnschema_bionty_featuresgene", schema="bionty")
         op.rename_table(old_table_name="features_protein", new_table_name="lnschema_bionty_featuresprotein", schema="bionty")
-        op.rename_table(old_table_name="features_cellmarker", new_table_name="lnschema_bionty_featurescellmarker", schema="bionty")
-        op.rename_table(old_table_name="features_readout", new_table_name="lnschema_bionty_featuresreadout", schema="bionty")
+        op.rename_table(old_table_name="features_cell_marker", new_table_name="lnschema_bionty_featurescellmarker", schema="bionty")
+        op.rename_table(old_table_name="file_readout", new_table_name="lnschema_bionty_filereadout", schema="bionty")
         # there seems to be a bug in alembic autogenerate that doesn't pick this up
         op.execute("alter table bionty.lnschema_bionty_species set schema public")
         op.execute("alter table bionty.lnschema_bionty_gene set schema public")
@@ -53,7 +53,7 @@ def upgrade() -> None:
         op.execute("alter table bionty.lnschema_bionty_featuresgene set schema public")
         op.execute("alter table bionty.lnschema_bionty_featuresprotein set schema public")
         op.execute("alter table bionty.lnschema_bionty_featurescellmarker set schema public")
-        op.execute("alter table bionty.lnschema_bionty_featuresreadout set schema public")
+        op.execute("alter table bionty.lnschema_bionty_filereadout set schema public")
 
 
 def downgrade() -> None:
