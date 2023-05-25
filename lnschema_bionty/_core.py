@@ -4,16 +4,21 @@ from typing import Optional
 from lnschema_core import Features, File
 from lnschema_core._timestamps import CreatedAt, UpdatedAt
 from lnschema_core._users import CreatedBy
-from lnschema_core.dev.sqlmodel import schema_sqlmodel
+from lnschema_core.dev.sqlmodel import get_orm, schema_sqlmodel
 from sqlalchemy.orm import relationship
 from sqlmodel import Field, Relationship
 
+from . import __name__ as module_name
 from . import _name as schema_name
 from ._link import FeaturesCellMarker, FeaturesGene, FeaturesProtein, FileReadout
 from .dev import id as idg
 from .dev._bionty import knowledge
 
-SQLModel, prefix, schema_arg = schema_sqlmodel(schema_name)
+# this is for backward compat
+schema_sqlmodel(schema_name)
+
+# this is the current way
+SQLModel = get_orm(module_name)
 
 
 @knowledge
@@ -43,7 +48,7 @@ class Gene(SQLModel, table=True):  # type: ignore
     mgi_id: Optional[str] = Field(default=None, index=True)
     omim_id: Optional[int] = Field(default=None, index=True)
     synonyms: Optional[str] = Field(default=None, index=True)
-    species_id: Optional[str] = Field(default=None, foreign_key="bionty.species.id", index=True)
+    species_id: Optional[str] = Field(default=None, foreign_key="lnschema_bionty_species.id", index=True)
     species: Species = Relationship()
     version: Optional[str] = None
     features: Features = Relationship(
@@ -68,7 +73,7 @@ class Protein(SQLModel, table=True):  # type: ignore
     uniprotkb_name: str = Field(default=None, index=True)
     protein_names: Optional[str] = Field(default=None, index=True)
     length: Optional[int] = None
-    species_id: str = Field(default=None, foreign_key="bionty.species.id")
+    species_id: str = Field(default=None, foreign_key="lnschema_bionty_species.id")
     species: Species = Relationship()
     gene_symbols: Optional[str] = None
     gene_synonyms: Optional[str] = None
@@ -90,8 +95,6 @@ Features.proteins = relationship(Protein, back_populates="features", secondary=F
 class CellMarker(SQLModel, table=True):  # type: ignore
     """Cell markers."""
 
-    __tablename__ = f"{prefix}cell_marker"
-
     id: str = Field(default_factory=idg.cell_marker, primary_key=True)
     name: str = Field(default=None, index=True, unique=True)
     ncbi_gene_id: Optional[str] = Field(default=None, index=True)
@@ -99,7 +102,7 @@ class CellMarker(SQLModel, table=True):  # type: ignore
     gene_name: Optional[str] = Field(default=None, index=True)
     uniprotkb_id: Optional[str] = Field(default=None, index=True)
     synonyms: Optional[str] = Field(default=None, index=True)
-    species_id: str = Field(default=None, foreign_key="bionty.species.id")
+    species_id: str = Field(default=None, foreign_key="lnschema_bionty_species.id")
     species: Species = Relationship()
     features: Features = Relationship(
         back_populates="cell_markers",
@@ -129,8 +132,6 @@ class Tissue(SQLModel, table=True):  # type: ignore
 class CellType(SQLModel, table=True):  # type: ignore
     """Cell types."""
 
-    __tablename__ = f"{prefix}cell_type"
-
     id: str = Field(default_factory=idg.cell_type, primary_key=True)
     ontology_id: str = Field(default=None, index=True, unique=True)
     name: str = Field(default=None, index=True)
@@ -154,8 +155,6 @@ class Disease(SQLModel, table=True):  # type: ignore
 @knowledge
 class CellLine(SQLModel, table=True):  # type: ignore
     """Cell lines."""
-
-    __tablename__ = f"{prefix}cell_line"
 
     id: str = Field(default_factory=idg.cell_line, primary_key=True)
     ontology_id: str = Field(default=None, index=True, unique=True)
