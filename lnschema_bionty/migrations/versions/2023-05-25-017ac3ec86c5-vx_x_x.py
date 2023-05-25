@@ -42,6 +42,7 @@ def upgrade() -> None:
             "core.user",
             ["created_by"],
             ["id"],
+            referent_schema="core",
         )
 
     with op.batch_alter_table("bionty.cell_marker", schema=schema) as batch_op:
@@ -75,6 +76,7 @@ def upgrade() -> None:
             "core.user",
             ["created_by"],
             ["id"],
+            referent_schema="core",
         )
 
     with op.batch_alter_table("bionty.cell_type", schema=schema) as batch_op:
@@ -108,6 +110,7 @@ def upgrade() -> None:
             "core.user",
             ["created_by"],
             ["id"],
+            referent_schema="core",
         )
 
     with op.batch_alter_table("bionty.disease", schema=schema) as batch_op:
@@ -141,6 +144,7 @@ def upgrade() -> None:
             "core.user",
             ["created_by"],
             ["id"],
+            referent_schema="core",
         )
 
     with op.batch_alter_table("bionty.gene", schema=schema) as batch_op:
@@ -162,6 +166,7 @@ def upgrade() -> None:
             "core.user",
             ["created_by"],
             ["id"],
+            referent_schema="core",
         )
 
     with op.batch_alter_table("bionty.pathway", schema=schema) as batch_op:
@@ -195,6 +200,7 @@ def upgrade() -> None:
             "core.user",
             ["created_by"],
             ["id"],
+            referent_schema="core",
         )
 
     with op.batch_alter_table("bionty.phenotype", schema=schema) as batch_op:
@@ -228,6 +234,7 @@ def upgrade() -> None:
             "core.user",
             ["created_by"],
             ["id"],
+            referent_schema="core",
         )
 
     with op.batch_alter_table("bionty.protein", schema=schema) as batch_op:
@@ -261,6 +268,7 @@ def upgrade() -> None:
             "core.user",
             ["created_by"],
             ["id"],
+            referent_schema="core",
         )
 
     with op.batch_alter_table("bionty.species", schema=schema) as batch_op:
@@ -294,6 +302,7 @@ def upgrade() -> None:
             "core.user",
             ["created_by"],
             ["id"],
+            referent_schema="core",
         )
 
     with op.batch_alter_table("bionty.tissue", schema=schema) as batch_op:
@@ -327,6 +336,7 @@ def upgrade() -> None:
             "core.user",
             ["created_by"],
             ["id"],
+            referent_schema="core",
         )
 
 
