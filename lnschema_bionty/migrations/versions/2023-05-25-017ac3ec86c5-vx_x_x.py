@@ -39,7 +39,7 @@ def upgrade() -> None:
         )
         batch_op.create_foreign_key(
             batch_op.f(f"fk_bionty{delim}cell_line_created_by_user"),
-            "core.user",
+            "user",
             ["created_by"],
             ["id"],
             referent_schema="core",
@@ -73,7 +73,7 @@ def upgrade() -> None:
         )
         batch_op.create_foreign_key(
             batch_op.f(f"fk_bionty{delim}cell_marker_created_by_user"),
-            "core.user",
+            "user",
             ["created_by"],
             ["id"],
             referent_schema="core",
@@ -107,7 +107,7 @@ def upgrade() -> None:
         )
         batch_op.create_foreign_key(
             batch_op.f(f"fk_bionty{delim}cell_type_created_by_user"),
-            "core.user",
+            "user",
             ["created_by"],
             ["id"],
             referent_schema="core",
@@ -141,7 +141,7 @@ def upgrade() -> None:
         )
         batch_op.create_foreign_key(
             batch_op.f(f"fk_bionty{delim}disease_created_by_user"),
-            "core.user",
+            "user",
             ["created_by"],
             ["id"],
             referent_schema="core",
@@ -163,7 +163,7 @@ def upgrade() -> None:
         batch_op.create_index(batch_op.f(f"ix_bionty{delim}gene_updated_at"), ["updated_at"], unique=False)
         batch_op.create_foreign_key(
             batch_op.f(f"fk_bionty{delim}gene_created_by_user"),
-            "core.user",
+            "user",
             ["created_by"],
             ["id"],
             referent_schema="core",
@@ -197,7 +197,7 @@ def upgrade() -> None:
         )
         batch_op.create_foreign_key(
             batch_op.f(f"fk_bionty{delim}pathway_created_by_user"),
-            "core.user",
+            "user",
             ["created_by"],
             ["id"],
             referent_schema="core",
@@ -231,7 +231,7 @@ def upgrade() -> None:
         )
         batch_op.create_foreign_key(
             batch_op.f(f"fk_bionty{delim}phenotype_created_by_user"),
-            "core.user",
+            "user",
             ["created_by"],
             ["id"],
             referent_schema="core",
@@ -265,7 +265,7 @@ def upgrade() -> None:
         )
         batch_op.create_foreign_key(
             batch_op.f(f"fk_bionty{delim}protein_created_by_user"),
-            "core.user",
+            "user",
             ["created_by"],
             ["id"],
             referent_schema="core",
@@ -299,7 +299,7 @@ def upgrade() -> None:
         )
         batch_op.create_foreign_key(
             batch_op.f(f"fk_bionty{delim}species_created_by_user"),
-            "core.user",
+            "user",
             ["created_by"],
             ["id"],
             referent_schema="core",
@@ -333,7 +333,7 @@ def upgrade() -> None:
         )
         batch_op.create_foreign_key(
             batch_op.f(f"fk_bionty{delim}tissue_created_by_user"),
-            "core.user",
+            "user",
             ["created_by"],
             ["id"],
             referent_schema="core",
