@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
+🏷️ Restored Optional type annotation | [99](https://github.com/laminlabs/lnschema-bionty/pull/99) | [sunnyosun](https://github.com/sunnyosun) | 2023-05-26 |
 🏗️ Remove SQL-level schema modules | [96](https://github.com/laminlabs/lnschema-bionty/pull/96) | [falexwolf](https://github.com/falexwolf) | 2023-05-25 | 0.18a2
 🚑 Fix last migration | [98](https://github.com/laminlabs/lnschema-bionty/pull/98) | [falexwolf](https://github.com/falexwolf) | 2023-05-25 | 0.17.1
 🍱 Add CreatedBy and CreatedAt to all entities | [95](https://github.com/laminlabs/lnschema-bionty/pull/95) | [sunnyosun](https://github.com/sunnyosun) | 2023-05-25 | 0.17.0
