@@ -17,7 +17,7 @@ dependencies = [
     "nbproject",
     "sqlmodel",
     "lnschema_core>=0.34a2",
-    "bionty>=0.14.0",
+    "bionty>=0.15.0",
     "requests",
 ]
 
@@ -32,7 +32,7 @@ dev = [
 test = [
     "pytest>=6.0",
     "pytest-cov",
-    "lamindb>=0.39.3",
+    "lamindb>=0.41a3",
 ]
 
 [tool.black]
