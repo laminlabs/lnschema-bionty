@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
+🚑 Fix table name for id_encoder | [101](https://github.com/laminlabs/lnschema-bionty/pull/101) | [sunnyosun](https://github.com/sunnyosun) | 2023-05-27 |
 ⬆️ Update lamindb and bionty versions | [100](https://github.com/laminlabs/lnschema-bionty/pull/100) | [sunnyosun](https://github.com/sunnyosun) | 2023-05-27 |
 🏷️ Restored Optional type annotation | [99](https://github.com/laminlabs/lnschema-bionty/pull/99) | [sunnyosun](https://github.com/sunnyosun) | 2023-05-26 |
 🏗️ Remove SQL-level schema modules | [96](https://github.com/laminlabs/lnschema-bionty/pull/96) | [falexwolf](https://github.com/falexwolf) | 2023-05-25 | 0.18a2
