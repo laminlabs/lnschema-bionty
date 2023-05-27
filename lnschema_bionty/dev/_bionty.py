@@ -6,7 +6,7 @@ from lamin_logger import logger
 
 from ..dev import id
 
-config_bionty_species = "human"
+config_bionty_species = None
 
 
 # https://stackoverflow.com/questions/128573/using-property-on-classmethods/64738850#64738850
@@ -63,10 +63,13 @@ def knowledge(sqlmodel_class):
     Entity = getattr(bt, name)
 
     def init_entity():
-        try:
-            return Entity(species=config_bionty_species)
-        except TypeError:
-            # For the Species entity
+        if config_bionty_species is not None:
+            try:
+                return Entity(species=config_bionty_species)
+            except TypeError:
+                # For the Species entity
+                return Entity()
+        else:
             return Entity()
 
     @classproperty
