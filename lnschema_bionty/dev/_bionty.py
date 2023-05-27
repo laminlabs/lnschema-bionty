@@ -108,7 +108,10 @@ def knowledge(sqlmodel_class):
 
     def _encode_id(pydantic_attrs: dict):
         if "id" in pydantic_attrs:
-            id_encoder = getattr(id, sqlmodel_class.__table__.name.replace("lnschema_bionty_", ""))
+            id_encoder = getattr(
+                id,
+                sqlmodel_class.__table__.name.replace("lnschema_bionty_", "").repalce("_", ""),
+            )
             pydantic_attrs["id"] = id_encoder(pydantic_attrs["id"])
         return pydantic_attrs
 
