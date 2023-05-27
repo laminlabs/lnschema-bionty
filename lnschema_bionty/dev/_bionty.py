@@ -34,9 +34,6 @@ def fields_from_knowledge(
         kwargs = df.loc[v].to_dict()
         kwargs[k] = v
         if "ontology_id" in kwargs:
-            # TODO: save to Readout.df() like others
-            if entity._entity == "readout":
-                kwargs = entity.get(kwargs["ontology_id"])
             kwargs["id"] = kwargs["ontology_id"]
     pydantic_attrs = kwargs
     return pydantic_attrs
