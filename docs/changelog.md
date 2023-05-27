@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
+🚑 Fix 0.18.0 sqlite migration script | [103](https://github.com/laminlabs/lnschema-bionty/pull/103) | [sunnyosun](https://github.com/sunnyosun) | 2023-05-27 |
 ✨ Add `synonyms`, `definition`, `short_name` columns | [102](https://github.com/laminlabs/lnschema-bionty/pull/102) | [sunnyosun](https://github.com/sunnyosun) | 2023-05-27 | 0.18a5
 🚑 Fix table name for id_encoder | [101](https://github.com/laminlabs/lnschema-bionty/pull/101) | [sunnyosun](https://github.com/sunnyosun) | 2023-05-27 |
 ⬆️ Update lamindb and bionty versions | [100](https://github.com/laminlabs/lnschema-bionty/pull/100) | [sunnyosun](https://github.com/sunnyosun) | 2023-05-27 |
