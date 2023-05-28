@@ -168,7 +168,11 @@ def upgrade() -> None:
         )
         batch_op.add_column(sa.Column("updated_at", sa.DateTime(), nullable=True))
         batch_op.create_index(batch_op.f(f"ix_bionty{delim}gene_created_at"), ["created_at"], unique=False)
-        batch_op.create_index(batch_op.f(f"ix_bionty{delim}gene_created_by"), ["created_by_id"], unique=False)
+        batch_op.create_index(
+            batch_op.f(f"ix_bionty{delim}gene_created_by"),
+            ["created_by_id"],
+            unique=False,
+        )
         batch_op.create_index(batch_op.f(f"ix_bionty{delim}gene_updated_at"), ["updated_at"], unique=False)
         batch_op.create_foreign_key(
             batch_op.f(f"fk_bionty{delim}gene_created_by_user"),
@@ -347,6 +351,13 @@ def upgrade() -> None:
             ["id"],
             referent_schema=referent_schema,
         )
+
+    op.alter_column(
+        table_name=f"{prefix}readout",
+        column_name="created_by",
+        new_column_name="created_by_id",
+        schema=schema,
+    )
 
 
 def downgrade() -> None:
