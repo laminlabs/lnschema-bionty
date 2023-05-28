@@ -1,22 +1,8 @@
-import sys
 from typing import Optional
 
 import bionty as bt
 
 from ..dev import id
-
-
-# https://stackoverflow.com/questions/128573/using-property-on-classmethods/64738850#64738850
-class classproperty(object):
-    def __init__(self, fget):
-        self.fget = fget
-
-    def __get__(self, owner_self, owner_cls):
-        """Get."""
-        if "sphinx" not in sys.modules:
-            return self.fget(owner_cls)
-        else:
-            return "sphinx-build: property"
 
 
 def fields_from_knowledge(
@@ -34,16 +20,6 @@ def fields_from_knowledge(
             kwargs["id"] = kwargs["ontology_id"]
     pydantic_attrs = kwargs
     return pydantic_attrs
-
-
-def set_attributes(model, pydantic_attrs):
-    if len(pydantic_attrs) == 0:
-        return
-
-    for k, v in pydantic_attrs.items():
-        if k not in model.__fields__:
-            continue
-        model.__setattr__(k, v)
 
 
 def knowledge(sqlmodel_class):
@@ -111,50 +87,7 @@ def knowledge(sqlmodel_class):
 
         orig_init(self, **kwargs)
 
-    # def __init__(
-    #     self,
-    #     database: Optional[str] = None,
-    #     version: Optional[str] = None,
-    #     species: Optional[str] = None,
-    #     knowledge_coupling: Optional[bool] = None,
-    #     **kwargs,
-    # ):
-    #     orig_init(self, **kwargs)
-
-    #     if knowledge_coupling is None:
-    #         if name in features_entities:
-    #             knowledge_coupling = False
-    #         else:
-    #             knowledge_coupling = True
-
-    #     if knowledge_coupling:
-    #         pydantic_attrs = fields_from_knowledge(locals=kwargs, entity=entity)
-    #         set_attributes(self, pydantic_attrs)
-
-    # def __new__(
-    #     cls,
-    #     database: Optional[str] = None,
-    #     version: Optional[str] = None,
-    #     species: Optional[str] = None,
-    #     knowledge_coupling: bool = True,
-    #     **kwargs,
-    # ):
-    #     entity_kwargs = {
-    #         k: v
-    #         for k, v in locals().items()
-    #         if v is not None and k in ["database", "version", "species"]
-    #     }
-    #     if database is not None or species is not None:
-    #         return Entity(**entity_kwargs)
-    #     else:
-    #         return orig_new(cls)
-
-    # def __call__(cls, knowledge_coupling=True, **kwargs):
-    #     return sqlmodel_class(knowledge_coupling=knowledge_coupling, **kwargs)
-
     sqlmodel_class.__init__ = __init__
-    # sqlmodel_class.__new__ = __new__
-    # Entity.__call__ = __call__
     sqlmodel_class.from_bionty = from_bionty
     sqlmodel_class.bionty = bionty
 
