@@ -3,7 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
-🚑 Fix created_by_id in Readout | [106](https://github.com/laminlabs/lnschema-bionty/pull/106) | [sunnyosun](https://github.com/sunnyosun) | 2023-05-28 | 0.18a7
+🚑 Fix created_by_id in Readout | [106](https://github.com/laminlabs/lnschema-bionty/pull/106) | [sunnyosun](https://github.com/sunnyosun) | 2023-05-28 | 0.18a8
 🎨 Change .bionty to a method | [105](https://github.com/laminlabs/lnschema-bionty/pull/105) | [sunnyosun](https://github.com/sunnyosun) | 2023-05-28 |
 🚑 Default species to None and not pass to Bionty | [104](https://github.com/laminlabs/lnschema-bionty/pull/104) | [sunnyosun](https://github.com/sunnyosun) | 2023-05-27 | 0.18a6
 🚑 Fix 0.18.0 sqlite migration script | [103](https://github.com/laminlabs/lnschema-bionty/pull/103) | [sunnyosun](https://github.com/sunnyosun) | 2023-05-27 |
