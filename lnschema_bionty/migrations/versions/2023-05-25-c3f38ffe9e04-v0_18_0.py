@@ -36,7 +36,7 @@ def upgrade() -> None:
             new_table_name="lnschema_bionty_featuresprotein",
         )
         op.rename_table(
-            old_table_name="bionty.features_cellmarker",
+            old_table_name="bionty.features_cell_marker",
             new_table_name="lnschema_bionty_featurescellmarker",
         )
         op.rename_table(

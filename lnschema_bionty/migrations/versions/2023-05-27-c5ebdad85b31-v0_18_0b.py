@@ -156,8 +156,6 @@ def upgrade() -> None:
     op.create_index(op.f("ix_lnschema_bionty_protein_uniprotkb_name"), "lnschema_bionty_protein", ["uniprotkb_name"], unique=False)
     op.create_index(op.f("ix_lnschema_bionty_protein_updated_at"), "lnschema_bionty_protein", ["updated_at"], unique=False)
 
-    op.alter_column("lnschema_bionty_readout", "created_by_id", existing_type=sa.VARCHAR(), nullable=True)
-
     op.drop_index(f"ix_bionty{delim}readout_created_at", table_name="lnschema_bionty_readout")
     op.drop_index(f"ix_bionty{delim}readout_created_by", table_name="lnschema_bionty_readout")
     op.drop_index(f"ix_bionty{delim}readout_efo_id", table_name="lnschema_bionty_readout")
