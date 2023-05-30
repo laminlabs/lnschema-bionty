@@ -216,8 +216,7 @@ class Pathway(SQLModel, table=True):  # type: ignore
     created_at: datetime = CreatedAt
     updated_at: Optional[datetime] = UpdatedAt
 
-    genes: File = Relationship(
-        back_populates="pathways",
+    genes: Gene = Relationship(
         sa_relationship_kwargs=dict(secondary=PathwayGene.__table__),
     )
 
