@@ -1,6 +1,7 @@
-from typing import Optional
+from typing import Optional, Union
 
 import bionty as bt
+from sqlmodel import SQLModel
 
 from ..dev import id
 
@@ -9,17 +10,39 @@ def fields_from_knowledge(
     locals: dict,
     entity: bt.Bionty,
 ):
-    kwargs = {}
-    for k, v in locals.items():
-        df = entity.df().reset_index().set_index(k)
-        if v not in df.index:
-            continue
-        kwargs = df.loc[v].to_dict()
-        kwargs[k] = v
-        if "ontology_id" in kwargs:
-            kwargs["id"] = kwargs["ontology_id"]
-    pydantic_attrs = kwargs
-    return pydantic_attrs
+    df = entity.df().reset_index()
+    bionty_dict = {}
+    if len(locals) > 1:
+        raise AssertionError("Only 1 kwarg can be passed when populating fields from bionty!")
+    elif len(locals) == 1:
+        k = next(iter(locals))
+        v = locals[k]
+        try:
+            bionty_dict = df.set_index(k).loc[v].to_dict()
+        except KeyError:
+            raise ValueError(f"No entry is found in bionty reference table with '{k}={v}'!\n Try passing a species other than {entity.species}!")
+        bionty_dict[k] = v
+        if "ontology_id" in bionty_dict:
+            bionty_dict["id"] = bionty_dict["ontology_id"]
+
+    return bionty_dict
+
+
+def create_species_record(species: Union[str, SQLModel]):
+    if isinstance(species, SQLModel):
+        species_record = species
+    elif isinstance(species, str):
+        import lamindb as ln
+
+        from .._core import Species
+
+        species_record = ln.select(Species, name=species).one_or_none()
+        if species_record is None:
+            species_record = Species.from_bionty(name=species)
+    else:
+        raise TypeError("species must be a string or a SQLModel record!")
+
+    return species_record
 
 
 def knowledge(sqlmodel_class):
@@ -35,40 +58,24 @@ def knowledge(sqlmodel_class):
     def from_bionty(
         cls,
         lookup_result: Optional[tuple] = None,
-        species: Optional[str] = None,
+        species: Union[str, SQLModel, None] = None,
         **kwargs,
     ):
         """Auto-complete additional fields based on bionty reference."""
+        if species is not None:
+            species = create_species_record(species)
+
         if isinstance(lookup_result, tuple) and lookup_result is not None:
-            return sqlmodel_class(lookup_result=lookup_result)
+            return sqlmodel_class(lookup_result=lookup_result, species=species)
         else:
-            entity = sqlmodel_class.bionty() if species is None else sqlmodel_class.bionty(species=species)
-            pydantic_attrs = fields_from_knowledge(locals=kwargs, entity=entity)
-            if len(pydantic_attrs) == 0:
-                raise ValueError(f"No entry is found in bionty reference table with {kwargs}!\nTry passing a species other than '{entity.species}'!")
-            pydantic_attrs = _encode_id(pydantic_attrs)
-            if "species_id" not in pydantic_attrs and "species" not in pydantic_attrs:
-                pydantic_attrs = _add_species(pydantic_attrs, species=species)
-            return sqlmodel_class(**pydantic_attrs)
+            entity = sqlmodel_class.bionty() if species is None else sqlmodel_class.bionty(species=species.name)
+            bionty_dict = fields_from_knowledge(locals=kwargs, entity=entity)
+            bionty_dict = _encode_id(bionty_dict)
 
-    def _add_species(
-        pydantic_attrs: dict,
-        species: Optional[str] = None,
-    ):
-        if "species_id" in sqlmodel_class.__fields__:
-            import lamindb as ln
+            if "species_id" in sqlmodel_class.__fields__ and species is not None:
+                bionty_dict["species"] = species
 
-            from .._core import Species
-
-            if species is None:
-                # using the default species
-                species = sqlmodel_class.bionty().species
-            sp = ln.select(Species, name=species).one_or_none()
-            if sp is None:
-                sp = Species.from_bionty(name=species)
-            pydantic_attrs["species"] = sp
-
-        return pydantic_attrs
+            return sqlmodel_class(**bionty_dict)
 
     def _encode_id(pydantic_attrs: dict):
         if "id" in pydantic_attrs:
@@ -80,10 +87,14 @@ def knowledge(sqlmodel_class):
 
     def __init__(self, lookup_result: Optional[tuple] = None, **kwargs):
         if isinstance(lookup_result, tuple) and lookup_result is not None:
-            kwargs = lookup_result._asdict()  # type:ignore
-            kwargs = _encode_id(kwargs)
-            if "species_id" not in kwargs and "species" not in kwargs:
-                kwargs = _add_species(kwargs)
+            lookup_dict = lookup_result._asdict()  # type:ignore
+            lookup_dict = _encode_id(lookup_dict)
+            if "species_id" in sqlmodel_class.__fields__:
+                if "species" not in kwargs and "species_id" not in kwargs:
+                    raise AssertionError("Must specify a species!")
+                elif kwargs["species"] is not None:
+                    lookup_dict["species"] = create_species_record(kwargs["species"])
+            kwargs = lookup_dict
 
         orig_init(self, **kwargs)
 
