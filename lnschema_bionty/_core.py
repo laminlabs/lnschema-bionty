@@ -217,8 +217,12 @@ class Pathway(SQLModel, table=True):  # type: ignore
     updated_at: Optional[datetime] = UpdatedAt
 
     genes: Gene = Relationship(
+        back_populates="pathways",
         sa_relationship_kwargs=dict(secondary=PathwayGene.__table__),
     )
+
+
+Gene.pathways = relationship(Pathway, back_populates="genes", secondary=PathwayGene.__table__)
 
 
 @knowledge
