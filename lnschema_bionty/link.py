@@ -7,6 +7,7 @@
    FeaturesProtein
    FeaturesCellMarker
    FileReadout
+   PathwayGene
 """
 
 from ._link import (  # noqa
@@ -14,4 +15,5 @@ from ._link import (  # noqa
     FeaturesGene,
     FeaturesProtein,
     FileReadout,
+    PathwayGene,
 )
