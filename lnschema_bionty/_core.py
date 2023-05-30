@@ -11,7 +11,13 @@ from sqlmodel import Field, Relationship
 
 from . import __name__ as module_name
 from . import _name as schema_name
-from ._link import FeaturesCellMarker, FeaturesGene, FeaturesProtein, FileReadout
+from ._link import (
+    FeaturesCellMarker,
+    FeaturesGene,
+    FeaturesProtein,
+    FileReadout,
+    PathwayGene,
+)
 from .dev import id as idg
 from .dev._bionty import knowledge
 
@@ -209,6 +215,11 @@ class Pathway(SQLModel, table=True):  # type: ignore
     created_by_id: Optional[str] = CreatedBy
     created_at: datetime = CreatedAt
     updated_at: Optional[datetime] = UpdatedAt
+
+    genes: File = Relationship(
+        back_populates="pathways",
+        sa_relationship_kwargs=dict(secondary=PathwayGene.__table__),
+    )
 
 
 @knowledge

@@ -36,3 +36,10 @@ class FileReadout(SQLModel, table=True):  # type: ignore
 
     file_id: str = Field(foreign_key=f"{prefix}file.id", primary_key=True)
     readout_id: str = Field(foreign_key="lnschema_bionty_readout.id", primary_key=True)
+
+
+class PathwayGene(SQLModel, table=True):  # type: ignore
+    """Links for `Pathway` and `Gene`."""
+
+    pathway_id: str = Field(foreign_key="lnschema_bionty_pathway.id", primary_key=True)
+    gene_id: str = Field(foreign_key="lnschema_bionty_gene.id", primary_key=True)
