@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
+🚑 Must pass a species when creating record from lookup | [108](https://github.com/laminlabs/lnschema-bionty/pull/108) | [sunnyosun](https://github.com/sunnyosun) | 2023-05-30 |
 ✨ Added `Pathway.genes` | [107](https://github.com/laminlabs/lnschema-bionty/pull/107) | [sunnyosun](https://github.com/sunnyosun) | 2023-05-30 | 0.18.1
 🚑 Fix created_by_id in Readout | [106](https://github.com/laminlabs/lnschema-bionty/pull/106) | [sunnyosun](https://github.com/sunnyosun) | 2023-05-28 | 0.18.0
 🎨 Change .bionty to a method | [105](https://github.com/laminlabs/lnschema-bionty/pull/105) | [sunnyosun](https://github.com/sunnyosun) | 2023-05-28 |
