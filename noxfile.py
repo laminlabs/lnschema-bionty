@@ -1,12 +1,6 @@
 import nox
 from laminci import move_built_docs_to_docs_slash_project_slug, upload_docs_artifact
-from laminci.nox import (
-    build_docs,
-    login_testuser1,
-    run_pre_commit,
-    run_pytest,
-    setup_test_instances_from_main_branch,
-)
+from laminci.nox import build_docs, login_testuser1, run_pre_commit, run_pytest
 
 nox.options.reuse_existing_virtualenvs = True
 
@@ -18,8 +12,6 @@ def lint(session: nox.Session) -> None:
 
 @nox.session(python=["3.7", "3.8", "3.9", "3.10", "3.11"])
 def build(session):
-    login_testuser1(session)
-    setup_test_instances_from_main_branch(session)
     session.install(".[dev,test]")
     session.install("requests")
     import requests  # type: ignore
@@ -29,6 +21,7 @@ def build(session):
         session.install("git+https://github.com/laminlabs/lamindb@staging")
     else:
         session.install("git+https://github.com/laminlabs/lamindb")
+    login_testuser1(session)
     run_pytest(session)
     build_docs(session)
     upload_docs_artifact()
