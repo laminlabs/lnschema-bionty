@@ -13,7 +13,6 @@ def lint(session: nox.Session) -> None:
 @nox.session(python=["3.7", "3.8", "3.9", "3.10", "3.11"])
 def build(session):
     session.install(".[dev,test]")
-    session.install("requests")
     session.install("git+https://github.com/laminlabs/lamindb")
     login_testuser1(session)
     run_pytest(session)
