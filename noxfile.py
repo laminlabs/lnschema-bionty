@@ -1,5 +1,4 @@
 import nox
-import requests  # type: ignore
 from laminci import move_built_docs_to_docs_slash_project_slug, upload_docs_artifact
 from laminci.nox import (
     build_docs,
@@ -22,6 +21,9 @@ def build(session):
     login_testuser1(session)
     setup_test_instances_from_main_branch(session)
     session.install(".[dev,test]")
+    session.install("requests")
+    import requests  # type: ignore
+
     response = requests.get("https://github.com/laminlabs/lamindb/tree/staging")
     if response.status_code < 400:
         session.install("git+https://github.com/laminlabs/lamindb@staging")
