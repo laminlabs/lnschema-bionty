@@ -15,7 +15,7 @@ def build(session):
     session.install(".[dev,test]")
     session.install("git+https://github.com/laminlabs/lamindb")
     login_testuser1(session)
-    session.install(*"lamin init ./test-bionty --schema bionty".split())
+    session.run(*"lamin init ./test-bionty --schema bionty".split())
     run_pytest(session)
     build_docs(session)
     upload_docs_artifact()
