@@ -5,15 +5,19 @@ from laminci.nox import build_docs, login_testuser1, run_pre_commit, run_pytest
 nox.options.default_venv_backend = "none"
 
 
-@nox.session(python=["3.7", "3.8", "3.9", "3.10", "3.11"])
+@nox.session
 def lint(session: nox.Session) -> None:
     run_pre_commit(session)
 
 
-@nox.session(python=["3.7", "3.8", "3.9", "3.10", "3.11"])
-def build(session):
+@nox.session
+def install(session: nox.Session):
     session.run(*"pip install .[dev,test]".split())
-    session.run(*"pip install git+https://github.com/laminlabs/lamindb".split())
+    session.run(*"pip install lamindb".split())
+
+
+@nox.session
+def build(session: nox.Session):
     login_testuser1(session)
     session.run(*"lamin init --storage ./test-bionty --schema bionty".split())
     run_pytest(session)

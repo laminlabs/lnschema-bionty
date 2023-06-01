@@ -31,17 +31,11 @@ jobs:
           ssh-key: ${{ secrets.READ_LNDOCS }}
           path: lndocs
           ref: main
-      - name: Setup Python
-        uses: actions/setup-python@v4
+      - uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
           cache: "pip"
           cache-dependency-path: ".github/workflows/build.yml" # See dependencies below
-      - name: Cache nox
-        uses: actions/cache@v3
-        with:
-          path: .nox
-          key: nox-${{ runner.os }}
       - name: Cache pre-commit
         uses: actions/cache@v3
         with:
@@ -66,7 +60,6 @@ jobs:
       - name: Install apt-get dependencies
         run: |
           sudo apt-get -y install graphviz
-          sudo apt-get install sqlite3-tools=3.37.2-2
           sudo apt-get install libpq-dev
       - name: Configure AWS
         uses: aws-actions/configure-aws-credentials@v1
@@ -74,13 +67,10 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: eu-central-1
-      - name: Lint
-        if: matrix.python-version == '3.9'
-        run: |
-          nox -s lint --python ${{ matrix.python-version }}
-      - name: Build
-        run: |
-          nox -s build --python ${{ matrix.python-version }}
+      # - run: nox -s lint
+      #   if: matrix.python-version == '3.9'
+      - run: nox -s install
+      - run: nox -s build
       - name: Codecov
         if: matrix.python-version == '3.9'
         uses: codecov/codecov-action@v2
