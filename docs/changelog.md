@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
+🔥 Fix CI and removed migrations test | [110](https://github.com/laminlabs/lnschema-bionty/pull/110) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-01 |
 ✨ Add `add_synonym` method | [109](https://github.com/laminlabs/lnschema-bionty/pull/109) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-01 |
 🚑 Must pass a species when creating record from lookup | [108](https://github.com/laminlabs/lnschema-bionty/pull/108) | [sunnyosun](https://github.com/sunnyosun) | 2023-05-30 | 0.18.2
 ✨ Added `Pathway.genes` | [107](https://github.com/laminlabs/lnschema-bionty/pull/107) | [sunnyosun](https://github.com/sunnyosun) | 2023-05-30 | 0.18.1
