@@ -11,9 +11,13 @@ def lint(session: nox.Session) -> None:
 
 
 @nox.session
-def build(session: nox.Session):
+def install(session: nox.Session):
     session.run(*"pip install .[dev,test]".split())
-    session.run(*"pip install git+https://github.com/laminlabs/lamindb".split())
+    session.run(*"pip install lamindb".split())
+
+
+@nox.session
+def build(session: nox.Session):
     login_testuser1(session)
     session.run(*"lamin init --storage ./test-bionty --schema bionty".split())
     run_pytest(session)
