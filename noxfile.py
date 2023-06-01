@@ -14,13 +14,7 @@ def lint(session: nox.Session) -> None:
 def build(session):
     session.install(".[dev,test]")
     session.install("requests")
-    import requests  # type: ignore
-
-    response = requests.get("https://github.com/laminlabs/lamindb/tree/staging")
-    if response.status_code < 400:
-        session.install("git+https://github.com/laminlabs/lamindb@staging")
-    else:
-        session.install("git+https://github.com/laminlabs/lamindb")
+    session.install("git+https://github.com/laminlabs/lamindb")
     login_testuser1(session)
     run_pytest(session)
     build_docs(session)
