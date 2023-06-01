@@ -1,4 +1,4 @@
-from typing import Optional, Union
+from typing import Iterable, Optional, Union
 
 import bionty as bt
 from sqlmodel import SQLModel
@@ -43,6 +43,35 @@ def create_species_record(species: Union[str, SQLModel]):
         raise TypeError("species must be a string or a SQLModel record!")
 
     return species_record
+
+
+def _add_synonym(synonym: Union[str, Iterable], record: SQLModel):
+    """Append new synonym to a synonym field."""
+    # nothing happens when passing an empty string
+    if isinstance(synonym, str):
+        if len(synonym) == 0:
+            return
+        synonym = [synonym]
+    else:
+        synonym = list(synonym)
+
+    # because we use | as the separator
+    if any(["|" in i for i in synonym]):
+        raise AssertionError("A synonym can't contain '|'!")
+
+    # only add if the passed synonym aren't already in synonyms
+    synonyms = record.synonyms
+    if synonyms is None or len(synonyms) == 0:
+        synonyms_set = set()
+    else:
+        synonyms_set = set(synonyms.split("|"))
+
+    synonyms_set.update(synonym)
+
+    synonyms_updated = "|".join([s for s in synonyms_set])
+    if len(synonyms_updated) == 0:
+        synonyms_updated = None  # type:ignore
+    record.synonyms = synonyms_updated
 
 
 def knowledge(sqlmodel_class):
@@ -98,8 +127,12 @@ def knowledge(sqlmodel_class):
 
         orig_init(self, **kwargs)
 
+    def add_synonym(self, synonym: Union[str, Iterable]):
+        _add_synonym(synonym=synonym, record=self)
+
     sqlmodel_class.__init__ = __init__
     sqlmodel_class.from_bionty = from_bionty
     sqlmodel_class.bionty = bionty
+    sqlmodel_class.add_synonym = add_synonym
 
     return sqlmodel_class
