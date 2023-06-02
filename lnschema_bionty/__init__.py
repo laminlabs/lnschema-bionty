@@ -34,7 +34,7 @@ Development tools:
 _schema_id = "zdno"
 _name = "bionty"
 _migration = "ac1ac6270009"
-__version__ = "0.18.2"  # Denote a release candidate of version 0.1.0 with 0.1rc1
+__version__ = "0.18.3"  # Denote a release candidate of version 0.1.0 with 0.1rc1
 
 from . import dev, link  # noqa
 from ._core import (  # noqa

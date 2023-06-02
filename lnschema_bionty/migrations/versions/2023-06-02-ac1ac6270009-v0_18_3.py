@@ -1,4 +1,4 @@
-"""vX.X.X."""
+"""v0.18.3."""
 import sqlalchemy as sa
 import sqlmodel
 from alembic import op
