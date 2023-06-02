@@ -31,6 +31,13 @@ class FeaturesCellMarker(SQLModel, table=True):  # type: ignore
     cell_marker_id: str = Field(foreign_key="lnschema_bionty_cellmarker.id", primary_key=True)
 
 
+class FeaturesPathway(SQLModel, table=True):  # type: ignore
+    """Links for `Features` and `Pathway`."""
+
+    features_id: str = Field(foreign_key="lnschema_core_features.id", primary_key=True)
+    pathway_id: str = Field(foreign_key="lnschema_bionty_pathway.id", primary_key=True)
+
+
 class FileReadout(SQLModel, table=True):  # type: ignore
     """Links for `File` and `Readout`."""
 
