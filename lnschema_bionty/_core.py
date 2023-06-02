@@ -225,6 +225,7 @@ class Pathway(SQLModel, table=True):  # type: ignore
 
 Gene.pathways = relationship(Pathway, back_populates="genes", secondary=PathwayGene.__table__)
 Features.pathways = relationship(Pathway, secondary=FeaturesPathway.__table__)
+Features.__sqlmodel_relationships__["pathways"] = None
 
 
 @knowledge
