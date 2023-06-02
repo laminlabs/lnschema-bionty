@@ -14,6 +14,7 @@ from . import _name as schema_name
 from ._link import (
     FeaturesCellMarker,
     FeaturesGene,
+    FeaturesPathway,
     FeaturesProtein,
     FileReadout,
     PathwayGene,
@@ -223,6 +224,8 @@ class Pathway(SQLModel, table=True):  # type: ignore
 
 
 Gene.pathways = relationship(Pathway, back_populates="genes", secondary=PathwayGene.__table__)
+Features.pathways = relationship(Pathway, secondary=FeaturesPathway.__table__)
+Features.__sqlmodel_relationships__["pathways"] = None
 
 
 @knowledge
