@@ -116,3 +116,4 @@ docs/lnschema_biology.*
 lamin_sphinx
 docs/conf.py
 _docs_tmp*
+db.sqlite3

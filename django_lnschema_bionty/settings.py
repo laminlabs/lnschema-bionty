@@ -31,8 +31,8 @@ ALLOWED_HOSTS: List[str] = []
 # Application definition
 
 INSTALLED_APPS = [
-    "lnschema_core",
     "lnschema_bionty",
+    "lnschema_core",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",

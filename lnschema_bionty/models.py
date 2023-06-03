@@ -218,3 +218,25 @@ class Readout(BaseORM):
     class Meta:
         managed = True
         unique_together = (("name", "ontology_id"),)
+
+
+class BiontyVersions(BaseORM):
+    """Versions of the Bionty tables."""
+
+    id = models.BigAutoField(primary_key=True)
+    entity = models.CharField(max_length=64)
+    database = models.CharField(max_length=64)
+    database_v = models.CharField(max_length=64)
+    database_url = models.TextField(blank=True, null=True)
+    created_by = models.ForeignKey(User, models.DO_NOTHING, default=current_user_id)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+
+class CurrentBiontyVersions(BaseORM):
+    """In-use version of the knowledge tables."""
+
+    bionty_version = models.OneToOneField(BiontyVersions, models.DO_NOTHING, parent_link=True)
+    created_by = models.ForeignKey(User, models.DO_NOTHING, default=current_user_id)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
