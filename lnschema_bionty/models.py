@@ -3,8 +3,10 @@ from lnschema_core._users import current_user_id
 from lnschema_core.models import BaseORM, User
 
 from .dev import id as idg
+from .dev._bionty import knowledge
 
 
+@knowledge
 class Species(BaseORM):
     """Species."""
 
@@ -20,6 +22,7 @@ class Species(BaseORM):
         managed = True
 
 
+@knowledge
 class Gene(BaseORM):
     """Genes."""
 
@@ -44,6 +47,7 @@ class Gene(BaseORM):
         managed = True
 
 
+@knowledge
 class Protein(BaseORM):
     """Proteins."""
 
@@ -68,6 +72,7 @@ class Protein(BaseORM):
         managed = True
 
 
+@knowledge
 class CellMarker(BaseORM):
     """Cell markers."""
 
@@ -88,6 +93,7 @@ class CellMarker(BaseORM):
         managed = True
 
 
+@knowledge
 class Tissue(BaseORM):
     """Tissues."""
 
@@ -106,6 +112,7 @@ class Tissue(BaseORM):
         unique_together = (("name", "ontology_id"),)
 
 
+@knowledge
 class CellType(BaseORM):
     """Cell types."""
 
@@ -124,6 +131,7 @@ class CellType(BaseORM):
         unique_together = (("name", "ontology_id"),)
 
 
+@knowledge
 class Disease(BaseORM):
     """Diseases."""
 
@@ -142,6 +150,7 @@ class Disease(BaseORM):
         unique_together = (("name", "ontology_id"),)
 
 
+@knowledge
 class CellLine(BaseORM):
     """Cell lines."""
 
@@ -160,6 +169,7 @@ class CellLine(BaseORM):
         unique_together = (("name", "ontology_id"),)
 
 
+@knowledge
 class Phenotype(BaseORM):
     """Phenotypes."""
 
@@ -178,6 +188,7 @@ class Phenotype(BaseORM):
         unique_together = (("name", "ontology_id"),)
 
 
+@knowledge
 class Pathway(BaseORM):
     """Pathways."""
 
@@ -198,6 +209,7 @@ class Pathway(BaseORM):
         unique_together = (("name", "ontology_id"),)
 
 
+@knowledge
 class Readout(BaseORM):
     """Readouts."""
 
