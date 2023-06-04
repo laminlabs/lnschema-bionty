@@ -74,7 +74,11 @@ def _add_synonym(synonym: Union[str, Iterable], record: SQLModel):
     record.synonyms = synonyms_updated
 
 
-def knowledge(sqlmodel_class):
+def knowledge(django_class):
+    pass
+
+
+def sqlmodel_knowledge(sqlmodel_class):
     name = sqlmodel_class.__name__
     Entity = getattr(bt, name)
 
@@ -95,16 +99,20 @@ def knowledge(sqlmodel_class):
             species = create_species_record(species)
 
         if isinstance(lookup_result, tuple) and lookup_result is not None:
-            return sqlmodel_class(lookup_result=lookup_result, species=species)
+            lookup_dict = lookup_result._asdict()  # type:ignore
+            lookup_dict = _encode_id(lookup_dict)
         else:
             entity = sqlmodel_class.bionty() if species is None else sqlmodel_class.bionty(species=species.name)
             bionty_dict = fields_from_knowledge(locals=kwargs, entity=entity)
             bionty_dict = _encode_id(bionty_dict)
 
-            if "species_id" in sqlmodel_class.__fields__ and species is not None:
-                bionty_dict["species"] = species
+        if "species_id" in sqlmodel_class.__fields__:
+            if "species" not in kwargs and "species_id" not in kwargs and species is None:
+                raise AssertionError("Must specify a species!")
+            elif species is not None:
+                lookup_dict["species"] = create_species_record(species)
 
-            return sqlmodel_class(**bionty_dict)
+        return sqlmodel_class(**bionty_dict)
 
     def _encode_id(pydantic_attrs: dict):
         if "id" in pydantic_attrs:
@@ -112,25 +120,25 @@ def knowledge(sqlmodel_class):
             pydantic_attrs["id"] = id_encoder(pydantic_attrs["id"])
         return pydantic_attrs
 
-    orig_init = sqlmodel_class.__init__
+    # orig_init = sqlmodel_class.__init__
 
-    def __init__(self, lookup_result: Optional[tuple] = None, **kwargs):
-        if isinstance(lookup_result, tuple) and lookup_result is not None:
-            lookup_dict = lookup_result._asdict()  # type:ignore
-            lookup_dict = _encode_id(lookup_dict)
-            if "species_id" in sqlmodel_class.__fields__:
-                if "species" not in kwargs and "species_id" not in kwargs:
-                    raise AssertionError("Must specify a species!")
-                elif kwargs["species"] is not None:
-                    lookup_dict["species"] = create_species_record(kwargs["species"])
-            kwargs = lookup_dict
+    # def __init__(self, lookup_result: Optional[tuple] = None, **kwargs):
+    #     if isinstance(lookup_result, tuple) and lookup_result is not None:
+    #         lookup_dict = lookup_result._asdict()  # type:ignore
+    #         lookup_dict = _encode_id(lookup_dict)
+    #         if "species_id" in sqlmodel_class.__fields__:
+    #             if "species" not in kwargs and "species_id" not in kwargs:
+    #                 raise AssertionError("Must specify a species!")
+    #             elif kwargs["species"] is not None:
+    #                 lookup_dict["species"] = create_species_record(kwargs["species"])
+    #         kwargs = lookup_dict
 
-        orig_init(self, **kwargs)
+    #     orig_init(self, **kwargs)
 
     def add_synonym(self, synonym: Union[str, Iterable]):
         _add_synonym(synonym=synonym, record=self)
 
-    sqlmodel_class.__init__ = __init__
+    # sqlmodel_class.__init__ = __init__
     sqlmodel_class.from_bionty = from_bionty
     sqlmodel_class.bionty = bionty
     sqlmodel_class.add_synonym = add_synonym

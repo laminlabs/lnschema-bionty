@@ -20,7 +20,7 @@ from ._link import (
     PathwayGene,
 )
 from .dev import id as idg
-from .dev._bionty import knowledge
+from .dev._bionty import sqlmodel_knowledge
 
 # this is for backward compat
 schema_sqlmodel(schema_name)
@@ -29,7 +29,7 @@ schema_sqlmodel(schema_name)
 SQLModel = get_orm(module_name)
 
 
-@knowledge
+@sqlmodel_knowledge
 class Species(SQLModel, table=True):  # type: ignore
     """Species."""
 
@@ -43,7 +43,7 @@ class Species(SQLModel, table=True):  # type: ignore
     updated_at: Optional[datetime] = UpdatedAt
 
 
-@knowledge
+@sqlmodel_knowledge
 class Gene(SQLModel, table=True):  # type: ignore
     """Genes."""
 
@@ -73,7 +73,7 @@ class Gene(SQLModel, table=True):  # type: ignore
 Features.genes = relationship(Gene, back_populates="features", secondary=FeaturesGene.__table__)
 
 
-@knowledge
+@sqlmodel_knowledge
 class Protein(SQLModel, table=True):  # type: ignore
     """Proteins."""
 
@@ -102,7 +102,7 @@ class Protein(SQLModel, table=True):  # type: ignore
 Features.proteins = relationship(Protein, back_populates="features", secondary=FeaturesProtein.__table__)
 
 
-@knowledge
+@sqlmodel_knowledge
 class CellMarker(SQLModel, table=True):  # type: ignore
     """Cell markers."""
 
@@ -128,7 +128,7 @@ class CellMarker(SQLModel, table=True):  # type: ignore
 Features.cell_markers = relationship(CellMarker, back_populates="features", secondary=FeaturesCellMarker.__table__)
 
 
-@knowledge
+@sqlmodel_knowledge
 class Tissue(SQLModel, table=True):  # type: ignore
     """Tissues."""
 
@@ -146,7 +146,7 @@ class Tissue(SQLModel, table=True):  # type: ignore
     updated_at: Optional[datetime] = UpdatedAt
 
 
-@knowledge
+@sqlmodel_knowledge
 class CellType(SQLModel, table=True):  # type: ignore
     """Cell types."""
 
@@ -164,7 +164,7 @@ class CellType(SQLModel, table=True):  # type: ignore
     updated_at: Optional[datetime] = UpdatedAt
 
 
-@knowledge
+@sqlmodel_knowledge
 class Disease(SQLModel, table=True):  # type: ignore
     """Diseases."""
 
@@ -182,7 +182,7 @@ class Disease(SQLModel, table=True):  # type: ignore
     updated_at: Optional[datetime] = UpdatedAt
 
 
-@knowledge
+@sqlmodel_knowledge
 class CellLine(SQLModel, table=True):  # type: ignore
     """Cell lines."""
 
@@ -200,7 +200,7 @@ class CellLine(SQLModel, table=True):  # type: ignore
     updated_at: Optional[datetime] = UpdatedAt
 
 
-@knowledge
+@sqlmodel_knowledge
 class Pathway(SQLModel, table=True):  # type: ignore
     """Pathways."""
 
@@ -228,7 +228,7 @@ Features.pathways = relationship(Pathway, secondary=FeaturesPathway.__table__)
 Features.__sqlmodel_relationships__["pathways"] = None
 
 
-@knowledge
+@sqlmodel_knowledge
 class Phenotype(SQLModel, table=True):  # type: ignore
     """Phenotypes."""
 
@@ -246,7 +246,7 @@ class Phenotype(SQLModel, table=True):  # type: ignore
     updated_at: Optional[datetime] = UpdatedAt
 
 
-@knowledge
+@sqlmodel_knowledge
 class Readout(SQLModel, table=True):  # type: ignore
     """Biological readouts."""
 
