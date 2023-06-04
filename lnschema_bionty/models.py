@@ -3,10 +3,10 @@ from lnschema_core._users import current_user_id
 from lnschema_core.models import BaseORM, User
 
 from . import ids
-from ._bionty import knowledge
+from ._bionty import bionty_decorator
 
 
-@knowledge
+@bionty_decorator
 class Species(BaseORM):
     """Species."""
 
@@ -22,7 +22,7 @@ class Species(BaseORM):
         managed = True
 
 
-@knowledge
+@bionty_decorator
 class Gene(BaseORM):
     """Genes."""
 
@@ -47,7 +47,7 @@ class Gene(BaseORM):
         managed = True
 
 
-@knowledge
+@bionty_decorator
 class Protein(BaseORM):
     """Proteins."""
 
@@ -71,7 +71,7 @@ class Protein(BaseORM):
         managed = True
 
 
-@knowledge
+@bionty_decorator
 class CellMarker(BaseORM):
     """Cell markers."""
 
@@ -92,7 +92,7 @@ class CellMarker(BaseORM):
         managed = True
 
 
-@knowledge
+@bionty_decorator
 class Tissue(BaseORM):
     """Tissues."""
 
@@ -111,7 +111,7 @@ class Tissue(BaseORM):
         unique_together = (("name", "ontology_id"),)
 
 
-@knowledge
+@bionty_decorator
 class CellType(BaseORM):
     """Cell types."""
 
@@ -130,7 +130,7 @@ class CellType(BaseORM):
         unique_together = (("name", "ontology_id"),)
 
 
-@knowledge
+@bionty_decorator
 class Disease(BaseORM):
     """Diseases."""
 
@@ -149,7 +149,7 @@ class Disease(BaseORM):
         unique_together = (("name", "ontology_id"),)
 
 
-@knowledge
+@bionty_decorator
 class CellLine(BaseORM):
     """Cell lines."""
 
@@ -168,7 +168,7 @@ class CellLine(BaseORM):
         unique_together = (("name", "ontology_id"),)
 
 
-@knowledge
+@bionty_decorator
 class Phenotype(BaseORM):
     """Phenotypes."""
 
@@ -187,7 +187,7 @@ class Phenotype(BaseORM):
         unique_together = (("name", "ontology_id"),)
 
 
-@knowledge
+@bionty_decorator
 class Pathway(BaseORM):
     """Pathways."""
 
@@ -208,7 +208,7 @@ class Pathway(BaseORM):
         unique_together = (("name", "ontology_id"),)
 
 
-@knowledge
+@bionty_decorator
 class Readout(BaseORM):
     """Readouts."""
 

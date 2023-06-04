@@ -74,7 +74,7 @@ def _add_synonym(synonym: Union[str, Iterable], record: BaseORM):
     record.synonyms = synonyms_updated
 
 
-def knowledge(django_class):
+def bionty_decorator(django_class):
     name = django_class.__name__
     bionty_class = getattr(bt, name)
 
@@ -131,74 +131,3 @@ def knowledge(django_class):
     django_class.add_synonym = add_synonym
 
     return django_class
-
-
-# deprecated
-def sqlmodel_knowledge(sqlmodel_class):
-    from sqlmodel import SQLModel
-
-    name = sqlmodel_class.__name__
-    Entity = getattr(bt, name)
-
-    def create_species_record_(species: Union[str, SQLModel]):
-        if isinstance(species, SQLModel):
-            species_record = species
-        elif isinstance(species, str):
-            import lamindb as ln
-
-            from ._core import Species
-
-            species_record = ln.select(Species, name=species).one_or_none()
-            if species_record is None:
-                species_record = Species.from_bionty(name=species)
-        else:
-            raise TypeError("species must be a string or a SQLModel record!")
-
-        return species_record
-
-    @classmethod
-    def bionty(cls, **init_kwargs):
-        """Bionty object of the entity."""
-        return Entity(**init_kwargs)
-
-    @classmethod
-    def from_bionty(
-        cls,
-        lookup_result: Optional[tuple] = None,
-        species: Union[str, SQLModel, None] = None,
-        **kwargs,
-    ):
-        """Auto-complete additional fields based on bionty reference."""
-        if species is not None:
-            species = create_species_record_(species)
-
-        if isinstance(lookup_result, tuple) and lookup_result is not None:
-            lookup_dict = lookup_result._asdict()  # type:ignore
-            lookup_dict = _encode_id(lookup_dict)
-        else:
-            entity = sqlmodel_class.bionty() if species is None else sqlmodel_class.bionty(species=species.name)
-            bionty_dict = fields_from_knowledge(locals=kwargs, bionty_object=entity)
-            bionty_dict = _encode_id(bionty_dict)
-
-        if "species_id" in sqlmodel_class.__fields__:
-            if "species" not in kwargs and "species_id" not in kwargs and species is None:
-                raise AssertionError("Must specify a species!")
-            elif species is not None:
-                lookup_dict["species"] = create_species_record_(species)
-
-        return sqlmodel_class(**bionty_dict)
-
-    def _encode_id(pydantic_attrs: dict):
-        if "id" in pydantic_attrs:
-            id_encoder = getattr(id, sqlmodel_class.bionty()._entity)
-            pydantic_attrs["id"] = id_encoder(pydantic_attrs["id"])
-        return pydantic_attrs
-
-    def add_synonym(self, synonym: Union[str, Iterable]):
-        _add_synonym(synonym=synonym, record=self)
-
-    sqlmodel_class.from_bionty = from_bionty
-    sqlmodel_class.bionty = bionty
-    sqlmodel_class.add_synonym = add_synonym
-
-    return sqlmodel_class
