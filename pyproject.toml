@@ -14,11 +14,11 @@ classifiers = [
     "Programming Language :: Python :: 3.10",
 ]
 dependencies = [
-    "nbproject",
     "sqlmodel",
     "lnschema_core>=0.34",
     "bionty>=0.15.0",
-    "requests",
+    "lamin_logger",
+    "requests"
 ]
 
 [project.urls]
@@ -33,6 +33,7 @@ test = [
     "pytest>=6.0",
     "pytest-cov",
     "lamindb>=0.42a1",
+    "nbproject-test"
 ]
 
 [tool.black]
