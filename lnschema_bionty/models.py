@@ -55,8 +55,7 @@ class Protein(BaseORM):
     name = models.CharField(max_length=64, blank=True, null=True)
     uniprotkb_id = models.CharField(max_length=10, blank=True, null=True)
     uniprotkb_name = models.CharField(max_length=64, blank=True, null=True)
-    # TODO: rename to synonyms
-    protein_names = models.TextField(blank=True, null=True)
+    synonyms = models.TextField(blank=True, null=True)
     length = models.BigIntegerField()
     species = models.ForeignKey(Species, models.DO_NOTHING, blank=True, null=True)
     gene_symbols = models.TextField(blank=True, null=True)
@@ -236,13 +235,19 @@ class BiontyVersions(BaseORM):
     """Versions of the Bionty tables."""
 
     id = models.BigAutoField(primary_key=True)
-    entity = models.CharField(max_length=64)
-    database = models.CharField(max_length=64)
-    database_v = models.CharField(max_length=64)
-    database_url = models.TextField(blank=True, null=True)
+    entity = models.CharField(max_length=64, default=None)
+    source_name = models.TextField(blank=True, null=True)
+    source_key = models.CharField(max_length=64, default=None)
+    species = models.CharField(max_length=64, default=None)
+    version = models.CharField(max_length=64, default=None)
+    url = models.TextField(blank=True, null=True)
     created_by = models.ForeignKey(User, models.DO_NOTHING, default=current_user_id)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        managed = True
+        unique_together = (("entity", "source_key", "species", "version"),)
 
 
 class CurrentBiontyVersions(BaseORM):
@@ -252,3 +257,6 @@ class CurrentBiontyVersions(BaseORM):
     created_by = models.ForeignKey(User, models.DO_NOTHING, default=current_user_id)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        managed = True
