@@ -1,3 +1,22 @@
+"""IDs.
+
+Entity-related generators:
+
+.. autosummary::
+   :toctree: .
+
+   gene
+   protein
+   species
+   cell_marker
+   disease
+   tissue
+   cell_type
+   cell_line
+   pathway
+   phenotype
+   readout
+"""
 import base64
 import hashlib
 from typing import Optional

@@ -4,8 +4,6 @@ import bionty as bt
 from django.core.exceptions import ObjectDoesNotExist
 from lnschema_core.models import BaseORM
 
-from ..dev import id
-
 
 def fields_from_knowledge(
     locals: dict,
@@ -148,7 +146,7 @@ def sqlmodel_knowledge(sqlmodel_class):
         elif isinstance(species, str):
             import lamindb as ln
 
-            from .._core import Species
+            from ._core import Species
 
             species_record = ln.select(Species, name=species).one_or_none()
             if species_record is None:

@@ -4,14 +4,14 @@ import django.db.models.deletion
 import lnschema_core._users
 from django.db import migrations, models
 
-import lnschema_bionty.dev._id
+import lnschema_bionty.ids
 
 
 class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ("lnschema_core", "0007_alter_transform_name"),
+        ("lnschema_core", "0001_initial"),
     ]
 
     operations = [

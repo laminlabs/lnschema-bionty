@@ -2,15 +2,15 @@ from django.db import models
 from lnschema_core._users import current_user_id
 from lnschema_core.models import BaseORM, User
 
-from .dev import id as idg
-from .dev._bionty import knowledge
+from . import ids
+from ._bionty import knowledge
 
 
 @knowledge
 class Species(BaseORM):
     """Species."""
 
-    id = models.CharField(max_length=4, default=idg.species, primary_key=True)
+    id = models.CharField(max_length=4, default=ids.species, primary_key=True)
     name = models.CharField(max_length=64, blank=True, null=True)
     taxon_id = models.IntegerField(unique=True, blank=True, null=True)
     scientific_name = models.CharField(max_length=64, unique=True, blank=True, null=True)
@@ -26,7 +26,7 @@ class Species(BaseORM):
 class Gene(BaseORM):
     """Genes."""
 
-    id = models.CharField(max_length=8, default=idg.gene, primary_key=True)
+    id = models.CharField(max_length=8, default=ids.gene, primary_key=True)
     ensembl_gene_id = models.CharField(max_length=64, blank=True, null=True)
     symbol = models.CharField(max_length=64, blank=True, null=True)
     gene_type = models.CharField(max_length=64, blank=True, null=True)
@@ -51,7 +51,7 @@ class Gene(BaseORM):
 class Protein(BaseORM):
     """Proteins."""
 
-    id = models.CharField(max_length=8, default=idg.protein, primary_key=True)
+    id = models.CharField(max_length=8, default=ids.protein, primary_key=True)
     name = models.CharField(max_length=64, blank=True, null=True)
     uniprotkb_id = models.CharField(max_length=10, blank=True, null=True)
     uniprotkb_name = models.CharField(max_length=64, blank=True, null=True)
@@ -75,7 +75,7 @@ class Protein(BaseORM):
 class CellMarker(BaseORM):
     """Cell markers."""
 
-    id = models.CharField(max_length=8, default=idg.cell_marker, primary_key=True)
+    id = models.CharField(max_length=8, default=ids.cell_marker, primary_key=True)
     name = models.CharField(max_length=64, blank=True, null=True, unique=True)
     ncbi_gene_id = models.CharField(max_length=32, blank=True, null=True)
     gene_symbol = models.CharField(max_length=64, blank=True, null=True)
@@ -96,7 +96,7 @@ class CellMarker(BaseORM):
 class Tissue(BaseORM):
     """Tissues."""
 
-    id = models.CharField(max_length=8, default=idg.tissue, primary_key=True)
+    id = models.CharField(max_length=8, default=ids.tissue, primary_key=True)
     name = models.CharField(max_length=256, blank=True, null=True)
     short_name = models.CharField(max_length=32, blank=True, null=True)
     synonyms = models.TextField(blank=True, null=True)
@@ -115,7 +115,7 @@ class Tissue(BaseORM):
 class CellType(BaseORM):
     """Cell types."""
 
-    id = models.CharField(max_length=8, default=idg.cell_type, primary_key=True)
+    id = models.CharField(max_length=8, default=ids.cell_type, primary_key=True)
     name = models.CharField(max_length=256, blank=True, null=True)
     short_name = models.CharField(max_length=32, blank=True, null=True)
     synonyms = models.TextField(blank=True, null=True)
@@ -134,7 +134,7 @@ class CellType(BaseORM):
 class Disease(BaseORM):
     """Diseases."""
 
-    id = models.CharField(max_length=8, default=idg.disease, primary_key=True)
+    id = models.CharField(max_length=8, default=ids.disease, primary_key=True)
     name = models.CharField(max_length=256, blank=True, null=True)
     short_name = models.CharField(max_length=32, blank=True, null=True)
     synonyms = models.TextField(blank=True, null=True)
@@ -153,7 +153,7 @@ class Disease(BaseORM):
 class CellLine(BaseORM):
     """Cell lines."""
 
-    id = models.CharField(max_length=8, default=idg.cell_line, primary_key=True)
+    id = models.CharField(max_length=8, default=ids.cell_line, primary_key=True)
     name = models.CharField(max_length=256, blank=True, null=True)
     short_name = models.CharField(max_length=32, blank=True, null=True)
     synonyms = models.TextField(blank=True, null=True)
@@ -172,7 +172,7 @@ class CellLine(BaseORM):
 class Phenotype(BaseORM):
     """Phenotypes."""
 
-    id = models.CharField(max_length=8, default=idg.phenotype, primary_key=True)
+    id = models.CharField(max_length=8, default=ids.phenotype, primary_key=True)
     name = models.CharField(max_length=256, blank=True, null=True)
     short_name = models.CharField(max_length=32, blank=True, null=True)
     synonyms = models.TextField(blank=True, null=True)
@@ -191,7 +191,7 @@ class Phenotype(BaseORM):
 class Pathway(BaseORM):
     """Pathways."""
 
-    id = models.CharField(max_length=8, default=idg.pathway, primary_key=True)
+    id = models.CharField(max_length=8, default=ids.pathway, primary_key=True)
     name = models.CharField(max_length=256, blank=True, null=True)
     short_name = models.CharField(max_length=32, blank=True, null=True)
     synonyms = models.TextField(blank=True, null=True)
@@ -212,7 +212,7 @@ class Pathway(BaseORM):
 class Readout(BaseORM):
     """Readouts."""
 
-    id = models.CharField(max_length=8, default=idg.readout, primary_key=True)
+    id = models.CharField(max_length=8, default=ids.readout, primary_key=True)
     name = models.CharField(max_length=256, blank=True, null=True)
     short_name = models.CharField(max_length=32, blank=True, null=True)
     synonyms = models.TextField(blank=True, null=True)
