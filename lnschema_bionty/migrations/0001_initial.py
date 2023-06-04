@@ -47,7 +47,7 @@ class Migration(migrations.Migration):
                 (
                     "id",
                     models.CharField(
-                        default=lnschema_bionty.dev._id.species,
+                        default=lnschema_bionty.ids.species,
                         max_length=4,
                         primary_key=True,
                         serialize=False,
@@ -80,7 +80,7 @@ class Migration(migrations.Migration):
                 (
                     "id",
                     models.CharField(
-                        default=lnschema_bionty.dev._id.protein,
+                        default=lnschema_bionty.ids.protein,
                         max_length=8,
                         primary_key=True,
                         serialize=False,
@@ -132,7 +132,7 @@ class Migration(migrations.Migration):
                 (
                     "id",
                     models.CharField(
-                        default=lnschema_bionty.dev._id.gene,
+                        default=lnschema_bionty.ids.gene,
                         max_length=8,
                         primary_key=True,
                         serialize=False,
@@ -217,7 +217,7 @@ class Migration(migrations.Migration):
                 (
                     "id",
                     models.CharField(
-                        default=lnschema_bionty.dev._id.cell_marker,
+                        default=lnschema_bionty.ids.cell_marker,
                         max_length=8,
                         primary_key=True,
                         serialize=False,
@@ -272,7 +272,7 @@ class Migration(migrations.Migration):
                 (
                     "id",
                     models.CharField(
-                        default=lnschema_bionty.dev._id.tissue,
+                        default=lnschema_bionty.ids.tissue,
                         max_length=8,
                         primary_key=True,
                         serialize=False,
@@ -305,7 +305,7 @@ class Migration(migrations.Migration):
                 (
                     "id",
                     models.CharField(
-                        default=lnschema_bionty.dev._id.readout,
+                        default=lnschema_bionty.ids.readout,
                         max_length=8,
                         primary_key=True,
                         serialize=False,
@@ -342,7 +342,7 @@ class Migration(migrations.Migration):
                 (
                     "id",
                     models.CharField(
-                        default=lnschema_bionty.dev._id.phenotype,
+                        default=lnschema_bionty.ids.phenotype,
                         max_length=8,
                         primary_key=True,
                         serialize=False,
@@ -375,7 +375,7 @@ class Migration(migrations.Migration):
                 (
                     "id",
                     models.CharField(
-                        default=lnschema_bionty.dev._id.pathway,
+                        default=lnschema_bionty.ids.pathway,
                         max_length=8,
                         primary_key=True,
                         serialize=False,
@@ -410,7 +410,7 @@ class Migration(migrations.Migration):
                 (
                     "id",
                     models.CharField(
-                        default=lnschema_bionty.dev._id.disease,
+                        default=lnschema_bionty.ids.disease,
                         max_length=8,
                         primary_key=True,
                         serialize=False,
@@ -443,7 +443,7 @@ class Migration(migrations.Migration):
                 (
                     "id",
                     models.CharField(
-                        default=lnschema_bionty.dev._id.cell_type,
+                        default=lnschema_bionty.ids.cell_type,
                         max_length=8,
                         primary_key=True,
                         serialize=False,
@@ -476,7 +476,7 @@ class Migration(migrations.Migration):
                 (
                     "id",
                     models.CharField(
-                        default=lnschema_bionty.dev._id.cell_line,
+                        default=lnschema_bionty.ids.cell_line,
                         max_length=8,
                         primary_key=True,
                         serialize=False,

@@ -25,7 +25,7 @@ Home = "https://github.com/laminlabs/lnschema-bionty"
 test = [
     "pre-commit",
     "nox",
-    "requests"
+    "requests",
     "pytest>=6.0",
     "pytest-cov",
     "lamindb>=0.42a1",
