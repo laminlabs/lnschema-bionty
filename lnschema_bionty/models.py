@@ -246,6 +246,8 @@ class BiontyVersions(BaseORM):
     species = models.CharField(max_length=64, default=None)
     version = models.CharField(max_length=64, default=None)
     url = models.TextField(blank=True, null=True)
+    md5 = models.TextField(blank=True, null=True)
+    source_website = models.TextField(blank=True, null=True)
     created_by = models.ForeignKey(User, models.DO_NOTHING, default=current_user_id)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
