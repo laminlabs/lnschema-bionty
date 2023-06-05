@@ -3,7 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
-⬆️ Updated versions table | [114](https://github.com/laminlabs/lnschema-bionty/pull/114) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-05 |
+⬆️ Updated versions table | [114](https://github.com/laminlabs/lnschema-bionty/pull/114) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-05 | 0.19a2
 🚚 Migrate `lnschema-bionty` to Django | [112](https://github.com/laminlabs/lnschema-bionty/pull/112) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-05 | 0.19a1
 ➖ Remove nbproject from dependencies | [113](https://github.com/laminlabs/lnschema-bionty/pull/113) | [Koncopd](https://github.com/Koncopd) | 2023-06-04 |
 ✨ Added `Features.pathways` | [111](https://github.com/laminlabs/lnschema-bionty/pull/111) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-02 | 0.18.3
