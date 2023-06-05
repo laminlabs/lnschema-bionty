@@ -4,6 +4,8 @@ import bionty as bt
 from django.core.exceptions import ObjectDoesNotExist
 from lnschema_core.models import BaseORM
 
+from . import ids
+
 
 def fields_from_knowledge(
     locals: dict,
@@ -119,7 +121,7 @@ def bionty_decorator(django_class):
 
     def _encode_id(pydantic_attrs: dict):
         if "id" in pydantic_attrs:
-            id_encoder = getattr(id, django_class.bionty()._entity)
+            id_encoder = getattr(ids, django_class.bionty()._entity)
             pydantic_attrs["id"] = id_encoder(pydantic_attrs["id"])
         return pydantic_attrs
 
