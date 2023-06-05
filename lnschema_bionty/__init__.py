@@ -25,7 +25,7 @@ Biological entities, all initialized via `Bionty <https://lamin.ai/docs/bionty>`
 # This is lnschema-module zdno.
 _schema_id = "zdno"
 _name = "bionty"
-__version__ = "0.18.3"  # Denote a release candidate of version 0.1.0 with 0.1rc1
+__version__ = "0.19a1"  # Denote a release candidate of version 0.1.0 with 0.1rc1
 
 
 from lamindb_setup._check_instance_setup import (
