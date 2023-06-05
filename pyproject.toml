@@ -14,25 +14,21 @@ classifiers = [
     "Programming Language :: Python :: 3.10",
 ]
 dependencies = [
-    "sqlmodel",
     "lnschema_core>=0.34",
-    "bionty>=0.15.0",
-    "lamin_logger",
-    "requests"
+    "bionty==0.17a1",
 ]
 
 [project.urls]
 Home = "https://github.com/laminlabs/lnschema-bionty"
 
 [project.optional-dependencies]
-dev = [
+test = [
     "pre-commit",
     "nox",
-]
-test = [
+    "requests",
     "pytest>=6.0",
     "pytest-cov",
-    "lamindb>=0.41.2",
+    "lamindb>=0.42a1",
     "nbproject-test"
 ]
 

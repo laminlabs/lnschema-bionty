@@ -1,6 +1,6 @@
 import pytest
 
-from lnschema_bionty.dev._id import species
+from lnschema_bionty.ids import species
 
 
 def test_hash_id():
