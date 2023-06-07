@@ -21,6 +21,13 @@ Biological entities, all initialized via `Bionty <https://lamin.ai/docs/bionty>`
    Phenotype
    Readout
 
+
+Bionty sources:
+
+.. autosummary::
+   :toctree: .
+
+   BiontySource
 """
 # This is lnschema-module zdno.
 _schema_id = "zdno"
@@ -36,11 +43,10 @@ _INSTANCE_SETUP = _check_instance_setup()
 
 if _INSTANCE_SETUP:
     from .models import (  # noqa
-        BiontyVersions,
+        BiontySource,
         CellLine,
         CellMarker,
         CellType,
-        CurrentBiontyVersions,
         Disease,
         Gene,
         Pathway,
