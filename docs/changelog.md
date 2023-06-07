@@ -3,7 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
-🚚 Rename BiontyVersions to BiontySources | [115](https://github.com/laminlabs/lnschema-bionty/pull/115) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-07 |
+🚚 Rename BiontyVersions to BiontySources | [115](https://github.com/laminlabs/lnschema-bionty/pull/115) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-07 | 0.19a3
 ⬆️ Updated versions table | [114](https://github.com/laminlabs/lnschema-bionty/pull/114) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-05 | 0.19a2
 🚚 Migrate `lnschema-bionty` to Django | [112](https://github.com/laminlabs/lnschema-bionty/pull/112) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-05 | 0.19a1
 ➖ Remove nbproject from dependencies | [113](https://github.com/laminlabs/lnschema-bionty/pull/113) | [Koncopd](https://github.com/Koncopd) | 2023-06-04 |
