@@ -2,9 +2,9 @@
 
 Import the package::
 
-   import lnschema_bionty
+   import lnschema_bionty as lb
 
-Biological entities, all initialized via `Bionty <https://lamin.ai/docs/bionty>`__:
+All Bionty ORMs are coupled to `Bionty <https://lamin.ai/docs/bionty>`__ entities:
 
 .. autosummary::
    :toctree: .
