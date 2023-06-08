@@ -2,7 +2,7 @@ from typing import Iterable, Optional, Union
 
 import bionty as bt
 from django.core.exceptions import ObjectDoesNotExist
-from lnschema_core.models import BaseORM
+from django.db.models import Model
 
 from . import ids
 
@@ -31,23 +31,33 @@ def fields_from_knowledge(
     return bionty_dict
 
 
-def create_species_record(species: Union[str, BaseORM]):
-    if isinstance(species, BaseORM):
+def create_or_get_species_record(species: Union[str, Model]):
+    if isinstance(species, Model):
         species_record = species
-    elif isinstance(species, str):
+    elif isinstance(species, str) and species != "all":
         from lnschema_bionty import Species
 
         try:
             species_record = Species.objects.get(name="mouse")
         except ObjectDoesNotExist:
             species_record = Species.from_bionty(name=species)
+            species_record.save()
     else:
         raise TypeError("species must be a string or a Species record!")
 
     return species_record
 
 
-def _add_synonym(synonym: Union[str, Iterable], record: BaseORM):
+def get_bionty_object(model: Model, species: Optional[str] = None, **init_kwargs):
+    if model.__module__.startswith("lnschema_bionty."):
+        import bionty as bt
+
+        bionty_object = getattr(bt, model.__name__)(species=species, **init_kwargs)
+
+        return bionty_object
+
+
+def _add_synonym(synonym: Union[str, Iterable], record: Model):
     """Append new synonym to a synonym field."""
     # nothing happens when passing an empty string
     if isinstance(synonym, str):
@@ -77,24 +87,21 @@ def _add_synonym(synonym: Union[str, Iterable], record: BaseORM):
 
 
 def bionty_decorator(django_class):
-    name = django_class.__name__
-    bionty_class = getattr(bt, name)
-
     @classmethod
-    def bionty(cls, **init_kwargs):
+    def bionty(cls, species: Optional[str] = None, **init_kwargs):
         """Bionty object of the entity."""
-        return bionty_class(**init_kwargs)
+        return get_bionty_object(model=django_class, species=species, **init_kwargs)
 
     @classmethod
     def from_bionty(
         cls,
         lookup_result: Optional[tuple] = None,
-        species: Union[str, BaseORM, None] = None,
+        species: Union[str, Model, None] = None,
         **kwargs,
     ):
         """Auto-complete additional fields based on bionty reference."""
         if species is not None:
-            species = create_species_record(species)
+            species = create_or_get_species_record(species)
             species_name = species.name
         else:
             species_name = None
