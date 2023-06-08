@@ -31,19 +31,19 @@ def fields_from_knowledge(
     return bionty_dict
 
 
-def create_or_get_species_record(species: Union[str, Model]):
+def create_or_get_species_record(species: Union[str, Model]) -> Optional[Model]:
     if isinstance(species, Model):
         species_record = species
     elif isinstance(species, str) and species != "all":
         from lnschema_bionty import Species
 
         try:
-            species_record = Species.objects.get(name="mouse")
+            species_record = Species.objects.get(name=species)
         except ObjectDoesNotExist:
             species_record = Species.from_bionty(name=species)
             species_record.save()
     else:
-        raise TypeError("species must be a string or a Species record!")
+        species_record = None
 
     return species_record
 
@@ -102,9 +102,7 @@ def bionty_decorator(django_class):
         """Auto-complete additional fields based on bionty reference."""
         if species is not None:
             species = create_or_get_species_record(species)
-            species_name = species.name
-        else:
-            species_name = None
+        species_name = species.name if species is not None else None
 
         if isinstance(lookup_result, tuple) and lookup_result is not None:
             lookup_dict = lookup_result._asdict()  # type:ignore
