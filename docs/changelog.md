@@ -3,7 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
-🎨 Remove unnecessary null=True, blank=True | [118](https://github.com/laminlabs/lnschema-bionty/pull/118) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-08 |
+🎨 Remove unnecessary null=True, blank=True | [118](https://github.com/laminlabs/lnschema-bionty/pull/118) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-08 | 0.19a6
 🚑 Fix species type | [117](https://github.com/laminlabs/lnschema-bionty/pull/117) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-08 | 0.19a5
 ♻️ Simplified species code | [116](https://github.com/laminlabs/lnschema-bionty/pull/116) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-08 | 0.19a4
 🚚 Rename BiontyVersions to BiontySources | [115](https://github.com/laminlabs/lnschema-bionty/pull/115) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-07 | 0.19a3
