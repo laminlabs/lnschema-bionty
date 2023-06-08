@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
+♻️ Simplified species code | [116](https://github.com/laminlabs/lnschema-bionty/pull/116) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-08 |
 🚚 Rename BiontyVersions to BiontySources | [115](https://github.com/laminlabs/lnschema-bionty/pull/115) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-07 | 0.19a3
 ⬆️ Updated versions table | [114](https://github.com/laminlabs/lnschema-bionty/pull/114) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-05 | 0.19a2
 🚚 Migrate `lnschema-bionty` to Django | [112](https://github.com/laminlabs/lnschema-bionty/pull/112) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-05 | 0.19a1
