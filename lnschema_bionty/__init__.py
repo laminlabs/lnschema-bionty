@@ -9,12 +9,12 @@ All Bionty ORMs are coupled to `Bionty <https://lamin.ai/docs/bionty>`__ entitie
 .. autosummary::
    :toctree: .
 
+   Species
    Gene
    Protein
    CellMarker
    CellType
    CellLine
-   Species
    Tissue
    Disease
    Pathway
