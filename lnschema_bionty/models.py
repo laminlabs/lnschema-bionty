@@ -12,10 +12,10 @@ class Species(BaseORM):
 
     id = models.CharField(max_length=8, default=ids.species, primary_key=True)
     name = models.CharField(max_length=64, db_index=True, default=None)
-    """Name of a species."""
-    taxon_id = models.IntegerField(unique=True, db_index=True, default=None, null=True)
+    """Name of a species, required field."""
+    taxon_id = models.IntegerField(unique=True, db_index=True, null=True, default=None)
     """NCBI Taxon ID."""
-    scientific_name = models.CharField(max_length=64, db_index=True, unique=True, default=None, null=True)
+    scientific_name = models.CharField(max_length=64, db_index=True, unique=True, null=True, default=None)
     """Scientific name of a species."""
     bionty_source = models.ForeignKey("BiontySource", models.DO_NOTHING, null=True)
     """:class:`~lnschema_bionty.BiontySource` this record associates with."""
@@ -37,19 +37,19 @@ class Gene(BaseORM):
     id = models.CharField(max_length=12, default=ids.gene, primary_key=True)
     ensembl_gene_id = models.CharField(max_length=64, db_index=True)
     """Ensembl gene stable ID, in the form ENS[species prefix][feature type prefix][a unique eleven digit number]."""
-    symbol = models.CharField(max_length=64, db_index=True, default=None)
+    symbol = models.CharField(max_length=64, db_index=True, null=True, default=None)
     """A unique short form of gene name."""
-    gene_type = models.CharField(max_length=64, db_index=True)
+    gene_type = models.CharField(max_length=64, db_index=True, null=True, default=None)
     """Type of the gene."""
-    description = models.TextField(blank=True)
+    description = models.TextField(null=True, default=None)
     """Description of the gene."""
     ncbi_gene_id = models.BigIntegerField(db_index=True, null=True)
     """NCBI Gene ID, also known as Entrez Gene ID, in the form of numeric string, 1 to 9 digits."""
-    hgnc_id = models.CharField(max_length=10, db_index=True)
+    hgnc_id = models.CharField(max_length=10, db_index=True, null=True, default=None)
     """A unique ID provided by the HGNC for each gene with an approved symbol."""
-    mgi_id = models.CharField(max_length=11, db_index=True)
+    mgi_id = models.CharField(max_length=11, db_index=True, null=True, default=None)
     """Mouse Genome Informatics(MGI) Accession ID, in the form of MGI:nnnnnn, where n is a number."""
-    omim_id = models.CharField(max_length=6, db_index=True)
+    omim_id = models.CharField(max_length=6, db_index=True, null=True, default=None)
     """Online Mendelian Inheritance in Man (OMIM) catalogue codes for diseases, genes, or phenotypes. 6 digits."""
     synonyms = models.TextField(null=True, default=None)
     """Bar-separated (|) synonyms that correspond to this gene."""
@@ -75,23 +75,23 @@ class Protein(BaseORM):
     """Proteins."""
 
     id = models.CharField(max_length=12, default=ids.protein, primary_key=True)
-    name = models.CharField(max_length=64, db_index=True, default=None)
+    name = models.CharField(max_length=64, db_index=True, null=True, default=None)
     """Unique name of a protein."""
-    uniprotkb_id = models.CharField(max_length=10, db_index=True)
+    uniprotkb_id = models.CharField(max_length=10, db_index=True, null=True, default=None)
     """UniProt protein ID, 6 alphanumeric characters, possibly suffixed by 4 more."""
-    uniprotkb_name = models.CharField(max_length=32, db_index=True)
+    uniprotkb_name = models.CharField(max_length=32, db_index=True, null=True, default=None)
     """UniProtKB/Swiss-Prot entry name."""
     synonyms = models.TextField(null=True, default=None)
     """Bar-separated (|) synonyms that correspond to this protein."""
-    length = models.BigIntegerField(null=True)
+    length = models.BigIntegerField(db_index=True, null=True)
     """Length of the protein sequence."""
-    gene_symbols = models.TextField(blank=True)
+    gene_symbols = models.TextField(null=True, default=None)
     """Bar-separated (|) gene symbols that correspond to this protein."""
     gene_synonyms = models.TextField(null=True, default=None)
     """Bar-separated (|) gene synonyms that correspond to this protein."""
-    ensembl_transcript_ids = models.TextField(blank=True)
+    ensembl_transcript_ids = models.TextField(null=True, default=None)
     """Bar-separated (|) Ensembl Transcript IDs that correspond to this protein."""
-    ncbi_gene_ids = models.TextField(blank=True)
+    ncbi_gene_ids = models.TextField(null=True, default=None)
     """Bar-separated (|) NCBI Gene IDs that correspond to this protein."""
     species = models.ForeignKey(Species, models.DO_NOTHING, null=True)
     """:class:`~lnschema_bionty.Species` this protein associates with."""
@@ -120,15 +120,15 @@ class CellMarker(BaseORM):
     """Cell markers."""
 
     id = models.CharField(max_length=12, default=ids.cell_marker, primary_key=True)
-    name = models.CharField(max_length=64, db_index=True, unique=True, default=None, null=True)
+    name = models.CharField(max_length=64, db_index=True, unique=True, null=True, default=None)
     """Unique name of the cell marker."""
-    ncbi_gene_id = models.CharField(max_length=32, db_index=True)
+    ncbi_gene_id = models.CharField(max_length=32, db_index=True, null=True, default=None)
     """Bar-separated (|) NCBI gene ids that correspond to this cell marker."""
-    gene_symbol = models.CharField(max_length=64, db_index=True)
+    gene_symbol = models.CharField(max_length=64, db_index=True, null=True, default=None)
     """Bar-separated (|) gene symbols that correspond to this cell marker."""
-    gene_name = models.TextField(blank=True)
+    gene_name = models.TextField(null=True, default=None)
     """Bar-separated (|) gene names that correspond to this cell marker."""
-    uniprotkb_id = models.CharField(max_length=10, db_index=True)
+    uniprotkb_id = models.CharField(max_length=10, db_index=True, null=True, default=None)
     """Bar-separated (|) uniprotkb ids that correspond to this cell marker."""
     synonyms = models.TextField(null=True, default=None)
     """Bar-separated (|) synonyms that correspond to this cell marker."""
@@ -159,7 +159,7 @@ class Tissue(BaseORM):
     """Tissues."""
 
     id = models.CharField(max_length=8, default=ids.ontology, primary_key=True)
-    name = models.CharField(max_length=256, db_index=True, default=None)
+    name = models.CharField(max_length=256, db_index=True, null=True, default=None)
     """Name of the tissue."""
     short_name = models.CharField(max_length=32, db_index=True, unique=True, null=True, default=None)
     """A unique short name of tissue."""
@@ -190,7 +190,7 @@ class CellType(BaseORM):
     """Cell types."""
 
     id = models.CharField(max_length=8, default=ids.ontology, primary_key=True)
-    name = models.CharField(max_length=256, db_index=True, default=None)
+    name = models.CharField(max_length=256, db_index=True, null=True, default=None)
     """Name of the cell type."""
     short_name = models.CharField(max_length=32, db_index=True, unique=True, null=True, default=None)
     """A unique short name of cell type."""
@@ -226,7 +226,7 @@ class Disease(BaseORM):
     """Diseases."""
 
     id = models.CharField(max_length=8, default=ids.ontology, primary_key=True)
-    name = models.CharField(max_length=256, db_index=True, default=None)
+    name = models.CharField(max_length=256, db_index=True, null=True, default=None)
     """Name of the disease."""
     short_name = models.CharField(max_length=32, db_index=True, unique=True, null=True, default=None)
     """A unique short name of disease."""
@@ -262,7 +262,7 @@ class CellLine(BaseORM):
     """Cell lines."""
 
     id = models.CharField(max_length=8, default=ids.ontology, primary_key=True)
-    name = models.CharField(max_length=256, db_index=True, default=None)
+    name = models.CharField(max_length=256, db_index=True, null=True, default=None)
     """Name of the cell line."""
     short_name = models.CharField(max_length=32, db_index=True, unique=True, null=True, default=None)
     """A unique short name of cell line."""
@@ -298,7 +298,7 @@ class Phenotype(BaseORM):
     """Phenotypes."""
 
     id = models.CharField(max_length=8, default=ids.ontology, primary_key=True)
-    name = models.CharField(max_length=256, db_index=True, default=None)
+    name = models.CharField(max_length=256, db_index=True, null=True, default=None)
     """Name of the phenotype."""
     short_name = models.CharField(max_length=32, db_index=True, unique=True, null=True, default=None)
     """A unique short name of phenotype."""
@@ -334,7 +334,7 @@ class Pathway(BaseORM):
     """Pathways."""
 
     id = models.CharField(max_length=8, default=ids.ontology, primary_key=True)
-    name = models.CharField(max_length=256, db_index=True, default=None)
+    name = models.CharField(max_length=256, db_index=True, null=True, default=None)
     """Name of the pathway."""
     short_name = models.CharField(max_length=32, db_index=True, unique=True, null=True, default=None)
     """A unique short name of pathway."""
@@ -372,7 +372,7 @@ class Readout(BaseORM):
     """Readouts."""
 
     id = models.CharField(max_length=8, default=ids.ontology, primary_key=True)
-    name = models.CharField(max_length=256, db_index=True, default=None)
+    name = models.CharField(max_length=256, db_index=True, null=True, default=None)
     """Name of the readout."""
     short_name = models.CharField(max_length=32, db_index=True, unique=True, null=True, default=None)
     """A unique short name of readout."""
@@ -419,9 +419,9 @@ class BiontySource(BaseORM):
     source_name = models.TextField(blank=True, db_index=True)
     source_key = models.CharField(max_length=64, default=None, db_index=True)
     version = models.CharField(max_length=64, default=None, db_index=True)
-    url = models.TextField(blank=True)
-    md5 = models.TextField(blank=True)
-    source_website = models.TextField(blank=True)
+    url = models.TextField(null=True, default=None)
+    md5 = models.TextField(null=True, default=None)
+    source_website = models.TextField(null=True, default=None)
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
     """Time of creation of record."""
     updated_at = models.DateTimeField(auto_now=True, db_index=True)
