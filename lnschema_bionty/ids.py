@@ -5,17 +5,13 @@ Entity-related generators:
 .. autosummary::
    :toctree: .
 
+   species
    gene
    protein
-   species
    cell_marker
-   disease
-   tissue
-   cell_type
-   cell_line
-   pathway
-   phenotype
-   readout
+   ontology
+   source
+
 """
 import base64
 import hashlib
