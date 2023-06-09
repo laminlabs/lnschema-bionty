@@ -1,6 +1,6 @@
 from django.db import models
-from lnschema_core._users import current_user_id
 from lnschema_core.models import BaseORM, User
+from lnschema_core.users import current_user_id
 
 from . import ids
 from ._bionty import bionty_decorator
@@ -17,13 +17,13 @@ class Species(BaseORM):
     """NCBI Taxon ID."""
     scientific_name = models.CharField(max_length=64, db_index=True, unique=True, null=True, default=None)
     """Scientific name of a species."""
-    bionty_source = models.ForeignKey("BiontySource", models.DO_NOTHING, null=True)
+    bionty_source = models.ForeignKey("BiontySource", models.PROTECT, null=True)
     """:class:`~lnschema_bionty.BiontySource` this record associates with."""
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
     """Time of creation of record."""
     updated_at = models.DateTimeField(auto_now=True, db_index=True)
     """Time of last update to record."""
-    created_by = models.ForeignKey(User, models.DO_NOTHING, default=current_user_id, related_name="created_species")
+    created_by = models.ForeignKey(User, models.PROTECT, default=current_user_id, related_name="created_species")
     """Creator of record, a :class:`~lamindb.User`."""
 
     class Meta:
@@ -53,9 +53,9 @@ class Gene(BaseORM):
     """Online Mendelian Inheritance in Man (OMIM) catalogue codes for diseases, genes, or phenotypes. 6 digits."""
     synonyms = models.TextField(null=True, default=None)
     """Bar-separated (|) synonyms that correspond to this gene."""
-    species = models.ForeignKey(Species, models.DO_NOTHING, null=True)
+    species = models.ForeignKey(Species, models.PROTECT, null=True)
     """:class:`~lnschema_bionty.Species` this gene associates with."""
-    bionty_source = models.ForeignKey("BiontySource", models.DO_NOTHING, null=True)
+    bionty_source = models.ForeignKey("BiontySource", models.PROTECT, null=True)
     """:class:`~lnschema_bionty.BiontySource` this gene associates with."""
     featuresets = models.ManyToManyField("lnschema_core.Featureset", related_name="genes")
     """Featuresets linked to this gene."""
@@ -63,7 +63,7 @@ class Gene(BaseORM):
     """Time of creation of record."""
     updated_at = models.DateTimeField(auto_now=True, db_index=True)
     """Time of last update to record."""
-    created_by = models.ForeignKey(User, models.DO_NOTHING, default=current_user_id, related_name="created_genes")
+    created_by = models.ForeignKey(User, models.PROTECT, default=current_user_id, related_name="created_genes")
     """Creator of record, a :class:`~lamindb.User`."""
 
     class Meta:
@@ -93,9 +93,9 @@ class Protein(BaseORM):
     """Bar-separated (|) Ensembl Transcript IDs that correspond to this protein."""
     ncbi_gene_ids = models.TextField(null=True, default=None)
     """Bar-separated (|) NCBI Gene IDs that correspond to this protein."""
-    species = models.ForeignKey(Species, models.DO_NOTHING, null=True)
+    species = models.ForeignKey(Species, models.PROTECT, null=True)
     """:class:`~lnschema_bionty.Species` this protein associates with."""
-    bionty_source = models.ForeignKey("BiontySource", models.DO_NOTHING, null=True)
+    bionty_source = models.ForeignKey("BiontySource", models.PROTECT, null=True)
     """:class:`~lnschema_bionty.BiontySource` this protein associates with."""
     featuresets = models.ManyToManyField("lnschema_core.Featureset", related_name="proteins")
     """Featuresets linked to this protein."""
@@ -105,7 +105,7 @@ class Protein(BaseORM):
     """Time of last update to record."""
     created_by = models.ForeignKey(
         User,
-        models.DO_NOTHING,
+        models.PROTECT,
         default=current_user_id,
         related_name="created_proteins",
     )
@@ -132,9 +132,9 @@ class CellMarker(BaseORM):
     """Bar-separated (|) uniprotkb ids that correspond to this cell marker."""
     synonyms = models.TextField(null=True, default=None)
     """Bar-separated (|) synonyms that correspond to this cell marker."""
-    species = models.ForeignKey(Species, models.DO_NOTHING, null=True)
+    species = models.ForeignKey(Species, models.PROTECT, null=True)
     """:class:`~lnschema_bionty.Species` this cell marker associates with."""
-    bionty_source = models.ForeignKey("BiontySource", models.DO_NOTHING, null=True)
+    bionty_source = models.ForeignKey("BiontySource", models.PROTECT, null=True)
     """:class:`~lnschema_bionty.BiontySource` this cell marker associates with."""
     featuresets = models.ManyToManyField("lnschema_core.Featureset", related_name="cell_markers")
     """Featuresets linked to this cell marker."""
@@ -144,7 +144,7 @@ class CellMarker(BaseORM):
     """Time of last update to record."""
     created_by = models.ForeignKey(
         User,
-        models.DO_NOTHING,
+        models.PROTECT,
         default=current_user_id,
         related_name="created_cell_markers",
     )
@@ -169,7 +169,7 @@ class Tissue(BaseORM):
     """Ontology ID of the tissue."""
     definition = models.TextField(null=True, default=None)
     """Definition of the tissue."""
-    bionty_source = models.ForeignKey("BiontySource", models.DO_NOTHING, null=True)
+    bionty_source = models.ForeignKey("BiontySource", models.PROTECT, null=True)
     """:class:`~lnschema_bionty.BiontySource` this tissue associates with."""
     files = models.ManyToManyField("lnschema_core.File", related_name="tissues")
     """Files linked to the tissue."""
@@ -177,7 +177,7 @@ class Tissue(BaseORM):
     """Time of creation of record."""
     updated_at = models.DateTimeField(auto_now=True, db_index=True)
     """Time of last update to record."""
-    created_by = models.ForeignKey(User, models.DO_NOTHING, default=current_user_id, related_name="created_tissues")
+    created_by = models.ForeignKey(User, models.PROTECT, default=current_user_id, related_name="created_tissues")
     """Creator of record, a :class:`~lamindb.User`."""
 
     class Meta:
@@ -200,7 +200,7 @@ class CellType(BaseORM):
     """Ontology ID of the cell type."""
     definition = models.TextField(null=True, default=None)
     """Definition of the cell type."""
-    bionty_source = models.ForeignKey("BiontySource", models.DO_NOTHING, null=True)
+    bionty_source = models.ForeignKey("BiontySource", models.PROTECT, null=True)
     """:class:`~lnschema_bionty.BiontySource` this cell type associates with."""
     files = models.ManyToManyField("lnschema_core.File", related_name="cell_types")
     """Files linked to the cell type."""
@@ -210,7 +210,7 @@ class CellType(BaseORM):
     """Time of last update to record."""
     created_by = models.ForeignKey(
         User,
-        models.DO_NOTHING,
+        models.PROTECT,
         default=current_user_id,
         related_name="created_cell_types",
     )
@@ -236,7 +236,7 @@ class Disease(BaseORM):
     """Ontology ID of the disease."""
     definition = models.TextField(null=True, default=None)
     """Definition of the disease."""
-    bionty_source = models.ForeignKey("BiontySource", models.DO_NOTHING, null=True)
+    bionty_source = models.ForeignKey("BiontySource", models.PROTECT, null=True)
     """:class:`~lnschema_bionty.BiontySource` this disease associates with."""
     files = models.ManyToManyField("lnschema_core.File", related_name="diseases")
     """Files linked to the disease."""
@@ -246,7 +246,7 @@ class Disease(BaseORM):
     """Time of last update to record."""
     created_by = models.ForeignKey(
         User,
-        models.DO_NOTHING,
+        models.PROTECT,
         default=current_user_id,
         related_name="created_diseases",
     )
@@ -272,7 +272,7 @@ class CellLine(BaseORM):
     """Ontology ID of the cell line."""
     definition = models.TextField(null=True, default=None)
     """Definition of the cell line."""
-    bionty_source = models.ForeignKey("BiontySource", models.DO_NOTHING, null=True)
+    bionty_source = models.ForeignKey("BiontySource", models.PROTECT, null=True)
     """:class:`~lnschema_bionty.BiontySource` this cell line associates with."""
     files = models.ManyToManyField("lnschema_core.File", related_name="cell_lines")
     """Files linked to the cell line."""
@@ -282,7 +282,7 @@ class CellLine(BaseORM):
     """Time of last update to record."""
     created_by = models.ForeignKey(
         User,
-        models.DO_NOTHING,
+        models.PROTECT,
         default=current_user_id,
         related_name="created_cell_lines",
     )
@@ -308,7 +308,7 @@ class Phenotype(BaseORM):
     """Ontology ID of the phenotype."""
     definition = models.TextField(null=True, default=None)
     """Definition of the phenotype."""
-    bionty_source = models.ForeignKey("BiontySource", models.DO_NOTHING, null=True)
+    bionty_source = models.ForeignKey("BiontySource", models.PROTECT, null=True)
     """:class:`~lnschema_bionty.BiontySource` this phenotype associates with."""
     files = models.ManyToManyField("lnschema_core.File", related_name="phenotypes")
     """Files linked to the phenotype."""
@@ -318,7 +318,7 @@ class Phenotype(BaseORM):
     """Time of last update to record."""
     created_by = models.ForeignKey(
         User,
-        models.DO_NOTHING,
+        models.PROTECT,
         default=current_user_id,
         related_name="created_phenotypes",
     )
@@ -344,7 +344,7 @@ class Pathway(BaseORM):
     """Ontology ID of the pathway."""
     definition = models.TextField(null=True, default=None)
     """Definition of the pathway."""
-    bionty_source = models.ForeignKey("BiontySource", models.DO_NOTHING, null=True)
+    bionty_source = models.ForeignKey("BiontySource", models.PROTECT, null=True)
     """:class:`~lnschema_bionty.BiontySource` this pathway associates with."""
     genes = models.ManyToManyField("Gene")
     """Genes that signifies the pathway."""
@@ -356,7 +356,7 @@ class Pathway(BaseORM):
     """Time of last update to record."""
     created_by = models.ForeignKey(
         User,
-        models.DO_NOTHING,
+        models.PROTECT,
         default=current_user_id,
         related_name="created_pathways",
     )
@@ -388,7 +388,7 @@ class Readout(BaseORM):
     """Instrument used to measure the readout, parsed from EFO."""
     measurement = models.TextField(null=True, default=None, db_index=True)
     """Phenotypic readout, parsed from EFO."""
-    bionty_source = models.ForeignKey("BiontySource", models.DO_NOTHING, null=True)
+    bionty_source = models.ForeignKey("BiontySource", models.PROTECT, null=True)
     """:class:`~lnschema_bionty.BiontySource` this readout associates with."""
     files = models.ManyToManyField("lnschema_core.File", related_name="readouts")
     """Files linked to the readout."""
@@ -398,7 +398,7 @@ class Readout(BaseORM):
     """Time of last update to record."""
     created_by = models.ForeignKey(
         User,
-        models.DO_NOTHING,
+        models.PROTECT,
         default=current_user_id,
         related_name="created_readouts",
     )
@@ -428,7 +428,7 @@ class BiontySource(BaseORM):
     """Time of last update to record."""
     created_by = models.ForeignKey(
         User,
-        models.DO_NOTHING,
+        models.PROTECT,
         default=current_user_id,
         related_name="created_bionty_sources",
     )

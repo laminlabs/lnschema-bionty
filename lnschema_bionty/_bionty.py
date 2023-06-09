@@ -39,6 +39,7 @@ def create_or_get_species_record(species: Union[str, Model]) -> Optional[Model]:
             species_record = Species.objects.get(name=species)
         except ObjectDoesNotExist:
             species_record = Species.from_bionty(name=species)
+            species_record.bionty_source = get_bionty_source_record(bt.Species())
             species_record.save()
     else:
         species_record = None
@@ -46,11 +47,27 @@ def create_or_get_species_record(species: Union[str, Model]) -> Optional[Model]:
     return species_record
 
 
-def get_bionty_object(model: Model, species: Optional[str] = None, **init_kwargs):
+def get_bionty_source_record(bionty_object: bt.Bionty):
+    kwargs = dict(
+        entity=bionty_object.__class__.__name__,
+        species=bionty_object.species,
+        source_key=bionty_object.source,
+        version=bionty_object.version,
+    )
+    from .models import BiontySource
+
+    source_record = BiontySource.objects.filter(**kwargs).get()
+    if not source_record.currently_used:
+        raise AssertionError("Currently used resources are not correctly configured! Please reload your instance!")
+
+    return source_record
+
+
+def get_bionty_object(model: Model, species: Optional[str] = None):
     if model.__module__.startswith("lnschema_bionty."):
         import bionty as bt
 
-        bionty_object = getattr(bt, model.__name__)(species=species, **init_kwargs)
+        bionty_object = getattr(bt, model.__name__)(species=species)
 
         return bionty_object
 
@@ -86,9 +103,9 @@ def _add_synonym(synonym: Union[str, Iterable], record: Model):
 
 def bionty_decorator(django_class):
     @classmethod
-    def bionty(cls, species: Optional[str] = None, **init_kwargs):
+    def bionty(cls, species: Optional[str] = None):
         """Bionty object of the entity."""
-        return get_bionty_object(model=django_class, species=species, **init_kwargs)
+        return get_bionty_object(model=django_class, species=species)
 
     @classmethod
     def from_bionty(
@@ -101,12 +118,12 @@ def bionty_decorator(django_class):
         if species is not None:
             species = create_or_get_species_record(species)
         species_name = species.name if species is not None else None
+        bionty_object = django_class.bionty(species=species_name)
 
         if isinstance(lookup_result, tuple) and lookup_result is not None:
             lookup_dict = lookup_result._asdict()  # type:ignore
             bionty_dict = _encode_id(lookup_dict)
         else:
-            bionty_object = django_class.bionty(species=species_name)
             bionty_dict = fields_from_knowledge(locals=kwargs, bionty_object=bionty_object)
             bionty_dict = _encode_id(bionty_dict)
 
@@ -115,6 +132,8 @@ def bionty_decorator(django_class):
                 raise AssertionError("Must specify a species!")
             else:
                 bionty_dict["species"] = species
+        if getattr(django_class, "bionty_source", False):
+            bionty_dict["bionty_source"] = get_bionty_source_record(bionty_object)
 
         # filter for model fields
         fields = [i.name for i in django_class._meta.fields]
