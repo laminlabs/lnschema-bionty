@@ -46,6 +46,13 @@ def create_or_get_species_record(species: Union[str, Model]) -> Optional[Model]:
     return species_record
 
 
+# def link_bionty_version(bionty_object: bt.Bionty):
+#     entity = bionty_object.__class__.__name__
+#     species = bionty_object.species
+
+#     pass
+
+
 def get_bionty_object(model: Model, species: Optional[str] = None, **init_kwargs):
     if model.__module__.startswith("lnschema_bionty."):
         import bionty as bt
