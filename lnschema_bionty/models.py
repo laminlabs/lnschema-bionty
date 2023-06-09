@@ -10,7 +10,7 @@ from ._bionty import bionty_decorator
 class Species(BaseORM):
     """Species."""
 
-    id = models.CharField(max_length=4, default=ids.species, primary_key=True)
+    id = models.CharField(max_length=8, default=ids.species, primary_key=True)
     name = models.CharField(max_length=64, db_index=True, default=None)
     """Name of a species."""
     taxon_id = models.IntegerField(unique=True, db_index=True, default=None, null=True)
@@ -34,7 +34,7 @@ class Species(BaseORM):
 class Gene(BaseORM):
     """Genes."""
 
-    id = models.CharField(max_length=8, default=ids.gene, primary_key=True)
+    id = models.CharField(max_length=12, default=ids.gene, primary_key=True)
     ensembl_gene_id = models.CharField(max_length=64, db_index=True)
     """Ensembl gene stable ID, in the form ENS[species prefix][feature type prefix][a unique eleven digit number]."""
     symbol = models.CharField(max_length=64, db_index=True, default=None)
@@ -74,7 +74,7 @@ class Gene(BaseORM):
 class Protein(BaseORM):
     """Proteins."""
 
-    id = models.CharField(max_length=8, default=ids.protein, primary_key=True)
+    id = models.CharField(max_length=12, default=ids.protein, primary_key=True)
     name = models.CharField(max_length=64, db_index=True, default=None)
     """Unique name of a protein."""
     uniprotkb_id = models.CharField(max_length=10, db_index=True)
@@ -119,7 +119,7 @@ class Protein(BaseORM):
 class CellMarker(BaseORM):
     """Cell markers."""
 
-    id = models.CharField(max_length=8, default=ids.cell_marker, primary_key=True)
+    id = models.CharField(max_length=12, default=ids.cell_marker, primary_key=True)
     name = models.CharField(max_length=64, db_index=True, unique=True, default=None, null=True)
     """Unique name of the cell marker."""
     ncbi_gene_id = models.CharField(max_length=32, db_index=True)
@@ -158,7 +158,7 @@ class CellMarker(BaseORM):
 class Tissue(BaseORM):
     """Tissues."""
 
-    id = models.CharField(max_length=8, default=ids.tissue, primary_key=True)
+    id = models.CharField(max_length=8, default=ids.ontology, primary_key=True)
     name = models.CharField(max_length=256, db_index=True, default=None)
     """Name of the tissue."""
     short_name = models.CharField(max_length=32, db_index=True, unique=True, null=True, default=None)
@@ -189,7 +189,7 @@ class Tissue(BaseORM):
 class CellType(BaseORM):
     """Cell types."""
 
-    id = models.CharField(max_length=8, default=ids.cell_type, primary_key=True)
+    id = models.CharField(max_length=8, default=ids.ontology, primary_key=True)
     name = models.CharField(max_length=256, db_index=True, default=None)
     """Name of the cell type."""
     short_name = models.CharField(max_length=32, db_index=True, unique=True, null=True, default=None)
@@ -225,7 +225,7 @@ class CellType(BaseORM):
 class Disease(BaseORM):
     """Diseases."""
 
-    id = models.CharField(max_length=8, default=ids.disease, primary_key=True)
+    id = models.CharField(max_length=8, default=ids.ontology, primary_key=True)
     name = models.CharField(max_length=256, db_index=True, default=None)
     """Name of the disease."""
     short_name = models.CharField(max_length=32, db_index=True, unique=True, null=True, default=None)
@@ -261,7 +261,7 @@ class Disease(BaseORM):
 class CellLine(BaseORM):
     """Cell lines."""
 
-    id = models.CharField(max_length=8, default=ids.cell_line, primary_key=True)
+    id = models.CharField(max_length=8, default=ids.ontology, primary_key=True)
     name = models.CharField(max_length=256, db_index=True, default=None)
     """Name of the cell line."""
     short_name = models.CharField(max_length=32, db_index=True, unique=True, null=True, default=None)
@@ -297,7 +297,7 @@ class CellLine(BaseORM):
 class Phenotype(BaseORM):
     """Phenotypes."""
 
-    id = models.CharField(max_length=8, default=ids.phenotype, primary_key=True)
+    id = models.CharField(max_length=8, default=ids.ontology, primary_key=True)
     name = models.CharField(max_length=256, db_index=True, default=None)
     """Name of the phenotype."""
     short_name = models.CharField(max_length=32, db_index=True, unique=True, null=True, default=None)
@@ -333,7 +333,7 @@ class Phenotype(BaseORM):
 class Pathway(BaseORM):
     """Pathways."""
 
-    id = models.CharField(max_length=8, default=ids.pathway, primary_key=True)
+    id = models.CharField(max_length=8, default=ids.ontology, primary_key=True)
     name = models.CharField(max_length=256, db_index=True, default=None)
     """Name of the pathway."""
     short_name = models.CharField(max_length=32, db_index=True, unique=True, null=True, default=None)
@@ -371,7 +371,7 @@ class Pathway(BaseORM):
 class Readout(BaseORM):
     """Readouts."""
 
-    id = models.CharField(max_length=8, default=ids.readout, primary_key=True)
+    id = models.CharField(max_length=8, default=ids.ontology, primary_key=True)
     name = models.CharField(max_length=256, db_index=True, default=None)
     """Name of the readout."""
     short_name = models.CharField(max_length=32, db_index=True, unique=True, null=True, default=None)
@@ -410,9 +410,9 @@ class Readout(BaseORM):
 
 
 class BiontySource(BaseORM):
-    """Versions of the Bionty tables."""
+    """Sources of the Bionty tables."""
 
-    id = models.BigAutoField(primary_key=True)
+    id = models.CharField(max_length=8, default=ids.source, primary_key=True)
     entity = models.CharField(max_length=64, default=None, db_index=True)
     species = models.CharField(max_length=64, default=None, db_index=True)
     currently_used = models.BooleanField(default=False, db_index=True)

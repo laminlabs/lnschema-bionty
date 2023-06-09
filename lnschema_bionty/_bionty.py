@@ -25,8 +25,6 @@ def fields_from_knowledge(
                 f"No entry is found in bionty reference table with '{k}={v}'!\n Try passing a species other than {bionty_object.species}!"
             )
         bionty_dict[k] = v
-        if "ontology_id" in bionty_dict:
-            bionty_dict["id"] = bionty_dict["ontology_id"]
 
     return bionty_dict
 
@@ -126,8 +124,11 @@ def bionty_decorator(django_class):
 
     def _encode_id(pydantic_attrs: dict):
         if "id" in pydantic_attrs:
-            id_encoder = getattr(ids, django_class.bionty()._entity)
-            pydantic_attrs["id"] = id_encoder(pydantic_attrs["id"])
+            try:
+                id_encoder = getattr(ids, django_class.bionty()._entity)
+                pydantic_attrs["id"] = id_encoder(pydantic_attrs["id"])
+            except Exception:
+                pass
         return pydantic_attrs
 
     def add_synonym(self, synonym: Union[str, Iterable]):
