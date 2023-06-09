@@ -39,7 +39,7 @@ def create_or_get_species_record(species: Union[str, Model]) -> Optional[Model]:
             species_record = Species.objects.get(name=species)
         except ObjectDoesNotExist:
             species_record = Species.from_bionty(name=species)
-            species_record.bionty_source = get_bionty_source_record(bt.Species(species=species))
+            species_record.bionty_source = get_bionty_source_record(bt.Species())
             species_record.save()
     else:
         species_record = None
