@@ -3,7 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
-⏪ Change species id back to 4 char | [122](https://github.com/laminlabs/lnschema-bionty/pull/122) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-09 |
+⏪ Change species id back to 4 char | [122](https://github.com/laminlabs/lnschema-bionty/pull/122) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-09 | 0.21.1
 🎨 Change on_delete to PROTECT | [121](https://github.com/laminlabs/lnschema-bionty/pull/121) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-09 | 0.21.0
 🚑 Fixed null issues | [120](https://github.com/laminlabs/lnschema-bionty/pull/120) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-09 | 0.20.0
 ⬆️ Updated bionty to 0.17.0 | [119](https://github.com/laminlabs/lnschema-bionty/pull/119) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-08 | 0.19.0
