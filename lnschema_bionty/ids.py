@@ -41,11 +41,11 @@ def hash_id(input_id: Optional[str] = None, *, n_char: int) -> str:
 
 
 def species(input_id: Optional[str] = None) -> str:
-    """8 base62."""
+    """4 base62."""
     if input_id is not None:
         if not input_id.startswith("NCBI_"):
             raise ValueError("Only support hashing NCBI taxon ID for species.")
-    return hash_id(input_id, n_char=8)
+    return hash_id(input_id, n_char=4)
 
 
 def gene(input_id: Optional[str] = None) -> str:

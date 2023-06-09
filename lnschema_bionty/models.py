@@ -10,7 +10,7 @@ from ._bionty import bionty_decorator
 class Species(BaseORM):
     """Species."""
 
-    id = models.CharField(max_length=8, default=ids.species, primary_key=True)
+    id = models.CharField(max_length=4, default=ids.species, primary_key=True)
     name = models.CharField(max_length=64, db_index=True, default=None)
     """Name of a species, required field."""
     taxon_id = models.IntegerField(unique=True, db_index=True, null=True, default=None)
