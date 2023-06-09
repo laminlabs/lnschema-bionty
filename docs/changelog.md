@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
+🎨 Change on_delete to PROTECT | [121](https://github.com/laminlabs/lnschema-bionty/pull/121) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-09 |
 🚑 Fixed null issues | [120](https://github.com/laminlabs/lnschema-bionty/pull/120) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-09 | 0.20.0
 ⬆️ Updated bionty to 0.17.0 | [119](https://github.com/laminlabs/lnschema-bionty/pull/119) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-08 | 0.19.0
 🎨 Remove unnecessary null=True, blank=True | [118](https://github.com/laminlabs/lnschema-bionty/pull/118) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-08 | 0.19a6
