@@ -28,7 +28,6 @@ test = [
     "requests",
     "pytest>=6.0",
     "pytest-cov",
-    "lamindb>=0.42a1",
     "nbproject-test"
 ]
 
