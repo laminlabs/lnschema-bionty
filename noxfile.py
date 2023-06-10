@@ -16,5 +16,5 @@ def install(session: nox.Session):
 
 @nox.session
 def build(session: nox.Session):
-    run_pytest(session)
+    run_pytest(session, coverage=False)
     build_docs(session)
