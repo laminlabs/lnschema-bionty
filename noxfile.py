@@ -12,7 +12,6 @@ def lint(session: nox.Session) -> None:
 @nox.session
 def install(session: nox.Session):
     session.run(*"pip install .[dev,test]".split())
-    session.run(*"pip install lamindb".split())
 
 
 @nox.session
