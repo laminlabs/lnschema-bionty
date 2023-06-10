@@ -6,7 +6,6 @@
 ```{toctree}
 :maxdepth: 1
 
-api
-guide/index
+reference
 changelog
 ```
