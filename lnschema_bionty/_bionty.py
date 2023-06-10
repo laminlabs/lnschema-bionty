@@ -51,7 +51,7 @@ def get_bionty_source_record(bionty_object: bt.Bionty):
     kwargs = dict(
         entity=bionty_object.__class__.__name__,
         species=bionty_object.species,
-        source_key=bionty_object.source,
+        source=bionty_object.source,
         version=bionty_object.version,
     )
     from .models import BiontySource

@@ -414,14 +414,23 @@ class BiontySource(BaseORM):
 
     id = models.CharField(max_length=8, default=ids.source, primary_key=True)
     entity = models.CharField(max_length=64, default=None, db_index=True)
+    """Entity class name."""
     species = models.CharField(max_length=64, default=None, db_index=True)
+    """Species name, use 'all' if unknown or none applied."""
     currently_used = models.BooleanField(default=False, db_index=True)
+    """Whether this record is currently used."""
+    source = models.CharField(max_length=64, default=None, db_index=True)
+    """Source key, short form, CURIE prefix for ontologies"""
     source_name = models.TextField(blank=True, db_index=True)
-    source_key = models.CharField(max_length=64, default=None, db_index=True)
+    """Source full name, long form."""
     version = models.CharField(max_length=64, default=None, db_index=True)
+    """Version of the source."""
     url = models.TextField(null=True, default=None)
+    """URL of the source file."""
     md5 = models.TextField(null=True, default=None)
+    """Hash md5 of the source file."""
     source_website = models.TextField(null=True, default=None)
+    """Website of the source."""
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
     """Time of creation of record."""
     updated_at = models.DateTimeField(auto_now=True, db_index=True)
@@ -436,4 +445,4 @@ class BiontySource(BaseORM):
 
     class Meta:
         managed = True
-        unique_together = (("entity", "source_key", "species", "version"),)
+        unique_together = (("entity", "source", "species", "version"),)
