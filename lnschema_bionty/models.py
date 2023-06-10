@@ -57,7 +57,7 @@ class Gene(BaseORM):
     """:class:`~lnschema_bionty.Species` this gene associates with."""
     bionty_source = models.ForeignKey("BiontySource", models.PROTECT, null=True)
     """:class:`~lnschema_bionty.BiontySource` this gene associates with."""
-    featuresets = models.ManyToManyField("lnschema_core.Featureset", related_name="genes")
+    featuresets = models.ManyToManyField("lnschema_core.FeatureSet", related_name="genes")
     """Featuresets linked to this gene."""
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
     """Time of creation of record."""
@@ -97,7 +97,7 @@ class Protein(BaseORM):
     """:class:`~lnschema_bionty.Species` this protein associates with."""
     bionty_source = models.ForeignKey("BiontySource", models.PROTECT, null=True)
     """:class:`~lnschema_bionty.BiontySource` this protein associates with."""
-    featuresets = models.ManyToManyField("lnschema_core.Featureset", related_name="proteins")
+    featuresets = models.ManyToManyField("lnschema_core.FeatureSet", related_name="proteins")
     """Featuresets linked to this protein."""
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
     """Time of creation of record."""
@@ -136,7 +136,7 @@ class CellMarker(BaseORM):
     """:class:`~lnschema_bionty.Species` this cell marker associates with."""
     bionty_source = models.ForeignKey("BiontySource", models.PROTECT, null=True)
     """:class:`~lnschema_bionty.BiontySource` this cell marker associates with."""
-    featuresets = models.ManyToManyField("lnschema_core.Featureset", related_name="cell_markers")
+    featuresets = models.ManyToManyField("lnschema_core.FeatureSet", related_name="cell_markers")
     """Featuresets linked to this cell marker."""
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
     """Time of creation of record."""
@@ -348,7 +348,7 @@ class Pathway(BaseORM):
     """:class:`~lnschema_bionty.BiontySource` this pathway associates with."""
     genes = models.ManyToManyField("Gene")
     """Genes that signifies the pathway."""
-    featuresets = models.ManyToManyField("lnschema_core.Featureset", related_name="pathways")
+    featuresets = models.ManyToManyField("lnschema_core.FeatureSet", related_name="pathways")
     """Featuresets linked to the pathway."""
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
     """Time of creation of record."""
