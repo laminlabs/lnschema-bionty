@@ -1,0 +1,5 @@
+project_name: lnschema-bionty
+description: Biological entities schema module
+project_slug: lnschema-bionty
+repository_name: lnschema-bionty
+package_name: lnschema_bionty
