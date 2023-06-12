@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
+⬆️ Update bionty | [126](https://github.com/laminlabs/lnschema-bionty/pull/126) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-12 |
 🚚 Rename `source_key` to `source` in BiontySource table | [125](https://github.com/laminlabs/lnschema-bionty/pull/125) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-10 | 0.21.3
 🚚 Rename Featureset to FeatureSet | [124](https://github.com/laminlabs/lnschema-bionty/pull/124) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-10 | 0.21.2
 👷 Simplify docs & CI | [123](https://github.com/laminlabs/lnschema-bionty/pull/123) | [falexwolf](https://github.com/falexwolf) | 2023-06-10 |
