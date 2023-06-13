@@ -2,7 +2,7 @@ from typing import Iterable, Optional, Union
 
 import bionty as bt
 from django.core.exceptions import ObjectDoesNotExist
-from django.db.models import Model
+from lnschema_core.models import BaseORM
 
 from . import ids
 
@@ -29,8 +29,8 @@ def fields_from_knowledge(
     return bionty_dict
 
 
-def create_or_get_species_record(species: Union[str, Model]) -> Optional[Model]:
-    if isinstance(species, Model):
+def create_or_get_species_record(species: Union[str, BaseORM]) -> Optional[BaseORM]:
+    if isinstance(species, BaseORM):
         species_record = species
     elif isinstance(species, str) and species != "all":
         from lnschema_bionty import Species
@@ -63,7 +63,7 @@ def get_bionty_source_record(bionty_object: bt.Bionty):
     return source_record
 
 
-def get_bionty_object(model: Model, species: Optional[str] = None):
+def get_bionty_object(model: BaseORM, species: Optional[str] = None):
     if model.__module__.startswith("lnschema_bionty."):
         import bionty as bt
 
@@ -72,7 +72,7 @@ def get_bionty_object(model: Model, species: Optional[str] = None):
         return bionty_object
 
 
-def _add_synonym(synonym: Union[str, Iterable], record: Model):
+def _add_synonym(synonym: Union[str, Iterable], record: BaseORM):
     """Append new synonym to a synonym field."""
     # nothing happens when passing an empty string
     if isinstance(synonym, str):
@@ -111,7 +111,7 @@ def bionty_decorator(django_class):
     def from_bionty(
         cls,
         lookup_result: Optional[tuple] = None,
-        species: Union[str, Model, None] = None,
+        species: Union[str, BaseORM, None] = None,
         **kwargs,
     ):
         """Auto-complete additional fields based on bionty reference."""
