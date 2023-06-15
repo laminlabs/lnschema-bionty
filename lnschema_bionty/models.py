@@ -81,7 +81,7 @@ class Protein(BaseORM):
     """Bar-separated (|) synonyms that correspond to this protein."""
     length = models.BigIntegerField(db_index=True, null=True)
     """Length of the protein sequence."""
-    gene_symbol = models.TextField(null=True, default=None)
+    gene_symbol = models.CharField(max_length=64, db_index=True, null=True, default=None)
     """The primary gene symbol corresponds to this protein."""
     ncbi_gene_ids = models.TextField(null=True, default=None)
     """Bar-separated (|) NCBI Gene IDs that correspond to this protein."""
