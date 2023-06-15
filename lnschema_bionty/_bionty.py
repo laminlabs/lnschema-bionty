@@ -143,10 +143,34 @@ def bionty_decorator(django_class):
 
     def _encode_id(kwargs: dict):
         name = django_class.__name__.lower()
-        if "id" in kwargs:
+        concat_str = ""
+        if name == "gene":
+            concat_str = "".join(
+                [
+                    v
+                    for k, v in kwargs.items()
+                    if k
+                    in [
+                        "ensembl_gene_id",
+                        "ncbi_gene_id",
+                        "symbol",
+                        "hgnc_id",
+                        "mgi_id",
+                    ]
+                    and v is not None  # noqa
+                ]
+            )
+        elif name == "protein":
+            concat_str = "uniprotkb_id"
+        elif name == "cellmarker":
+            concat_str = "name"
+        elif "id" in kwargs:
+            # species
+            concat_str = kwargs["id"]
+        if len(concat_str) > 0:
             try:
                 id_encoder = getattr(ids, name)
-                kwargs["id"] = id_encoder(kwargs["id"])
+                kwargs["id"] = id_encoder(concat_str)
             except Exception:
                 pass
         return kwargs
