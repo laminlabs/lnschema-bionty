@@ -141,14 +141,15 @@ def bionty_decorator(django_class):
 
         return django_class(**bionty_dict_fields)
 
-    def _encode_id(pydantic_attrs: dict):
-        if "id" in pydantic_attrs:
+    def _encode_id(kwargs: dict):
+        name = django_class.__name__.lower()
+        if "id" in kwargs:
             try:
-                id_encoder = getattr(ids, django_class.bionty()._entity)
-                pydantic_attrs["id"] = id_encoder(pydantic_attrs["id"])
+                id_encoder = getattr(ids, name)
+                kwargs["id"] = id_encoder(kwargs["id"])
             except Exception:
                 pass
-        return pydantic_attrs
+        return kwargs
 
     def add_synonym(self, synonym: Union[str, Iterable]):
         _add_synonym(synonym=synonym, record=self)

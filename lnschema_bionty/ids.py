@@ -58,7 +58,7 @@ def protein(input_id: Optional[str] = None) -> str:
     return hash_id(input_id, n_char=12)
 
 
-def cell_marker(input_id: Optional[str] = None) -> str:
+def cellmarker(input_id: Optional[str] = None) -> str:
     """12 base62."""
     return hash_id(input_id, n_char=12)
 

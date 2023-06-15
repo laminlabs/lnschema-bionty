@@ -111,7 +111,7 @@ class Protein(BaseORM):
 class CellMarker(BaseORM):
     """Cell markers."""
 
-    id = models.CharField(max_length=12, default=ids.cell_marker, primary_key=True)
+    id = models.CharField(max_length=12, default=ids.cellmarker, primary_key=True)
     name = models.CharField(max_length=64, db_index=True, unique=True, null=True, default=None)
     synonyms = models.TextField(null=True, default=None)
     """Bar-separated (|) synonyms that correspond to this cell marker."""
