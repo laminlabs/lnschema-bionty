@@ -260,7 +260,7 @@ class Migration(migrations.Migration):
                 (
                     "id",
                     models.CharField(
-                        default=lnschema_bionty.ids.cell_marker,
+                        default=lnschema_bionty.ids.cellmarker,
                         max_length=12,
                         primary_key=True,
                         serialize=False,
