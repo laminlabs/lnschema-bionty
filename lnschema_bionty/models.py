@@ -35,24 +35,22 @@ class Gene(BaseORM):
     """Genes."""
 
     id = models.CharField(max_length=12, default=ids.gene, primary_key=True)
-    ensembl_gene_id = models.CharField(max_length=64, db_index=True)
-    """Ensembl gene stable ID, in the form ENS[species prefix][feature type prefix][a unique eleven digit number]."""
     symbol = models.CharField(max_length=64, db_index=True, null=True, default=None)
     """A unique short form of gene name."""
-    gene_type = models.CharField(max_length=64, db_index=True, null=True, default=None)
+    ensembl_gene_id = models.CharField(max_length=64, db_index=True)
+    """Ensembl gene stable ID, in the form ENS[species prefix][feature type prefix][a unique eleven digit number]."""
+    ncbi_gene_id = models.BigIntegerField(db_index=True, null=True)
+    """NCBI Gene ID, also known as Entrez Gene ID, in the form of numeric string, 1 to 9 digits."""
+    biotype = models.CharField(max_length=64, db_index=True, null=True, default=None)
     """Type of the gene."""
     description = models.TextField(null=True, default=None)
     """Description of the gene."""
-    ncbi_gene_id = models.BigIntegerField(db_index=True, null=True)
-    """NCBI Gene ID, also known as Entrez Gene ID, in the form of numeric string, 1 to 9 digits."""
+    synonyms = models.TextField(null=True, default=None)
+    """Bar-separated (|) synonyms that correspond to this gene."""
     hgnc_id = models.CharField(max_length=10, db_index=True, null=True, default=None)
     """A unique ID provided by the HGNC for each gene with an approved symbol."""
     mgi_id = models.CharField(max_length=11, db_index=True, null=True, default=None)
     """Mouse Genome Informatics(MGI) Accession ID, in the form of MGI:nnnnnn, where n is a number."""
-    omim_id = models.CharField(max_length=6, db_index=True, null=True, default=None)
-    """Online Mendelian Inheritance in Man (OMIM) catalogue codes for diseases, genes, or phenotypes. 6 digits."""
-    synonyms = models.TextField(null=True, default=None)
-    """Bar-separated (|) synonyms that correspond to this gene."""
     species = models.ForeignKey(Species, models.PROTECT, null=True)
     """:class:`~lnschema_bionty.Species` this gene associates with."""
     bionty_source = models.ForeignKey("BiontySource", models.PROTECT, null=True)
@@ -79,18 +77,12 @@ class Protein(BaseORM):
     """Unique name of a protein."""
     uniprotkb_id = models.CharField(max_length=10, db_index=True, null=True, default=None)
     """UniProt protein ID, 6 alphanumeric characters, possibly suffixed by 4 more."""
-    uniprotkb_name = models.CharField(max_length=32, db_index=True, null=True, default=None)
-    """UniProtKB/Swiss-Prot entry name."""
     synonyms = models.TextField(null=True, default=None)
     """Bar-separated (|) synonyms that correspond to this protein."""
     length = models.BigIntegerField(db_index=True, null=True)
     """Length of the protein sequence."""
-    gene_symbols = models.TextField(null=True, default=None)
-    """Bar-separated (|) gene symbols that correspond to this protein."""
-    gene_synonyms = models.TextField(null=True, default=None)
-    """Bar-separated (|) gene synonyms that correspond to this protein."""
-    ensembl_transcript_ids = models.TextField(null=True, default=None)
-    """Bar-separated (|) Ensembl Transcript IDs that correspond to this protein."""
+    gene_symbol = models.CharField(max_length=64, db_index=True, null=True, default=None)
+    """The primary gene symbol corresponds to this protein."""
     ncbi_gene_ids = models.TextField(null=True, default=None)
     """Bar-separated (|) NCBI Gene IDs that correspond to this protein."""
     species = models.ForeignKey(Species, models.PROTECT, null=True)
@@ -119,19 +111,17 @@ class Protein(BaseORM):
 class CellMarker(BaseORM):
     """Cell markers."""
 
-    id = models.CharField(max_length=12, default=ids.cell_marker, primary_key=True)
+    id = models.CharField(max_length=12, default=ids.cellmarker, primary_key=True)
     name = models.CharField(max_length=64, db_index=True, unique=True, null=True, default=None)
-    """Unique name of the cell marker."""
-    ncbi_gene_id = models.CharField(max_length=32, db_index=True, null=True, default=None)
-    """Bar-separated (|) NCBI gene ids that correspond to this cell marker."""
-    gene_symbol = models.CharField(max_length=64, db_index=True, null=True, default=None)
-    """Bar-separated (|) gene symbols that correspond to this cell marker."""
-    gene_name = models.TextField(null=True, default=None)
-    """Bar-separated (|) gene names that correspond to this cell marker."""
-    uniprotkb_id = models.CharField(max_length=10, db_index=True, null=True, default=None)
-    """Bar-separated (|) uniprotkb ids that correspond to this cell marker."""
     synonyms = models.TextField(null=True, default=None)
     """Bar-separated (|) synonyms that correspond to this cell marker."""
+    gene_symbol = models.CharField(max_length=64, db_index=True, null=True, default=None)
+    """Gene symbol that corresponds to this cell marker."""
+    """Unique name of the cell marker."""
+    ncbi_gene_id = models.CharField(max_length=32, db_index=True, null=True, default=None)
+    """NCBI gene id that corresponds to this cell marker."""
+    uniprotkb_id = models.CharField(max_length=10, db_index=True, null=True, default=None)
+    """Uniprotkb id that corresponds to this cell marker."""
     species = models.ForeignKey(Species, models.PROTECT, null=True)
     """:class:`~lnschema_bionty.Species` this cell marker associates with."""
     bionty_source = models.ForeignKey("BiontySource", models.PROTECT, null=True)

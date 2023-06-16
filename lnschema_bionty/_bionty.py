@@ -141,14 +141,39 @@ def bionty_decorator(django_class):
 
         return django_class(**bionty_dict_fields)
 
-    def _encode_id(pydantic_attrs: dict):
-        if "id" in pydantic_attrs:
+    def _encode_id(kwargs: dict):
+        name = django_class.__name__.lower()
+        concat_str = ""
+        if name == "gene":
+            concat_str = "".join(
+                [
+                    v
+                    for k, v in kwargs.items()
+                    if k
+                    in [
+                        "ensembl_gene_id",
+                        "ncbi_gene_id",
+                        "symbol",
+                        "hgnc_id",
+                        "mgi_id",
+                    ]
+                    and v is not None  # noqa
+                ]
+            )
+        elif name == "protein":
+            concat_str = "uniprotkb_id"
+        elif name == "cellmarker":
+            concat_str = "name"
+        elif "id" in kwargs:
+            # species
+            concat_str = kwargs["id"]
+        if len(concat_str) > 0:
             try:
-                id_encoder = getattr(ids, django_class.bionty()._entity)
-                pydantic_attrs["id"] = id_encoder(pydantic_attrs["id"])
+                id_encoder = getattr(ids, name)
+                kwargs["id"] = id_encoder(concat_str)
             except Exception:
                 pass
-        return pydantic_attrs
+        return kwargs
 
     def add_synonym(self, synonym: Union[str, Iterable]):
         _add_synonym(synonym=synonym, record=self)
