@@ -115,11 +115,11 @@ class CellMarker(BaseORM):
     name = models.CharField(max_length=64, db_index=True, unique=True, null=True, default=None)
     synonyms = models.TextField(null=True, default=None)
     """Bar-separated (|) synonyms that correspond to this cell marker."""
+    gene_symbol = models.CharField(max_length=64, db_index=True, null=True, default=None)
+    """Gene symbol that corresponds to this cell marker."""
     """Unique name of the cell marker."""
     ncbi_gene_id = models.CharField(max_length=32, db_index=True, null=True, default=None)
     """NCBI gene id that corresponds to this cell marker."""
-    gene_symbol = models.CharField(max_length=64, db_index=True, null=True, default=None)
-    """Gene symbol that corresponds to this cell marker."""
     uniprotkb_id = models.CharField(max_length=10, db_index=True, null=True, default=None)
     """Uniprotkb id that corresponds to this cell marker."""
     species = models.ForeignKey(Species, models.PROTECT, null=True)
