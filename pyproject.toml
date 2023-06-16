@@ -28,7 +28,8 @@ test = [
     "requests",
     "pytest>=6.0",
     "pytest-cov",
-    "nbproject-test"
+    "nbproject-test",
+    "lamindb-setup",
 ]
 
 [tool.black]
