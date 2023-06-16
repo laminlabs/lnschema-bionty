@@ -3,7 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
-⬆️ Update to bionty 0.21.3 | [128](https://github.com/laminlabs/lnschema-bionty/pull/128) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-16 |
+⬆️ Update to bionty 0.21.3 | [128](https://github.com/laminlabs/lnschema-bionty/pull/128) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-16 | 0.22.1
 🎨 Consolidate schema, remove non-crucial fields | [127](https://github.com/laminlabs/lnschema-bionty/pull/127) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-16 | 0.22.0
 ⬆️ Update bionty | [126](https://github.com/laminlabs/lnschema-bionty/pull/126) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-12 | 0.21.4
 🚚 Rename `source_key` to `source` in BiontySource table | [125](https://github.com/laminlabs/lnschema-bionty/pull/125) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-10 | 0.21.3
