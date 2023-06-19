@@ -63,9 +63,9 @@ def cellmarker(input_id: Optional[str] = None) -> str:
     return hash_id(input_id, n_char=12)
 
 
-def ontology():
+def ontology(input_id: Optional[str] = None):
     """8 base62."""
-    return base62(n_char=8)
+    return hash_id(input_id, n_char=8)
 
 
 def source():
