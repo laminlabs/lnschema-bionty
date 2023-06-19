@@ -11,7 +11,7 @@ class Species(BaseORM):
     """Species."""
 
     id = models.CharField(max_length=4, default=ids.species, primary_key=True)
-    name = models.CharField(max_length=64, db_index=True, default=None)
+    name = models.CharField(max_length=64, db_index=True)
     """Name of a species, required field."""
     taxon_id = models.IntegerField(unique=True, db_index=True, null=True, default=None)
     """NCBI Taxon ID."""
@@ -112,7 +112,7 @@ class CellMarker(BaseORM):
     """Cell markers."""
 
     id = models.CharField(max_length=12, default=ids.cellmarker, primary_key=True)
-    name = models.CharField(max_length=64, db_index=True, unique=True, null=True, default=None)
+    name = models.CharField(max_length=64, db_index=True, unique=True)
     synonyms = models.TextField(null=True, default=None)
     """Bar-separated (|) synonyms that correspond to this cell marker."""
     gene_symbol = models.CharField(max_length=64, db_index=True, null=True, default=None)
@@ -149,7 +149,7 @@ class Tissue(BaseORM):
     """Tissues."""
 
     id = models.CharField(max_length=8, default=ids.ontology, primary_key=True)
-    name = models.CharField(max_length=256, db_index=True, null=True, default=None)
+    name = models.CharField(max_length=256, db_index=True)
     """Name of the tissue."""
     short_name = models.CharField(max_length=32, db_index=True, unique=True, null=True, default=None)
     """A unique short name of tissue."""
@@ -180,7 +180,7 @@ class CellType(BaseORM):
     """Cell types."""
 
     id = models.CharField(max_length=8, default=ids.ontology, primary_key=True)
-    name = models.CharField(max_length=256, db_index=True, null=True, default=None)
+    name = models.CharField(max_length=256, db_index=True)
     """Name of the cell type."""
     short_name = models.CharField(max_length=32, db_index=True, unique=True, null=True, default=None)
     """A unique short name of cell type."""
@@ -216,7 +216,7 @@ class Disease(BaseORM):
     """Diseases."""
 
     id = models.CharField(max_length=8, default=ids.ontology, primary_key=True)
-    name = models.CharField(max_length=256, db_index=True, null=True, default=None)
+    name = models.CharField(max_length=256, db_index=True)
     """Name of the disease."""
     short_name = models.CharField(max_length=32, db_index=True, unique=True, null=True, default=None)
     """A unique short name of disease."""
@@ -252,7 +252,7 @@ class CellLine(BaseORM):
     """Cell lines."""
 
     id = models.CharField(max_length=8, default=ids.ontology, primary_key=True)
-    name = models.CharField(max_length=256, db_index=True, null=True, default=None)
+    name = models.CharField(max_length=256, db_index=True)
     """Name of the cell line."""
     short_name = models.CharField(max_length=32, db_index=True, unique=True, null=True, default=None)
     """A unique short name of cell line."""
@@ -288,7 +288,7 @@ class Phenotype(BaseORM):
     """Phenotypes."""
 
     id = models.CharField(max_length=8, default=ids.ontology, primary_key=True)
-    name = models.CharField(max_length=256, db_index=True, null=True, default=None)
+    name = models.CharField(max_length=256, db_index=True)
     """Name of the phenotype."""
     short_name = models.CharField(max_length=32, db_index=True, unique=True, null=True, default=None)
     """A unique short name of phenotype."""
@@ -324,7 +324,7 @@ class Pathway(BaseORM):
     """Pathways."""
 
     id = models.CharField(max_length=8, default=ids.ontology, primary_key=True)
-    name = models.CharField(max_length=256, db_index=True, null=True, default=None)
+    name = models.CharField(max_length=256, db_index=True)
     """Name of the pathway."""
     short_name = models.CharField(max_length=32, db_index=True, unique=True, null=True, default=None)
     """A unique short name of pathway."""
@@ -362,7 +362,7 @@ class Readout(BaseORM):
     """Readouts."""
 
     id = models.CharField(max_length=8, default=ids.ontology, primary_key=True)
-    name = models.CharField(max_length=256, db_index=True, null=True, default=None)
+    name = models.CharField(max_length=256, db_index=True)
     """Name of the readout."""
     short_name = models.CharField(max_length=32, db_index=True, unique=True, null=True, default=None)
     """A unique short name of readout."""
@@ -403,17 +403,17 @@ class BiontySource(BaseORM):
     """Sources of the Bionty tables."""
 
     id = models.CharField(max_length=8, default=ids.source, primary_key=True)
-    entity = models.CharField(max_length=64, default=None, db_index=True)
+    entity = models.CharField(max_length=64, db_index=True)
     """Entity class name."""
-    species = models.CharField(max_length=64, default=None, db_index=True)
+    species = models.CharField(max_length=64, db_index=True)
     """Species name, use 'all' if unknown or none applied."""
     currently_used = models.BooleanField(default=False, db_index=True)
     """Whether this record is currently used."""
-    source = models.CharField(max_length=64, default=None, db_index=True)
+    source = models.CharField(max_length=64, db_index=True)
     """Source key, short form, CURIE prefix for ontologies"""
     source_name = models.TextField(blank=True, db_index=True)
     """Source full name, long form."""
-    version = models.CharField(max_length=64, default=None, db_index=True)
+    version = models.CharField(max_length=64, db_index=True)
     """Version of the source."""
     url = models.TextField(null=True, default=None)
     """URL of the source file."""

@@ -143,36 +143,35 @@ def bionty_decorator(django_class):
 
     def _encode_id(kwargs: dict):
         name = django_class.__name__.lower()
+        ontology = False
         concat_str = ""
         if name == "gene":
-            concat_str = "".join(
-                [
-                    v
-                    for k, v in kwargs.items()
-                    if k
-                    in [
-                        "ensembl_gene_id",
-                        "ncbi_gene_id",
-                        "symbol",
-                        "hgnc_id",
-                        "mgi_id",
-                    ]
-                    and v is not None  # noqa
-                ]
-            )
+            if kwargs.get("hgnc_id") is not None:
+                concat_str = kwargs.get("hgnc_id", "")
+            elif kwargs.get("mgi_id") is not None:
+                concat_str = kwargs.get("mgi_id", "")
+            else:
+                concat_str = ""
+            concat_str = f"{concat_str}{kwargs.get('ensembl_gene_id', '')}{kwargs.get('ncbi_gene_id', '')}{kwargs.get('symbol', '')}"  # noqa
         elif name == "protein":
-            concat_str = "uniprotkb_id"
+            concat_str = kwargs.get("uniprotkb_id", "")
         elif name == "cellmarker":
-            concat_str = "name"
-        elif "id" in kwargs:
+            concat_str = kwargs.get("name", "")
+        elif kwargs.get("id") is not None:
             # species
-            concat_str = kwargs["id"]
+            concat_str = kwargs.get("id", "")
+        elif kwargs.get("ontology_id") is not None:
+            concat_str = f"{kwargs.get('name', '')}{kwargs.get('ontology_id', '')}"
+            ontology = True
         if len(concat_str) > 0:
-            try:
-                id_encoder = getattr(ids, name)
-                kwargs["id"] = id_encoder(concat_str)
-            except Exception:
-                pass
+            if ontology:
+                id_encoder = ids.ontology
+            else:
+                try:
+                    id_encoder = getattr(ids, name)
+                except Exception:
+                    return kwargs
+            kwargs["id"] = id_encoder(concat_str)
         return kwargs
 
     def add_synonym(self, synonym: Union[str, Iterable]):
