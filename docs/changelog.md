@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
+🏷️ Change name to a required field for ontology tables | [130](https://github.com/laminlabs/lnschema-bionty/pull/130) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-19 |
 ⬆️ Updated bionty version | [129](https://github.com/laminlabs/lnschema-bionty/pull/129) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-17 | 0.22.2
 ⬆️ Update to bionty 0.21.3 | [128](https://github.com/laminlabs/lnschema-bionty/pull/128) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-16 | 0.22.1
 🎨 Consolidate schema, remove non-crucial fields | [127](https://github.com/laminlabs/lnschema-bionty/pull/127) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-16 | 0.22.0
