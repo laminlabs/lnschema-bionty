@@ -51,9 +51,9 @@ class Gene(BaseORM):
     """A unique ID provided by the HGNC for each gene with an approved symbol."""
     mgi_id = models.CharField(max_length=11, db_index=True, null=True, default=None)
     """Mouse Genome Informatics(MGI) Accession ID, in the form of MGI:nnnnnn, where n is a number."""
-    species = models.ForeignKey(Species, models.PROTECT, null=True)
+    species = models.ForeignKey(Species, models.PROTECT, null=True, related_name="genes")
     """:class:`~lnschema_bionty.Species` this gene associates with."""
-    bionty_source = models.ForeignKey("BiontySource", models.PROTECT, null=True)
+    bionty_source = models.ForeignKey("BiontySource", models.PROTECT, null=True, related_name="genes")
     """:class:`~lnschema_bionty.BiontySource` this gene associates with."""
     featuresets = models.ManyToManyField("lnschema_core.FeatureSet", related_name="genes")
     """Featuresets linked to this gene."""
@@ -85,9 +85,9 @@ class Protein(BaseORM):
     """The primary gene symbol corresponds to this protein."""
     ncbi_gene_ids = models.TextField(null=True, default=None)
     """Bar-separated (|) NCBI Gene IDs that correspond to this protein."""
-    species = models.ForeignKey(Species, models.PROTECT, null=True)
+    species = models.ForeignKey(Species, models.PROTECT, null=True, related_name="proteins")
     """:class:`~lnschema_bionty.Species` this protein associates with."""
-    bionty_source = models.ForeignKey("BiontySource", models.PROTECT, null=True)
+    bionty_source = models.ForeignKey("BiontySource", models.PROTECT, null=True, related_name="proteins")
     """:class:`~lnschema_bionty.BiontySource` this protein associates with."""
     featuresets = models.ManyToManyField("lnschema_core.FeatureSet", related_name="proteins")
     """Featuresets linked to this protein."""
@@ -122,9 +122,9 @@ class CellMarker(BaseORM):
     """NCBI gene id that corresponds to this cell marker."""
     uniprotkb_id = models.CharField(max_length=10, db_index=True, null=True, default=None)
     """Uniprotkb id that corresponds to this cell marker."""
-    species = models.ForeignKey(Species, models.PROTECT, null=True)
+    species = models.ForeignKey(Species, models.PROTECT, null=True, related_name="cell_markers")
     """:class:`~lnschema_bionty.Species` this cell marker associates with."""
-    bionty_source = models.ForeignKey("BiontySource", models.PROTECT, null=True)
+    bionty_source = models.ForeignKey("BiontySource", models.PROTECT, null=True, related_name="cell_markers")
     """:class:`~lnschema_bionty.BiontySource` this cell marker associates with."""
     featuresets = models.ManyToManyField("lnschema_core.FeatureSet", related_name="cell_markers")
     """Featuresets linked to this cell marker."""
@@ -159,7 +159,7 @@ class Tissue(BaseORM):
     """Ontology ID of the tissue."""
     definition = models.TextField(null=True, default=None)
     """Definition of the tissue."""
-    bionty_source = models.ForeignKey("BiontySource", models.PROTECT, null=True)
+    bionty_source = models.ForeignKey("BiontySource", models.PROTECT, null=True, related_name="tissues")
     """:class:`~lnschema_bionty.BiontySource` this tissue associates with."""
     files = models.ManyToManyField("lnschema_core.File", related_name="tissues")
     """Files linked to the tissue."""
@@ -190,7 +190,7 @@ class CellType(BaseORM):
     """Ontology ID of the cell type."""
     definition = models.TextField(null=True, default=None)
     """Definition of the cell type."""
-    bionty_source = models.ForeignKey("BiontySource", models.PROTECT, null=True)
+    bionty_source = models.ForeignKey("BiontySource", models.PROTECT, null=True, related_name="cell_types")
     """:class:`~lnschema_bionty.BiontySource` this cell type associates with."""
     files = models.ManyToManyField("lnschema_core.File", related_name="cell_types")
     """Files linked to the cell type."""
@@ -226,7 +226,7 @@ class Disease(BaseORM):
     """Ontology ID of the disease."""
     definition = models.TextField(null=True, default=None)
     """Definition of the disease."""
-    bionty_source = models.ForeignKey("BiontySource", models.PROTECT, null=True)
+    bionty_source = models.ForeignKey("BiontySource", models.PROTECT, null=True, related_name="diseases")
     """:class:`~lnschema_bionty.BiontySource` this disease associates with."""
     files = models.ManyToManyField("lnschema_core.File", related_name="diseases")
     """Files linked to the disease."""
@@ -262,7 +262,7 @@ class CellLine(BaseORM):
     """Ontology ID of the cell line."""
     definition = models.TextField(null=True, default=None)
     """Definition of the cell line."""
-    bionty_source = models.ForeignKey("BiontySource", models.PROTECT, null=True)
+    bionty_source = models.ForeignKey("BiontySource", models.PROTECT, null=True, related_name="cell_lines")
     """:class:`~lnschema_bionty.BiontySource` this cell line associates with."""
     files = models.ManyToManyField("lnschema_core.File", related_name="cell_lines")
     """Files linked to the cell line."""
@@ -298,7 +298,7 @@ class Phenotype(BaseORM):
     """Ontology ID of the phenotype."""
     definition = models.TextField(null=True, default=None)
     """Definition of the phenotype."""
-    bionty_source = models.ForeignKey("BiontySource", models.PROTECT, null=True)
+    bionty_source = models.ForeignKey("BiontySource", models.PROTECT, null=True, related_name="phenotypes")
     """:class:`~lnschema_bionty.BiontySource` this phenotype associates with."""
     files = models.ManyToManyField("lnschema_core.File", related_name="phenotypes")
     """Files linked to the phenotype."""
@@ -334,9 +334,9 @@ class Pathway(BaseORM):
     """Ontology ID of the pathway."""
     definition = models.TextField(null=True, default=None)
     """Definition of the pathway."""
-    bionty_source = models.ForeignKey("BiontySource", models.PROTECT, null=True)
+    bionty_source = models.ForeignKey("BiontySource", models.PROTECT, null=True, related_name="pathways")
     """:class:`~lnschema_bionty.BiontySource` this pathway associates with."""
-    genes = models.ManyToManyField("Gene")
+    genes = models.ManyToManyField("Gene", related_name="pathways")
     """Genes that signifies the pathway."""
     featuresets = models.ManyToManyField("lnschema_core.FeatureSet", related_name="pathways")
     """Featuresets linked to the pathway."""
@@ -378,7 +378,7 @@ class Readout(BaseORM):
     """Instrument used to measure the readout, parsed from EFO."""
     measurement = models.TextField(null=True, default=None, db_index=True)
     """Phenotypic readout, parsed from EFO."""
-    bionty_source = models.ForeignKey("BiontySource", models.PROTECT, null=True)
+    bionty_source = models.ForeignKey("BiontySource", models.PROTECT, null=True, related_name="readouts")
     """:class:`~lnschema_bionty.BiontySource` this readout associates with."""
     files = models.ManyToManyField("lnschema_core.File", related_name="readouts")
     """Files linked to the readout."""
