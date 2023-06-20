@@ -99,6 +99,9 @@ def _add_synonym(synonym: Union[str, Iterable], record: BaseORM):
     if len(synonyms_updated) == 0:
         synonyms_updated = None  # type:ignore
     record.synonyms = synonyms_updated
+    # if the record already exists in the DB, save it
+    if not record._state.adding:
+        record.save()
 
 
 def bionty_decorator(django_class):
