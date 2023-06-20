@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
+🚑️ Do not check existing synonyms when db table is empty | [134](https://github.com/laminlabs/lnschema-bionty/pull/134) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-20 |
 🎨 Create multiple records with .from_bionty | [133](https://github.com/laminlabs/lnschema-bionty/pull/133) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-20 | 0.23.3
 📈 Save to DB if record already exists for add_synonyms | [132](https://github.com/laminlabs/lnschema-bionty/pull/132) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-20 | 0.23.2
 🚚 Fixed all related_names | [131](https://github.com/laminlabs/lnschema-bionty/pull/131) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-20 | 0.23.1
