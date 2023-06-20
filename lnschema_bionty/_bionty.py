@@ -93,6 +93,8 @@ def _add_or_remove_synonyms(
         from IPython.display import display
 
         syns_all = record.__class__.objects.exclude(synonyms="").exclude(synonyms=None).all()
+        if len(syns_all) == 0:
+            return
         df = pd.DataFrame(syns_all.values())
         df["synonyms"] = df["synonyms"].str.split("|")
         df = df.explode("synonyms")
