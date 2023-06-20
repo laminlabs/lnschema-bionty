@@ -1,4 +1,4 @@
-from typing import Iterable, List, Optional, Set, Union
+from typing import Iterable, List, Literal, Optional, Set, Union  # noqa
 
 import bionty as bt
 from django.core.exceptions import ObjectDoesNotExist
@@ -72,18 +72,20 @@ def get_bionty_object(model: BaseORM, species: Optional[str] = None):
         return bionty_object
 
 
-def _add_synonym(synonym: Union[str, Iterable], record: BaseORM, force: bool = False):
-    """Append new synonym to a synonym field."""
-    if isinstance(synonym, str):
-        synonym = set([synonym])
-    else:
-        synonym = set(synonym)
-    # nothing happens when passing an empty string or list
-    if len(synonym) == 0:
-        return
-    # because we use | as the separator
-    if any(["|" in i for i in synonym]):
-        raise AssertionError("A synonym can't contain '|'!")
+def _check_synonyms_field_exist(record: BaseORM):
+    try:
+        record.__getattribute__("synonyms")
+    except AttributeError:
+        raise NotImplementedError(f"No synonyms field found in table {record.__class__.__name__}!")
+
+
+def _add_or_remove_synonyms(
+    synonym: Union[str, Iterable],
+    record: BaseORM,
+    action: Literal["add", "remove"],
+    force: bool = False,
+):
+    """Add or remove synonyms."""
 
     def check_synonyms_in_all_records(synonyms: Set[str], record: BaseORM):
         """Errors if the input synonyms are already associated with records in the DB."""
@@ -104,22 +106,39 @@ def _add_synonym(synonym: Union[str, Iterable], record: BaseORM, force: bool = F
             display(records_df)
             raise SystemExit(AssertionError)
 
-    if not force:
-        check_synonyms_in_all_records(synonym, record)
-
-    # only add if the passed synonym aren't already in synonyms
-    synonyms = record.synonyms
-    if synonyms is None or len(synonyms) == 0:
-        synonyms_set = set()
+    # passed synonyms
+    if isinstance(synonym, str):
+        syn_new_set = set([synonym])
     else:
-        synonyms_set = set(synonyms.split("|"))
+        syn_new_set = set(synonym)
+    # nothing happens when passing an empty string or list
+    if len(syn_new_set) == 0:
+        return
+    # because we use | as the separator
+    if any(["|" in i for i in syn_new_set]):
+        raise AssertionError("A synonym can't contain '|'!")
 
-    synonyms_set.update(synonym)
+    # existing synonyms
+    syns_exist = record.synonyms
+    if syns_exist is None or len(syns_exist) == 0:
+        syns_exist_set = set()
+    else:
+        syns_exist_set = set(syns_exist.split("|"))
 
-    synonyms_updated = "|".join([s for s in synonyms_set])
-    if len(synonyms_updated) == 0:
-        synonyms_updated = None  # type:ignore
-    record.synonyms = synonyms_updated
+    if action == "add":
+        if not force:
+            check_synonyms_in_all_records(syn_new_set, record)
+        syns_exist_set.update(syn_new_set)
+    elif action == "remove":
+        syns_exist_set = syns_exist_set.difference(syn_new_set)
+
+    if len(syns_exist_set) == 0:
+        syns_str = None
+    else:
+        syns_str = "|".join(syns_exist_set)
+
+    record.synonyms = syns_str
+
     # if the record already exists in the DB, save it
     if not record._state.adding:
         record.save()
@@ -207,14 +226,16 @@ def bionty_decorator(django_class):
         return kwargs
 
     def add_synonym(self, synonym: Union[str, Iterable], force: bool = False):
-        try:
-            self.__getattribute__("synonyms")
-        except AttributeError:
-            raise NotImplementedError(f"No synonyms field found in table {self.__class__.__name__}!")
-        _add_synonym(synonym=synonym, record=self, force=force)
+        _check_synonyms_field_exist(self)
+        _add_or_remove_synonyms(synonym=synonym, record=self, force=force, action="add")
+
+    def remove_synonym(self, synonym: Union[str, Iterable]):
+        _check_synonyms_field_exist(self)
+        _add_or_remove_synonyms(synonym=synonym, record=self, action="remove")
 
     django_class.from_bionty = from_bionty
     django_class.bionty = bionty
     django_class.add_synonym = add_synonym
+    django_class.remove_synonym = remove_synonym
 
     return django_class
