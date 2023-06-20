@@ -21,7 +21,7 @@ def fields_from_knowledge(
     try:
         bionty_dicts = df.set_index(k).loc[[v]].reset_index().to_dict(orient="records")
     except KeyError:
-        raise ValueError(f"No entry is found in bionty reference table with '{k}={v}'!\n Try passing a species other than {bionty_object.species}!")
+        raise KeyError(f"No entry is found in bionty reference table with '{k}={v}'!\n Try passing a species other than {bionty_object.species}!")
 
     return bionty_dicts
 
