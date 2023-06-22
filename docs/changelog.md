@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
+🚚 Move add_synonym to BaseORM | [137](https://github.com/laminlabs/lnschema-bionty/pull/137) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-22 |
 ⬆️ Fix synonyms duplication check | [136](https://github.com/laminlabs/lnschema-bionty/pull/136) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-22 |
 ⬆️ Updated bionty | [135](https://github.com/laminlabs/lnschema-bionty/pull/135) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-20 | 0.23.4
 🚑️ Do not check existing synonyms when db table is empty | [134](https://github.com/laminlabs/lnschema-bionty/pull/134) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-20 |
