@@ -98,7 +98,7 @@ def _add_or_remove_synonyms(
         df = pd.DataFrame(syns_all.values())
         df["synonyms"] = df["synonyms"].str.split("|")
         df = df.explode("synonyms")
-        matches_df = df[df["synonyms"].isin(synonyms)]
+        matches_df = df[(df["synonyms"].isin(synonyms)) & (df["id"] != record.id)]
         if matches_df.shape[0] > 0:
             records_df = pd.DataFrame(syns_all.filter(id__in=matches_df["id"]).values())
             logger.error(
