@@ -1,8 +1,7 @@
-from typing import Iterable, List, Literal, Optional, Set, Union  # noqa
+from typing import List, Optional, Union
 
 import bionty as bt
 from django.core.exceptions import ObjectDoesNotExist
-from lamin_logger import logger
 from lnschema_core.models import BaseORM
 
 from . import ids
@@ -70,80 +69,6 @@ def get_bionty_object(model: BaseORM, species: Optional[str] = None):
         bionty_object = getattr(bt, model.__name__)(species=species)
 
         return bionty_object
-
-
-def _check_synonyms_field_exist(record: BaseORM):
-    try:
-        record.__getattribute__("synonyms")
-    except AttributeError:
-        raise NotImplementedError(f"No synonyms field found in table {record.__class__.__name__}!")
-
-
-def _add_or_remove_synonyms(
-    synonym: Union[str, Iterable],
-    record: BaseORM,
-    action: Literal["add", "remove"],
-    force: bool = False,
-):
-    """Add or remove synonyms."""
-
-    def check_synonyms_in_all_records(synonyms: Set[str], record: BaseORM):
-        """Errors if the input synonyms are already associated with records in the DB."""
-        import pandas as pd
-        from IPython.display import display
-
-        syns_all = record.__class__.objects.exclude(synonyms="").exclude(synonyms=None).all()
-        if len(syns_all) == 0:
-            return
-        df = pd.DataFrame(syns_all.values())
-        df["synonyms"] = df["synonyms"].str.split("|")
-        df = df.explode("synonyms")
-        matches_df = df[(df["synonyms"].isin(synonyms)) & (df["id"] != record.id)]
-        if matches_df.shape[0] > 0:
-            records_df = pd.DataFrame(syns_all.filter(id__in=matches_df["id"]).values())
-            logger.error(
-                f"Input synonyms {matches_df['synonyms'].unique()} already associated"
-                " with the following records:\n(Pass `force=True` to ignore this error)"
-            )
-            display(records_df)
-            raise SystemExit(AssertionError)
-
-    # passed synonyms
-    if isinstance(synonym, str):
-        syn_new_set = set([synonym])
-    else:
-        syn_new_set = set(synonym)
-    # nothing happens when passing an empty string or list
-    if len(syn_new_set) == 0:
-        return
-    # because we use | as the separator
-    if any(["|" in i for i in syn_new_set]):
-        raise AssertionError("A synonym can't contain '|'!")
-
-    # existing synonyms
-    syns_exist = record.synonyms
-    if syns_exist is None or len(syns_exist) == 0:
-        syns_exist_set = set()
-    else:
-        syns_exist_set = set(syns_exist.split("|"))
-
-    if action == "add":
-        if not force:
-            check_synonyms_in_all_records(syn_new_set, record)
-        syns_exist_set.update(syn_new_set)
-    elif action == "remove":
-        syns_exist_set = syns_exist_set.difference(syn_new_set)
-
-    if len(syns_exist_set) == 0:
-        syns_str = None
-    else:
-        syns_str = "|".join(syns_exist_set)
-
-    record.synonyms = syns_str
-
-    # if the record already exists in the DB, save it
-    if not record._state.adding:
-        record.save()
 
 
 def bionty_decorator(django_class):
@@ -227,17 +152,7 @@ def bionty_decorator(django_class):
             kwargs["id"] = id_encoder(concat_str)
         return kwargs
 
-    def add_synonym(self, synonym: Union[str, Iterable], force: bool = False):
-        _check_synonyms_field_exist(self)
-        _add_or_remove_synonyms(synonym=synonym, record=self, force=force, action="add")
-
-    def remove_synonym(self, synonym: Union[str, Iterable]):
-        _check_synonyms_field_exist(self)
-        _add_or_remove_synonyms(synonym=synonym, record=self, action="remove")
-
     django_class.from_bionty = from_bionty
     django_class.bionty = bionty
-    django_class.add_synonym = add_synonym
-    django_class.remove_synonym = remove_synonym
 
     return django_class
