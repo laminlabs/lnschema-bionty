@@ -1,12 +1,36 @@
+from typing import Optional
+
 from django.db import models
 from lnschema_core.models import BaseORM, User
 from lnschema_core.users import current_user_id
 
 from . import ids
-from ._bionty import bionty_decorator
+from ._bionty import get_bionty_object
 
 
-@bionty_decorator
+@classmethod  # type:ignore
+def bionty(cls, species: Optional[str] = None):
+    return get_bionty_object(orm=cls, species=species)
+
+
+@classmethod  # type:ignore
+def from_bionty(cls, **kwargs):
+    """Create a record or records from bionty based on a single field value."""
+    kv = {k: v for k, v in kwargs.items() if k not in [i.name for i in cls._meta.fields if i.is_relation]}
+    if len(kv) > 1:
+        raise AssertionError("Only one field can be passed to generate record from Bionty")
+    elif len(kv) == 0:
+        return None
+    else:
+        k = next(iter(kv))
+        v = kwargs.pop(k)
+        results = cls.from_values(values=[v], field=getattr(cls, k), **kwargs)
+        if len(results) == 1:
+            return results[0]
+        else:
+            return results
+
+
 class Species(BaseORM):
     """Species."""
 
@@ -30,7 +54,6 @@ class Species(BaseORM):
         managed = True
 
 
-@bionty_decorator
 class Gene(BaseORM):
     """Genes."""
 
@@ -68,7 +91,6 @@ class Gene(BaseORM):
         managed = True
 
 
-@bionty_decorator
 class Protein(BaseORM):
     """Proteins."""
 
@@ -107,7 +129,6 @@ class Protein(BaseORM):
         managed = True
 
 
-@bionty_decorator
 class CellMarker(BaseORM):
     """Cell markers."""
 
@@ -144,7 +165,6 @@ class CellMarker(BaseORM):
         managed = True
 
 
-@bionty_decorator
 class Tissue(BaseORM):
     """Tissues."""
 
@@ -175,7 +195,6 @@ class Tissue(BaseORM):
         unique_together = (("name", "ontology_id"),)
 
 
-@bionty_decorator
 class CellType(BaseORM):
     """Cell types."""
 
@@ -211,7 +230,6 @@ class CellType(BaseORM):
         unique_together = (("name", "ontology_id"),)
 
 
-@bionty_decorator
 class Disease(BaseORM):
     """Diseases."""
 
@@ -247,7 +265,6 @@ class Disease(BaseORM):
         unique_together = (("name", "ontology_id"),)
 
 
-@bionty_decorator
 class CellLine(BaseORM):
     """Cell lines."""
 
@@ -283,7 +300,6 @@ class CellLine(BaseORM):
         unique_together = (("name", "ontology_id"),)
 
 
-@bionty_decorator
 class Phenotype(BaseORM):
     """Phenotypes."""
 
@@ -319,7 +335,6 @@ class Phenotype(BaseORM):
         unique_together = (("name", "ontology_id"),)
 
 
-@bionty_decorator
 class Pathway(BaseORM):
     """Pathways."""
 
@@ -357,7 +372,6 @@ class Pathway(BaseORM):
         unique_together = (("name", "ontology_id"),)
 
 
-@bionty_decorator
 class Readout(BaseORM):
     """Readouts."""
 
@@ -436,3 +450,20 @@ class BiontySource(BaseORM):
     class Meta:
         managed = True
         unique_together = (("entity", "source", "species", "version"),)
+
+
+for orm in [
+    CellLine,
+    CellMarker,
+    CellType,
+    Disease,
+    Gene,
+    Pathway,
+    Phenotype,
+    Protein,
+    Readout,
+    Species,
+    Tissue,
+]:
+    setattr(orm, "bionty", bionty)
+    setattr(orm, "from_bionty", from_bionty)
