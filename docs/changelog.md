@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
+♻️ Replaced ln.parse with orm.from_values | [138](https://github.com/laminlabs/lnschema-bionty/pull/138) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-27 |
 🚚 Move add_synonym to BaseORM | [137](https://github.com/laminlabs/lnschema-bionty/pull/137) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-22 | 0.23.5
 ⬆️ Fix synonyms duplication check | [136](https://github.com/laminlabs/lnschema-bionty/pull/136) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-22 |
 ⬆️ Updated bionty | [135](https://github.com/laminlabs/lnschema-bionty/pull/135) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-20 | 0.23.4
