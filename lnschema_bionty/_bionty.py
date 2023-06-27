@@ -71,11 +71,16 @@ def get_bionty_source_record(bionty_object: bt.Bionty):
     return source_record
 
 
-def get_bionty_object(orm: BaseORM, species: Optional[str] = None):
+def get_bionty_object(orm: BaseORM, species: Union[str, BaseORM] = None):
     if orm.__module__.startswith("lnschema_bionty."):
         import bionty as bt
 
-        bionty_object = getattr(bt, orm.__name__)(species=species)
+        if isinstance(species, BaseORM):
+            species_name = species.name
+        else:
+            species_name = species
+
+        bionty_object = getattr(bt, orm.__name__)(species=species_name)
 
         return bionty_object
 
