@@ -74,6 +74,10 @@ class BioORM(ORM):
             parents_records = self.from_values(parents, self.__class__.ontology_id)
             for record in parents_records:
                 record.save()
+        existing_record = self.select(id=self.id).one_or_none()
+        if existing_record is not None:
+            self = existing_record
+            return
         super().save(*args, **kwargs)
         if hasattr(self, "_parents"):
             self.parents.set(parents_records)
