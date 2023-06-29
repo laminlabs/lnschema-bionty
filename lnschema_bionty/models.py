@@ -7,7 +7,7 @@ from lnschema_core.models import BaseORM, User
 from lnschema_core.users import current_user_id
 
 from . import ids
-from ._bionty import get_bionty_object, lookup2kwargs
+from ._bionty import encode_id, get_bionty_object, lookup2kwargs
 
 
 class BioORM(BaseORM):
@@ -27,10 +27,13 @@ class BioORM(BaseORM):
                 super().__init__(*new_args)
                 self._state.adding = False  # mimic from_db
                 self._state.db = "default"
-                return self
+                return None
             except IndexError:
+                # result already has encoded id
                 kwargs = result
                 args = ()
+        else:
+            kwargs = encode_id(orm=self, kwargs=kwargs)
 
         if "parents" in kwargs:
             parents = kwargs.pop("parents")
