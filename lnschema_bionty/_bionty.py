@@ -27,30 +27,28 @@ def fields_from_knowledge(
 
 def create_or_get_species_record(species: Union[str, BaseORM], orm: BaseORM) -> Optional[BaseORM]:
     # return None if an ORM doesn't have species field
-    try:
-        getattr(orm, "species")
-    except AttributeError:
-        return None
+    species_record = None
+    if hasattr(orm, "species"):
+        if isinstance(species, BaseORM):
+            species_record = species
+        elif isinstance(species, str):
+            from lnschema_bionty import Species
 
-    if isinstance(species, BaseORM):
-        species_record = species
-    elif isinstance(species, str):
-        from lnschema_bionty import Species
-
-        try:
-            # existing species record
-            species_record = Species.objects.get(name=species)
-        except ObjectDoesNotExist:
             try:
-                # create a species record from bionty reference
-                species_record = Species.from_bionty(name=species)
-                # link the species record to the default bionty source
-                species_record.bionty_source = get_bionty_source_record(bt.Species())
-                species_record.save()
-            except KeyError:
-                species_record = None
-    else:
-        species_record = None
+                # existing species record
+                species_record = Species.objects.get(name=species)
+            except ObjectDoesNotExist:
+                try:
+                    # create a species record from bionty reference
+                    species_record = Species.from_bionty(name=species)
+                    # link the species record to the default bionty source
+                    species_record.bionty_source = get_bionty_source_record(bt.Species())
+                    species_record.save()
+                except KeyError:
+                    # no such species is found in bionty reference
+                    species_record = None
+        if species_record is None:
+            raise AssertionError(f"{orm.__name__} table requires to specify a species name via `species=`!")
 
     return species_record
 
