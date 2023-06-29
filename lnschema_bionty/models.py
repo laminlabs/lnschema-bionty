@@ -1,6 +1,8 @@
 from typing import Optional
 
+import numpy as np
 from django.db import models
+from lamin_logger import logger
 from lnschema_core.models import BaseORM, User
 from lnschema_core.users import current_user_id
 
@@ -29,6 +31,32 @@ def from_bionty(cls, **kwargs):
             return results[0]
         else:
             return results
+
+
+def __init__(self, *args, **kwargs):
+    # set the direct parents as a private attribute
+    # this is a list of strings that store the ontology id
+    if "parents" in kwargs:
+        parents = kwargs.pop("parents")
+        # this checks if we receive a np.ndarray from pandas
+        if isinstance(parents, (list, np.ndarray)) and len(parents) > 0:
+            if not isinstance(parents[0], str):
+                raise ValueError("Not a valid parents kwarg, got to be list of ontology ids")
+            self._parents = parents
+    super(BaseORM, self).__init__(*args, **kwargs)
+
+
+def save(self):
+    if hasattr(self, "_parents"):
+        parents = self._parents
+        # here parents is still a list of ontology ids
+        logger.warning(f"Also saving parents of {self}")
+        parents_records = self.from_values(parents, self.__class__.ontology_id)
+        for record in parents_records:
+            record.save()
+    super(BaseORM, self).save()
+    if hasattr(self, "_parents"):
+        self.parents.set(parents_records)
 
 
 class Species(BaseORM):
@@ -171,14 +199,16 @@ class Tissue(BaseORM):
     id = models.CharField(max_length=8, default=ids.ontology, primary_key=True)
     name = models.CharField(max_length=256, db_index=True)
     """Name of the tissue."""
-    short_name = models.CharField(max_length=32, db_index=True, unique=True, null=True, default=None)
-    """A unique short name of tissue."""
-    synonyms = models.TextField(null=True, default=None)
-    """Bar-separated (|) synonyms that correspond to this tissue."""
     ontology_id = models.CharField(max_length=32, db_index=True, null=True, default=None)
     """Ontology ID of the tissue."""
-    definition = models.TextField(null=True, default=None)
-    """Definition of the tissue."""
+    abbr = models.CharField(max_length=32, db_index=True, unique=True, null=True, default=None)
+    """A unique abbreviation of tissue."""
+    synonyms = models.TextField(null=True, default=None)
+    """Bar-separated (|) synonyms that correspond to this tissue."""
+    description = models.TextField(null=True, default=None)
+    """Description of the tissue."""
+    parents = models.ManyToManyField("self", symmetrical=False, related_name="children")
+    """Parent tissues records."""
     bionty_source = models.ForeignKey("BiontySource", models.PROTECT, null=True, related_name="tissues")
     """:class:`~lnschema_bionty.BiontySource` this tissue associates with."""
     files = models.ManyToManyField("lnschema_core.File", related_name="tissues")
@@ -201,14 +231,16 @@ class CellType(BaseORM):
     id = models.CharField(max_length=8, default=ids.ontology, primary_key=True)
     name = models.CharField(max_length=256, db_index=True)
     """Name of the cell type."""
-    short_name = models.CharField(max_length=32, db_index=True, unique=True, null=True, default=None)
-    """A unique short name of cell type."""
-    synonyms = models.TextField(null=True, default=None)
-    """Bar-separated (|) synonyms that correspond to this cell type."""
     ontology_id = models.CharField(max_length=32, db_index=True, null=True, default=None)
     """Ontology ID of the cell type."""
-    definition = models.TextField(null=True, default=None)
-    """Definition of the cell type."""
+    abbr = models.CharField(max_length=32, db_index=True, unique=True, null=True, default=None)
+    """A unique abbreviation of cell type."""
+    synonyms = models.TextField(null=True, default=None)
+    """Bar-separated (|) synonyms that correspond to this cell type."""
+    description = models.TextField(null=True, default=None)
+    """Description of the cell type."""
+    parents = models.ManyToManyField("self", symmetrical=False, related_name="children")
+    """Parent cell type records."""
     bionty_source = models.ForeignKey("BiontySource", models.PROTECT, null=True, related_name="cell_types")
     """:class:`~lnschema_bionty.BiontySource` this cell type associates with."""
     files = models.ManyToManyField("lnschema_core.File", related_name="cell_types")
@@ -236,14 +268,16 @@ class Disease(BaseORM):
     id = models.CharField(max_length=8, default=ids.ontology, primary_key=True)
     name = models.CharField(max_length=256, db_index=True)
     """Name of the disease."""
-    short_name = models.CharField(max_length=32, db_index=True, unique=True, null=True, default=None)
-    """A unique short name of disease."""
-    synonyms = models.TextField(null=True, default=None)
-    """Bar-separated (|) synonyms that correspond to this disease."""
     ontology_id = models.CharField(max_length=32, db_index=True, null=True, default=None)
     """Ontology ID of the disease."""
-    definition = models.TextField(null=True, default=None)
-    """Definition of the disease."""
+    abbr = models.CharField(max_length=32, db_index=True, unique=True, null=True, default=None)
+    """A unique abbreviation of disease."""
+    synonyms = models.TextField(null=True, default=None)
+    """Bar-separated (|) synonyms that correspond to this disease."""
+    description = models.TextField(null=True, default=None)
+    """Description of the disease."""
+    parents = models.ManyToManyField("self", symmetrical=False, related_name="children")
+    """Parent disease records."""
     bionty_source = models.ForeignKey("BiontySource", models.PROTECT, null=True, related_name="diseases")
     """:class:`~lnschema_bionty.BiontySource` this disease associates with."""
     files = models.ManyToManyField("lnschema_core.File", related_name="diseases")
@@ -271,14 +305,16 @@ class CellLine(BaseORM):
     id = models.CharField(max_length=8, default=ids.ontology, primary_key=True)
     name = models.CharField(max_length=256, db_index=True)
     """Name of the cell line."""
-    short_name = models.CharField(max_length=32, db_index=True, unique=True, null=True, default=None)
-    """A unique short name of cell line."""
-    synonyms = models.TextField(null=True, default=None)
-    """Bar-separated (|) synonyms that correspond to this cell line."""
     ontology_id = models.CharField(max_length=32, db_index=True, null=True, default=None)
     """Ontology ID of the cell line."""
-    definition = models.TextField(null=True, default=None)
-    """Definition of the cell line."""
+    abbr = models.CharField(max_length=32, db_index=True, unique=True, null=True, default=None)
+    """A unique abbreviation of cell line."""
+    synonyms = models.TextField(null=True, default=None)
+    """Bar-separated (|) synonyms that correspond to this cell line."""
+    description = models.TextField(null=True, default=None)
+    """Description of the cell line."""
+    parents = models.ManyToManyField("self", symmetrical=False, related_name="children")
+    """Parent cell line records."""
     bionty_source = models.ForeignKey("BiontySource", models.PROTECT, null=True, related_name="cell_lines")
     """:class:`~lnschema_bionty.BiontySource` this cell line associates with."""
     files = models.ManyToManyField("lnschema_core.File", related_name="cell_lines")
@@ -306,14 +342,16 @@ class Phenotype(BaseORM):
     id = models.CharField(max_length=8, default=ids.ontology, primary_key=True)
     name = models.CharField(max_length=256, db_index=True)
     """Name of the phenotype."""
-    short_name = models.CharField(max_length=32, db_index=True, unique=True, null=True, default=None)
-    """A unique short name of phenotype."""
-    synonyms = models.TextField(null=True, default=None)
-    """Bar-separated (|) synonyms that correspond to this phenotype."""
     ontology_id = models.CharField(max_length=32, db_index=True, null=True, default=None)
     """Ontology ID of the phenotype."""
-    definition = models.TextField(null=True, default=None)
-    """Definition of the phenotype."""
+    abbr = models.CharField(max_length=32, db_index=True, unique=True, null=True, default=None)
+    """A unique abbreviation of phenotype."""
+    synonyms = models.TextField(null=True, default=None)
+    """Bar-separated (|) synonyms that correspond to this phenotype."""
+    description = models.TextField(null=True, default=None)
+    """Description of the phenotype."""
+    parents = models.ManyToManyField("self", symmetrical=False, related_name="children")
+    """Parent phenotype records."""
     bionty_source = models.ForeignKey("BiontySource", models.PROTECT, null=True, related_name="phenotypes")
     """:class:`~lnschema_bionty.BiontySource` this phenotype associates with."""
     files = models.ManyToManyField("lnschema_core.File", related_name="phenotypes")
@@ -341,14 +379,16 @@ class Pathway(BaseORM):
     id = models.CharField(max_length=8, default=ids.ontology, primary_key=True)
     name = models.CharField(max_length=256, db_index=True)
     """Name of the pathway."""
-    short_name = models.CharField(max_length=32, db_index=True, unique=True, null=True, default=None)
-    """A unique short name of pathway."""
-    synonyms = models.TextField(null=True, default=None)
-    """Bar-separated (|) synonyms that correspond to this pathway."""
     ontology_id = models.CharField(max_length=32, db_index=True, null=True, default=None)
     """Ontology ID of the pathway."""
-    definition = models.TextField(null=True, default=None)
-    """Definition of the pathway."""
+    abbr = models.CharField(max_length=32, db_index=True, unique=True, null=True, default=None)
+    """A unique abbreviation of pathway."""
+    synonyms = models.TextField(null=True, default=None)
+    """Bar-separated (|) synonyms that correspond to this pathway."""
+    description = models.TextField(null=True, default=None)
+    """Description of the pathway."""
+    parents = models.ManyToManyField("self", symmetrical=False, related_name="children")
+    """Parent pathway records."""
     bionty_source = models.ForeignKey("BiontySource", models.PROTECT, null=True, related_name="pathways")
     """:class:`~lnschema_bionty.BiontySource` this pathway associates with."""
     genes = models.ManyToManyField("Gene", related_name="pathways")
@@ -378,20 +418,22 @@ class Readout(BaseORM):
     id = models.CharField(max_length=8, default=ids.ontology, primary_key=True)
     name = models.CharField(max_length=256, db_index=True)
     """Name of the readout."""
-    short_name = models.CharField(max_length=32, db_index=True, unique=True, null=True, default=None)
-    """A unique short name of readout."""
-    synonyms = models.TextField(null=True, default=None)
-    """Bar-separated (|) synonyms that correspond to this readout."""
     ontology_id = models.CharField(max_length=32, db_index=True, null=True, default=None)
     """Ontology ID of the readout."""
-    definition = models.TextField(null=True, default=None)
-    """Definition of the readout."""
+    abbr = models.CharField(max_length=32, db_index=True, unique=True, null=True, default=None)
+    """A unique abbreviation of readout."""
+    synonyms = models.TextField(null=True, default=None)
+    """Bar-separated (|) synonyms that correspond to this readout."""
+    description = models.TextField(null=True, default=None)
+    """Description of the readout."""
     molecule = models.TextField(null=True, default=None, db_index=True)
     """Molecular readout, parsed from EFO."""
     instrument = models.TextField(null=True, default=None, db_index=True)
     """Instrument used to measure the readout, parsed from EFO."""
     measurement = models.TextField(null=True, default=None, db_index=True)
     """Phenotypic readout, parsed from EFO."""
+    parents = models.ManyToManyField("self", symmetrical=False, related_name="children")
+    """Parent readout records."""
     bionty_source = models.ForeignKey("BiontySource", models.PROTECT, null=True, related_name="readouts")
     """:class:`~lnschema_bionty.BiontySource` this readout associates with."""
     files = models.ManyToManyField("lnschema_core.File", related_name="readouts")
@@ -467,3 +509,5 @@ for orm in [
 ]:
     setattr(orm, "bionty", bionty)
     setattr(orm, "from_bionty", from_bionty)
+    setattr(orm, "__init__", __init__)
+    setattr(orm, "save", save)
