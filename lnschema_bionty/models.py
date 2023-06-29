@@ -67,6 +67,13 @@ class BioORM(ORM):
                 return results
 
     def save(self, *args, **kwargs):
+        # If the same record already exists, returns the record without saving
+        existing_record = self.select(id=self.id).one_or_none()
+        if existing_record == self:
+            self = existing_record
+            return None
+
+        # saving records of parents
         if hasattr(self, "_parents"):
             parents = self._parents
             # here parents is still a list of ontology ids
@@ -74,11 +81,7 @@ class BioORM(ORM):
             parents_records = self.from_values(parents, self.__class__.ontology_id)
             for record in parents_records:
                 record.save()
-        # If the same record id already exist, returns the record without saving
-        existing_record = self.select(id=self.id).one_or_none()
-        if existing_record is not None:
-            self = existing_record
-            return
+
         super().save(*args, **kwargs)
         if hasattr(self, "_parents"):
             self.parents.set(parents_records)
