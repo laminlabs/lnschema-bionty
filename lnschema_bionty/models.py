@@ -10,56 +10,57 @@ from . import ids
 from ._bionty import get_bionty_object
 
 
-@classmethod  # type:ignore
-def bionty(cls, species: Optional[str] = None):
-    return get_bionty_object(orm=cls, species=species)
+class BioORM(BaseORM):
+    class Meta:
+        abstract = True
 
+    def __init__(self, *args, **kwargs):
+        # set the direct parents as a private attribute
+        # this is a list of strings that store the ontology id
+        if "parents" in kwargs:
+            parents = kwargs.pop("parents")
+            # this checks if we receive a np.ndarray from pandas
+            if isinstance(parents, (list, np.ndarray)) and len(parents) > 0:
+                if not isinstance(parents[0], str):
+                    raise ValueError("Not a valid parents kwarg, got to be list of ontology ids")
+                self._parents = parents
+        super().__init__(*args, **kwargs)
 
-@classmethod  # type:ignore
-def from_bionty(cls, **kwargs):
-    """Create a record or records from bionty based on a single field value."""
-    kv = {k: v for k, v in kwargs.items() if k not in [i.name for i in cls._meta.fields if i.is_relation]}
-    if len(kv) > 1:
-        raise AssertionError("Only one field can be passed to generate record from Bionty")
-    elif len(kv) == 0:
-        return None
-    else:
-        k = next(iter(kv))
-        v = kwargs.pop(k)
-        results = cls.from_values(values=[v], field=getattr(cls, k), **kwargs)
-        if len(results) == 1:
-            return results[0]
+    @classmethod
+    def bionty(cls, species: Optional[str] = None):
+        return get_bionty_object(orm=cls, species=species)
+
+    @classmethod
+    def from_bionty(cls, **kwargs):
+        """Create a record or records from bionty based on a single field value."""
+        kv = {k: v for k, v in kwargs.items() if k not in [i.name for i in cls._meta.fields if i.is_relation]}
+        if len(kv) > 1:
+            raise AssertionError("Only one field can be passed to generate record from Bionty")
+        elif len(kv) == 0:
+            return None
         else:
-            return results
+            k = next(iter(kv))
+            v = kwargs.pop(k)
+            results = cls.from_values(values=[v], field=getattr(cls, k), **kwargs)
+            if len(results) == 1:
+                return results[0]
+            else:
+                return results
+
+    def save(self):
+        if hasattr(self, "_parents"):
+            parents = self._parents
+            # here parents is still a list of ontology ids
+            logger.info(f"Also saving parents of {self}")
+            parents_records = self.from_values(parents, self.__class__.ontology_id)
+            for record in parents_records:
+                record.save()
+        super().save()
+        if hasattr(self, "_parents"):
+            self.parents.set(parents_records)
 
 
-def __init__(self, *args, **kwargs):
-    # set the direct parents as a private attribute
-    # this is a list of strings that store the ontology id
-    if "parents" in kwargs:
-        parents = kwargs.pop("parents")
-        # this checks if we receive a np.ndarray from pandas
-        if isinstance(parents, (list, np.ndarray)) and len(parents) > 0:
-            if not isinstance(parents[0], str):
-                raise ValueError("Not a valid parents kwarg, got to be list of ontology ids")
-            self._parents = parents
-    super(BaseORM, self).__init__(*args, **kwargs)
-
-
-def save(self):
-    if hasattr(self, "_parents"):
-        parents = self._parents
-        # here parents is still a list of ontology ids
-        logger.warning(f"Also saving parents of {self}")
-        parents_records = self.from_values(parents, self.__class__.ontology_id)
-        for record in parents_records:
-            record.save()
-    super(BaseORM, self).save()
-    if hasattr(self, "_parents"):
-        self.parents.set(parents_records)
-
-
-class Species(BaseORM):
+class Species(BioORM):
     """Species."""
 
     id = models.CharField(max_length=4, default=ids.species, primary_key=True)
@@ -78,11 +79,8 @@ class Species(BaseORM):
     created_by = models.ForeignKey(User, models.PROTECT, default=current_user_id, related_name="created_species")
     """Creator of record, a :class:`~lamindb.User`."""
 
-    class Meta:
-        managed = True
 
-
-class Gene(BaseORM):
+class Gene(BioORM):
     """Genes."""
 
     id = models.CharField(max_length=12, default=ids.gene, primary_key=True)
@@ -115,11 +113,8 @@ class Gene(BaseORM):
     created_by = models.ForeignKey(User, models.PROTECT, default=current_user_id, related_name="created_genes")
     """Creator of record, a :class:`~lamindb.User`."""
 
-    class Meta:
-        managed = True
 
-
-class Protein(BaseORM):
+class Protein(BioORM):
     """Proteins."""
 
     id = models.CharField(max_length=12, default=ids.protein, primary_key=True)
@@ -153,11 +148,8 @@ class Protein(BaseORM):
     )
     """Creator of record, a :class:`~lamindb.User`."""
 
-    class Meta:
-        managed = True
 
-
-class CellMarker(BaseORM):
+class CellMarker(BioORM):
     """Cell markers."""
 
     id = models.CharField(max_length=12, default=ids.cellmarker, primary_key=True)
@@ -189,11 +181,8 @@ class CellMarker(BaseORM):
     )
     """Creator of record, a :class:`~lamindb.User`."""
 
-    class Meta:
-        managed = True
 
-
-class Tissue(BaseORM):
+class Tissue(BioORM):
     """Tissues."""
 
     id = models.CharField(max_length=8, default=ids.ontology, primary_key=True)
@@ -221,11 +210,10 @@ class Tissue(BaseORM):
     """Creator of record, a :class:`~lamindb.User`."""
 
     class Meta:
-        managed = True
         unique_together = (("name", "ontology_id"),)
 
 
-class CellType(BaseORM):
+class CellType(BioORM):
     """Cell types."""
 
     id = models.CharField(max_length=8, default=ids.ontology, primary_key=True)
@@ -258,11 +246,10 @@ class CellType(BaseORM):
     """Creator of record, a :class:`~lamindb.User`."""
 
     class Meta:
-        managed = True
         unique_together = (("name", "ontology_id"),)
 
 
-class Disease(BaseORM):
+class Disease(BioORM):
     """Diseases."""
 
     id = models.CharField(max_length=8, default=ids.ontology, primary_key=True)
@@ -295,11 +282,10 @@ class Disease(BaseORM):
     """Creator of record, a :class:`~lamindb.User`."""
 
     class Meta:
-        managed = True
         unique_together = (("name", "ontology_id"),)
 
 
-class CellLine(BaseORM):
+class CellLine(BioORM):
     """Cell lines."""
 
     id = models.CharField(max_length=8, default=ids.ontology, primary_key=True)
@@ -332,11 +318,10 @@ class CellLine(BaseORM):
     """Creator of record, a :class:`~lamindb.User`."""
 
     class Meta:
-        managed = True
         unique_together = (("name", "ontology_id"),)
 
 
-class Phenotype(BaseORM):
+class Phenotype(BioORM):
     """Phenotypes."""
 
     id = models.CharField(max_length=8, default=ids.ontology, primary_key=True)
@@ -369,11 +354,10 @@ class Phenotype(BaseORM):
     """Creator of record, a :class:`~lamindb.User`."""
 
     class Meta:
-        managed = True
         unique_together = (("name", "ontology_id"),)
 
 
-class Pathway(BaseORM):
+class Pathway(BioORM):
     """Pathways."""
 
     id = models.CharField(max_length=8, default=ids.ontology, primary_key=True)
@@ -408,11 +392,10 @@ class Pathway(BaseORM):
     """Creator of record, a :class:`~lamindb.User`."""
 
     class Meta:
-        managed = True
         unique_together = (("name", "ontology_id"),)
 
 
-class Readout(BaseORM):
+class Readout(BioORM):
     """Readouts."""
 
     id = models.CharField(max_length=8, default=ids.ontology, primary_key=True)
@@ -451,7 +434,6 @@ class Readout(BaseORM):
     """Creator of record, a :class:`~lamindb.User`."""
 
     class Meta:
-        managed = True
         unique_together = (("name", "ontology_id"),)
 
 
@@ -490,24 +472,4 @@ class BiontySource(BaseORM):
     """Creator of record, a :class:`~lamindb.User`."""
 
     class Meta:
-        managed = True
         unique_together = (("entity", "source", "species", "version"),)
-
-
-for orm in [
-    CellLine,
-    CellMarker,
-    CellType,
-    Disease,
-    Gene,
-    Pathway,
-    Phenotype,
-    Protein,
-    Readout,
-    Species,
-    Tissue,
-]:
-    setattr(orm, "bionty", bionty)
-    setattr(orm, "from_bionty", from_bionty)
-    setattr(orm, "__init__", __init__)
-    setattr(orm, "save", save)
