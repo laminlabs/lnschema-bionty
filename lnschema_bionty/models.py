@@ -60,7 +60,7 @@ class BioORM(ORM):
         else:
             k = next(iter(kv))
             v = kwargs.pop(k)
-            results = cls.from_values(values=[v], field=getattr(cls, k), **kwargs)
+            results = cls.from_values([v], field=getattr(cls, k), **kwargs)
             if len(results) == 1:
                 return results[0]
             else:
