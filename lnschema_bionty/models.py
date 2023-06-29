@@ -3,14 +3,14 @@ from typing import List, Optional, Tuple
 import numpy as np
 from django.db import models
 from lamin_logger import logger
-from lnschema_core.models import BaseORM, User
+from lnschema_core.models import ORM, User
 from lnschema_core.users import current_user_id
 
 from . import ids
 from ._bionty import encode_id, get_bionty_object, lookup2kwargs
 
 
-class BioORM(BaseORM):
+class BioORM(ORM):
     class Meta:
         abstract = True
 
@@ -456,7 +456,7 @@ class Readout(BioORM):
         unique_together = (("name", "ontology_id"),)
 
 
-class BiontySource(BaseORM):
+class BiontySource(ORM):
     """Sources of the Bionty tables."""
 
     id = models.CharField(max_length=8, default=ids.source, primary_key=True)

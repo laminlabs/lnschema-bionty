@@ -2,7 +2,7 @@ from typing import Dict, List, Optional, Union
 
 import bionty as bt
 from django.core.exceptions import ObjectDoesNotExist
-from lnschema_core.models import BaseORM
+from lnschema_core.models import ORM
 
 from . import ids
 
@@ -25,11 +25,11 @@ def fields_from_knowledge(
     return bionty_dicts
 
 
-def create_or_get_species_record(species: Union[str, BaseORM], orm: BaseORM) -> Optional[BaseORM]:
+def create_or_get_species_record(species: Union[str, ORM], orm: ORM) -> Optional[ORM]:
     # return None if an ORM doesn't have species field
     species_record = None
     if hasattr(orm, "species"):
-        if isinstance(species, BaseORM):
+        if isinstance(species, ORM):
             species_record = species
         elif isinstance(species, str):
             from lnschema_bionty import Species
@@ -69,11 +69,11 @@ def get_bionty_source_record(bionty_object: bt.Bionty):
     return source_record
 
 
-def get_bionty_object(orm: BaseORM, species: Union[str, BaseORM] = None):
+def get_bionty_object(orm: ORM, species: Union[str, ORM] = None):
     if orm.__module__.startswith("lnschema_bionty."):
         import bionty as bt
 
-        if isinstance(species, BaseORM):
+        if isinstance(species, ORM):
             species_name = species.name
         else:
             species_name = species
@@ -83,7 +83,7 @@ def get_bionty_object(orm: BaseORM, species: Union[str, BaseORM] = None):
         return bionty_object
 
 
-def encode_id(orm: BaseORM, kwargs: dict):
+def encode_id(orm: ORM, kwargs: dict):
     try:
         name = orm.__name__.lower()
     except AttributeError:
@@ -120,7 +120,7 @@ def encode_id(orm: BaseORM, kwargs: dict):
     return kwargs
 
 
-def lookup2kwargs(orm: BaseORM, *args, **kwargs) -> Dict:
+def lookup2kwargs(orm: ORM, *args, **kwargs) -> Dict:
     """Pass bionty search/lookup results."""
     arg = args[0]
     if isinstance(arg, tuple):
