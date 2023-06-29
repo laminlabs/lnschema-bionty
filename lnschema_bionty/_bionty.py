@@ -1,4 +1,4 @@
-from typing import List, Optional, Union
+from typing import Dict, List, Optional, Union
 
 import bionty as bt
 from django.core.exceptions import ObjectDoesNotExist
@@ -118,3 +118,27 @@ def encode_id(orm: BaseORM, kwargs: dict):
                 return kwargs
         kwargs["id"] = id_encoder(concat_str)
     return kwargs
+
+
+def lookup2kwargs(orm: BaseORM, *args, **kwargs) -> Dict:
+    """Pass bionty search/lookup results."""
+    arg = args[0]
+    if isinstance(arg, tuple):
+        bionty_kwargs = arg._asdict()  # type:ignore
+    else:
+        bionty_kwargs = arg[0]._asdict()
+
+    if len(bionty_kwargs) > 0:
+        import bionty as bt
+
+        # add species and bionty_source
+        species_record = create_or_get_species_record(orm=orm.__class__, species=kwargs.get("species"))
+        if species_record is not None:
+            bionty_kwargs["species"] = species_record
+        bionty_object = getattr(bt, orm.__class__.__name__)(species=species_record.name if species_record is not None else None)
+        bionty_kwargs["bionty_source"] = get_bionty_source_record(bionty_object)
+
+        model_field_names = {i.name for i in orm._meta.fields}
+        model_field_names.add("parents")
+        bionty_kwargs = {k: v for k, v in bionty_kwargs.items() if k in model_field_names}
+    return encode_id(orm=orm, kwargs=bionty_kwargs)

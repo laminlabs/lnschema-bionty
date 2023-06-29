@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import List, Optional, Tuple
 
 import numpy as np
 from django.db import models
@@ -7,7 +7,7 @@ from lnschema_core.models import BaseORM, User
 from lnschema_core.users import current_user_id
 
 from . import ids
-from ._bionty import get_bionty_object
+from ._bionty import get_bionty_object, lookup2kwargs
 
 
 class BioORM(BaseORM):
@@ -17,6 +17,21 @@ class BioORM(BaseORM):
     def __init__(self, *args, **kwargs):
         # set the direct parents as a private attribute
         # this is a list of strings that store the ontology id
+        if args and len(args) == 1 and isinstance(args[0], (Tuple, List)) and len(args[0]) > 0:
+            if isinstance(args[0], List) and len(args[0]) > 1:
+                logger.warning("Multiple lookup/search results are passed, only returning record from the first entry")
+            result = lookup2kwargs(self, *args, **kwargs)  # type:ignore
+            try:
+                existing_object = self.select(**result)[0]
+                new_args = [getattr(existing_object, field.attname) for field in self._meta.concrete_fields]
+                super().__init__(*new_args)
+                self._state.adding = False  # mimic from_db
+                self._state.db = "default"
+                return self
+            except IndexError:
+                kwargs = result
+                args = ()
+
         if "parents" in kwargs:
             parents = kwargs.pop("parents")
             # this checks if we receive a np.ndarray from pandas
@@ -24,6 +39,7 @@ class BioORM(BaseORM):
                 if not isinstance(parents[0], str):
                     raise ValueError("Not a valid parents kwarg, got to be list of ontology ids")
                 self._parents = parents
+
         super().__init__(*args, **kwargs)
 
     @classmethod
@@ -47,7 +63,7 @@ class BioORM(BaseORM):
             else:
                 return results
 
-    def save(self):
+    def save(self, *args, **kwargs):
         if hasattr(self, "_parents"):
             parents = self._parents
             # here parents is still a list of ontology ids
@@ -55,7 +71,7 @@ class BioORM(BaseORM):
             parents_records = self.from_values(parents, self.__class__.ontology_id)
             for record in parents_records:
                 record.save()
-        super().save()
+        super().save(*args, **kwargs)
         if hasattr(self, "_parents"):
             self.parents.set(parents_records)
 
