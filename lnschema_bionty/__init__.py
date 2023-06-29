@@ -32,7 +32,7 @@ Bionty sources:
 # This is lnschema-module zdno.
 _schema_id = "zdno"
 _name = "bionty"
-__version__ = "0.25.0"  # Denote a release candidate of version 0.1.0 with 0.1rc1
+__version__ = "0.25.1"  # Denote a release candidate of version 0.1.0 with 0.1rc1
 
 
 from lamindb_setup._check_instance_setup import (
