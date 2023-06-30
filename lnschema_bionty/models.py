@@ -66,25 +66,20 @@ class BioORM(ORM):
             else:
                 return results
 
-    def save(self, *args, **kwargs):
-        # If the same record already exists, returns the record without saving
-        existing_record = self.select(id=self.id).one_or_none()
-        if existing_record == self:
-            self = existing_record
-            return None
-
-        # saving records of parents
-        if hasattr(self, "_parents"):
-            parents = self._parents
-            # here parents is still a list of ontology ids
-            logger.info(f"Also saving parents of {self}")
-            parents_records = self.from_values(parents, self.__class__.ontology_id)
-            for record in parents_records:
-                record.save()
-
+    def save(self, parents: bool = True, *args, **kwargs):
+        # save the record first without parents
         super().save(*args, **kwargs)
-        if hasattr(self, "_parents"):
-            self.parents.set(parents_records)
+
+        if parents:
+            # saving records of parents
+            if hasattr(self, "_parents"):
+                parents = self._parents
+                # here parents is still a list of ontology ids
+                logger.info(f"Also saving parents of {self}")
+                parents_records = self.from_values(parents, self.__class__.ontology_id)
+                for record in parents_records:
+                    record.save()
+                self.parents.set(parents_records)
 
 
 class Species(BioORM):
