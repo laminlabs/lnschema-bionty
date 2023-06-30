@@ -18,18 +18,21 @@ class Settings:
         """Default species.
 
         Default species to use when `species` argument is required.
+
+        Example:
+            >>> lb.settings.species = "mouse"
         """
         return self._species
 
     @species.setter
-    def species(self, value: int):
+    def species(self, name: str):
         import lnschema_bionty as lb
 
-        species = lb.Species(name=value)
+        species = lb.Species.from_bionty(name=name)
         if species._state.adding:
             species.save()
         logger.success(f"Set species: {species}")
-        self._species = value
+        self._species = species
 
 
 settings = Settings()
