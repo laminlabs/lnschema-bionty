@@ -6,8 +6,8 @@ from lamin_logger import logger
 class Settings:
     """Settings.
 
-    Directly use instance `lamindb.settings` rather than instantiating this
-    class yourself.
+    Directly use `lnschema_bionty.settings` rather than instantiating this class
+    yourself.
     """
 
     def __init__(self):
