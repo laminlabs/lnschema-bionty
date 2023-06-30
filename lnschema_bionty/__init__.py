@@ -4,6 +4,13 @@ Import the package::
 
    import lnschema_bionty as lb
 
+Settings:
+
+.. autosummary::
+   :toctree: .
+
+   settings
+
 All Bionty ORMs are coupled to `Bionty <https://lamin.ai/docs/bionty>`__ entities:
 
 .. autosummary::
@@ -21,13 +28,19 @@ All Bionty ORMs are coupled to `Bionty <https://lamin.ai/docs/bionty>`__ entitie
    Phenotype
    Readout
 
-
 Bionty sources:
 
 .. autosummary::
    :toctree: .
 
    BiontySource
+
+Developer API:
+
+.. autosummary::
+   :toctree: .
+
+   dev
 """
 # This is lnschema-module zdno.
 _schema_id = "zdno"
@@ -42,6 +55,7 @@ from lamindb_setup._check_instance_setup import (
 _INSTANCE_SETUP = _check_instance_setup()
 
 if _INSTANCE_SETUP:
+    from .dev._settings import settings
     from .models import (  # noqa
         BiontySource,
         CellLine,

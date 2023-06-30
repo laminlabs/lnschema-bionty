@@ -2,6 +2,7 @@ from typing import Dict, List, Optional, Union
 
 import bionty as bt
 from django.core.exceptions import ObjectDoesNotExist
+from lamin_logger import logger
 from lnschema_core.models import ORM
 
 from . import ids
@@ -25,10 +26,15 @@ def fields_from_knowledge(
     return bionty_dicts
 
 
-def create_or_get_species_record(species: Union[str, ORM], orm: ORM) -> Optional[ORM]:
+def create_or_get_species_record(species: Optional[Union[str, ORM]], orm: ORM) -> Optional[ORM]:
     # return None if an ORM doesn't have species field
     species_record = None
     if hasattr(orm, "species"):
+        from .dev._settings import settings
+
+        if species is None and settings.species is not None:
+            logger.info(f"using species = {settings.species.name}")
+            return settings.species
         if isinstance(species, ORM):
             species_record = species
         elif isinstance(species, str):
@@ -48,7 +54,7 @@ def create_or_get_species_record(species: Union[str, ORM], orm: ORM) -> Optional
                     # no such species is found in bionty reference
                     species_record = None
         if species_record is None:
-            raise AssertionError(f"{orm.__name__} table requires to specify a species name via `species=`!")
+            raise AssertionError(f"{orm.__name__} requires to specify a species name via `species=` or `lb.settings.species=`!")
 
     return species_record
 
@@ -72,6 +78,12 @@ def get_bionty_source_record(bionty_object: bt.Bionty):
 def get_bionty_object(orm: ORM, species: Union[str, ORM] = None):
     if orm.__module__.startswith("lnschema_bionty."):
         import bionty as bt
+
+        from .dev._settings import settings
+
+        if species is None and settings.species is not None:
+            species = settings.species.name
+            logger.info(f"using species = {species}")
 
         if isinstance(species, ORM):
             species_name = species.name
