@@ -6,8 +6,7 @@ from lamin_logger import logger
 class Settings:
     """Settings.
 
-    Directly use `lnschema_bionty.settings` rather than instantiating this class
-    yourself.
+    Directly use `lb.settings` rather than instantiating this class yourself.
     """
 
     def __init__(self):
@@ -15,9 +14,12 @@ class Settings:
 
     @property
     def species(self) -> Optional[str]:
-        """Default species.
+        """Default species argument (default `None`).
 
-        Default species to use when `species` argument is required.
+        Default record to use when `species` argument is required in `lamindb`
+        functionality.
+
+        Only takes effect if explicitly set!
 
         Example:
             >>> lb.settings.species = "mouse"
