@@ -79,6 +79,12 @@ def get_bionty_object(orm: ORM, species: Union[str, ORM] = None):
     if orm.__module__.startswith("lnschema_bionty."):
         import bionty as bt
 
+        from .dev._settings import settings
+
+        if species is None and settings.species is not None:
+            species = settings.species.name
+            logger.info(f"using species = {species}")
+
         if isinstance(species, ORM):
             species_name = species.name
         else:

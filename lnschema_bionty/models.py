@@ -47,11 +47,6 @@ class BioORM(ORM):
 
     @classmethod
     def bionty(cls, species: Optional[str] = None):
-        from .dev._settings import settings
-
-        if species is None and settings.species is not None:
-            species = settings.species.name
-            logger.info(f"using species = {species}")
         return get_bionty_object(orm=cls, species=species)
 
     @classmethod
