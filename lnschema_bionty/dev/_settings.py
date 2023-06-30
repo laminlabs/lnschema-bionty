@@ -2,6 +2,8 @@ from typing import Optional
 
 from lamin_logger import logger
 
+from ..models import BioORM
+
 
 class Settings:
     """Settings.
@@ -13,7 +15,7 @@ class Settings:
         self._species = None
 
     @property
-    def species(self) -> Optional[str]:
+    def species(self) -> Optional[BioORM]:
         """Default species argument (default `None`).
 
         Default record to use when `species` argument is required in `lamindb`
