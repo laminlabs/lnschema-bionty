@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
+⬆️ Update bionty version | [143](https://github.com/laminlabs/lnschema-bionty/pull/143) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-30 |
 🚑️ Allow bulk saving parents without causing conflicts | [141](https://github.com/laminlabs/lnschema-bionty/pull/141) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-30 | 0.25.2
 🚚 Move init from lookup code from lamindb here | [140](https://github.com/laminlabs/lnschema-bionty/pull/140) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-29 | 0.25.1
 ✨ Added self-referential `parents`, renamed `abbr` and `description` | [139](https://github.com/laminlabs/lnschema-bionty/pull/139) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-29 | 0.25.0
