@@ -1,4 +1,4 @@
-from typing import List, Optional, Tuple
+from typing import List, Optional, Tuple, Union
 
 import numpy as np
 from django.db import models
@@ -7,7 +7,7 @@ from lnschema_core.models import ORM, User
 from lnschema_core.users import current_user_id
 
 from . import ids
-from ._bionty import encode_id, get_bionty_object, lookup2kwargs
+from ._bionty import create_or_get_species_record, encode_id, lookup2kwargs
 
 
 class BioORM(ORM):
@@ -46,12 +46,20 @@ class BioORM(ORM):
         super().__init__(*args, **kwargs)
 
     @classmethod
-    def bionty(cls, species: Optional[str] = None):
-        return get_bionty_object(orm=cls, species=species)
+    def bionty(cls, species: Optional[Union[str, ORM]] = None):
+        if cls.__module__.startswith("lnschema_bionty."):
+            import bionty as bt
+
+            species_record = create_or_get_species_record(species=species, orm=cls)
+
+            bionty_object = getattr(bt, cls.__name__)(species=species_record.name if species_record is not None else None)
+
+            return bionty_object
 
     @classmethod
     def from_bionty(cls, **kwargs):
         """Create a record or records from bionty based on a single field value."""
+        # non-relationship kwargs
         kv = {k: v for k, v in kwargs.items() if k not in [i.name for i in cls._meta.fields if i.is_relation]}
         if len(kv) > 1:
             raise AssertionError("Only one field can be passed to generate record from Bionty")
