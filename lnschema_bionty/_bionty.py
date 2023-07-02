@@ -30,11 +30,13 @@ def create_or_get_species_record(species: Optional[Union[str, ORM]], orm: ORM) -
     # return None if an ORM doesn't have species field
     species_record = None
     if hasattr(orm, "species"):
+        # using global setting of species
         from .dev._settings import settings
 
         if species is None and settings.species is not None:
-            logger.info(f"using species = {settings.species.name}")
+            logger.info(f"using global setting species = {settings.species.name}")
             return settings.species
+
         if isinstance(species, ORM):
             species_record = species
         elif isinstance(species, str):
@@ -53,6 +55,7 @@ def create_or_get_species_record(species: Optional[Union[str, ORM]], orm: ORM) -
                 except KeyError:
                     # no such species is found in bionty reference
                     species_record = None
+
         if species_record is None:
             raise AssertionError(f"{orm.__name__} requires to specify a species name via `species=` or `lb.settings.species=`!")
 
@@ -73,26 +76,6 @@ def get_bionty_source_record(bionty_object: bt.Bionty):
         raise AssertionError("Currently used resources are not correctly configured! Please reload your instance!")
 
     return source_record
-
-
-def get_bionty_object(orm: ORM, species: Union[str, ORM] = None):
-    if orm.__module__.startswith("lnschema_bionty."):
-        import bionty as bt
-
-        from .dev._settings import settings
-
-        if species is None and settings.species is not None:
-            species = settings.species.name
-            logger.info(f"using species = {species}")
-
-        if isinstance(species, ORM):
-            species_name = species.name
-        else:
-            species_name = species
-
-        bionty_object = getattr(bt, orm.__name__)(species=species_name)
-
-        return bionty_object
 
 
 def encode_id(orm: ORM, kwargs: dict):
