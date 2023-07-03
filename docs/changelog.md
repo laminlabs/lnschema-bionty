@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
+🐛 Added missing migration | [145](https://github.com/laminlabs/lnschema-bionty/pull/145) | [sunnyosun](https://github.com/sunnyosun) | 2023-07-03 |
 🐛 Fix species bug for no-species orms | [144](https://github.com/laminlabs/lnschema-bionty/pull/144) | [sunnyosun](https://github.com/sunnyosun) | 2023-07-02 | 0.25.5
 🚸 Add settings | [142](https://github.com/laminlabs/lnschema-bionty/pull/142) | [falexwolf](https://github.com/falexwolf) | 2023-06-30 | 0.25.4
 ⬆️ Update bionty version | [143](https://github.com/laminlabs/lnschema-bionty/pull/143) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-30 | 0.25.3
