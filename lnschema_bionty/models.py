@@ -81,12 +81,13 @@ class BioORM(ORM):
         if parents:
             # saving records of parents
             if hasattr(self, "_parents"):
+                import lamindb as ln
+
                 parents = self._parents
                 # here parents is still a list of ontology ids
                 logger.info(f"Also saving parents of {self}")
                 parents_records = self.from_values(parents, self.__class__.ontology_id)
-                for record in parents_records:
-                    record.save()
+                ln.save(parents_records)
                 self.parents.set(parents_records)
 
 
