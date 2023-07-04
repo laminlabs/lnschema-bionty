@@ -74,21 +74,23 @@ class BioORM(ORM):
             else:
                 return results
 
+    def _save_ontology_parents(self):  # saving records of parents
+        if hasattr(self, "_parents"):
+            import lamindb as ln
+
+            parents = self._parents
+            # here parents is still a list of ontology ids
+            logger.info(f"Also saving parents of {self}")
+            parents_records = self.from_values(parents, self.__class__.ontology_id)
+            ln.save(parents_records)
+            self.parents.set(parents_records)
+
     def save(self, parents: bool = True, *args, **kwargs):
         # save the record first without parents
         super().save(*args, **kwargs)
 
         if parents:
-            # saving records of parents
-            if hasattr(self, "_parents"):
-                import lamindb as ln
-
-                parents = self._parents
-                # here parents is still a list of ontology ids
-                logger.info(f"Also saving parents of {self}")
-                parents_records = self.from_values(parents, self.__class__.ontology_id)
-                ln.save(parents_records)
-                self.parents.set(parents_records)
+            self._save_ontology_parents()
 
 
 class Species(BioORM):
