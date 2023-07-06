@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
+🚸 Trigger instance loading for users | [147](https://github.com/laminlabs/lnschema-bionty/pull/147) | [falexwolf](https://github.com/falexwolf) | 2023-07-06 |
 ⚡️ Speed up parents ingestion | [146](https://github.com/laminlabs/lnschema-bionty/pull/146) | [falexwolf](https://github.com/falexwolf) | 2023-07-04 | 0.26.1
 🐛 Added missing migration | [145](https://github.com/laminlabs/lnschema-bionty/pull/145) | [sunnyosun](https://github.com/sunnyosun) | 2023-07-03 | 0.26.0
 🐛 Fix species bug for no-species orms | [144](https://github.com/laminlabs/lnschema-bionty/pull/144) | [sunnyosun](https://github.com/sunnyosun) | 2023-07-02 | 0.25.5
