@@ -48,6 +48,8 @@ __version__ = "0.26.1"  # Denote a release candidate of version 0.1.0 with 0.1rc
 
 from lamindb_setup import _check_instance_setup
 
+from . import ids
+
 
 # trigger instance loading if users
 # want to access attributes
