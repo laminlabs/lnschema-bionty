@@ -17,4 +17,5 @@ def install(session: nox.Session):
 @nox.session
 def build(session: nox.Session):
     run_pytest(session, coverage=False)
+    session.run(*"lamin init --storage ./docsbuild --schema bionty".split())
     build_docs(session)
