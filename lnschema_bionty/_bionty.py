@@ -34,7 +34,7 @@ def create_or_get_species_record(species: Optional[Union[str, ORM]], orm: ORM) -
         from .dev._settings import settings
 
         if species is None and settings.species is not None:
-            logger.info(f"using global setting species = {settings.species.name}")
+            logger.info(f"Using global setting species = {settings.species.name}")
             return settings.species
 
         if isinstance(species, ORM):
