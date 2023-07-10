@@ -3,7 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
-⬆️ Update bionty | [148](https://github.com/laminlabs/lnschema-bionty/pull/148) | [sunnyosun](https://github.com/sunnyosun) | 2023-07-10 |
+⬆️ Update bionty | [148](https://github.com/laminlabs/lnschema-bionty/pull/148) | [sunnyosun](https://github.com/sunnyosun) | 2023-07-10 | 0.26.3
 🚸 Trigger instance loading for users | [147](https://github.com/laminlabs/lnschema-bionty/pull/147) | [falexwolf](https://github.com/falexwolf) | 2023-07-06 | 0.26.2
 ⚡️ Speed up parents ingestion | [146](https://github.com/laminlabs/lnschema-bionty/pull/146) | [falexwolf](https://github.com/falexwolf) | 2023-07-04 | 0.26.1
 🐛 Added missing migration | [145](https://github.com/laminlabs/lnschema-bionty/pull/145) | [sunnyosun](https://github.com/sunnyosun) | 2023-07-03 | 0.26.0
