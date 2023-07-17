@@ -26,7 +26,7 @@ All Bionty ORMs are coupled to `Bionty <https://lamin.ai/docs/bionty>`__ entitie
    Disease
    Pathway
    Phenotype
-   Readout
+   ExperimentalFactor
 
 Bionty sources:
 
@@ -68,11 +68,14 @@ if _check_instance_setup():
         CellMarker,
         CellType,
         Disease,
+        ExperimentalFactor,
         Gene,
         Pathway,
         Phenotype,
         Protein,
-        Readout,
         Species,
         Tissue,
     )
+
+    # backward compat
+    Readout = ExperimentalFactor
