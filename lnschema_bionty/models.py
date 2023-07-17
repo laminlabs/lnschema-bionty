@@ -428,32 +428,32 @@ class Pathway(BioORM):
         unique_together = (("name", "ontology_id"),)
 
 
-class Readout(BioORM):
-    """Readouts."""
+class ExperimentalFactor(BioORM):
+    """Experimental factors."""
 
     id = models.CharField(max_length=8, default=ids.ontology, primary_key=True)
     name = models.CharField(max_length=256, db_index=True)
-    """Name of the readout."""
+    """Name of the experimental factor."""
     ontology_id = models.CharField(max_length=32, db_index=True, null=True, default=None)
-    """Ontology ID of the readout."""
+    """Ontology ID of the experimental factor."""
     abbr = models.CharField(max_length=32, db_index=True, unique=True, null=True, default=None)
-    """A unique abbreviation of readout."""
+    """A unique abbreviation of experimental factor."""
     synonyms = models.TextField(null=True, default=None)
-    """Bar-separated (|) synonyms that correspond to this readout."""
+    """Bar-separated (|) synonyms that correspond to this experimental factor."""
     description = models.TextField(null=True, default=None)
-    """Description of the readout."""
+    """Description of the experimental factor."""
     molecule = models.TextField(null=True, default=None, db_index=True)
-    """Molecular readout, parsed from EFO."""
+    """Molecular experimental factor, parsed from EFO."""
     instrument = models.TextField(null=True, default=None, db_index=True)
-    """Instrument used to measure the readout, parsed from EFO."""
+    """Instrument used to measure the experimental factor, parsed from EFO."""
     measurement = models.TextField(null=True, default=None, db_index=True)
-    """Phenotypic readout, parsed from EFO."""
+    """Phenotypic experimental factor, parsed from EFO."""
     parents = models.ManyToManyField("self", symmetrical=False, related_name="children")
-    """Parent readout records."""
-    bionty_source = models.ForeignKey("BiontySource", models.PROTECT, null=True, related_name="readouts")
-    """:class:`~lnschema_bionty.BiontySource` this readout associates with."""
-    files = models.ManyToManyField("lnschema_core.File", related_name="readouts")
-    """Files linked to the readout."""
+    """Parent experimental factor records."""
+    bionty_source = models.ForeignKey("BiontySource", models.PROTECT, null=True, related_name="experimental_factors")
+    """:class:`~lnschema_bionty.BiontySource` this experimental_factors associates with."""
+    files = models.ManyToManyField("lnschema_core.File", related_name="experimental_factors")
+    """Files linked to the experimental_factors."""
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
     """Time of creation of record."""
     updated_at = models.DateTimeField(auto_now=True, db_index=True)
@@ -462,7 +462,7 @@ class Readout(BioORM):
         User,
         models.PROTECT,
         default=current_user_id,
-        related_name="created_readouts",
+        related_name="created_experimental_factors",
     )
     """Creator of record, a :class:`~lamindb.User`."""
 
