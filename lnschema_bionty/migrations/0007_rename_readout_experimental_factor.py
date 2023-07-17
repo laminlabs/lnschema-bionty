@@ -20,7 +20,11 @@ def reverse_func(apps, schema_editor):
     """Rename Readout entity in BiontySource table."""
     BiontySource = apps.get_model("lnschema_bionty", "BiontySource")
     db_alias = schema_editor.connection.alias
-    BiontySource.objects.using(db_alias).filter(entity="ExperimentalFactor").update(entity="Readout")
+    try:
+        with transaction.atomic():
+            BiontySource.objects.using(db_alias).filter(entity="ExperimentalFactor").update(entity="Readout")
+    except IntegrityError:
+        pass
 
 
 class Migration(migrations.Migration):
