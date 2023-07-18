@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
+✅ Add integrity test | [151](https://github.com/laminlabs/lnschema-bionty/pull/151) | [falexwolf](https://github.com/falexwolf) | 2023-07-18 |
 🚚 Rename Readout to ExperimentalFactor | [149](https://github.com/laminlabs/lnschema-bionty/pull/149) | [sunnyosun](https://github.com/sunnyosun) | 2023-07-17 |
 ⬆️ Update bionty | [148](https://github.com/laminlabs/lnschema-bionty/pull/148) | [sunnyosun](https://github.com/sunnyosun) | 2023-07-10 | 0.26.3
 🚸 Trigger instance loading for users | [147](https://github.com/laminlabs/lnschema-bionty/pull/147) | [falexwolf](https://github.com/falexwolf) | 2023-07-06 | 0.26.2
