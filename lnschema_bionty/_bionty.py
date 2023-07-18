@@ -1,4 +1,4 @@
-from typing import Dict, List, Optional, Union
+from typing import Dict, Optional, Union
 
 import bionty as bt
 from django.core.exceptions import ObjectDoesNotExist
@@ -6,24 +6,6 @@ from lamin_logger import logger
 from lnschema_core.models import ORM
 
 from . import ids
-
-
-def fields_from_knowledge(
-    locals: dict,
-    bionty_object: bt.Bionty,
-) -> List:
-    if len(locals) > 1:
-        raise AssertionError("Only 1 kwarg can be passed when populating fields from bionty!")
-    df = bionty_object._df
-
-    k = next(iter(locals))
-    v = locals[k]
-    try:
-        bionty_dicts = df.set_index(k).loc[[v]].reset_index().to_dict(orient="records")
-    except KeyError:
-        raise KeyError(f"No entry is found in bionty reference table with '{k}={v}'!\n Try passing a species other than {bionty_object.species}!")
-
-    return bionty_dicts
 
 
 def create_or_get_species_record(species: Optional[Union[str, ORM]], orm: ORM) -> Optional[ORM]:
@@ -86,13 +68,7 @@ def encode_id(orm: ORM, kwargs: dict):
     ontology = False
     concat_str = ""
     if name == "gene":
-        if kwargs.get("hgnc_id") is not None:
-            concat_str = kwargs.get("hgnc_id", "")
-        elif kwargs.get("mgi_id") is not None:
-            concat_str = kwargs.get("mgi_id", "")
-        else:
-            concat_str = ""
-        concat_str = f"{concat_str}{kwargs.get('ensembl_gene_id', '')}{kwargs.get('ncbi_gene_id', '')}{kwargs.get('symbol', '')}"  # noqa
+        concat_str = f"{kwargs.get('ensembl_gene_id', '')}{kwargs.get('symbol', '')}"
     elif name == "protein":
         concat_str = kwargs.get("uniprotkb_id", "")
     elif name == "cellmarker":
