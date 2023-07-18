@@ -1,4 +1,4 @@
-from typing import Dict, List, Optional, Union
+from typing import Dict, Optional, Union
 
 import bionty as bt
 from django.core.exceptions import ObjectDoesNotExist
@@ -6,44 +6,6 @@ from lamin_logger import logger
 from lnschema_core.models import ORM
 
 from . import ids
-
-
-def fields_from_knowledge(
-    locals: dict,
-    bionty_object: bt.Bionty,
-) -> List:
-    if len(locals) > 1:
-        raise AssertionError("Only 1 kwarg can be passed when populating fields from bionty!")
-    df = bionty_object._df
-
-    k = next(iter(locals))
-    v = locals[k]
-    try:
-        if k == "ensembl_gene_id" and bionty_object.__class__.__name__ == "Gene":
-            df = df.drop_duplicates(["ensembl_gene_id", "ncbi_gene_id"])
-
-        res = df.set_index(k).loc[[v]].reset_index()
-
-        # concat ncbi_gene_ids if multiple matches ensembl_gene_id
-        if res.shape[0] > 1 and k == "ensembl_gene_id" and bionty_object.__class__.__name__ == "Gene":
-            res = (
-                res.groupby("ensembl_gene_id")
-                .agg(
-                    {
-                        "symbol": "first",
-                        "ncbi_gene_id": "|".join,
-                        "biotype": "first",
-                        "description": "first",
-                        "synonyms": "first",
-                    }
-                )
-                .head(1)
-            )
-        bionty_dicts = res.to_dict(orient="records")
-    except KeyError:
-        raise KeyError(f"No entry is found in bionty reference table with '{k}={v}'!\n Try passing a species other than {bionty_object.species}!")
-
-    return bionty_dicts
 
 
 def create_or_get_species_record(species: Optional[Union[str, ORM]], orm: ORM) -> Optional[ORM]:
