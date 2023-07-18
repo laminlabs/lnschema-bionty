@@ -40,16 +40,6 @@ class Migration(migrations.Migration):
         migrations.RenameModel(old_name="Readout", new_name="ExperimentalFactor"),
         migrations.AlterField(
             model_name="experimentalfactor",
-            name="bionty_source",
-            field=models.ForeignKey(
-                "BiontySource",
-                models.PROTECT,
-                null=True,
-                related_name="experimental_factors",
-            ),
-        ),
-        migrations.AlterField(
-            model_name="experimentalfactor",
             name="files",
             field=models.ManyToManyField(to="lnschema_core.File", related_name="experimental_factors"),
         ),
@@ -61,6 +51,16 @@ class Migration(migrations.Migration):
                 on_delete=django.db.models.deletion.PROTECT,
                 related_name="created_experimental_factors",
                 to="lnschema_core.user",
+            ),
+        ),
+        migrations.AlterField(
+            model_name="experimentalfactor",
+            name="bionty_source",
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.PROTECT,
+                related_name="experimental_factors",
+                to="lnschema_bionty.biontysource",
             ),
         ),
         migrations.RunPython(forwards_func, reverse_func),
