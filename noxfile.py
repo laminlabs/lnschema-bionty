@@ -1,5 +1,5 @@
 import nox
-from laminci.nox import build_docs, login_testuser1, run_pre_commit, run_pytest
+from laminci.nox import run_pre_commit, run_pytest
 
 nox.options.default_venv_backend = "none"
 
@@ -17,6 +17,3 @@ def install(session: nox.Session):
 @nox.session
 def build(session: nox.Session):
     run_pytest(session, coverage=False)
-    login_testuser1(session)
-    session.run(*"lamin init --storage ./docsbuild --schema bionty".split())
-    build_docs(session)
