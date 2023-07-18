@@ -19,7 +19,27 @@ def fields_from_knowledge(
     k = next(iter(locals))
     v = locals[k]
     try:
-        bionty_dicts = df.set_index(k).loc[[v]].reset_index().to_dict(orient="records")
+        if k == "ensembl_gene_id" and bionty_object.__class__.__name__ == "Gene":
+            df = df.drop_duplicates(["ensembl_gene_id", "ncbi_gene_id"])
+
+        res = df.set_index(k).loc[[v]].reset_index()
+
+        # concat ncbi_gene_ids if multiple matches ensembl_gene_id
+        if res.shape[0] > 1 and k == "ensembl_gene_id" and bionty_object.__class__.__name__ == "Gene":
+            res = (
+                res.groupby("ensembl_gene_id")
+                .agg(
+                    {
+                        "symbol": "first",
+                        "ncbi_gene_id": "|".join,
+                        "biotype": "first",
+                        "description": "first",
+                        "synonyms": "first",
+                    }
+                )
+                .head(1)
+            )
+        bionty_dicts = res.to_dict(orient="records")
     except KeyError:
         raise KeyError(f"No entry is found in bionty reference table with '{k}={v}'!\n Try passing a species other than {bionty_object.species}!")
 
@@ -86,13 +106,7 @@ def encode_id(orm: ORM, kwargs: dict):
     ontology = False
     concat_str = ""
     if name == "gene":
-        if kwargs.get("hgnc_id") is not None:
-            concat_str = kwargs.get("hgnc_id", "")
-        elif kwargs.get("mgi_id") is not None:
-            concat_str = kwargs.get("mgi_id", "")
-        else:
-            concat_str = ""
-        concat_str = f"{concat_str}{kwargs.get('ensembl_gene_id', '')}{kwargs.get('ncbi_gene_id', '')}{kwargs.get('symbol', '')}"  # noqa
+        concat_str = f"{kwargs.get('ensembl_gene_id', '')}{kwargs.get('symbol', '')}"
     elif name == "protein":
         concat_str = kwargs.get("uniprotkb_id", "")
     elif name == "cellmarker":
