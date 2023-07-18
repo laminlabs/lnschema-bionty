@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
+🎨 Gene table unique on ensembl id | [152](https://github.com/laminlabs/lnschema-bionty/pull/152) | [sunnyosun](https://github.com/sunnyosun) | 2023-07-18 |
 🎨 Fix migration | [150](https://github.com/laminlabs/lnschema-bionty/pull/150) | [sunnyosun](https://github.com/sunnyosun) | 2023-07-18 |
 ✅ Add integrity test | [151](https://github.com/laminlabs/lnschema-bionty/pull/151) | [falexwolf](https://github.com/falexwolf) | 2023-07-18 |
 🚚 Rename Readout to ExperimentalFactor | [149](https://github.com/laminlabs/lnschema-bionty/pull/149) | [sunnyosun](https://github.com/sunnyosun) | 2023-07-17 |
