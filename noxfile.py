@@ -1,5 +1,5 @@
 import nox
-from laminci.nox import run_pre_commit, run_pytest
+from laminci.nox import login_testuser1, run_pre_commit, run_pytest
 
 nox.options.default_venv_backend = "none"
 
@@ -16,4 +16,5 @@ def install(session: nox.Session):
 
 @nox.session
 def build(session: nox.Session):
+    login_testuser1(session)
     run_pytest(session, coverage=False)
