@@ -12,7 +12,8 @@ def forwards_func(apps, schema_editor):
         with transaction.atomic():
             Gene.objects.using(db_alias).filter(ensembl_gene_id="").update(ensembl_gene_id=None)
             for esb_id in Gene.objects.values_list("ensembl_gene_id", flat=True).distinct():
-                Gene.objects.filter(pk__in=Gene.objects.using(db_alias).filter(ensembl_gene_id=esb_id).values_list("id", flat=True)[1:]).delete()
+                if esb_id is not None:
+                    Gene.objects.filter(pk__in=Gene.objects.using(db_alias).filter(ensembl_gene_id=esb_id).values_list("id", flat=True)[1:]).delete()
 
     except IntegrityError:
         pass
