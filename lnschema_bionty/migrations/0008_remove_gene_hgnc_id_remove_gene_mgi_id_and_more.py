@@ -13,9 +13,10 @@ def forwards_func(apps, schema_editor):
         with transaction.atomic():
             Gene.objects.using(db_alias).filter(ensembl_gene_id="").update(ensembl_gene_id=None)
             df = pd.DataFrame(Gene.objects.using(db_alias).values())
-            dup_ids = df[df["ensembl_gene_id"].duplicated()].id.tolist()
-            if len(dup_ids) > 0:
-                Gene.objects.using(db_alias).filter(id__in=dup_ids).all().delete()
+            if "ensembl_gene_id" in df.columns:
+                dup_ids = df[df["ensembl_gene_id"].duplicated()].id.tolist()
+                if len(dup_ids) > 0:
+                    Gene.objects.using(db_alias).filter(id__in=dup_ids).all().delete()
 
     except IntegrityError:
         pass
