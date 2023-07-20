@@ -11,6 +11,17 @@ from ._bionty import create_or_get_species_record, encode_id, lookup2kwargs
 
 
 class BioORM(ORM):
+    """Base ORM of lnschema_bionty.
+
+    BioORM inherits all methods from :class:`~lamindb.dev.ORM` and provides additional methods
+    including :meth:`~lnschema_bionty.BioORM.bionty` and :meth:`~lnschema_bionty.BioORM.from_bionty`
+
+    Notes:
+        For more info, see tutorials:
+        - :doc:`/lnschema-bionty`
+        - :doc:`/biology/registries`
+    """
+
     class Meta:
         abstract = True
 
@@ -47,6 +58,29 @@ class BioORM(ORM):
 
     @classmethod
     def bionty(cls, species: Optional[Union[str, ORM]] = None):
+        """The corresponding Bionty object.
+
+        e.g. lnschema_bionty.CellType.bionty() is equivalent to bionty.CellType().
+        Note that the public source is auto-configured and tracked via :meth:`lnschema_bionty.BiontySource`.
+
+        See Also:
+            :class:`bionty.Bionty`
+
+        Examples:
+            >>> celltype_bt = lb.CellType.bionty()
+            >>> celltype_bt
+            CellType
+            Species: all
+            Source: cl, 2023-04-20
+            #terms: 2698
+
+            📖 CellType.df(): ontology reference table
+            🔎 CellType.lookup(): autocompletion of terms
+            🎯 CellType.search(): free text search of terms
+            🧐 CellType.inspect(): check if identifiers are mappable
+            👽 CellType.map_synonyms(): map synonyms to standardized names
+            🔗 CellType.ontology: Pronto.Ontology object
+        """
         if cls.__module__.startswith("lnschema_bionty."):
             import bionty as bt
 
@@ -58,7 +92,27 @@ class BioORM(ORM):
 
     @classmethod
     def from_bionty(cls, **kwargs):
-        """Create a record or records from bionty based on a single field value."""
+        """Create a record or records from bionty based on a single field value.
+
+        Notes:
+            For more info, see tutorial :doc:`/lnschema-bionty`
+
+            Bulk create protein records via :class:`~lamindb.dev.ORM.from_values`.
+
+        Examples:
+            Create a record by passing a field value:
+
+            >>> record = lb.Gene.from_bionty(symbol="TCF7", species="human")
+            💬 Created 1 Gene record from Bionty that matched symbol field (bionty_source_id=6dGw)
+            >>> record
+            Gene(id=0StEa7eEhivb, symbol=TCF7, ensembl_gene_id=ENSG00000081059, ncbi_gene_ids=6932, biotype=protein_coding, description=transcription factor 7 [Source:HGNC Symbol;Acc:HGNC:11639], synonyms=TCF-1, species_id=uHJU, bionty_source_id=6dGw, created_by_id=DzTjkKse) # noqa
+
+            Synonyms are recognized:
+            >>> record = lb.Gene.from_bionty(symbol="ABC1", species="human")
+            💬 Created 1 Gene record from Bionty that matched synonyms (bionty_source_id=6dGw)
+            >>> record
+            Gene(id=WaOJkdppI1ct, symbol=HEATR6, ensembl_gene_id=ENSG00000068097, ncbi_gene_ids=63897, biotype=protein_coding, description=HEAT repeat containing 6 [Source:HGNC Symbol;Acc:HGNC:24076], synonyms=FLJ22087|ABC1, species_id=uHJU, bionty_source_id=6dGw, created_by_id=DzTjkKse) # noqa
+        """
         # non-relationship kwargs
         kv = {k: v for k, v in kwargs.items() if k not in [i.name for i in cls._meta.fields if i.is_relation]}
         if len(kv) > 1:
@@ -86,6 +140,7 @@ class BioORM(ORM):
             self.parents.set(parents_records)
 
     def save(self, parents: bool = True, *args, **kwargs):
+        """Save the record and its parents recursively."""
         # save the record first without parents
         super().save(*args, **kwargs)
 
@@ -94,7 +149,15 @@ class BioORM(ORM):
 
 
 class Species(BioORM):
-    """Species."""
+    """Species.
+
+    Examples:
+        >>> record = lb.Species.from_bionty(name="rabbit")
+        >>> 💬 Created 1 Species record from Bionty that matched name field (bionty_source_id=KkPB)
+        >>> record
+        Species(id=2Nq8, name=rabbit, taxon_id=9986, scientific_name=oryctolagus_cuniculus, bionty_source_id=KkPB, created_by_id=DzTjkKse)
+        >>> record.save()
+    """
 
     id = models.CharField(max_length=4, default=ids.species, primary_key=True)
     name = models.CharField(max_length=64, db_index=True, default=None)
@@ -114,7 +177,20 @@ class Species(BioORM):
 
 
 class Gene(BioORM):
-    """Genes."""
+    """Genes.
+
+    Notes:
+        For more info, see tutorial :doc:`/biology/scrna`
+
+        Bulk create protein records via :class:`~lamindb.dev.ORM.from_values`.
+
+    Examples:
+        >>> record = lb.Gene.from_bionty(symbol="TCF7", species="human")
+        💬 Created 1 Gene record from Bionty that matched symbol field (bionty_source_id=6dGw)
+        >>> record
+        Gene(id=0StEa7eEhivb, symbol=TCF7, ensembl_gene_id=ENSG00000081059, ncbi_gene_ids=6932, biotype=protein_coding, description=transcription factor 7 [Source:HGNC Symbol;Acc:HGNC:11639], synonyms=TCF-1, species_id=uHJU, bionty_source_id=6dGw, created_by_id=DzTjkKse) # noqa
+        >>> record.save()
+    """
 
     id = models.CharField(max_length=12, default=ids.gene, primary_key=True)
     symbol = models.CharField(max_length=64, db_index=True, null=True, default=None)
@@ -146,7 +222,23 @@ class Gene(BioORM):
 
 
 class Protein(BioORM):
-    """Proteins."""
+    """Proteins.
+
+    Notes:
+        Bulk create protein records via :class:`~lamindb.dev.ORM.from_values`.
+
+    Examples:
+        >>> record = lb.Protein.from_bionty(name="Synaptotagmin-15B", species="human")
+        💬 Created 1 Protein record from Bionty that matched name field (bionty_source_id=SFni)
+        >>> record
+        Protein(id=KiCrq9BBTviZ, name=Synaptotagmin-15B, uniprotkb_id=X6R8R1, synonyms=, length=474, gene_symbol=SYT15B, species_id=uHJU, bionty_source_id=SFni, created_by_id=DzTjkKse) # noqa
+
+        >>> record = lb.Protein.from_bionty(gene_symbol="SYT15B", species="human")
+        💬 Created 1 Protein record from Bionty that matched gene_symbol field (bionty_source_id=SFni)
+        >>> record
+        Protein(id=KiCrq9BBTviZ, name=Synaptotagmin-15B, uniprotkb_id=X6R8R1, synonyms=, length=474, gene_symbol=SYT15B, species_id=uHJU, bionty_source_id=SFni, created_by_id=DzTjkKse) # noqa
+        >>> record.save()
+    """
 
     id = models.CharField(max_length=12, default=ids.protein, primary_key=True)
     name = models.CharField(max_length=64, db_index=True, null=True, default=None)
@@ -181,7 +273,20 @@ class Protein(BioORM):
 
 
 class CellMarker(BioORM):
-    """Cell markers."""
+    """Cell markers.
+
+    Notes:
+        For more info, see tutorial :doc:`/biology/flow`
+
+        Bulk create protein records via :class:`~lamindb.dev.ORM.from_values`.
+
+    Examples:
+        >>> record = lb.CellMarker.from_bionty(name="PD1", species="human")
+        💬 Created 1 CellMarker record from Bionty that matched name field (bionty_source_id=7agi)
+        >>> record
+        CellMarker(id=2VeZenLi2dj5, name=PD1, synonyms=PID1|PD-1|PD 1, gene_symbol=PDCD1, ncbi_gene_id=5133, uniprotkb_id=A0A0M3M0G7, species_id=uHJU, bionty_source_id=7agi, created_by_id=DzTjkKse) # noqa
+        >>> record.save()
+    """
 
     id = models.CharField(max_length=12, default=ids.cellmarker, primary_key=True)
     name = models.CharField(max_length=64, db_index=True, default=None, unique=True)
@@ -214,7 +319,20 @@ class CellMarker(BioORM):
 
 
 class Tissue(BioORM):
-    """Tissues."""
+    """Tissues.
+
+    Notes:
+        For more info, see tutorial :doc:`/biology/registries`
+
+        Bulk create protein records via :class:`~lamindb.dev.ORM.from_values`.
+
+    Examples:
+        >>> record = lb.Tissue.from_bionty(name="brain")
+        💬 Created 1 Tissue record from Bionty that matched name field (bionty_source_id=XrS9)
+        >>> record
+        Tissue(id=7HcGzG0l, name=brain, ontology_id=UBERON:0000955, description=The Brain Is The Center Of The Nervous System In All Vertebrate, And Most Invertebrate, Animals. Some Primitive Animals Such As Jellyfish And Starfish Have A Decentralized Nervous System Without A Brain, While Sponges Lack Any Nervous System At All. In Vertebrates, The Brain Is Located In The Head, Protected By The Skull And Close To The Primary Sensory Apparatus Of Vision, Hearing, Balance, Taste, And Smell[Wp]., bionty_source_id=XrS9, created_by_id=DzTjkKse) # noqa
+        >>> record.save()
+    """
 
     id = models.CharField(max_length=8, default=ids.ontology, primary_key=True)
     name = models.CharField(max_length=256, db_index=True)
@@ -245,7 +363,19 @@ class Tissue(BioORM):
 
 
 class CellType(BioORM):
-    """Cell types."""
+    """Cell types.
+
+    Notes:
+        For more info, see tutorial :doc:`/biology/registries`
+
+        Bulk create protein records via :class:`~lamindb.dev.ORM.from_values`.
+
+    Examples:
+        >>> record = lb.CellType.from_bionty(name="T cell")
+        💬 Created 1 CellType record from Bionty that matched name field (bionty_source_id=ivhQ)
+        >>> record
+        CellType(id=BxNjby0x, name=T cell, ontology_id=CL:0000084, synonyms=T-cell|T lymphocyte|T-lymphocyte, description=A Type Of Lymphocyte Whose Defining Characteristic Is The Expression Of A T Cell Receptor Complex., bionty_source_id=ivhQ, created_by_id=DzTjkKse) # noqa
+    """
 
     id = models.CharField(max_length=8, default=ids.ontology, primary_key=True)
     name = models.CharField(max_length=256, db_index=True)
@@ -281,7 +411,19 @@ class CellType(BioORM):
 
 
 class Disease(BioORM):
-    """Diseases."""
+    """Diseases.
+
+    Notes:
+        For more info, see tutorial :doc:`/biology/registries`
+
+        Bulk create protein records via :class:`~lamindb.dev.ORM.from_values`.
+
+    Examples:
+        >>> record = lb.Disease.from_bionty(name="Alzheimer's disease")
+        💬 Created 1 Disease record from Bionty that matched synonyms (bionty_source_id=eeie)
+        >>> record
+        Disease(id=nUmxpVTE, name=Alzheimer disease, ontology_id=MONDO:0004975, synonyms=Alzheimer's disease|Alzheimer's dementia|Alzheimers dementia|Alzheimers disease|Alzheimer dementia|Alzheimer disease|presenile and senile dementia|AD, description=A Progressive, Neurodegenerative Disease Characterized By Loss Of Function And Death Of Nerve Cells In Several Areas Of The Brain Leading To Loss Of Cognitive Function Such As Memory And Language., bionty_source_id=eeie, created_by_id=DzTjkKse) # noqa
+    """
 
     id = models.CharField(max_length=8, default=ids.ontology, primary_key=True)
     name = models.CharField(max_length=256, db_index=True)
@@ -317,7 +459,19 @@ class Disease(BioORM):
 
 
 class CellLine(BioORM):
-    """Cell lines."""
+    """Cell lines.
+
+    Notes:
+        For more info, see tutorial :doc:`/biology/registries`
+
+        Bulk create protein records via :class:`~lamindb.dev.ORM.from_values`.
+
+    Examples:
+        >>> record = lb.CellLine.from_bionty(name="K562")
+        💬 Created 1 CellLine record from Bionty that matched synonyms (bionty_source_id=ls6p)
+        >>> record
+        CellLine(id=akITPKqK, name=K 562 cell, ontology_id=CLO:0007050, synonyms=K-562|KO|GM05372E|K.562|K562|GM05372|K 562, description=disease: leukemia, chronic myeloid, bionty_source_id=ls6p, created_by_id=DzTjkKse) # noqa
+    """
 
     id = models.CharField(max_length=8, default=ids.ontology, primary_key=True)
     name = models.CharField(max_length=256, db_index=True)
@@ -353,7 +507,19 @@ class CellLine(BioORM):
 
 
 class Phenotype(BioORM):
-    """Phenotypes."""
+    """Phenotypes.
+
+    Notes:
+        For more info, see tutorial :doc:`/biology/registries`
+
+        Bulk create protein records via :class:`~lamindb.dev.ORM.from_values`.
+
+    Examples:
+        >>> record = lb.Phenotype.from_bionty(name="Arachnodactyly")
+        💬 Created 1 Phenotype record from Bionty that matched name field (bionty_source_id=2Uqu)
+        >>> record
+        Phenotype(id=Cbc4RCc0, name=Arachnodactyly, ontology_id=HP:0001166, synonyms=Long slender fingers|Long, slender fingers|Spider fingers, description=Abnormally Long And Slender Fingers ("Spider Fingers")., bionty_source_id=2Uqu, created_by_id=DzTjkKse) # noqa
+    """
 
     id = models.CharField(max_length=8, default=ids.ontology, primary_key=True)
     name = models.CharField(max_length=256, db_index=True)
@@ -389,7 +555,19 @@ class Phenotype(BioORM):
 
 
 class Pathway(BioORM):
-    """Pathways."""
+    """Pathways.
+
+    Notes:
+        For more info, see tutorial :doc:`/biology/registries`
+
+        Bulk create protein records via :class:`~lamindb.dev.ORM.from_values`.
+
+    Examples:
+        >>> record = lb.Pathway.from_bionty(ontology_id="GO:1903353")
+        💬 Created 1 Pathway record from Bionty that matched ontology_id field (bionty_source_id=Zo0l)
+        >>> record
+        Pathway(id=fwv8v1X9, name=regulation of nucleus organization, ontology_id=GO:1903353, synonyms=regulation of nuclear organisation|regulation of nuclear organization, description=Any Process That Modulates The Frequency, Rate Or Extent Of Nucleus Organization., bionty_source_id=Zo0l, created_by_id=DzTjkKse) # noqa
+    """
 
     id = models.CharField(max_length=8, default=ids.ontology, primary_key=True)
     name = models.CharField(max_length=256, db_index=True)
@@ -427,7 +605,19 @@ class Pathway(BioORM):
 
 
 class ExperimentalFactor(BioORM):
-    """Experimental factors."""
+    """Experimental factors.
+
+    Notes:
+        For more info, see tutorial :doc:`/biology/registries`
+
+        Bulk create protein records via :class:`~lamindb.dev.ORM.from_values`.
+
+    Examples:
+        >>> record = lb.ExperimentalFactor.from_bionty(name="scRNA-seq")
+        💬 Created 1 ExperimentalFactor record from Bionty that matched synonyms (bionty_source_id=4otL)
+        >>> record
+        ExperimentalFactor(id=068T1Df6, name=single-cell RNA sequencing, ontology_id=EFO:0008913, synonyms=single-cell RNA-seq|single-cell transcriptome sequencing|scRNA-seq|single cell RNA sequencing, description=A Protocol That Provides The Expression Profiles Of Single Cells Via The Isolation And Barcoding Of Single Cells And Their Rna, Reverse Transcription, Amplification, Library Generation And Sequencing., molecule=RNA assay, instrument=single cell sequencing, bionty_source_id=4otL, created_by_id=DzTjkKse) # noqa
+    """
 
     id = models.CharField(max_length=8, default=ids.ontology, primary_key=True)
     name = models.CharField(max_length=256, db_index=True)
