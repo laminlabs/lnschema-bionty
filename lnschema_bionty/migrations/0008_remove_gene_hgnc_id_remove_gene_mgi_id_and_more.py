@@ -79,9 +79,4 @@ class Migration(migrations.Migration):
             field=models.CharField(db_index=True, default=None, max_length=64),
         ),
         migrations.RunPython(forwards_func, reverse_func),
-        migrations.AlterField(
-            model_name="gene",
-            name="ensembl_gene_id",
-            field=models.CharField(db_index=True, default=None, max_length=64, null=True, unique=True),
-        ),
     ]
