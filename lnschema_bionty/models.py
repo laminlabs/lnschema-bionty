@@ -14,10 +14,11 @@ class BioORM(ORM):
     """Base ORM of lnschema_bionty.
 
     BioORM inherits all methods from :class:`~lamindb.dev.ORM` and provides additional methods
-    including :meth:`~lnschema_bionty.BioORM.bionty` and :meth:`~lnschema_bionty.BioORM.from_bionty`
+    including :meth:`~lnschema_bionty.dev.BioORM.bionty` and :meth:`~lnschema_bionty.dev.BioORM.from_bionty`
 
     Notes:
         For more info, see tutorials:
+
         - :doc:`/lnschema-bionty`
         - :doc:`/biology/registries`
     """
@@ -64,7 +65,7 @@ class BioORM(ORM):
         Note that the public source is auto-configured and tracked via :meth:`lnschema_bionty.BiontySource`.
 
         See Also:
-            :class:`bionty.Bionty`
+            `Bionty <https://lamin.ai/docs/bionty/>`__
 
         Examples:
             >>> celltype_bt = lb.CellType.bionty()
