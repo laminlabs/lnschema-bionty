@@ -3,7 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
-⚡️ Fix migration 008 | [155](https://github.com/laminlabs/lnschema-bionty/pull/155) | [sunnyosun](https://github.com/sunnyosun) | 2023-07-20 |
+⚡️ Fix migration 008 | [155](https://github.com/laminlabs/lnschema-bionty/pull/155) | [sunnyosun](https://github.com/sunnyosun) | 2023-07-20 | 0.27.2
 ✏️ Fix docs warnings | [154](https://github.com/laminlabs/lnschema-bionty/pull/154) | [sunnyosun](https://github.com/sunnyosun) | 2023-07-20 | 0.27.1
 📝 Add examples to docstring | [153](https://github.com/laminlabs/lnschema-bionty/pull/153) | [sunnyosun](https://github.com/sunnyosun) | 2023-07-20 |
 🎨 Gene table unique on ensembl id | [152](https://github.com/laminlabs/lnschema-bionty/pull/152) | [sunnyosun](https://github.com/sunnyosun) | 2023-07-18 | 0.27.0
