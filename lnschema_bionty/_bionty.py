@@ -32,8 +32,8 @@ def create_or_get_species_record(species: Optional[Union[str, ORM]], orm: ORM) -
                     # create a species record from bionty reference
                     species_record = Species.from_bionty(name=species)
                     # link the species record to the default bionty source
-                    species_record.bionty_source = get_bionty_source_record(bt.Species())
-                    species_record.save()
+                    species_record.bionty_source = get_bionty_source_record(bt.Species())  # type:ignore
+                    species_record.save()  # type:ignore
                 except KeyError:
                     # no such species is found in bionty reference
                     species_record = None
