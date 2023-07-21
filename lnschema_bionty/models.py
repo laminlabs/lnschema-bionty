@@ -75,7 +75,7 @@ class BioORM(ORM):
             Species: all
             Source: cl, 2023-04-20
             #terms: 2698
-
+            ...
             📖 CellType.df(): ontology reference table
             🔎 CellType.lookup(): autocompletion of terms
             🎯 CellType.search(): free text search of terms
@@ -108,6 +108,7 @@ class BioORM(ORM):
             Gene(id=0StEa7eEhivb, symbol=TCF7, ensembl_gene_id=ENSG00000081059, ncbi_gene_ids=6932, biotype=protein_coding, description=transcription factor 7 [Source:HGNC Symbol;Acc:HGNC:11639], synonyms=TCF-1, species_id=uHJU, bionty_source_id=6dGw, created_by_id=DzTjkKse) # noqa
 
             Synonyms are recognized:
+
             >>> record = lb.Gene.from_bionty(symbol="ABC1", species="human")
             💬 Created 1 Gene record from Bionty that matched synonyms (bionty_source_id=6dGw)
             >>> record
