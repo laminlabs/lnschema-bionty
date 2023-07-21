@@ -183,9 +183,9 @@ class Species(BioORM):
     def __init__(
         self,
         name: str,
-        taxon_id: Optional[int],
-        scientific_name: Optional[str],
-        bionty_source: Optional["BiontySource"],
+        taxon_id: Optional[int] = None,
+        scientific_name: Optional[str] = None,
+        bionty_source: Optional["BiontySource"] = None,
     ):
         ...
 
@@ -251,14 +251,14 @@ class Gene(BioORM):
     @overload
     def __init__(
         self,
-        symbol: Optional[str],
-        ensembl_gene_id: Optional[str],
-        ncbi_gene_ids: Optional[str],
-        biotype: Optional[str],
-        description: Optional[str],
-        synonyms: Optional[str],
-        species: Optional[Species],
-        bionty_source: Optional["BiontySource"],
+        symbol: Optional[str] = None,
+        ensembl_gene_id: Optional[str] = None,
+        ncbi_gene_ids: Optional[str] = None,
+        biotype: Optional[str] = None,
+        description: Optional[str] = None,
+        synonyms: Optional[str] = None,
+        species: Optional[Species] = None,
+        bionty_source: Optional["BiontySource"] = None,
     ):
         ...
 
@@ -330,14 +330,14 @@ class Protein(BioORM):
     @overload
     def __init__(
         self,
-        name: Optional[str],
-        uniprotkb_id: Optional[str],
-        synonyms: Optional[str],
-        length: Optional[int],
-        gene_symbol: Optional[str],
-        ensembl_gene_ids: Optional[str],
-        species: Optional[Species],
-        bionty_source: Optional["BiontySource"],
+        name: Optional[str] = None,
+        uniprotkb_id: Optional[str] = None,
+        synonyms: Optional[str] = None,
+        length: Optional[int] = None,
+        gene_symbol: Optional[str] = None,
+        ensembl_gene_ids: Optional[str] = None,
+        species: Optional[Species] = None,
+        bionty_source: Optional["BiontySource"] = None,
     ):
         ...
 
@@ -405,12 +405,12 @@ class CellMarker(BioORM):
     def __init__(
         self,
         name: str,
-        synonyms: Optional[str],
-        gene_symbol: Optional[str],
-        ncbi_gene_id: Optional[str],
-        uniprotkb_id: Optional[str],
-        species: Optional[Species],
-        bionty_source: Optional["BiontySource"],
+        synonyms: Optional[str] = None,
+        gene_symbol: Optional[str] = None,
+        ncbi_gene_id: Optional[str] = None,
+        uniprotkb_id: Optional[str] = None,
+        species: Optional[Species] = None,
+        bionty_source: Optional["BiontySource"] = None,
     ):
         ...
 
@@ -476,13 +476,13 @@ class Tissue(BioORM):
     def __init__(
         self,
         name: str,
-        ontology_id: Optional[str],
-        abbr: Optional[str],
-        synonyms: Optional[str],
-        description: Optional[str],
-        parents: Optional[List["Tissue"]],
-        children: Optional[List["Tissue"]],
-        bionty_source: Optional["BiontySource"],
+        ontology_id: Optional[str] = None,
+        abbr: Optional[str] = None,
+        synonyms: Optional[str] = None,
+        description: Optional[str] = None,
+        parents: Optional[List["Tissue"]] = None,
+        children: Optional[List["Tissue"]] = None,
+        bionty_source: Optional["BiontySource"] = None,
     ):
         ...
 
@@ -553,13 +553,13 @@ class CellType(BioORM):
     def __init__(
         self,
         name: str,
-        ontology_id: Optional[str],
-        abbr: Optional[str],
-        synonyms: Optional[str],
-        description: Optional[str],
-        parents: Optional[List["CellType"]],
-        children: Optional[List["CellType"]],
-        bionty_source: Optional["BiontySource"],
+        ontology_id: Optional[str] = None,
+        abbr: Optional[str] = None,
+        synonyms: Optional[str] = None,
+        description: Optional[str] = None,
+        parents: Optional[List["CellType"]] = None,
+        children: Optional[List["CellType"]] = None,
+        bionty_source: Optional["BiontySource"] = None,
     ):
         ...
 
@@ -630,13 +630,13 @@ class Disease(BioORM):
     def __init__(
         self,
         name: str,
-        ontology_id: Optional[str],
-        abbr: Optional[str],
-        synonyms: Optional[str],
-        description: Optional[str],
-        parents: Optional[List["Disease"]],
-        children: Optional[List["Disease"]],
-        bionty_source: Optional["BiontySource"],
+        ontology_id: Optional[str] = None,
+        abbr: Optional[str] = None,
+        synonyms: Optional[str] = None,
+        description: Optional[str] = None,
+        parents: Optional[List["Disease"]] = None,
+        children: Optional[List["Disease"]] = None,
+        bionty_source: Optional["BiontySource"] = None,
     ):
         ...
 
@@ -707,13 +707,13 @@ class CellLine(BioORM):
     def __init__(
         self,
         name: str,
-        ontology_id: Optional[str],
-        abbr: Optional[str],
-        synonyms: Optional[str],
-        description: Optional[str],
-        parents: Optional[List["CellLine"]],
-        children: Optional[List["CellLine"]],
-        bionty_source: Optional["BiontySource"],
+        ontology_id: Optional[str] = None,
+        abbr: Optional[str] = None,
+        synonyms: Optional[str] = None,
+        description: Optional[str] = None,
+        parents: Optional[List["CellLine"]] = None,
+        children: Optional[List["CellLine"]] = None,
+        bionty_source: Optional["BiontySource"] = None,
     ):
         ...
 
@@ -784,13 +784,13 @@ class Phenotype(BioORM):
     def __init__(
         self,
         name: str,
-        ontology_id: Optional[str],
-        abbr: Optional[str],
-        synonyms: Optional[str],
-        description: Optional[str],
-        parents: Optional[List["Phenotype"]],
-        children: Optional[List["Phenotype"]],
-        bionty_source: Optional["BiontySource"],
+        ontology_id: Optional[str] = None,
+        abbr: Optional[str] = None,
+        synonyms: Optional[str] = None,
+        description: Optional[str] = None,
+        parents: Optional[List["Phenotype"]] = None,
+        children: Optional[List["Phenotype"]] = None,
+        bionty_source: Optional["BiontySource"] = None,
     ):
         ...
 
@@ -863,13 +863,13 @@ class Pathway(BioORM):
     def __init__(
         self,
         name: str,
-        ontology_id: Optional[str],
-        abbr: Optional[str],
-        synonyms: Optional[str],
-        description: Optional[str],
-        parents: Optional[List["Pathway"]],
-        children: Optional[List["Pathway"]],
-        bionty_source: Optional["BiontySource"],
+        ontology_id: Optional[str] = None,
+        abbr: Optional[str] = None,
+        synonyms: Optional[str] = None,
+        description: Optional[str] = None,
+        parents: Optional[List["Pathway"]] = None,
+        children: Optional[List["Pathway"]] = None,
+        bionty_source: Optional["BiontySource"] = None,
     ):
         ...
 
@@ -946,16 +946,16 @@ class ExperimentalFactor(BioORM):
     def __init__(
         self,
         name: str,
-        ontology_id: Optional[str],
-        abbr: Optional[str],
-        synonyms: Optional[str],
-        description: Optional[str],
-        molecule: Optional[str],
-        instrument: Optional[str],
-        measurement: Optional[str],
-        parents: Optional[List["ExperimentalFactor"]],
-        children: Optional[List["ExperimentalFactor"]],
-        bionty_source: Optional["BiontySource"],
+        ontology_id: Optional[str] = None,
+        abbr: Optional[str] = None,
+        synonyms: Optional[str] = None,
+        description: Optional[str] = None,
+        molecule: Optional[str] = None,
+        instrument: Optional[str] = None,
+        measurement: Optional[str] = None,
+        parents: Optional[List["ExperimentalFactor"]] = None,
+        children: Optional[List["ExperimentalFactor"]] = None,
+        bionty_source: Optional["BiontySource"] = None,
     ):
         ...
 
@@ -1018,11 +1018,11 @@ class BiontySource(ORM):
         species: str,
         source: str,
         version: str,
-        source_name: Optional[str],
-        url: Optional[str],
-        md5: Optional[str],
-        source_website: Optional[str],
         currently_used: bool = False,
+        source_name: Optional[str] = None,
+        url: Optional[str] = None,
+        md5: Optional[str] = None,
+        source_website: Optional[str] = None,
     ):
         ...
 
