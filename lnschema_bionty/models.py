@@ -1,5 +1,6 @@
 from typing import List, Optional, Tuple, Union
 
+import bionty as bt
 import numpy as np
 from django.db import models
 from lamin_logger import logger
@@ -58,7 +59,7 @@ class BioORM(ORM):
         super().__init__(*args, **kwargs)
 
     @classmethod
-    def bionty(cls, species: Optional[Union[str, ORM]] = None):
+    def bionty(cls, species: Optional[Union[str, ORM]] = None) -> "bt.Bionty":
         """The corresponding Bionty object.
 
         e.g. lnschema_bionty.CellType.bionty() is equivalent to bionty.CellType().
@@ -83,8 +84,6 @@ class BioORM(ORM):
             🔗 CellType.ontology: Pronto.Ontology object
         """
         if cls.__module__.startswith("lnschema_bionty."):
-            import bionty as bt
-
             species_record = create_or_get_species_record(species=species, orm=cls)
 
             bionty_object = getattr(bt, cls.__name__)(species=species_record.name if species_record is not None else None)
@@ -92,7 +91,7 @@ class BioORM(ORM):
             return bionty_object
 
     @classmethod
-    def from_bionty(cls, **kwargs):
+    def from_bionty(cls, **kwargs) -> Optional[Union["BioORM", List["BioORM"]]]:
         """Create a record or records from bionty based on a single field value.
 
         Notes:
@@ -154,14 +153,14 @@ class Species(BioORM):
 
     Examples:
         >>> record = lb.Species.from_bionty(name="rabbit")
-        >>> 💬 Created 1 Species record from Bionty that matched name field (bionty_source_id=KkPB)
+        💬 Created 1 Species record from Bionty that matched name field (bionty_source_id=KkPB)
         >>> record
         Species(id=2Nq8, name=rabbit, taxon_id=9986, scientific_name=oryctolagus_cuniculus, bionty_source_id=KkPB, created_by_id=DzTjkKse)
         >>> record.save()
     """
 
     id = models.CharField(max_length=4, default=ids.species, primary_key=True)
-    name = models.CharField(max_length=64, db_index=True, default=None)
+    name = models.CharField(max_length=64, db_index=True, default=None, unique=True)
     """Name of a species, required field."""
     taxon_id = models.IntegerField(unique=True, db_index=True, null=True, default=None)
     """NCBI Taxon ID."""
