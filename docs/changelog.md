@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
+🎨 Make species name unique | [158](https://github.com/laminlabs/lnschema-bionty/pull/158) | [sunnyosun](https://github.com/sunnyosun) | 2023-07-21 |
 🚑  Split previous migrations into 2 scripts | [156](https://github.com/laminlabs/lnschema-bionty/pull/156) | [sunnyosun](https://github.com/sunnyosun) | 2023-07-20 | 0.27.3
 ⚡️ Fix migration 008 | [155](https://github.com/laminlabs/lnschema-bionty/pull/155) | [sunnyosun](https://github.com/sunnyosun) | 2023-07-20 | 0.27.2
 ✏️ Fix docs warnings | [154](https://github.com/laminlabs/lnschema-bionty/pull/154) | [sunnyosun](https://github.com/sunnyosun) | 2023-07-20 | 0.27.1
