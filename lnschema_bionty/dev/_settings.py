@@ -1,8 +1,8 @@
-from typing import Optional
+from typing import Optional, Union
 
 from lamin_logger import logger
 
-from ..models import BioORM
+from ..models import Species
 
 
 class Settings:
@@ -15,7 +15,7 @@ class Settings:
         self._species = None
 
     @property
-    def species(self) -> Optional[BioORM]:
+    def species(self) -> Optional[Species]:
         """Default species argument (default `None`).
 
         Default record to use when `species` argument is required in `lamindb`
@@ -29,12 +29,20 @@ class Settings:
         return self._species
 
     @species.setter
-    def species(self, name: str):
+    def species(self, name: Union[str, Species]):
         import lnschema_bionty as lb
 
-        species = lb.Species.from_bionty(name=name)
-        if species._state.adding:
-            species.save()
+        if isinstance(name, str):
+            species = lb.Species.from_bionty(name=name)
+            if species is None:
+                raise ValueError(f"No species record is found with name='{name}'")
+        elif isinstance(name, Species):
+            species = name
+        else:
+            raise ValueError("Please pass a name or a Species record!")
+
+        if species._state.adding:  # type:ignore
+            species.save()  # type:ignore
         logger.success(f"Set species: {species}")
         self._species = species
 

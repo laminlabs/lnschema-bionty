@@ -1,5 +1,6 @@
-from typing import List, Optional, Tuple, Union
+from typing import List, Optional, Tuple, Union, overload  # noqa
 
+import bionty as bt
 import numpy as np
 from django.db import models
 from lamin_logger import logger
@@ -58,7 +59,7 @@ class BioORM(ORM):
         super().__init__(*args, **kwargs)
 
     @classmethod
-    def bionty(cls, species: Optional[Union[str, ORM]] = None):
+    def bionty(cls, species: Optional[Union[str, ORM]] = None) -> "bt.Bionty":
         """The corresponding Bionty object.
 
         e.g. lnschema_bionty.CellType.bionty() is equivalent to bionty.CellType().
@@ -83,8 +84,6 @@ class BioORM(ORM):
             🔗 CellType.ontology: Pronto.Ontology object
         """
         if cls.__module__.startswith("lnschema_bionty."):
-            import bionty as bt
-
             species_record = create_or_get_species_record(species=species, orm=cls)
 
             bionty_object = getattr(bt, cls.__name__)(species=species_record.name if species_record is not None else None)
@@ -92,7 +91,7 @@ class BioORM(ORM):
             return bionty_object
 
     @classmethod
-    def from_bionty(cls, **kwargs):
+    def from_bionty(cls, **kwargs) -> Optional[Union["BioORM", List["BioORM"]]]:
         """Create a record or records from bionty based on a single field value.
 
         Notes:
@@ -140,8 +139,12 @@ class BioORM(ORM):
             ln.save(parents_records)
             self.parents.set(parents_records)
 
-    def save(self, parents: bool = True, *args, **kwargs):
-        """Save the record and its parents recursively."""
+    def save(self, parents: bool = True, *args, **kwargs) -> None:
+        """Save the record and its parents recursively.
+
+        Args:
+            parents: `bool = True` Whether to save parents records.
+        """
         # save the record first without parents
         super().save(*args, **kwargs)
 
@@ -154,15 +157,15 @@ class Species(BioORM):
 
     Examples:
         >>> record = lb.Species.from_bionty(name="rabbit")
-        >>> 💬 Created 1 Species record from Bionty that matched name field (bionty_source_id=KkPB)
+        💬 Created 1 Species record from Bionty that matched name field (bionty_source_id=KkPB)
         >>> record
         Species(id=2Nq8, name=rabbit, taxon_id=9986, scientific_name=oryctolagus_cuniculus, bionty_source_id=KkPB, created_by_id=DzTjkKse)
         >>> record.save()
     """
 
     id = models.CharField(max_length=4, default=ids.species, primary_key=True)
-    name = models.CharField(max_length=64, db_index=True, default=None)
-    """Name of a species, required field."""
+    name = models.CharField(max_length=64, db_index=True, default=None, unique=True)
+    """Unique name of a species, required field."""
     taxon_id = models.IntegerField(unique=True, db_index=True, null=True, default=None)
     """NCBI Taxon ID."""
     scientific_name = models.CharField(max_length=64, db_index=True, unique=True, null=True, default=None)
@@ -175,6 +178,30 @@ class Species(BioORM):
     """Time of last update to record."""
     created_by = models.ForeignKey(User, models.PROTECT, default=current_user_id, related_name="created_species")
     """Creator of record, a :class:`~lamindb.User`."""
+
+    @overload
+    def __init__(
+        self,
+        name: str,
+        taxon_id: Optional[int],
+        scientific_name: Optional[str],
+        bionty_source: Optional["BiontySource"],
+    ):
+        ...
+
+    @overload
+    def __init__(
+        self,
+        *db_args,
+    ):
+        ...
+
+    def __init__(
+        self,
+        *args,
+        **kwargs,
+    ):
+        pass
 
 
 class Gene(BioORM):
@@ -220,6 +247,34 @@ class Gene(BioORM):
     """Time of last update to record."""
     created_by = models.ForeignKey(User, models.PROTECT, default=current_user_id, related_name="created_genes")
     """Creator of record, a :class:`~lamindb.User`."""
+
+    @overload
+    def __init__(
+        self,
+        symbol: Optional[str],
+        ensembl_gene_id: Optional[str],
+        ncbi_gene_ids: Optional[str],
+        biotype: Optional[str],
+        description: Optional[str],
+        synonyms: Optional[str],
+        species: Optional[Species],
+        bionty_source: Optional["BiontySource"],
+    ):
+        ...
+
+    @overload
+    def __init__(
+        self,
+        *db_args,
+    ):
+        ...
+
+    def __init__(
+        self,
+        *args,
+        **kwargs,
+    ):
+        pass
 
 
 class Protein(BioORM):
@@ -272,6 +327,34 @@ class Protein(BioORM):
     )
     """Creator of record, a :class:`~lamindb.User`."""
 
+    @overload
+    def __init__(
+        self,
+        name: Optional[str],
+        uniprotkb_id: Optional[str],
+        synonyms: Optional[str],
+        length: Optional[int],
+        gene_symbol: Optional[str],
+        ensembl_gene_ids: Optional[str],
+        species: Optional[Species],
+        bionty_source: Optional["BiontySource"],
+    ):
+        ...
+
+    @overload
+    def __init__(
+        self,
+        *db_args,
+    ):
+        ...
+
+    def __init__(
+        self,
+        *args,
+        **kwargs,
+    ):
+        pass
+
 
 class CellMarker(BioORM):
     """Cell markers.
@@ -291,11 +374,11 @@ class CellMarker(BioORM):
 
     id = models.CharField(max_length=12, default=ids.cellmarker, primary_key=True)
     name = models.CharField(max_length=64, db_index=True, default=None, unique=True)
+    """Unique name of the cell marker."""
     synonyms = models.TextField(null=True, default=None)
     """Bar-separated (|) synonyms that correspond to this cell marker."""
     gene_symbol = models.CharField(max_length=64, db_index=True, null=True, default=None)
     """Gene symbol that corresponds to this cell marker."""
-    """Unique name of the cell marker."""
     ncbi_gene_id = models.CharField(max_length=32, db_index=True, null=True, default=None)
     """NCBI gene id that corresponds to this cell marker."""
     uniprotkb_id = models.CharField(max_length=10, db_index=True, null=True, default=None)
@@ -317,6 +400,33 @@ class CellMarker(BioORM):
         related_name="created_cell_markers",
     )
     """Creator of record, a :class:`~lamindb.User`."""
+
+    @overload
+    def __init__(
+        self,
+        name: str,
+        synonyms: Optional[str],
+        gene_symbol: Optional[str],
+        ncbi_gene_id: Optional[str],
+        uniprotkb_id: Optional[str],
+        species: Optional[Species],
+        bionty_source: Optional["BiontySource"],
+    ):
+        ...
+
+    @overload
+    def __init__(
+        self,
+        *db_args,
+    ):
+        ...
+
+    def __init__(
+        self,
+        *args,
+        **kwargs,
+    ):
+        pass
 
 
 class Tissue(BioORM):
@@ -362,6 +472,34 @@ class Tissue(BioORM):
     class Meta:
         unique_together = (("name", "ontology_id"),)
 
+    @overload
+    def __init__(
+        self,
+        name: str,
+        ontology_id: Optional[str],
+        abbr: Optional[str],
+        synonyms: Optional[str],
+        description: Optional[str],
+        parents: Optional[List["Tissue"]],
+        children: Optional[List["Tissue"]],
+        bionty_source: Optional["BiontySource"],
+    ):
+        ...
+
+    @overload
+    def __init__(
+        self,
+        *db_args,
+    ):
+        ...
+
+    def __init__(
+        self,
+        *args,
+        **kwargs,
+    ):
+        pass
+
 
 class CellType(BioORM):
     """Cell types.
@@ -376,6 +514,7 @@ class CellType(BioORM):
         💬 Created 1 CellType record from Bionty that matched name field (bionty_source_id=ivhQ)
         >>> record
         CellType(id=BxNjby0x, name=T cell, ontology_id=CL:0000084, synonyms=T-cell|T lymphocyte|T-lymphocyte, description=A Type Of Lymphocyte Whose Defining Characteristic Is The Expression Of A T Cell Receptor Complex., bionty_source_id=ivhQ, created_by_id=DzTjkKse) # noqa
+        >>> record.save()
     """
 
     id = models.CharField(max_length=8, default=ids.ontology, primary_key=True)
@@ -410,6 +549,34 @@ class CellType(BioORM):
     class Meta:
         unique_together = (("name", "ontology_id"),)
 
+    @overload
+    def __init__(
+        self,
+        name: str,
+        ontology_id: Optional[str],
+        abbr: Optional[str],
+        synonyms: Optional[str],
+        description: Optional[str],
+        parents: Optional[List["CellType"]],
+        children: Optional[List["CellType"]],
+        bionty_source: Optional["BiontySource"],
+    ):
+        ...
+
+    @overload
+    def __init__(
+        self,
+        *db_args,
+    ):
+        ...
+
+    def __init__(
+        self,
+        *args,
+        **kwargs,
+    ):
+        pass
+
 
 class Disease(BioORM):
     """Diseases.
@@ -424,6 +591,7 @@ class Disease(BioORM):
         💬 Created 1 Disease record from Bionty that matched synonyms (bionty_source_id=eeie)
         >>> record
         Disease(id=nUmxpVTE, name=Alzheimer disease, ontology_id=MONDO:0004975, synonyms=Alzheimer's disease|Alzheimer's dementia|Alzheimers dementia|Alzheimers disease|Alzheimer dementia|Alzheimer disease|presenile and senile dementia|AD, description=A Progressive, Neurodegenerative Disease Characterized By Loss Of Function And Death Of Nerve Cells In Several Areas Of The Brain Leading To Loss Of Cognitive Function Such As Memory And Language., bionty_source_id=eeie, created_by_id=DzTjkKse) # noqa
+        >>> record.save()
     """
 
     id = models.CharField(max_length=8, default=ids.ontology, primary_key=True)
@@ -458,6 +626,34 @@ class Disease(BioORM):
     class Meta:
         unique_together = (("name", "ontology_id"),)
 
+    @overload
+    def __init__(
+        self,
+        name: str,
+        ontology_id: Optional[str],
+        abbr: Optional[str],
+        synonyms: Optional[str],
+        description: Optional[str],
+        parents: Optional[List["Disease"]],
+        children: Optional[List["Disease"]],
+        bionty_source: Optional["BiontySource"],
+    ):
+        ...
+
+    @overload
+    def __init__(
+        self,
+        *db_args,
+    ):
+        ...
+
+    def __init__(
+        self,
+        *args,
+        **kwargs,
+    ):
+        pass
+
 
 class CellLine(BioORM):
     """Cell lines.
@@ -472,6 +668,7 @@ class CellLine(BioORM):
         💬 Created 1 CellLine record from Bionty that matched synonyms (bionty_source_id=ls6p)
         >>> record
         CellLine(id=akITPKqK, name=K 562 cell, ontology_id=CLO:0007050, synonyms=K-562|KO|GM05372E|K.562|K562|GM05372|K 562, description=disease: leukemia, chronic myeloid, bionty_source_id=ls6p, created_by_id=DzTjkKse) # noqa
+        >>> record.save()
     """
 
     id = models.CharField(max_length=8, default=ids.ontology, primary_key=True)
@@ -506,6 +703,34 @@ class CellLine(BioORM):
     class Meta:
         unique_together = (("name", "ontology_id"),)
 
+    @overload
+    def __init__(
+        self,
+        name: str,
+        ontology_id: Optional[str],
+        abbr: Optional[str],
+        synonyms: Optional[str],
+        description: Optional[str],
+        parents: Optional[List["CellLine"]],
+        children: Optional[List["CellLine"]],
+        bionty_source: Optional["BiontySource"],
+    ):
+        ...
+
+    @overload
+    def __init__(
+        self,
+        *db_args,
+    ):
+        ...
+
+    def __init__(
+        self,
+        *args,
+        **kwargs,
+    ):
+        pass
+
 
 class Phenotype(BioORM):
     """Phenotypes.
@@ -520,6 +745,7 @@ class Phenotype(BioORM):
         💬 Created 1 Phenotype record from Bionty that matched name field (bionty_source_id=2Uqu)
         >>> record
         Phenotype(id=Cbc4RCc0, name=Arachnodactyly, ontology_id=HP:0001166, synonyms=Long slender fingers|Long, slender fingers|Spider fingers, description=Abnormally Long And Slender Fingers ("Spider Fingers")., bionty_source_id=2Uqu, created_by_id=DzTjkKse) # noqa
+        >>> record.save()
     """
 
     id = models.CharField(max_length=8, default=ids.ontology, primary_key=True)
@@ -554,6 +780,34 @@ class Phenotype(BioORM):
     class Meta:
         unique_together = (("name", "ontology_id"),)
 
+    @overload
+    def __init__(
+        self,
+        name: str,
+        ontology_id: Optional[str],
+        abbr: Optional[str],
+        synonyms: Optional[str],
+        description: Optional[str],
+        parents: Optional[List["Phenotype"]],
+        children: Optional[List["Phenotype"]],
+        bionty_source: Optional["BiontySource"],
+    ):
+        ...
+
+    @overload
+    def __init__(
+        self,
+        *db_args,
+    ):
+        ...
+
+    def __init__(
+        self,
+        *args,
+        **kwargs,
+    ):
+        pass
+
 
 class Pathway(BioORM):
     """Pathways.
@@ -568,6 +822,7 @@ class Pathway(BioORM):
         💬 Created 1 Pathway record from Bionty that matched ontology_id field (bionty_source_id=Zo0l)
         >>> record
         Pathway(id=fwv8v1X9, name=regulation of nucleus organization, ontology_id=GO:1903353, synonyms=regulation of nuclear organisation|regulation of nuclear organization, description=Any Process That Modulates The Frequency, Rate Or Extent Of Nucleus Organization., bionty_source_id=Zo0l, created_by_id=DzTjkKse) # noqa
+        >>> record.save()
     """
 
     id = models.CharField(max_length=8, default=ids.ontology, primary_key=True)
@@ -604,6 +859,34 @@ class Pathway(BioORM):
     class Meta:
         unique_together = (("name", "ontology_id"),)
 
+    @overload
+    def __init__(
+        self,
+        name: str,
+        ontology_id: Optional[str],
+        abbr: Optional[str],
+        synonyms: Optional[str],
+        description: Optional[str],
+        parents: Optional[List["Pathway"]],
+        children: Optional[List["Pathway"]],
+        bionty_source: Optional["BiontySource"],
+    ):
+        ...
+
+    @overload
+    def __init__(
+        self,
+        *db_args,
+    ):
+        ...
+
+    def __init__(
+        self,
+        *args,
+        **kwargs,
+    ):
+        pass
+
 
 class ExperimentalFactor(BioORM):
     """Experimental factors.
@@ -618,6 +901,7 @@ class ExperimentalFactor(BioORM):
         💬 Created 1 ExperimentalFactor record from Bionty that matched synonyms (bionty_source_id=4otL)
         >>> record
         ExperimentalFactor(id=068T1Df6, name=single-cell RNA sequencing, ontology_id=EFO:0008913, synonyms=single-cell RNA-seq|single-cell transcriptome sequencing|scRNA-seq|single cell RNA sequencing, description=A Protocol That Provides The Expression Profiles Of Single Cells Via The Isolation And Barcoding Of Single Cells And Their Rna, Reverse Transcription, Amplification, Library Generation And Sequencing., molecule=RNA assay, instrument=single cell sequencing, bionty_source_id=4otL, created_by_id=DzTjkKse) # noqa
+        >>> record.save()
     """
 
     id = models.CharField(max_length=8, default=ids.ontology, primary_key=True)
@@ -658,6 +942,37 @@ class ExperimentalFactor(BioORM):
     class Meta:
         unique_together = (("name", "ontology_id"),)
 
+    @overload
+    def __init__(
+        self,
+        name: str,
+        ontology_id: Optional[str],
+        abbr: Optional[str],
+        synonyms: Optional[str],
+        description: Optional[str],
+        molecule: Optional[str],
+        instrument: Optional[str],
+        measurement: Optional[str],
+        parents: Optional[List["ExperimentalFactor"]],
+        children: Optional[List["ExperimentalFactor"]],
+        bionty_source: Optional["BiontySource"],
+    ):
+        ...
+
+    @overload
+    def __init__(
+        self,
+        *db_args,
+    ):
+        ...
+
+    def __init__(
+        self,
+        *args,
+        **kwargs,
+    ):
+        pass
+
 
 class BiontySource(ORM):
     """Sources of the Bionty tables."""
@@ -695,3 +1010,32 @@ class BiontySource(ORM):
 
     class Meta:
         unique_together = (("entity", "source", "species", "version"),)
+
+    @overload
+    def __init__(
+        self,
+        entity: str,
+        species: str,
+        source: str,
+        version: str,
+        source_name: Optional[str],
+        url: Optional[str],
+        md5: Optional[str],
+        source_website: Optional[str],
+        currently_used: bool = False,
+    ):
+        ...
+
+    @overload
+    def __init__(
+        self,
+        *db_args,
+    ):
+        ...
+
+    def __init__(
+        self,
+        *args,
+        **kwargs,
+    ):
+        pass
