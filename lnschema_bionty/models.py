@@ -106,6 +106,7 @@ class BioORM(ORM):
             💬 Created 1 Gene record from Bionty that matched symbol field (bionty_source_id=6dGw)
             >>> record
             Gene(id=0StEa7eEhivb, symbol=TCF7, ensembl_gene_id=ENSG00000081059, ncbi_gene_ids=6932, biotype=protein_coding, description=transcription factor 7 [Source:HGNC Symbol;Acc:HGNC:11639], synonyms=TCF-1, species_id=uHJU, bionty_source_id=6dGw, created_by_id=DzTjkKse) # noqa
+            >>> record.save()
 
             Synonyms are recognized:
 
@@ -113,6 +114,7 @@ class BioORM(ORM):
             💬 Created 1 Gene record from Bionty that matched synonyms (bionty_source_id=6dGw)
             >>> record
             Gene(id=WaOJkdppI1ct, symbol=HEATR6, ensembl_gene_id=ENSG00000068097, ncbi_gene_ids=63897, biotype=protein_coding, description=HEAT repeat containing 6 [Source:HGNC Symbol;Acc:HGNC:24076], synonyms=FLJ22087|ABC1, species_id=uHJU, bionty_source_id=6dGw, created_by_id=DzTjkKse) # noqa
+            >>> record.save()
         """
         # non-relationship kwargs
         kv = {k: v for k, v in kwargs.items() if k not in [i.name for i in cls._meta.fields if i.is_relation]}
@@ -140,8 +142,12 @@ class BioORM(ORM):
             ln.save(parents_records)
             self.parents.set(parents_records)
 
-    def save(self, parents: bool = True, *args, **kwargs):
-        """Save the record and its parents recursively."""
+    def save(self, parents: bool = True, *args, **kwargs) -> None:
+        """Save the record and its parents recursively.
+
+        Args:
+            parents: `bool = True`. Whether to save parents records.
+        """
         # save the record first without parents
         super().save(*args, **kwargs)
 
@@ -376,6 +382,7 @@ class CellType(BioORM):
         💬 Created 1 CellType record from Bionty that matched name field (bionty_source_id=ivhQ)
         >>> record
         CellType(id=BxNjby0x, name=T cell, ontology_id=CL:0000084, synonyms=T-cell|T lymphocyte|T-lymphocyte, description=A Type Of Lymphocyte Whose Defining Characteristic Is The Expression Of A T Cell Receptor Complex., bionty_source_id=ivhQ, created_by_id=DzTjkKse) # noqa
+        >>> record.save()
     """
 
     id = models.CharField(max_length=8, default=ids.ontology, primary_key=True)
@@ -424,6 +431,7 @@ class Disease(BioORM):
         💬 Created 1 Disease record from Bionty that matched synonyms (bionty_source_id=eeie)
         >>> record
         Disease(id=nUmxpVTE, name=Alzheimer disease, ontology_id=MONDO:0004975, synonyms=Alzheimer's disease|Alzheimer's dementia|Alzheimers dementia|Alzheimers disease|Alzheimer dementia|Alzheimer disease|presenile and senile dementia|AD, description=A Progressive, Neurodegenerative Disease Characterized By Loss Of Function And Death Of Nerve Cells In Several Areas Of The Brain Leading To Loss Of Cognitive Function Such As Memory And Language., bionty_source_id=eeie, created_by_id=DzTjkKse) # noqa
+        >>> record.save()
     """
 
     id = models.CharField(max_length=8, default=ids.ontology, primary_key=True)
@@ -472,6 +480,7 @@ class CellLine(BioORM):
         💬 Created 1 CellLine record from Bionty that matched synonyms (bionty_source_id=ls6p)
         >>> record
         CellLine(id=akITPKqK, name=K 562 cell, ontology_id=CLO:0007050, synonyms=K-562|KO|GM05372E|K.562|K562|GM05372|K 562, description=disease: leukemia, chronic myeloid, bionty_source_id=ls6p, created_by_id=DzTjkKse) # noqa
+        >>> record.save()
     """
 
     id = models.CharField(max_length=8, default=ids.ontology, primary_key=True)
@@ -520,6 +529,7 @@ class Phenotype(BioORM):
         💬 Created 1 Phenotype record from Bionty that matched name field (bionty_source_id=2Uqu)
         >>> record
         Phenotype(id=Cbc4RCc0, name=Arachnodactyly, ontology_id=HP:0001166, synonyms=Long slender fingers|Long, slender fingers|Spider fingers, description=Abnormally Long And Slender Fingers ("Spider Fingers")., bionty_source_id=2Uqu, created_by_id=DzTjkKse) # noqa
+        >>> record.save()
     """
 
     id = models.CharField(max_length=8, default=ids.ontology, primary_key=True)
@@ -568,6 +578,7 @@ class Pathway(BioORM):
         💬 Created 1 Pathway record from Bionty that matched ontology_id field (bionty_source_id=Zo0l)
         >>> record
         Pathway(id=fwv8v1X9, name=regulation of nucleus organization, ontology_id=GO:1903353, synonyms=regulation of nuclear organisation|regulation of nuclear organization, description=Any Process That Modulates The Frequency, Rate Or Extent Of Nucleus Organization., bionty_source_id=Zo0l, created_by_id=DzTjkKse) # noqa
+        >>> record.save()
     """
 
     id = models.CharField(max_length=8, default=ids.ontology, primary_key=True)
@@ -618,6 +629,7 @@ class ExperimentalFactor(BioORM):
         💬 Created 1 ExperimentalFactor record from Bionty that matched synonyms (bionty_source_id=4otL)
         >>> record
         ExperimentalFactor(id=068T1Df6, name=single-cell RNA sequencing, ontology_id=EFO:0008913, synonyms=single-cell RNA-seq|single-cell transcriptome sequencing|scRNA-seq|single cell RNA sequencing, description=A Protocol That Provides The Expression Profiles Of Single Cells Via The Isolation And Barcoding Of Single Cells And Their Rna, Reverse Transcription, Amplification, Library Generation And Sequencing., molecule=RNA assay, instrument=single cell sequencing, bionty_source_id=4otL, created_by_id=DzTjkKse) # noqa
+        >>> record.save()
     """
 
     id = models.CharField(max_length=8, default=ids.ontology, primary_key=True)
