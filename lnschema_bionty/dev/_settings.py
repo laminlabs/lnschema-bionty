@@ -18,13 +18,13 @@ class Settings:
     def species(self) -> Optional[Species]:
         """Default species argument (default `None`).
 
-        Default record to use when `species` argument is required in `lamindb`
-        functionality.
+        Default record to use when `species` argument is required in `lamindb` functionality.
 
         Only takes effect if explicitly set!
 
-        Example:
+        Examples:
             >>> lb.settings.species = "mouse"
+            ✅ Set species: Species(id=vado, name=mouse, taxon_id=10090, scientific_name=mus_musculus, updated_at=2023-07-21 11:37:08, bionty_source_id=CXWj, created_by_id=DzTjkKse) # noqa
         """
         return self._species
 
