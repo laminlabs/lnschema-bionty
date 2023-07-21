@@ -672,7 +672,11 @@ class ExperimentalFactor(BioORM):
 
 
 class BiontySource(ORM):
-    """Sources of the Bionty tables."""
+    """Sources of the Bionty tables.
+
+    Warning:
+        Do not modify the records unless you know what you are doing!
+    """
 
     id = models.CharField(max_length=8, default=ids.source, primary_key=True)
     entity = models.CharField(max_length=64, db_index=True)
