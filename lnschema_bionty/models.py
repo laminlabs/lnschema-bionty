@@ -189,7 +189,7 @@ class Gene(BioORM):
     Notes:
         For more info, see tutorial :doc:`/biology/scrna`
 
-        Bulk create protein records via :class:`~lamindb.dev.ORM.from_values`.
+        Bulk create Gene records via :class:`~lamindb.dev.ORM.from_values`.
 
     Examples:
         >>> record = lb.Gene.from_bionty(symbol="TCF7", species="human")
@@ -232,7 +232,7 @@ class Protein(BioORM):
     """Proteins.
 
     Notes:
-        Bulk create protein records via :class:`~lamindb.dev.ORM.from_values`.
+        Bulk create Protein records via :class:`~lamindb.dev.ORM.from_values`.
 
     Examples:
         >>> record = lb.Protein.from_bionty(name="Synaptotagmin-15B", species="human")
@@ -285,7 +285,7 @@ class CellMarker(BioORM):
     Notes:
         For more info, see tutorial :doc:`/biology/flow`
 
-        Bulk create protein records via :class:`~lamindb.dev.ORM.from_values`.
+        Bulk create CellMarker records via :class:`~lamindb.dev.ORM.from_values`.
 
     Examples:
         >>> record = lb.CellMarker.from_bionty(name="PD1", species="human")
@@ -331,7 +331,7 @@ class Tissue(BioORM):
     Notes:
         For more info, see tutorial :doc:`/biology/registries`
 
-        Bulk create protein records via :class:`~lamindb.dev.ORM.from_values`.
+        Bulk create Tissue records via :class:`~lamindb.dev.ORM.from_values`.
 
     Examples:
         >>> record = lb.Tissue.from_bionty(name="brain")
@@ -375,7 +375,7 @@ class CellType(BioORM):
     Notes:
         For more info, see tutorial :doc:`/biology/registries`
 
-        Bulk create protein records via :class:`~lamindb.dev.ORM.from_values`.
+        Bulk create CellType records via :class:`~lamindb.dev.ORM.from_values`.
 
     Examples:
         >>> record = lb.CellType.from_bionty(name="T cell")
@@ -424,7 +424,7 @@ class Disease(BioORM):
     Notes:
         For more info, see tutorial :doc:`/biology/registries`
 
-        Bulk create protein records via :class:`~lamindb.dev.ORM.from_values`.
+        Bulk create Disease records via :class:`~lamindb.dev.ORM.from_values`.
 
     Examples:
         >>> record = lb.Disease.from_bionty(name="Alzheimer's disease")
@@ -473,7 +473,7 @@ class CellLine(BioORM):
     Notes:
         For more info, see tutorial :doc:`/biology/registries`
 
-        Bulk create protein records via :class:`~lamindb.dev.ORM.from_values`.
+        Bulk create CellLine records via :class:`~lamindb.dev.ORM.from_values`.
 
     Examples:
         >>> record = lb.CellLine.from_bionty(name="K562")
@@ -522,7 +522,7 @@ class Phenotype(BioORM):
     Notes:
         For more info, see tutorial :doc:`/biology/registries`
 
-        Bulk create protein records via :class:`~lamindb.dev.ORM.from_values`.
+        Bulk create Phenotype records via :class:`~lamindb.dev.ORM.from_values`.
 
     Examples:
         >>> record = lb.Phenotype.from_bionty(name="Arachnodactyly")
@@ -571,7 +571,7 @@ class Pathway(BioORM):
     Notes:
         For more info, see tutorial :doc:`/biology/registries`
 
-        Bulk create protein records via :class:`~lamindb.dev.ORM.from_values`.
+        Bulk create Pathway records via :class:`~lamindb.dev.ORM.from_values`.
 
     Examples:
         >>> record = lb.Pathway.from_bionty(ontology_id="GO:1903353")
@@ -622,7 +622,7 @@ class ExperimentalFactor(BioORM):
     Notes:
         For more info, see tutorial :doc:`/biology/registries`
 
-        Bulk create protein records via :class:`~lamindb.dev.ORM.from_values`.
+        Bulk create ExperimentalFactor records via :class:`~lamindb.dev.ORM.from_values`.
 
     Examples:
         >>> record = lb.ExperimentalFactor.from_bionty(name="scRNA-seq")
