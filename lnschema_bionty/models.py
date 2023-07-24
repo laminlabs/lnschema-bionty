@@ -3,7 +3,7 @@ from typing import List, Optional, Tuple, Union
 import bionty as bt
 import numpy as np
 from django.db import models
-from lamin_logger import logger
+from lamin_utils import logger
 from lnschema_core.models import ORM, User
 from lnschema_core.users import current_user_id
 

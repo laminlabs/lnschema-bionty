@@ -2,7 +2,7 @@ from typing import Dict, Optional, Union
 
 import bionty as bt
 from django.core.exceptions import ObjectDoesNotExist
-from lamin_logger import logger
+from lamin_utils import logger
 from lnschema_core.models import ORM
 
 from . import ids
