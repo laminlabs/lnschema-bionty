@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
+🚚 Replace lamin_logger with lamin_utils | [161](https://github.com/laminlabs/lnschema-bionty/pull/161) | [falexwolf](https://github.com/falexwolf) | 2023-07-24 |
 ✏️ Fix docstrings | [159](https://github.com/laminlabs/lnschema-bionty/pull/159) | [sunnyosun](https://github.com/sunnyosun) | 2023-07-21 | 0.27.4
 🎨 Make species name unique | [158](https://github.com/laminlabs/lnschema-bionty/pull/158) | [sunnyosun](https://github.com/sunnyosun) | 2023-07-21 |
 🚑  Split previous migrations into 2 scripts | [156](https://github.com/laminlabs/lnschema-bionty/pull/156) | [sunnyosun](https://github.com/sunnyosun) | 2023-07-20 | 0.27.3
