@@ -175,6 +175,10 @@ class Species(BioORM):
     """Scientific name of a species."""
     bionty_source = models.ForeignKey("BiontySource", models.PROTECT, null=True)
     """:class:`~lnschema_bionty.BiontySource` this record associates with."""
+    files = models.ManyToManyField("lnschema_core.File", related_name="species")
+    """Files linked to the species."""
+    datasets = models.ManyToManyField("lnschema_core.Dataset", related_name="species")
+    """Datasets linked to the species."""
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
     """Time of creation of record."""
     updated_at = models.DateTimeField(auto_now=True, db_index=True)
@@ -218,6 +222,10 @@ class Gene(BioORM):
     """:class:`~lnschema_bionty.Species` this gene associates with."""
     bionty_source = models.ForeignKey("BiontySource", models.PROTECT, null=True, related_name="genes")
     """:class:`~lnschema_bionty.BiontySource` this gene associates with."""
+    files = models.ManyToManyField("lnschema_core.File", related_name="genes")
+    """Files linked to the gene."""
+    datasets = models.ManyToManyField("lnschema_core.Dataset", related_name="genes")
+    """Datasets linked to the gene."""
     feature_sets = models.ManyToManyField("lnschema_core.FeatureSet", related_name="genes")
     """Featuresets linked to this gene."""
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
@@ -264,6 +272,10 @@ class Protein(BioORM):
     """:class:`~lnschema_bionty.Species` this protein associates with."""
     bionty_source = models.ForeignKey("BiontySource", models.PROTECT, null=True, related_name="proteins")
     """:class:`~lnschema_bionty.BiontySource` this protein associates with."""
+    files = models.ManyToManyField("lnschema_core.File", related_name="proteins")
+    """Files linked to the protein."""
+    datasets = models.ManyToManyField("lnschema_core.Dataset", related_name="proteins")
+    """Datasets linked to the protein."""
     feature_sets = models.ManyToManyField("lnschema_core.FeatureSet", related_name="proteins")
     """Featuresets linked to this protein."""
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
@@ -310,6 +322,10 @@ class CellMarker(BioORM):
     """:class:`~lnschema_bionty.Species` this cell marker associates with."""
     bionty_source = models.ForeignKey("BiontySource", models.PROTECT, null=True, related_name="cell_markers")
     """:class:`~lnschema_bionty.BiontySource` this cell marker associates with."""
+    files = models.ManyToManyField("lnschema_core.File", related_name="cell_markers")
+    """Files linked to the cell marker."""
+    datasets = models.ManyToManyField("lnschema_core.Dataset", related_name="cell_markers")
+    """Datasets linked to the cell marker."""
     feature_sets = models.ManyToManyField("lnschema_core.FeatureSet", related_name="cell_markers")
     """Featuresets linked to this cell marker."""
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
@@ -358,6 +374,8 @@ class Tissue(BioORM):
     """:class:`~lnschema_bionty.BiontySource` this tissue associates with."""
     files = models.ManyToManyField("lnschema_core.File", related_name="tissues")
     """Files linked to the tissue."""
+    datasets = models.ManyToManyField("lnschema_core.Dataset", related_name="tissues")
+    """Datasets linked to the tissue."""
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
     """Time of creation of record."""
     updated_at = models.DateTimeField(auto_now=True, db_index=True)
@@ -402,6 +420,8 @@ class CellType(BioORM):
     """:class:`~lnschema_bionty.BiontySource` this cell type associates with."""
     files = models.ManyToManyField("lnschema_core.File", related_name="cell_types")
     """Files linked to the cell type."""
+    datasets = models.ManyToManyField("lnschema_core.Dataset", related_name="cell_types")
+    """Datasets linked to the cell type."""
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
     """Time of creation of record."""
     updated_at = models.DateTimeField(auto_now=True, db_index=True)
@@ -451,6 +471,8 @@ class Disease(BioORM):
     """:class:`~lnschema_bionty.BiontySource` this disease associates with."""
     files = models.ManyToManyField("lnschema_core.File", related_name="diseases")
     """Files linked to the disease."""
+    datasets = models.ManyToManyField("lnschema_core.Dataset", related_name="diseases")
+    """Datasets linked to the disease."""
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
     """Time of creation of record."""
     updated_at = models.DateTimeField(auto_now=True, db_index=True)
@@ -500,6 +522,8 @@ class CellLine(BioORM):
     """:class:`~lnschema_bionty.BiontySource` this cell line associates with."""
     files = models.ManyToManyField("lnschema_core.File", related_name="cell_lines")
     """Files linked to the cell line."""
+    datasets = models.ManyToManyField("lnschema_core.Dataset", related_name="cell_lines")
+    """Datasets linked to the cell line."""
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
     """Time of creation of record."""
     updated_at = models.DateTimeField(auto_now=True, db_index=True)
@@ -549,6 +573,8 @@ class Phenotype(BioORM):
     """:class:`~lnschema_bionty.BiontySource` this phenotype associates with."""
     files = models.ManyToManyField("lnschema_core.File", related_name="phenotypes")
     """Files linked to the phenotype."""
+    datasets = models.ManyToManyField("lnschema_core.Dataset", related_name="phenotypes")
+    """Datasets linked to the phenotype."""
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
     """Time of creation of record."""
     updated_at = models.DateTimeField(auto_now=True, db_index=True)
@@ -600,6 +626,10 @@ class Pathway(BioORM):
     """Genes that signifies the pathway."""
     feature_sets = models.ManyToManyField("lnschema_core.FeatureSet", related_name="pathways")
     """Featuresets linked to the pathway."""
+    files = models.ManyToManyField("lnschema_core.File", related_name="pathways")
+    """Files linked to the pathway."""
+    datasets = models.ManyToManyField("lnschema_core.Dataset", related_name="pathways")
+    """Datasets linked to the pathway."""
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
     """Time of creation of record."""
     updated_at = models.DateTimeField(auto_now=True, db_index=True)
@@ -655,6 +685,8 @@ class ExperimentalFactor(BioORM):
     """:class:`~lnschema_bionty.BiontySource` this experimental_factors associates with."""
     files = models.ManyToManyField("lnschema_core.File", related_name="experimental_factors")
     """Files linked to the experimental_factors."""
+    datasets = models.ManyToManyField("lnschema_core.Dataset", related_name="experimental_factors")
+    """Datasets linked to the experimental factor."""
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
     """Time of creation of record."""
     updated_at = models.DateTimeField(auto_now=True, db_index=True)
