@@ -142,7 +142,7 @@ class BioORM(ORM):
             ln.save(parents_records)
             self.parents.set(parents_records)
 
-    def save(self, parents: bool = True, *args, **kwargs) -> None:
+    def save(self, parents: Optional[bool] = None, *args, **kwargs) -> None:
         """Save the record and its parents recursively.
 
         Args:
@@ -150,6 +150,10 @@ class BioORM(ORM):
         """
         # save the record first without parents
         super().save(*args, **kwargs)
+        from .dev._settings import settings
+
+        if parents is None:
+            parents = settings.auto_save_parents
 
         if parents:
             self._save_ontology_parents()
