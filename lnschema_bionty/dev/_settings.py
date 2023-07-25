@@ -13,7 +13,7 @@ class Settings:
 
     def __init__(self):
         self._species = None
-        self._auto_save_parents = False
+        self._auto_save_parents = True
 
     @property
     def auto_save_parents(self) -> bool:
