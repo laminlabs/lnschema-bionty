@@ -714,7 +714,7 @@ class BiontySource(ORM):
         Do not modify the records unless you know what you are doing!
     """
 
-    id = models.CharField(max_length=8, default=ids.source, primary_key=True)
+    id = models.CharField(max_length=8, default=ids.biontysource, primary_key=True)
     entity = models.CharField(max_length=64, db_index=True)
     """Entity class name."""
     species = models.CharField(max_length=64, db_index=True)

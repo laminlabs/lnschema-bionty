@@ -68,6 +68,6 @@ def ontology(input_id: Optional[str] = None):
     return hash_id(input_id, n_char=8)
 
 
-def source():
+def biontysource(input_id: Optional[str] = None):
     """4 base62."""
-    return base62(n_char=4)
+    return hash_id(input_id, n_char=4)
