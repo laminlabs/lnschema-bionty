@@ -9,7 +9,6 @@ from lnschema_core.users import current_user_id
 
 from . import ids
 from ._bionty import create_or_get_species_record, encode_id, lookup2kwargs
-from .dev._settings import settings
 
 
 class BioORM(ORM):
@@ -151,6 +150,7 @@ class BioORM(ORM):
         """
         # save the record first without parents
         super().save(*args, **kwargs)
+        from .dev._settings import settings
 
         if parents is None:
             parents = settings.auto_save_parents
