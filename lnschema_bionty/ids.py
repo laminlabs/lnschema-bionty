@@ -71,3 +71,7 @@ def ontology(input_id: Optional[str] = None):
 def biontysource(input_id: Optional[str] = None):
     """4 base62."""
     return hash_id(input_id, n_char=4)
+
+
+# backward compat
+source = biontysource
