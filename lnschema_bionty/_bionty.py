@@ -73,6 +73,8 @@ def encode_id(orm: ORM, kwargs: dict):
         concat_str = kwargs.get("uniprotkb_id", "")
     elif name == "cellmarker":
         concat_str = kwargs.get("name", "")
+    elif name == "biontysource":
+        concat_str = f'{kwargs.get("entity", "")}{kwargs.get("source", "")}{kwargs.get("species", "")}{kwargs.get("version", "")}'  # noqa
     elif kwargs.get("id") is not None:
         # species
         concat_str = kwargs.get("id", "")
