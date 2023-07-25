@@ -1,4 +1,4 @@
-"""Biological entities (`zdno`).
+"""Basic biological entities.
 
 Import the package::
 
@@ -44,7 +44,7 @@ Developer API:
 """
 _schema_id = "zdno"
 _name = "bionty"
-__version__ = "0.27.4"  # Denote a release candidate of version 0.1.0 with 0.1rc1
+__version__ = "0.28.0"  # Denote a release candidate of version 0.1.0 with 0.1rc1
 
 from lamindb_setup import _check_instance_setup
 
