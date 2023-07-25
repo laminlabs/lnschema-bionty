@@ -13,6 +13,16 @@ class Settings:
 
     def __init__(self):
         self._species = None
+        self._auto_save_parents = False
+
+    @property
+    def auto_save_parents(self) -> bool:
+        """Automatically save parents."""
+        return self._auto_save_parents
+
+    @auto_save_parents.setter
+    def auto_save_parents(self, value: bool):
+        self._auto_save_parents = value
 
     @property
     def species(self) -> Optional[Species]:
