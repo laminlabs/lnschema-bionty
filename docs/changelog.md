@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
+🚚 Rename select to filter | [164](https://github.com/laminlabs/lnschema-bionty/pull/164) | [falexwolf](https://github.com/falexwolf) | 2023-07-31 |
 🎨 Switch biontysource id to hash id | [163](https://github.com/laminlabs/lnschema-bionty/pull/163) | [sunnyosun](https://github.com/sunnyosun) | 2023-07-25 | 0.28.2
 🚸 New settings `auto_save_parents` | [162](https://github.com/laminlabs/lnschema-bionty/pull/162) | [falexwolf](https://github.com/falexwolf) | 2023-07-25 | 0.28.1
 🎨 Link all entities to files and datasets | [160](https://github.com/laminlabs/lnschema-bionty/pull/160) | [sunnyosun](https://github.com/sunnyosun) | 2023-07-24 | 0.28.0
