@@ -68,7 +68,7 @@ def encode_id(orm: ORM, kwargs: dict):
     ontology = False
     concat_str = ""
     if name == "gene":
-        concat_str = f"{kwargs.get('ensembl_gene_id', '')}{kwargs.get('symbol', '')}"
+        concat_str = f"{kwargs.get('stable_id', '')}{kwargs.get('ensembl_gene_id', '')}{kwargs.get('symbol', '')}"
     elif name == "protein":
         concat_str = kwargs.get("uniprotkb_id", "")
     elif name == "cellmarker":
