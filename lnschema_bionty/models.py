@@ -35,7 +35,7 @@ class BioORM(ORM):
                 logger.warning("Multiple lookup/search results are passed, only returning record from the first entry")
             result = lookup2kwargs(self, *args, **kwargs)  # type:ignore
             try:
-                existing_object = self.select(**result)[0]
+                existing_object = self.filter(**result)[0]
                 new_args = [getattr(existing_object, field.attname) for field in self._meta.concrete_fields]
                 super().__init__(*new_args)
                 self._state.adding = False  # mimic from_db
