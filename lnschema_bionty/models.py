@@ -210,6 +210,8 @@ class Gene(BioORM):
     id = models.CharField(max_length=12, default=ids.gene, primary_key=True)
     symbol = models.CharField(max_length=64, db_index=True, null=True, default=None)
     """A unique short form of gene name."""
+    stable_id = models.CharField(max_length=64, db_index=True, null=True, default=None, unique=True)
+    """Stable ID of a gene that doesn't have ensembl_gene_id, e.g. a yeast gene."""
     ensembl_gene_id = models.CharField(max_length=64, db_index=True, null=True, default=None, unique=True)
     """Ensembl gene stable ID, in the form ENS[species prefix][feature type prefix][a unique eleven digit number]."""
     ncbi_gene_ids = models.TextField(null=True, default=None)
