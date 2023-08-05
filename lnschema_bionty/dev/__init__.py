@@ -3,8 +3,8 @@
 .. autosummary::
    :toctree: .
 
-   BioORM
+   BioRegistry
    Settings
 """
-from ..models import BioORM
+from ..models import BioRegistry
 from ._settings import Settings

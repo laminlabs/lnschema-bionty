@@ -4,18 +4,18 @@ import bionty as bt
 import numpy as np
 from django.db import models
 from lamin_utils import logger
-from lnschema_core.models import ORM, User
+from lnschema_core.models import Registry, User
 from lnschema_core.users import current_user_id
 
 from . import ids
 from ._bionty import create_or_get_species_record, encode_id, lookup2kwargs
 
 
-class BioORM(ORM):
-    """Base ORM of lnschema_bionty.
+class BioRegistry(Registry):
+    """Base Registry of lnschema_bionty.
 
-    BioORM inherits all methods from :class:`~lamindb.dev.ORM` and provides additional methods
-    including :meth:`~lnschema_bionty.dev.BioORM.bionty` and :meth:`~lnschema_bionty.dev.BioORM.from_bionty`
+    BioRegistry inherits all methods from :class:`~lamindb.dev.Registry` and provides additional methods
+    including :meth:`~lnschema_bionty.dev.BioRegistry.bionty` and :meth:`~lnschema_bionty.dev.BioRegistry.from_bionty`
 
     Notes:
         For more info, see tutorials:
@@ -59,7 +59,7 @@ class BioORM(ORM):
         super().__init__(*args, **kwargs)
 
     @classmethod
-    def bionty(cls, species: Optional[Union[str, ORM]] = None) -> "bt.Bionty":
+    def bionty(cls, species: Optional[Union[str, Registry]] = None) -> "bt.Bionty":
         """The corresponding Bionty object.
 
         e.g. lnschema_bionty.CellType.bionty() is equivalent to bionty.CellType().
@@ -91,13 +91,13 @@ class BioORM(ORM):
             return bionty_object
 
     @classmethod
-    def from_bionty(cls, **kwargs) -> Optional[Union["BioORM", List["BioORM"]]]:
+    def from_bionty(cls, **kwargs) -> Optional[Union["BioRegistry", List["BioRegistry"]]]:
         """Create a record or records from bionty based on a single field value.
 
         Notes:
             For more info, see tutorial :doc:`/lnschema-bionty`
 
-            Bulk create protein records via :class:`~lamindb.dev.ORM.from_values`.
+            Bulk create protein records via :class:`~lamindb.dev.Registry.from_values`.
 
         Examples:
             Create a record by passing a field value:
@@ -159,7 +159,7 @@ class BioORM(ORM):
             self._save_ontology_parents()
 
 
-class Species(BioORM):
+class Species(BioRegistry):
     """Species.
 
     Examples:
@@ -191,13 +191,13 @@ class Species(BioORM):
     """Creator of record, a :class:`~lamindb.User`."""
 
 
-class Gene(BioORM):
+class Gene(BioRegistry):
     """Genes.
 
     Notes:
         For more info, see tutorial :doc:`/biology/scrna`
 
-        Bulk create Gene records via :class:`~lamindb.dev.ORM.from_values`.
+        Bulk create Gene records via :class:`~lamindb.dev.Registry.from_values`.
 
     Examples:
         >>> record = lb.Gene.from_bionty(symbol="TCF7", species="human")
@@ -242,11 +242,11 @@ class Gene(BioORM):
     """Creator of record, a :class:`~lamindb.User`."""
 
 
-class Protein(BioORM):
+class Protein(BioRegistry):
     """Proteins.
 
     Notes:
-        Bulk create Protein records via :class:`~lamindb.dev.ORM.from_values`.
+        Bulk create Protein records via :class:`~lamindb.dev.Registry.from_values`.
 
     Examples:
         >>> record = lb.Protein.from_bionty(name="Synaptotagmin-15B", species="human")
@@ -297,13 +297,13 @@ class Protein(BioORM):
     """Creator of record, a :class:`~lamindb.User`."""
 
 
-class CellMarker(BioORM):
+class CellMarker(BioRegistry):
     """Cell markers.
 
     Notes:
         For more info, see tutorial :doc:`/biology/flow`
 
-        Bulk create CellMarker records via :class:`~lamindb.dev.ORM.from_values`.
+        Bulk create CellMarker records via :class:`~lamindb.dev.Registry.from_values`.
 
     Examples:
         >>> record = lb.CellMarker.from_bionty(name="PD1", species="human")
@@ -347,13 +347,13 @@ class CellMarker(BioORM):
     """Creator of record, a :class:`~lamindb.User`."""
 
 
-class Tissue(BioORM):
+class Tissue(BioRegistry):
     """Tissues.
 
     Notes:
         For more info, see tutorial :doc:`/biology/registries`
 
-        Bulk create Tissue records via :class:`~lamindb.dev.ORM.from_values`.
+        Bulk create Tissue records via :class:`~lamindb.dev.Registry.from_values`.
 
     Examples:
         >>> record = lb.Tissue.from_bionty(name="brain")
@@ -393,13 +393,13 @@ class Tissue(BioORM):
         unique_together = (("name", "ontology_id"),)
 
 
-class CellType(BioORM):
+class CellType(BioRegistry):
     """Cell types.
 
     Notes:
         For more info, see tutorial :doc:`/biology/registries`
 
-        Bulk create CellType records via :class:`~lamindb.dev.ORM.from_values`.
+        Bulk create CellType records via :class:`~lamindb.dev.Registry.from_values`.
 
     Examples:
         >>> record = lb.CellType.from_bionty(name="T cell")
@@ -444,13 +444,13 @@ class CellType(BioORM):
         unique_together = (("name", "ontology_id"),)
 
 
-class Disease(BioORM):
+class Disease(BioRegistry):
     """Diseases.
 
     Notes:
         For more info, see tutorial :doc:`/biology/registries`
 
-        Bulk create Disease records via :class:`~lamindb.dev.ORM.from_values`.
+        Bulk create Disease records via :class:`~lamindb.dev.Registry.from_values`.
 
     Examples:
         >>> record = lb.Disease.from_bionty(name="Alzheimer's disease")
@@ -495,13 +495,13 @@ class Disease(BioORM):
         unique_together = (("name", "ontology_id"),)
 
 
-class CellLine(BioORM):
+class CellLine(BioRegistry):
     """Cell lines.
 
     Notes:
         For more info, see tutorial :doc:`/biology/registries`
 
-        Bulk create CellLine records via :class:`~lamindb.dev.ORM.from_values`.
+        Bulk create CellLine records via :class:`~lamindb.dev.Registry.from_values`.
 
     Examples:
         >>> record = lb.CellLine.from_bionty(name="K562")
@@ -546,13 +546,13 @@ class CellLine(BioORM):
         unique_together = (("name", "ontology_id"),)
 
 
-class Phenotype(BioORM):
+class Phenotype(BioRegistry):
     """Phenotypes.
 
     Notes:
         For more info, see tutorial :doc:`/biology/registries`
 
-        Bulk create Phenotype records via :class:`~lamindb.dev.ORM.from_values`.
+        Bulk create Phenotype records via :class:`~lamindb.dev.Registry.from_values`.
 
     Examples:
         >>> record = lb.Phenotype.from_bionty(name="Arachnodactyly")
@@ -597,13 +597,13 @@ class Phenotype(BioORM):
         unique_together = (("name", "ontology_id"),)
 
 
-class Pathway(BioORM):
+class Pathway(BioRegistry):
     """Pathways.
 
     Notes:
         For more info, see tutorial :doc:`/biology/registries`
 
-        Bulk create Pathway records via :class:`~lamindb.dev.ORM.from_values`.
+        Bulk create Pathway records via :class:`~lamindb.dev.Registry.from_values`.
 
     Examples:
         >>> record = lb.Pathway.from_bionty(ontology_id="GO:1903353")
@@ -652,13 +652,13 @@ class Pathway(BioORM):
         unique_together = (("name", "ontology_id"),)
 
 
-class ExperimentalFactor(BioORM):
+class ExperimentalFactor(BioRegistry):
     """Experimental factors.
 
     Notes:
         For more info, see tutorial :doc:`/biology/registries`
 
-        Bulk create ExperimentalFactor records via :class:`~lamindb.dev.ORM.from_values`.
+        Bulk create ExperimentalFactor records via :class:`~lamindb.dev.Registry.from_values`.
 
     Examples:
         >>> record = lb.ExperimentalFactor.from_bionty(name="scRNA-seq")
@@ -709,7 +709,7 @@ class ExperimentalFactor(BioORM):
         unique_together = (("name", "ontology_id"),)
 
 
-class BiontySource(ORM):
+class BiontySource(Registry):
     """Sources of the Bionty tables.
 
     Warning:

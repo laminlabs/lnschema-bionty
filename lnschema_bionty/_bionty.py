@@ -3,13 +3,13 @@ from typing import Dict, Optional, Union
 import bionty as bt
 from django.core.exceptions import ObjectDoesNotExist
 from lamin_utils import logger
-from lnschema_core.models import ORM
+from lnschema_core.models import Registry
 
 from . import ids
 
 
-def create_or_get_species_record(species: Optional[Union[str, ORM]], orm: ORM) -> Optional[ORM]:
-    # return None if an ORM doesn't have species field
+def create_or_get_species_record(species: Optional[Union[str, Registry]], orm: Registry) -> Optional[Registry]:
+    # return None if an Registry doesn't have species field
     species_record = None
     if hasattr(orm, "species"):
         # using global setting of species
@@ -19,7 +19,7 @@ def create_or_get_species_record(species: Optional[Union[str, ORM]], orm: ORM) -
             logger.info(f"Using global setting species = {settings.species.name}")
             return settings.species
 
-        if isinstance(species, ORM):
+        if isinstance(species, Registry):
             species_record = species
         elif isinstance(species, str):
             from lnschema_bionty import Species
@@ -60,7 +60,7 @@ def get_bionty_source_record(bionty_object: bt.Bionty):
     return source_record
 
 
-def encode_id(orm: ORM, kwargs: dict):
+def encode_id(orm: Registry, kwargs: dict):
     try:
         name = orm.__name__.lower()
     except AttributeError:
@@ -93,7 +93,7 @@ def encode_id(orm: ORM, kwargs: dict):
     return kwargs
 
 
-def lookup2kwargs(orm: ORM, *args, **kwargs) -> Dict:
+def lookup2kwargs(orm: Registry, *args, **kwargs) -> Dict:
     """Pass bionty search/lookup results."""
     arg = args[0]
     if isinstance(arg, tuple):
