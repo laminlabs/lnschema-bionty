@@ -34,7 +34,7 @@ class Settings:
 
         Examples:
             >>> lb.settings.species = "mouse"
-            ✅ Set species: Species(id=vado, name=mouse, taxon_id=10090, scientific_name=mus_musculus, updated_at=2023-07-21 11:37:08, bionty_source_id=CXWj, created_by_id=DzTjkKse) # noqa
+            ✅ set species: Species(id=vado, name=mouse, taxon_id=10090, scientific_name=mus_musculus, updated_at=2023-07-21 11:37:08, bionty_source_id=CXWj, created_by_id=DzTjkKse) # noqa
         """
         return self._species
 
@@ -47,7 +47,7 @@ class Settings:
             raise ValueError(f"No species with name='{name}' is found, please create a species record!")
         if species._state.adding:  # type:ignore
             species.save()  # type:ignore
-        logger.success(f"Set species: {species}")
+        logger.success(f"set species: {species}")
         self._species = species
 
 
