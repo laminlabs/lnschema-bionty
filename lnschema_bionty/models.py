@@ -196,8 +196,6 @@ class Gene(BioRegistry):
     """Genes.
 
     Notes:
-        For more info, see tutorial :doc:`/biology/scrna`
-
         Bulk create Gene records via :class:`~lamindb.dev.Registry.from_values`.
 
     Examples:
@@ -302,8 +300,6 @@ class CellMarker(BioRegistry):
     """Cell markers.
 
     Notes:
-        For more info, see tutorial :doc:`/biology/flow`
-
         Bulk create CellMarker records via :class:`~lamindb.dev.Registry.from_values`.
 
     Examples:
