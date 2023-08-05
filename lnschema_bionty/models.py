@@ -4,7 +4,8 @@ import bionty as bt
 import numpy as np
 from django.db import models
 from lamin_utils import logger
-from lnschema_core.models import Registry, User
+from lnschema_core.models import ORM as Registry  # TODO: import Registry instead of ORM
+from lnschema_core.models import User
 from lnschema_core.users import current_user_id
 
 from . import ids
