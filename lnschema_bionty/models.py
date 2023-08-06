@@ -1,4 +1,4 @@
-from typing import List, Optional, Tuple, Union
+from typing import List, Optional, Tuple, Union, overload  # noqa
 
 import bionty as bt
 import numpy as np
@@ -191,6 +191,29 @@ class Species(BioRegistry):
     created_by = models.ForeignKey(User, models.PROTECT, default=current_user_id, related_name="created_species")
     """Creator of record, a :class:`~lamindb.User`."""
 
+    @overload
+    def __init__(
+        self,
+        name: str,
+        taxon_id: Optional[str],
+        scientific_name: Optional[str],
+    ):
+        ...
+
+    @overload
+    def __init__(
+        self,
+        *db_args,
+    ):
+        ...
+
+    def __init__(
+        self,
+        *args,
+        **kwargs,
+    ):
+        super(Species, self).__init__(*args, **kwargs)
+
 
 class Gene(BioRegistry):
     """Genes.
@@ -239,6 +262,35 @@ class Gene(BioRegistry):
     """Time of last update to record."""
     created_by = models.ForeignKey(User, models.PROTECT, default=current_user_id, related_name="created_genes")
     """Creator of record, a :class:`~lamindb.User`."""
+
+    @overload
+    def __init__(
+        self,
+        symbol: Optional[str],
+        stable_id: Optional[str],
+        ensembl_gene_id: Optional[str],
+        ncbi_gene_ids: Optional[str],
+        biotype: Optional[str],
+        description: Optional[str],
+        synonyms: Optional[str],
+        species: Optional[Species],
+        bionty_source: Optional["BiontySource"],
+    ):
+        ...
+
+    @overload
+    def __init__(
+        self,
+        *db_args,
+    ):
+        ...
+
+    def __init__(
+        self,
+        *args,
+        **kwargs,
+    ):
+        super(Gene, self).__init__(*args, **kwargs)
 
 
 class Protein(BioRegistry):
@@ -295,6 +347,34 @@ class Protein(BioRegistry):
     )
     """Creator of record, a :class:`~lamindb.User`."""
 
+    @overload
+    def __init__(
+        self,
+        name: Optional[str],
+        uniprotkb_id: Optional[str],
+        synonyms: Optional[str],
+        length: Optional[int],
+        gene_symbol: Optional[str],
+        ensembl_gene_ids: Optional[str],
+        species: Optional[Species],
+        bionty_source: Optional["BiontySource"],
+    ):
+        ...
+
+    @overload
+    def __init__(
+        self,
+        *db_args,
+    ):
+        ...
+
+    def __init__(
+        self,
+        *args,
+        **kwargs,
+    ):
+        super(Protein, self).__init__(*args, **kwargs)
+
 
 class CellMarker(BioRegistry):
     """Cell markers.
@@ -343,6 +423,33 @@ class CellMarker(BioRegistry):
     )
     """Creator of record, a :class:`~lamindb.User`."""
 
+    @overload
+    def __init__(
+        self,
+        name: str,
+        synonyms: Optional[str],
+        gene_symbol: Optional[str],
+        ncbi_gene_id: Optional[str],
+        uniprotkb_id: Optional[str],
+        species: Optional[Species],
+        bionty_source: Optional["BiontySource"],
+    ):
+        ...
+
+    @overload
+    def __init__(
+        self,
+        *db_args,
+    ):
+        ...
+
+    def __init__(
+        self,
+        *args,
+        **kwargs,
+    ):
+        super(CellMarker, self).__init__(*args, **kwargs)
+
 
 class Tissue(BioRegistry):
     """Tissues.
@@ -388,6 +495,33 @@ class Tissue(BioRegistry):
 
     class Meta:
         unique_together = (("name", "ontology_id"),)
+
+    @overload
+    def __init__(
+        self,
+        name: str,
+        ontology_id: Optional[str],
+        abbr: Optional[str],
+        synonyms: Optional[str],
+        description: Optional[str],
+        parents: List["Tissue"],
+        bionty_source: Optional["BiontySource"],
+    ):
+        ...
+
+    @overload
+    def __init__(
+        self,
+        *db_args,
+    ):
+        ...
+
+    def __init__(
+        self,
+        *args,
+        **kwargs,
+    ):
+        super(Tissue, self).__init__(*args, **kwargs)
 
 
 class CellType(BioRegistry):
@@ -440,6 +574,33 @@ class CellType(BioRegistry):
     class Meta:
         unique_together = (("name", "ontology_id"),)
 
+    @overload
+    def __init__(
+        self,
+        name: str,
+        ontology_id: Optional[str],
+        abbr: Optional[str],
+        synonyms: Optional[str],
+        description: Optional[str],
+        parents: List["CellType"],
+        bionty_source: Optional["BiontySource"],
+    ):
+        ...
+
+    @overload
+    def __init__(
+        self,
+        *db_args,
+    ):
+        ...
+
+    def __init__(
+        self,
+        *args,
+        **kwargs,
+    ):
+        super(CellType, self).__init__(*args, **kwargs)
+
 
 class Disease(BioRegistry):
     """Diseases.
@@ -490,6 +651,33 @@ class Disease(BioRegistry):
 
     class Meta:
         unique_together = (("name", "ontology_id"),)
+
+    @overload
+    def __init__(
+        self,
+        name: str,
+        ontology_id: Optional[str],
+        abbr: Optional[str],
+        synonyms: Optional[str],
+        description: Optional[str],
+        parents: List["Disease"],
+        bionty_source: Optional["BiontySource"],
+    ):
+        ...
+
+    @overload
+    def __init__(
+        self,
+        *db_args,
+    ):
+        ...
+
+    def __init__(
+        self,
+        *args,
+        **kwargs,
+    ):
+        super(Disease, self).__init__(*args, **kwargs)
 
 
 class CellLine(BioRegistry):
@@ -542,6 +730,33 @@ class CellLine(BioRegistry):
     class Meta:
         unique_together = (("name", "ontology_id"),)
 
+    @overload
+    def __init__(
+        self,
+        name: str,
+        ontology_id: Optional[str],
+        abbr: Optional[str],
+        synonyms: Optional[str],
+        description: Optional[str],
+        parents: List["CellLine"],
+        bionty_source: Optional["BiontySource"],
+    ):
+        ...
+
+    @overload
+    def __init__(
+        self,
+        *db_args,
+    ):
+        ...
+
+    def __init__(
+        self,
+        *args,
+        **kwargs,
+    ):
+        super(CellLine, self).__init__(*args, **kwargs)
+
 
 class Phenotype(BioRegistry):
     """Phenotypes.
@@ -592,6 +807,33 @@ class Phenotype(BioRegistry):
 
     class Meta:
         unique_together = (("name", "ontology_id"),)
+
+    @overload
+    def __init__(
+        self,
+        name: str,
+        ontology_id: Optional[str],
+        abbr: Optional[str],
+        synonyms: Optional[str],
+        description: Optional[str],
+        parents: List["Phenotype"],
+        bionty_source: Optional["BiontySource"],
+    ):
+        ...
+
+    @overload
+    def __init__(
+        self,
+        *db_args,
+    ):
+        ...
+
+    def __init__(
+        self,
+        *args,
+        **kwargs,
+    ):
+        super(Phenotype, self).__init__(*args, **kwargs)
 
 
 class Pathway(BioRegistry):
@@ -647,6 +889,33 @@ class Pathway(BioRegistry):
 
     class Meta:
         unique_together = (("name", "ontology_id"),)
+
+    @overload
+    def __init__(
+        self,
+        name: str,
+        ontology_id: Optional[str],
+        abbr: Optional[str],
+        synonyms: Optional[str],
+        description: Optional[str],
+        parents: List["Pathway"],
+        bionty_source: Optional["BiontySource"],
+    ):
+        ...
+
+    @overload
+    def __init__(
+        self,
+        *db_args,
+    ):
+        ...
+
+    def __init__(
+        self,
+        *args,
+        **kwargs,
+    ):
+        super(Pathway, self).__init__(*args, **kwargs)
 
 
 class ExperimentalFactor(BioRegistry):
@@ -705,6 +974,33 @@ class ExperimentalFactor(BioRegistry):
     class Meta:
         unique_together = (("name", "ontology_id"),)
 
+    @overload
+    def __init__(
+        self,
+        name: str,
+        ontology_id: Optional[str],
+        abbr: Optional[str],
+        synonyms: Optional[str],
+        description: Optional[str],
+        parents: List["ExperimentalFactor"],
+        bionty_source: Optional["BiontySource"],
+    ):
+        ...
+
+    @overload
+    def __init__(
+        self,
+        *db_args,
+    ):
+        ...
+
+    def __init__(
+        self,
+        *args,
+        **kwargs,
+    ):
+        super(ExperimentalFactor, self).__init__(*args, **kwargs)
+
 
 class BiontySource(Registry):
     """Sources of the Bionty tables.
@@ -746,3 +1042,32 @@ class BiontySource(Registry):
 
     class Meta:
         unique_together = (("entity", "source", "species", "version"),)
+
+    @overload
+    def __init__(
+        self,
+        entity: str,
+        species: str,
+        currently_used: bool,
+        source: str,
+        version: str,
+        source_name: Optional[str],
+        url: Optional[str],
+        md5: Optional[str],
+        source_website: Optional[str],
+    ):
+        ...
+
+    @overload
+    def __init__(
+        self,
+        *db_args,
+    ):
+        ...
+
+    def __init__(
+        self,
+        *args,
+        **kwargs,
+    ):
+        super(BiontySource, self).__init__(*args, **kwargs)
