@@ -3,7 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
-⬆️ Updated bionty | [168](https://github.com/laminlabs/lnschema-bionty/pull/168) | [sunnyosun](https://github.com/sunnyosun) | 2023-08-06 |
+⬆️ Updated bionty | [168](https://github.com/laminlabs/lnschema-bionty/pull/168) | [sunnyosun](https://github.com/sunnyosun) | 2023-08-06 | 0.29.1
 🚚 Rename ORM to Registry | [167](https://github.com/laminlabs/lnschema-bionty/pull/167) | [sunnyosun](https://github.com/sunnyosun) | 2023-08-05 |
 🎇 Added stable_id to Gene | [166](https://github.com/laminlabs/lnschema-bionty/pull/166) | [sunnyosun](https://github.com/sunnyosun) | 2023-07-31 | 0.29.0
 ⬆️ Updated bionty to 0.28 | [165](https://github.com/laminlabs/lnschema-bionty/pull/165) | [sunnyosun](https://github.com/sunnyosun) | 2023-07-31 |
