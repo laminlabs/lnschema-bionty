@@ -4,14 +4,7 @@ Import the package::
 
    import lnschema_bionty as lb
 
-Settings:
-
-.. autosummary::
-   :toctree: .
-
-   settings
-
-All Bionty ORMs are coupled to `Bionty <https://lamin.ai/docs/bionty>`__ entities:
+All Bionty registries are coupled to `Bionty <https://lamin.ai/docs/bionty>`__-managed ontologies for validation & knowledge-contextualization.
 
 .. autosummary::
    :toctree: .
@@ -28,7 +21,14 @@ All Bionty ORMs are coupled to `Bionty <https://lamin.ai/docs/bionty>`__ entitie
    Phenotype
    ExperimentalFactor
 
-Bionty sources:
+Settings:
+
+.. autosummary::
+   :toctree: .
+
+   settings
+
+Bionty sources (public ontology versions):
 
 .. autosummary::
    :toctree: .
