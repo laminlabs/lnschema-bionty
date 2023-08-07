@@ -40,14 +40,20 @@ class Settings:
 
     @species.setter
     def species(self, name: Union[str, Species]):
+        import lamindb as ln
+
         import lnschema_bionty as lb
 
+        # do not show the validated message for species
+        verbosity = ln.settings.verbosity
+        ln.settings.verbosity = 1
         species = lb.Species.from_bionty(name=name)
+        ln.settings.verbosity = verbosity
         if species is None:
             raise ValueError(f"No species with name='{name}' is found, please create a species record!")
         if species._state.adding:  # type:ignore
             species.save()  # type:ignore
-        logger.success(f"set species: {species}")
+        logger.save(f"set species: {species}")
         self._species = species
 
 
