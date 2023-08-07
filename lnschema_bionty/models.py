@@ -33,7 +33,7 @@ class BioRegistry(Registry):
         # this is a list of strings that store the ontology id
         if args and len(args) == 1 and isinstance(args[0], (Tuple, List)) and len(args[0]) > 0:
             if isinstance(args[0], List) and len(args[0]) > 1:
-                logger.warning("Multiple lookup/search results are passed, only returning record from the first entry")
+                logger.warning("multiple lookup/search results are passed, only returning record from the first entry")
             result = lookup2kwargs(self, *args, **kwargs)  # type:ignore
             try:
                 existing_object = self.filter(**result)[0]
@@ -138,7 +138,7 @@ class BioRegistry(Registry):
 
             parents = self._parents
             # here parents is still a list of ontology ids
-            logger.info(f"Also saving parents of {self}")
+            logger.info(f"also saving parents of {self}")
             parents_records = self.from_values(parents, self.__class__.ontology_id)
             ln.save(parents_records)
             self.parents.set(parents_records)
