@@ -4,15 +4,14 @@ import bionty as bt
 import numpy as np
 from django.db import models
 from lamin_utils import logger
-from lnschema_core.models import ORM as Registry  # TODO: import Registry instead of ORM
-from lnschema_core.models import User
+from lnschema_core.models import ParentsAware, Registry, User
 from lnschema_core.users import current_user_id
 
 from . import ids
 from ._bionty import create_or_get_species_record, encode_id, lookup2kwargs
 
 
-class BioRegistry(Registry):
+class BioRegistry(Registry, ParentsAware):
     """Base Registry of lnschema_bionty.
 
     BioRegistry inherits all methods from :class:`~lamindb.dev.Registry` and provides additional methods
