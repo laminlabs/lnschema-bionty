@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
+📝 Fix docs | [172](https://github.com/laminlabs/lnschema-bionty/pull/172) | [falexwolf](https://github.com/falexwolf) | 2023-08-12 |
 ♻️ Add ParentsAware | [171](https://github.com/laminlabs/lnschema-bionty/pull/171) | [sunnyosun](https://github.com/sunnyosun) | 2023-08-11 | 0.29.3
 🎨 Use logger.save | [170](https://github.com/laminlabs/lnschema-bionty/pull/170) | [sunnyosun](https://github.com/sunnyosun) | 2023-08-07 | 0.29.2
 🔊 Refactored logging msg | [169](https://github.com/laminlabs/lnschema-bionty/pull/169) | [sunnyosun](https://github.com/sunnyosun) | 2023-08-07 |
