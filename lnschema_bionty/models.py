@@ -21,7 +21,7 @@ class BioRegistry(Registry, ParentsAware):
         For more info, see tutorials:
 
         - :doc:`/lnschema-bionty`
-        - :doc:`/biology/registries`
+        - :doc:`bio-registries`
     """
 
     class Meta:
@@ -454,7 +454,7 @@ class Tissue(BioRegistry):
     """Tissues.
 
     Notes:
-        For more info, see tutorial :doc:`/biology/registries`
+        For more info, see tutorial :doc:`bio-registries`
 
         Bulk create Tissue records via :class:`~lamindb.dev.Registry.from_values`.
 
@@ -527,7 +527,7 @@ class CellType(BioRegistry):
     """Cell types.
 
     Notes:
-        For more info, see tutorial :doc:`/biology/registries`
+        For more info, see tutorial :doc:`bio-registries`
 
         Bulk create CellType records via :class:`~lamindb.dev.Registry.from_values`.
 
@@ -605,7 +605,7 @@ class Disease(BioRegistry):
     """Diseases.
 
     Notes:
-        For more info, see tutorial :doc:`/biology/registries`
+        For more info, see tutorial :doc:`bio-registries`
 
         Bulk create Disease records via :class:`~lamindb.dev.Registry.from_values`.
 
@@ -683,7 +683,7 @@ class CellLine(BioRegistry):
     """Cell lines.
 
     Notes:
-        For more info, see tutorial :doc:`/biology/registries`
+        For more info, see tutorial :doc:`bio-registries`
 
         Bulk create CellLine records via :class:`~lamindb.dev.Registry.from_values`.
 
@@ -761,7 +761,7 @@ class Phenotype(BioRegistry):
     """Phenotypes.
 
     Notes:
-        For more info, see tutorial :doc:`/biology/registries`
+        For more info, see tutorial :doc:`bio-registries`
 
         Bulk create Phenotype records via :class:`~lamindb.dev.Registry.from_values`.
 
@@ -839,7 +839,7 @@ class Pathway(BioRegistry):
     """Pathways.
 
     Notes:
-        For more info, see tutorial :doc:`/biology/registries`
+        For more info, see tutorial :doc:`bio-registries`
 
         Bulk create Pathway records via :class:`~lamindb.dev.Registry.from_values`.
 
@@ -921,7 +921,7 @@ class ExperimentalFactor(BioRegistry):
     """Experimental factors.
 
     Notes:
-        For more info, see tutorial :doc:`/biology/registries`
+        For more info, see tutorial :doc:`bio-registries`
 
         Bulk create ExperimentalFactor records via :class:`~lamindb.dev.Registry.from_values`.
 
