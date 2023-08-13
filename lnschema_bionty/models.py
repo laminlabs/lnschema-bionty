@@ -21,7 +21,7 @@ class BioRegistry(Registry, ParentsAware):
         For more info, see tutorials:
 
         - :doc:`/lnschema-bionty`
-        - :doc:`bio-registries`
+        - :doc:`/registries`
     """
 
     class Meta:
@@ -103,18 +103,11 @@ class BioRegistry(Registry, ParentsAware):
             Create a record by passing a field value:
 
             >>> record = lb.Gene.from_bionty(symbol="TCF7", species="human")
-            💬 Created 1 Gene record from Bionty that matched symbol field (bionty_source_id=6dGw)
+            ✅ validated 1 Gene record from Bionty on symbol: TCF7
             >>> record
             Gene(id=0StEa7eEhivb, symbol=TCF7, ensembl_gene_id=ENSG00000081059, ncbi_gene_ids=6932, biotype=protein_coding, description=transcription factor 7 [Source:HGNC Symbol;Acc:HGNC:11639], synonyms=TCF-1, species_id=uHJU, bionty_source_id=6dGw, created_by_id=DzTjkKse) # noqa
             >>> record.save()
 
-            Synonyms are recognized:
-
-            >>> record = lb.Gene.from_bionty(symbol="ABC1", species="human")
-            💬 Created 1 Gene record from Bionty that matched synonyms (bionty_source_id=6dGw)
-            >>> record
-            Gene(id=WaOJkdppI1ct, symbol=HEATR6, ensembl_gene_id=ENSG00000068097, ncbi_gene_ids=63897, biotype=protein_coding, description=HEAT repeat containing 6 [Source:HGNC Symbol;Acc:HGNC:24076], synonyms=FLJ22087|ABC1, species_id=uHJU, bionty_source_id=6dGw, created_by_id=DzTjkKse) # noqa
-            >>> record.save()
         """
         # non-relationship kwargs
         kv = {k: v for k, v in kwargs.items() if k not in [i.name for i in cls._meta.fields if i.is_relation]}
@@ -164,7 +157,7 @@ class Species(BioRegistry):
 
     Examples:
         >>> record = lb.Species.from_bionty(name="rabbit")
-        💬 Created 1 Species record from Bionty that matched name field (bionty_source_id=KkPB)
+        ✅ validated 1 Species record from Bionty on name: rabbit
         >>> record
         Species(id=2Nq8, name=rabbit, taxon_id=9986, scientific_name=oryctolagus_cuniculus, bionty_source_id=KkPB, created_by_id=DzTjkKse)
         >>> record.save()
@@ -222,7 +215,7 @@ class Gene(BioRegistry):
 
     Examples:
         >>> record = lb.Gene.from_bionty(symbol="TCF7", species="human")
-        💬 Created 1 Gene record from Bionty that matched symbol field (bionty_source_id=6dGw)
+        ✅ validated 1 Gene record from Bionty on symbol: TCF7
         >>> record
         Gene(id=0StEa7eEhivb, symbol=TCF7, ensembl_gene_id=ENSG00000081059, ncbi_gene_ids=6932, biotype=protein_coding, description=transcription factor 7 [Source:HGNC Symbol;Acc:HGNC:11639], synonyms=TCF-1, species_id=uHJU, bionty_source_id=6dGw, created_by_id=DzTjkKse) # noqa
         >>> record.save()
@@ -300,12 +293,12 @@ class Protein(BioRegistry):
 
     Examples:
         >>> record = lb.Protein.from_bionty(name="Synaptotagmin-15B", species="human")
-        💬 Created 1 Protein record from Bionty that matched name field (bionty_source_id=SFni)
+        ✅ validated 1 Protein record from Bionty on name: Synaptotagmin-15B
         >>> record
         Protein(id=KiCrq9BBTviZ, name=Synaptotagmin-15B, uniprotkb_id=X6R8R1, synonyms=, length=474, gene_symbol=SYT15B, species_id=uHJU, bionty_source_id=SFni, created_by_id=DzTjkKse) # noqa
 
         >>> record = lb.Protein.from_bionty(gene_symbol="SYT15B", species="human")
-        💬 Created 1 Protein record from Bionty that matched gene_symbol field (bionty_source_id=SFni)
+        ✅ validated 1 Protein record from Bionty on gene_symbol: SYT15B
         >>> record
         Protein(id=KiCrq9BBTviZ, name=Synaptotagmin-15B, uniprotkb_id=X6R8R1, synonyms=, length=474, gene_symbol=SYT15B, species_id=uHJU, bionty_source_id=SFni, created_by_id=DzTjkKse) # noqa
         >>> record.save()
@@ -383,7 +376,7 @@ class CellMarker(BioRegistry):
 
     Examples:
         >>> record = lb.CellMarker.from_bionty(name="PD1", species="human")
-        💬 Created 1 CellMarker record from Bionty that matched name field (bionty_source_id=7agi)
+        ✅ validated 1 CellMarker record from Bionty on name: PD1
         >>> record
         CellMarker(id=2VeZenLi2dj5, name=PD1, synonyms=PID1|PD-1|PD 1, gene_symbol=PDCD1, ncbi_gene_id=5133, uniprotkb_id=A0A0M3M0G7, species_id=uHJU, bionty_source_id=7agi, created_by_id=DzTjkKse) # noqa
         >>> record.save()
@@ -460,7 +453,7 @@ class Tissue(BioRegistry):
 
     Examples:
         >>> record = lb.Tissue.from_bionty(name="brain")
-        💬 Created 1 Tissue record from Bionty that matched name field (bionty_source_id=XrS9)
+        ✅ validated 1 Tissue record from Bionty on name: brain
         >>> record
         Tissue(id=7HcGzG0l, name=brain, ontology_id=UBERON:0000955, description=The Brain Is The Center Of The Nervous System In All Vertebrate, And Most Invertebrate, Animals. Some Primitive Animals Such As Jellyfish And Starfish Have A Decentralized Nervous System Without A Brain, While Sponges Lack Any Nervous System At All. In Vertebrates, The Brain Is Located In The Head, Protected By The Skull And Close To The Primary Sensory Apparatus Of Vision, Hearing, Balance, Taste, And Smell[Wp]., bionty_source_id=XrS9, created_by_id=DzTjkKse) # noqa
         >>> record.save()
@@ -533,7 +526,7 @@ class CellType(BioRegistry):
 
     Examples:
         >>> record = lb.CellType.from_bionty(name="T cell")
-        💬 Created 1 CellType record from Bionty that matched name field (bionty_source_id=ivhQ)
+        ✅ validated 1 CellType record from Bionty on name: T cell
         >>> record
         CellType(id=BxNjby0x, name=T cell, ontology_id=CL:0000084, synonyms=T-cell|T lymphocyte|T-lymphocyte, description=A Type Of Lymphocyte Whose Defining Characteristic Is The Expression Of A T Cell Receptor Complex., bionty_source_id=ivhQ, created_by_id=DzTjkKse) # noqa
         >>> record.save()
@@ -610,8 +603,8 @@ class Disease(BioRegistry):
         Bulk create Disease records via :class:`~lamindb.dev.Registry.from_values`.
 
     Examples:
-        >>> record = lb.Disease.from_bionty(name="Alzheimer's disease")
-        💬 Created 1 Disease record from Bionty that matched synonyms (bionty_source_id=eeie)
+        >>> record = lb.Disease.from_bionty(name="Alzheimer disease")
+        ✅ validated 1 Disease record from Bionty on name: Alzheimer disease
         >>> record
         Disease(id=nUmxpVTE, name=Alzheimer disease, ontology_id=MONDO:0004975, synonyms=Alzheimer's disease|Alzheimer's dementia|Alzheimers dementia|Alzheimers disease|Alzheimer dementia|Alzheimer disease|presenile and senile dementia|AD, description=A Progressive, Neurodegenerative Disease Characterized By Loss Of Function And Death Of Nerve Cells In Several Areas Of The Brain Leading To Loss Of Cognitive Function Such As Memory And Language., bionty_source_id=eeie, created_by_id=DzTjkKse) # noqa
         >>> record.save()
@@ -688,8 +681,9 @@ class CellLine(BioRegistry):
         Bulk create CellLine records via :class:`~lamindb.dev.Registry.from_values`.
 
     Examples:
-        >>> record = lb.CellLine.from_bionty(name="K562")
-        💬 Created 1 CellLine record from Bionty that matched synonyms (bionty_source_id=ls6p)
+        >>> standard_name = lb.CellLine.bionty().map_synonyms(["K562"])[0]
+        >>> record = lb.CellLine.from_bionty(name=standard_name)
+        ✅ validated 1 CellLine record from Bionty on name: K 562 cell
         >>> record
         CellLine(id=akITPKqK, name=K 562 cell, ontology_id=CLO:0007050, synonyms=K-562|KO|GM05372E|K.562|K562|GM05372|K 562, description=disease: leukemia, chronic myeloid, bionty_source_id=ls6p, created_by_id=DzTjkKse) # noqa
         >>> record.save()
@@ -767,7 +761,7 @@ class Phenotype(BioRegistry):
 
     Examples:
         >>> record = lb.Phenotype.from_bionty(name="Arachnodactyly")
-        💬 Created 1 Phenotype record from Bionty that matched name field (bionty_source_id=2Uqu)
+        ✅ validated 1 Phenotype record from Bionty on name: Arachnodactyly
         >>> record
         Phenotype(id=Cbc4RCc0, name=Arachnodactyly, ontology_id=HP:0001166, synonyms=Long slender fingers|Long, slender fingers|Spider fingers, description=Abnormally Long And Slender Fingers ("Spider Fingers")., bionty_source_id=2Uqu, created_by_id=DzTjkKse) # noqa
         >>> record.save()
@@ -845,7 +839,7 @@ class Pathway(BioRegistry):
 
     Examples:
         >>> record = lb.Pathway.from_bionty(ontology_id="GO:1903353")
-        💬 Created 1 Pathway record from Bionty that matched ontology_id field (bionty_source_id=Zo0l)
+        ✅ validated 1 Pathway record from Bionty on ontology_id: GO:1903353
         >>> record
         Pathway(id=fwv8v1X9, name=regulation of nucleus organization, ontology_id=GO:1903353, synonyms=regulation of nuclear organisation|regulation of nuclear organization, description=Any Process That Modulates The Frequency, Rate Or Extent Of Nucleus Organization., bionty_source_id=Zo0l, created_by_id=DzTjkKse) # noqa
         >>> record.save()
@@ -926,8 +920,9 @@ class ExperimentalFactor(BioRegistry):
         Bulk create ExperimentalFactor records via :class:`~lamindb.dev.Registry.from_values`.
 
     Examples:
-        >>> record = lb.ExperimentalFactor.from_bionty(name="scRNA-seq")
-        💬 Created 1 ExperimentalFactor record from Bionty that matched synonyms (bionty_source_id=4otL)
+        >>> standard_name = lb.ExperimentalFactor.bionty().map_synonyms(["scRNA-seq"])
+        >>> record = lb.ExperimentalFactor.from_bionty(name=standard_name)
+        ✅ validated 1 ExperimentalFactor record from Bionty on name: single-cell RNA sequencing
         >>> record
         ExperimentalFactor(id=068T1Df6, name=single-cell RNA sequencing, ontology_id=EFO:0008913, synonyms=single-cell RNA-seq|single-cell transcriptome sequencing|scRNA-seq|single cell RNA sequencing, description=A Protocol That Provides The Expression Profiles Of Single Cells Via The Isolation And Barcoding Of Single Cells And Their Rna, Reverse Transcription, Amplification, Library Generation And Sequencing., molecule=RNA assay, instrument=single cell sequencing, bionty_source_id=4otL, created_by_id=DzTjkKse) # noqa
         >>> record.save()
