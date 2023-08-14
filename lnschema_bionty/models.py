@@ -21,7 +21,7 @@ class BioRegistry(Registry, ParentsAware):
         For more info, see tutorials:
 
         - :doc:`/lnschema-bionty`
-        - :doc:`/registries`
+        - :doc:`bio-registries`
     """
 
     class Meta:
