@@ -6,7 +6,7 @@ import pytest
 def setup_instance():
     ln_setup.init(storage="./testdb", schema="bionty")
     yield
-    ln_setup.delete("testdb")
+    ln_setup.delete("testdb", force=True)
 
 
 def test_migrate_check(setup_instance):
