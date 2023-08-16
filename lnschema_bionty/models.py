@@ -80,7 +80,7 @@ class BioRegistry(Registry, ParentsAware):
             🔎 CellType.lookup(): autocompletion of terms
             🎯 CellType.search(): free text search of terms
             🧐 CellType.inspect(): check if identifiers are mappable
-            👽 CellType.map_synonyms(): map synonyms to standardized names
+            👽 CellType.standardize(): map synonyms to standardized names
             🔗 CellType.ontology: Pronto.Ontology object
         """
         if cls.__module__.startswith("lnschema_bionty."):
@@ -681,7 +681,7 @@ class CellLine(BioRegistry):
         Bulk create CellLine records via :class:`~lamindb.dev.Registry.from_values`.
 
     Examples:
-        >>> standard_name = lb.CellLine.bionty().map_synonyms(["K562"])[0]
+        >>> standard_name = lb.CellLine.bionty().standardize(["K562"])[0]
         >>> record = lb.CellLine.from_bionty(name=standard_name)
         ✅ validated 1 CellLine record from Bionty on name: K 562 cell
         >>> record
@@ -920,7 +920,7 @@ class ExperimentalFactor(BioRegistry):
         Bulk create ExperimentalFactor records via :class:`~lamindb.dev.Registry.from_values`.
 
     Examples:
-        >>> standard_name = lb.ExperimentalFactor.bionty().map_synonyms(["scRNA-seq"])
+        >>> standard_name = lb.ExperimentalFactor.bionty().standardize(["scRNA-seq"])
         >>> record = lb.ExperimentalFactor.from_bionty(name=standard_name)
         ✅ validated 1 ExperimentalFactor record from Bionty on name: single-cell RNA sequencing
         >>> record
