@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
+⬆️ Updated bionty version | [175](https://github.com/laminlabs/lnschema-bionty/pull/175) | [sunnyosun](https://github.com/sunnyosun) | 2023-08-22 |
 ⬆️ Bionty 0.30.1 | [174](https://github.com/laminlabs/lnschema-bionty/pull/174) | [sunnyosun](https://github.com/sunnyosun) | 2023-08-17 |
 🚚 Rename map_synonyms to standardize | [173](https://github.com/laminlabs/lnschema-bionty/pull/173) | [sunnyosun](https://github.com/sunnyosun) | 2023-08-16 | 0.29.5
 📝 Refactored docs | [172](https://github.com/laminlabs/lnschema-bionty/pull/172) | [falexwolf](https://github.com/falexwolf) | 2023-08-12 | 0.29.4
