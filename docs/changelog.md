@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
+♻️ Use CanValidate & HasParents | [176](https://github.com/laminlabs/lnschema-bionty/pull/176) | [falexwolf](https://github.com/falexwolf) | 2023-08-23 |
 ⬆️ Updated bionty version | [175](https://github.com/laminlabs/lnschema-bionty/pull/175) | [sunnyosun](https://github.com/sunnyosun) | 2023-08-22 |
 ⬆️ Bionty 0.30.1 | [174](https://github.com/laminlabs/lnschema-bionty/pull/174) | [sunnyosun](https://github.com/sunnyosun) | 2023-08-17 |
 🚚 Rename map_synonyms to standardize | [173](https://github.com/laminlabs/lnschema-bionty/pull/173) | [sunnyosun](https://github.com/sunnyosun) | 2023-08-16 | 0.29.5
