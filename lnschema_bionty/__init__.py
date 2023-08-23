@@ -56,7 +56,11 @@ from . import ids
 def __getattr__(name):
     if name not in {"models"}:
         _check_instance_setup(from_lamindb=True)
-    return globals()[name]
+
+    try:
+        return globals()[name]
+    except KeyError:
+        raise KeyError(f"{name} is not a valid setting.") from None
 
 
 if _check_instance_setup():
