@@ -14,7 +14,7 @@ class Migration(migrations.Migration):
             model_name="cellmarker",
             name="species",
             field=models.ForeignKey(
-                default="unspecified",
+                default=None,
                 on_delete=django.db.models.deletion.PROTECT,
                 related_name="cell_markers",
                 to="lnschema_bionty.species",
@@ -25,7 +25,7 @@ class Migration(migrations.Migration):
             model_name="gene",
             name="species",
             field=models.ForeignKey(
-                default="unspecified",
+                default=None,
                 on_delete=django.db.models.deletion.PROTECT,
                 related_name="genes",
                 to="lnschema_bionty.species",
@@ -36,7 +36,7 @@ class Migration(migrations.Migration):
             model_name="protein",
             name="species",
             field=models.ForeignKey(
-                default="unspecified",
+                default=None,
                 on_delete=django.db.models.deletion.PROTECT,
                 related_name="proteins",
                 to="lnschema_bionty.species",
