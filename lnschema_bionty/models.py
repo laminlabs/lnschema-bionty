@@ -238,7 +238,7 @@ class Gene(BioRegistry):
     """Description of the gene."""
     synonyms = models.TextField(null=True, default=None)
     """Bar-separated (|) synonyms that correspond to this gene."""
-    species = models.ForeignKey(Species, models.PROTECT, null=True, related_name="genes")
+    species = models.ForeignKey(Species, models.PROTECT, related_name="genes")
     """:class:`~lnschema_bionty.Species` this gene associates with."""
     bionty_source = models.ForeignKey("BiontySource", models.PROTECT, null=True, related_name="genes")
     """:class:`~lnschema_bionty.BiontySource` this gene associates with."""
@@ -317,7 +317,7 @@ class Protein(BioRegistry):
     """The primary gene symbol corresponds to this protein."""
     ensembl_gene_ids = models.TextField(null=True, default=None)
     """Bar-separated (|) Ensembl Gene IDs that correspond to this protein."""
-    species = models.ForeignKey(Species, models.PROTECT, null=True, related_name="proteins")
+    species = models.ForeignKey(Species, models.PROTECT, related_name="proteins")
     """:class:`~lnschema_bionty.Species` this protein associates with."""
     bionty_source = models.ForeignKey("BiontySource", models.PROTECT, null=True, related_name="proteins")
     """:class:`~lnschema_bionty.BiontySource` this protein associates with."""
@@ -393,7 +393,7 @@ class CellMarker(BioRegistry):
     """NCBI gene id that corresponds to this cell marker."""
     uniprotkb_id = models.CharField(max_length=10, db_index=True, null=True, default=None)
     """Uniprotkb id that corresponds to this cell marker."""
-    species = models.ForeignKey(Species, models.PROTECT, null=True, related_name="cell_markers")
+    species = models.ForeignKey(Species, models.PROTECT, related_name="cell_markers")
     """:class:`~lnschema_bionty.Species` this cell marker associates with."""
     bionty_source = models.ForeignKey("BiontySource", models.PROTECT, null=True, related_name="cell_markers")
     """:class:`~lnschema_bionty.BiontySource` this cell marker associates with."""
