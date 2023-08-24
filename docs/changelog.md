@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
+🎨 Make species not nullable in Gene, Protein, CellType | [179](https://github.com/laminlabs/lnschema-bionty/pull/179) | [sunnyosun](https://github.com/sunnyosun) | 2023-08-24 |
 ♻️ Use `CanValidate` & `HasParents` | [176](https://github.com/laminlabs/lnschema-bionty/pull/176) | [falexwolf](https://github.com/falexwolf) | 2023-08-23 | 0.30.0
 ⬆️ Updated bionty version | [175](https://github.com/laminlabs/lnschema-bionty/pull/175) | [sunnyosun](https://github.com/sunnyosun) | 2023-08-22 |
 ⬆️ Bionty 0.30.1 | [174](https://github.com/laminlabs/lnschema-bionty/pull/174) | [sunnyosun](https://github.com/sunnyosun) | 2023-08-17 |
