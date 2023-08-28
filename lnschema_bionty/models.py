@@ -28,6 +28,11 @@ class BioRegistry(Registry, HasParents, CanValidate):
         abstract = True
 
     def __init__(self, *args, **kwargs):
+        # DB-facing constructor
+        if len(args) == len(self._meta.concrete_fields):
+            super(BioRegistry, self).__init__(*args, **kwargs)
+            return None
+        # now continue with the user-facing constructor
         # set the direct parents as a private attribute
         # this is a list of strings that store the ontology id
         if args and len(args) == 1 and isinstance(args[0], (Tuple, List)) and len(args[0]) > 0:
@@ -47,6 +52,19 @@ class BioRegistry(Registry, HasParents, CanValidate):
                 args = ()
         else:
             kwargs = encode_id(orm=self, kwargs=kwargs)
+
+        # raise error if no species is passed
+        if hasattr(self.__class__, "species_id"):
+            if kwargs.get("species") is None and kwargs.get("species_id") is None:
+                import lnschema_bionty as lb
+
+                if lb.settings.species is not None:
+                    kwargs["species"] = lb.settings.species
+                else:
+                    raise RuntimeError("please pass a species!")
+            elif kwargs.get("species") is not None:
+                if not isinstance(kwargs.get("species"), Species):
+                    raise TypeError("species must be a `lnschema_bionty.Species` record")
 
         if "parents" in kwargs:
             parents = kwargs.pop("parents")
