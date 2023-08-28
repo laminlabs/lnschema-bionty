@@ -53,6 +53,19 @@ class BioRegistry(Registry, HasParents, CanValidate):
         else:
             kwargs = encode_id(orm=self, kwargs=kwargs)
 
+        # raise error if no species is passed
+        if hasattr(self.__class__, "species_id"):
+            if kwargs.get("species") is None and kwargs.get("species_id") is None:
+                import lnschema_bionty as lb
+
+                if lb.settings.species is not None:
+                    kwargs["species"] = lb.settings.species
+                else:
+                    raise RuntimeError("please pass a species!")
+            elif kwargs.get("species") is not None:
+                if not isinstance(kwargs.get("species"), Species):
+                    raise TypeError("species must be a `lnschema_bionty.Species` record")
+
         if "parents" in kwargs:
             parents = kwargs.pop("parents")
             # this checks if we receive a np.ndarray from pandas
