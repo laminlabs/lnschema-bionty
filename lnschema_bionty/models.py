@@ -28,6 +28,11 @@ class BioRegistry(Registry, HasParents, CanValidate):
         abstract = True
 
     def __init__(self, *args, **kwargs):
+        # DB-facing constructor
+        if len(args) == len(self._meta.concrete_fields):
+            super(BioRegistry, self).__init__(*args, **kwargs)
+            return None
+        # now continue with the user-facing constructor
         # set the direct parents as a private attribute
         # this is a list of strings that store the ontology id
         if args and len(args) == 1 and isinstance(args[0], (Tuple, List)) and len(args[0]) > 0:
