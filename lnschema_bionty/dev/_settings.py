@@ -53,7 +53,7 @@ class Settings:
             raise ValueError(f"No species with name='{name}' is found, please create a species record!")
         if species._state.adding:  # type:ignore
             species.save()  # type:ignore
-        logger.save(f"set species: {species}")
+        logger.debug(f"set species: {species}")
         self._species = species
 
 
