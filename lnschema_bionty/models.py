@@ -226,7 +226,7 @@ class Species(BioRegistry):
 
 
 class Gene(BioRegistry):
-    """Genes.
+    """Genes - `Ensembl <https://ensembl.org/>`__, `NCBI Gene <https://www.ncbi.nlm.nih.gov/gene/>`__.
 
     Notes:
         Bulk create Gene records via :class:`~lamindb.dev.Registry.from_values`.
