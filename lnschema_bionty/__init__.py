@@ -1,10 +1,44 @@
-"""Basic biological entities.
+"""Registries for basic biological entities, coupled to public ontologies.
+
+Features
+========
+
+- Create records from entries in public ontologies using `.from_bionty()`.
+- Access full underlying public ontologies via `.bionty()` to search & bulk-create records.
+- Create in-house ontologies by using hierarchical relationships among records (`.parents`).
+- Use `.synonyms` and `.abbr` to manage synonyms.
+
+All registries inherit from :class:`~lamindb.dev.CanValidate` &
+:class:`~lamindb.dev.HasParents` to curate, validate & annotate data, and from
+:class:`~lamindb.dev.Registry` for query & search.
+
+.. dropdown:: How to ensure reproducibility across different versions of public ontologies?
+
+   It's important to track versions of external data dependencies.
+
+   `lnschema_bionty` manages it under the hood:
+
+   - Versions of public databases are auto-tracked in :class:`BiontySource`.
+   - Records are indexed by universal ids, created by hashing `name` & `ontology_id` for portability across databases.
+
+.. note::
+
+   Read the guides:
+
+   - :doc:`/bio-registries`
+   - :doc:`/validate`
+
+   For more background on how public ontologies are accessed, see the utility
+   library `Bionty <https://lamin.ai/docs/bionty>`__.
+
+API
+===
 
 Import the package::
 
    import lnschema_bionty as lb
 
-All Bionty registries are coupled to `Bionty <https://lamin.ai/docs/bionty>`__-managed ontologies for validation & knowledge-contextualization.
+Basic biological registries:
 
 .. autosummary::
    :toctree: .
@@ -28,7 +62,7 @@ Settings:
 
    settings
 
-Bionty sources (public ontology versions):
+Public ontology versions:
 
 .. autosummary::
    :toctree: .

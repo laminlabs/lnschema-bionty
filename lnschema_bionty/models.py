@@ -121,9 +121,7 @@ class BioRegistry(Registry, HasParents, CanValidate):
             Create a record by passing a field value:
 
             >>> record = lb.Gene.from_bionty(symbol="TCF7", species="human")
-            ✅ validated 1 Gene record from Bionty on symbol: TCF7
             >>> record
-            Gene(id=0StEa7eEhivb, symbol=TCF7, ensembl_gene_id=ENSG00000081059, ncbi_gene_ids=6932, biotype=protein_coding, description=transcription factor 7 [Source:HGNC Symbol;Acc:HGNC:11639], synonyms=TCF-1, species_id=uHJU, bionty_source_id=6dGw, created_by_id=DzTjkKse) # noqa
             >>> record.save()
 
         """
@@ -171,13 +169,10 @@ class BioRegistry(Registry, HasParents, CanValidate):
 
 
 class Species(BioRegistry):
-    """Species.
+    """Species - `NCBI Taxonomy <https://www.ncbi.nlm.nih.gov/taxonomy/>`__, `Ensembl Species <https://useast.ensembl.org/info/about/species.html>`__.
 
     Examples:
         >>> record = lb.Species.from_bionty(name="rabbit")
-        ✅ validated 1 Species record from Bionty on name: rabbit
-        >>> record
-        Species(id=2Nq8, name=rabbit, taxon_id=9986, scientific_name=oryctolagus_cuniculus, bionty_source_id=KkPB, created_by_id=DzTjkKse)
         >>> record.save()
     """
 
@@ -226,16 +221,13 @@ class Species(BioRegistry):
 
 
 class Gene(BioRegistry):
-    """Genes.
+    """Genes - `Ensembl <https://ensembl.org/>`__, `NCBI Gene <https://www.ncbi.nlm.nih.gov/gene/>`__.
 
     Notes:
         Bulk create Gene records via :class:`~lamindb.dev.Registry.from_values`.
 
     Examples:
         >>> record = lb.Gene.from_bionty(symbol="TCF7", species="human")
-        ✅ validated 1 Gene record from Bionty on symbol: TCF7
-        >>> record
-        Gene(id=0StEa7eEhivb, symbol=TCF7, ensembl_gene_id=ENSG00000081059, ncbi_gene_ids=6932, biotype=protein_coding, description=transcription factor 7 [Source:HGNC Symbol;Acc:HGNC:11639], synonyms=TCF-1, species_id=uHJU, bionty_source_id=6dGw, created_by_id=DzTjkKse) # noqa
         >>> record.save()
     """
 
@@ -304,7 +296,7 @@ class Gene(BioRegistry):
 
 
 class Protein(BioRegistry):
-    """Proteins.
+    """Proteins - `Uniprot <https://www.uniprot.org/>`__.
 
     Notes:
         Bulk create Protein records via :class:`~lamindb.dev.Registry.from_values`.
@@ -387,16 +379,13 @@ class Protein(BioRegistry):
 
 
 class CellMarker(BioRegistry):
-    """Cell markers.
+    """Cell markers - `CellMarker <http://xteam.xbio.top/CellMarker>`__.
 
     Notes:
         Bulk create CellMarker records via :class:`~lamindb.dev.Registry.from_values`.
 
     Examples:
         >>> record = lb.CellMarker.from_bionty(name="PD1", species="human")
-        ✅ validated 1 CellMarker record from Bionty on name: PD1
-        >>> record
-        CellMarker(id=2VeZenLi2dj5, name=PD1, synonyms=PID1|PD-1|PD 1, gene_symbol=PDCD1, ncbi_gene_id=5133, uniprotkb_id=A0A0M3M0G7, species_id=uHJU, bionty_source_id=7agi, created_by_id=DzTjkKse) # noqa
         >>> record.save()
     """
 
@@ -462,7 +451,7 @@ class CellMarker(BioRegistry):
 
 
 class Tissue(BioRegistry):
-    """Tissues.
+    """Tissues - `Uberon <http://obophenotype.github.io/uberon/>`__.
 
     Notes:
         For more info, see tutorial :doc:`bio-registries`
@@ -471,9 +460,6 @@ class Tissue(BioRegistry):
 
     Examples:
         >>> record = lb.Tissue.from_bionty(name="brain")
-        ✅ validated 1 Tissue record from Bionty on name: brain
-        >>> record
-        Tissue(id=7HcGzG0l, name=brain, ontology_id=UBERON:0000955, description=The Brain Is The Center Of The Nervous System In All Vertebrate, And Most Invertebrate, Animals. Some Primitive Animals Such As Jellyfish And Starfish Have A Decentralized Nervous System Without A Brain, While Sponges Lack Any Nervous System At All. In Vertebrates, The Brain Is Located In The Head, Protected By The Skull And Close To The Primary Sensory Apparatus Of Vision, Hearing, Balance, Taste, And Smell[Wp]., bionty_source_id=XrS9, created_by_id=DzTjkKse) # noqa
         >>> record.save()
     """
 
@@ -535,7 +521,7 @@ class Tissue(BioRegistry):
 
 
 class CellType(BioRegistry):
-    """Cell types.
+    """Cell types - `Cell Ontology <https://obophenotype.github.io/cell-ontology/>`__.
 
     Notes:
         For more info, see tutorial :doc:`bio-registries`
@@ -544,9 +530,6 @@ class CellType(BioRegistry):
 
     Examples:
         >>> record = lb.CellType.from_bionty(name="T cell")
-        ✅ validated 1 CellType record from Bionty on name: T cell
-        >>> record
-        CellType(id=BxNjby0x, name=T cell, ontology_id=CL:0000084, synonyms=T-cell|T lymphocyte|T-lymphocyte, description=A Type Of Lymphocyte Whose Defining Characteristic Is The Expression Of A T Cell Receptor Complex., bionty_source_id=ivhQ, created_by_id=DzTjkKse) # noqa
         >>> record.save()
     """
 
@@ -613,7 +596,7 @@ class CellType(BioRegistry):
 
 
 class Disease(BioRegistry):
-    """Diseases.
+    """Diseases - `Mondo <https://mondo.monarchinitiative.org/>`__, `Human Disease <https://disease-ontology.org/>`__.
 
     Notes:
         For more info, see tutorial :doc:`bio-registries`
@@ -691,7 +674,7 @@ class Disease(BioRegistry):
 
 
 class CellLine(BioRegistry):
-    """Cell lines.
+    """Cell lines - `Cell Line Ontology <https://github.com/CLO-ontology/CLO>`__.
 
     Notes:
         For more info, see tutorial :doc:`bio-registries`
@@ -770,7 +753,10 @@ class CellLine(BioRegistry):
 
 
 class Phenotype(BioRegistry):
-    """Phenotypes.
+    """Phenotypes - `Human Phenotype <https://hpo.jax.org/app/>`__,
+    `Phecodes <https://phewascatalog.org/phecodes_icd10>`__,
+    `Mammalian Phenotype <http://obofoundry.org/ontology/mp.html>`__,
+    `Zebrafish Phenotype <http://obofoundry.org/ontology/zp.html>`__.
 
     Notes:
         For more info, see tutorial :doc:`bio-registries`
@@ -779,9 +765,6 @@ class Phenotype(BioRegistry):
 
     Examples:
         >>> record = lb.Phenotype.from_bionty(name="Arachnodactyly")
-        ✅ validated 1 Phenotype record from Bionty on name: Arachnodactyly
-        >>> record
-        Phenotype(id=Cbc4RCc0, name=Arachnodactyly, ontology_id=HP:0001166, synonyms=Long slender fingers|Long, slender fingers|Spider fingers, description=Abnormally Long And Slender Fingers ("Spider Fingers")., bionty_source_id=2Uqu, created_by_id=DzTjkKse) # noqa
         >>> record.save()
     """
 
@@ -848,7 +831,8 @@ class Phenotype(BioRegistry):
 
 
 class Pathway(BioRegistry):
-    """Pathways.
+    """Pathways - `Gene Ontology <https://bioportal.bioontology.org/ontologies/GO>`__,
+    `Pathway Ontology <https://bioportal.bioontology.org/ontologies/PW>`__.
 
     Notes:
         For more info, see tutorial :doc:`bio-registries`
@@ -857,9 +841,6 @@ class Pathway(BioRegistry):
 
     Examples:
         >>> record = lb.Pathway.from_bionty(ontology_id="GO:1903353")
-        ✅ validated 1 Pathway record from Bionty on ontology_id: GO:1903353
-        >>> record
-        Pathway(id=fwv8v1X9, name=regulation of nucleus organization, ontology_id=GO:1903353, synonyms=regulation of nuclear organisation|regulation of nuclear organization, description=Any Process That Modulates The Frequency, Rate Or Extent Of Nucleus Organization., bionty_source_id=Zo0l, created_by_id=DzTjkKse) # noqa
         >>> record.save()
     """
 
@@ -930,7 +911,8 @@ class Pathway(BioRegistry):
 
 
 class ExperimentalFactor(BioRegistry):
-    """Experimental factors.
+    """Experimental factors - `Experimental Factor Ontology <https://www.ebi.ac.uk/ols/ontologies/efo>`__.
+
 
     Notes:
         For more info, see tutorial :doc:`bio-registries`
@@ -1015,9 +997,10 @@ class ExperimentalFactor(BioRegistry):
 
 
 class BiontySource(Registry):
-    """Sources of the Bionty tables.
+    """Versions of public ontologies.
 
-    Warning:
+    .. warning::
+
         Do not modify the records unless you know what you are doing!
     """
 
