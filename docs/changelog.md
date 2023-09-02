@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
+📝 A proper landing page | [181](https://github.com/laminlabs/lnschema-bionty/pull/181) | [falexwolf](https://github.com/falexwolf) | 2023-09-02 |
 ♻️ Add DB-facing constructor | [180](https://github.com/laminlabs/lnschema-bionty/pull/180) | [falexwolf](https://github.com/falexwolf) | 2023-08-28 | 0.30.1
 🎨 Make species not nullable in Gene, Protein, CellType | [179](https://github.com/laminlabs/lnschema-bionty/pull/179) | [sunnyosun](https://github.com/sunnyosun) | 2023-08-24 |
 ♻️ Use `CanValidate` & `HasParents` | [176](https://github.com/laminlabs/lnschema-bionty/pull/176) | [falexwolf](https://github.com/falexwolf) | 2023-08-23 | 0.30.0
