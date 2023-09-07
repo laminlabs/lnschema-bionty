@@ -54,9 +54,6 @@ def get_bionty_source_record(bionty_object: bt.Bionty):
     from .models import BiontySource
 
     source_record = BiontySource.objects.filter(**kwargs).get()
-    if not source_record.currently_used:
-        raise AssertionError("Currently used resources are not correctly configured! Please reload your instance!")
-
     return source_record
 
 

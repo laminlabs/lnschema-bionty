@@ -77,7 +77,11 @@ class BioRegistry(Registry, HasParents, CanValidate):
         super().__init__(*args, **kwargs)
 
     @classmethod
-    def bionty(cls, species: Optional[Union[str, Registry]] = None) -> "bt.Bionty":
+    def bionty(
+        cls,
+        species: Optional[Union[str, Registry]] = None,
+        bionty_source: Optional["BiontySource"] = None,
+    ) -> "bt.Bionty":
         """The corresponding Bionty object.
 
         e.g. lnschema_bionty.CellType.bionty() is equivalent to bionty.CellType().
@@ -104,7 +108,15 @@ class BioRegistry(Registry, HasParents, CanValidate):
         if cls.__module__.startswith("lnschema_bionty."):
             species_record = create_or_get_species_record(species=species, orm=cls)
 
-            bionty_object = getattr(bt, cls.__name__)(species=species_record.name if species_record is not None else None)
+            if bionty_source is not None:
+                species = bionty_source.species
+                source = bionty_source.source
+                version = bionty_source.version
+            else:
+                species = species_record.name if species_record is not None else None
+                source = None
+                version = None
+            bionty_object = getattr(bt, cls.__name__)(species=species, source=source, version=version)
 
             return bionty_object
 
@@ -123,6 +135,11 @@ class BioRegistry(Registry, HasParents, CanValidate):
             >>> record = lb.Gene.from_bionty(symbol="TCF7", species="human")
             >>> record
             >>> record.save()
+
+            Create a record from non-default source:
+
+            >>> bionty_source = lb.BiontySource.filter(entity="CellType", source="cl", version="2022-08-16").one()  # noqa
+            >>> record = lb.CellType.from_bionty(name="T cell", bionty_source=bionty_source)
 
         """
         # non-relationship kwargs
@@ -994,6 +1011,157 @@ class ExperimentalFactor(BioRegistry):
         **kwargs,
     ):
         super(ExperimentalFactor, self).__init__(*args, **kwargs)
+
+
+class DevelopmentalStage(BioRegistry):
+    """Developmental stages - `Human Developmental Stages <https://github.com/obophenotype/developmental-stage-ontologies/wiki/HsapDv>`__,
+    `Mouse Developmental Stages <https://github.com/obophenotype/developmental-stage-ontologies/wiki/MmusDv>`__.  # noqa
+
+    Notes:
+        For more info, see tutorial :doc:`bio-registries`
+
+        Bulk create DevelopmentalStage records via :class:`~lamindb.dev.Registry.from_values`.
+
+    Examples:
+        >>> record = lb.DevelopmentalStage.from_bionty(name="neurula stage")
+        >>> record.save()
+    """
+
+    id = models.CharField(max_length=8, default=ids.ontology, primary_key=True)
+    name = models.CharField(max_length=256, db_index=True)
+    """Name of the developmental stage."""
+    ontology_id = models.CharField(max_length=32, db_index=True, null=True, default=None)
+    """Ontology ID of the developmental stage."""
+    abbr = models.CharField(max_length=32, db_index=True, unique=True, null=True, default=None)
+    """A unique abbreviation of developmental stage."""
+    synonyms = models.TextField(null=True, default=None)
+    """Bar-separated (|) synonyms that correspond to this developmental stage."""
+    description = models.TextField(null=True, default=None)
+    """Description of the developmental stage."""
+    parents = models.ManyToManyField("self", symmetrical=False, related_name="children")
+    """Parent developmental stage records."""
+    bionty_source = models.ForeignKey("BiontySource", models.PROTECT, null=True, related_name="developmental_stages")
+    """:class:`~lnschema_bionty.BiontySource` this developmental stage associates with."""
+    files = models.ManyToManyField("lnschema_core.File", related_name="developmental_stages")
+    """Files linked to the developmental stage."""
+    datasets = models.ManyToManyField("lnschema_core.Dataset", related_name="developmental_stages")
+    """Datasets linked to the developmental stage."""
+    created_at = models.DateTimeField(auto_now_add=True, db_index=True)
+    """Time of creation of record."""
+    updated_at = models.DateTimeField(auto_now=True, db_index=True)
+    """Time of last update to record."""
+    created_by = models.ForeignKey(
+        User,
+        models.PROTECT,
+        default=current_user_id,
+        related_name="created_developmental_stages",
+    )
+    """Creator of record, a :class:`~lamindb.User`."""
+
+    class Meta:
+        unique_together = (("name", "ontology_id"),)
+
+    @overload
+    def __init__(
+        self,
+        name: str,
+        ontology_id: Optional[str],
+        abbr: Optional[str],
+        synonyms: Optional[str],
+        description: Optional[str],
+        parents: List["DevelopmentalStage"],
+        bionty_source: Optional["BiontySource"],
+    ):
+        ...
+
+    @overload
+    def __init__(
+        self,
+        *db_args,
+    ):
+        ...
+
+    def __init__(
+        self,
+        *args,
+        **kwargs,
+    ):
+        super(DevelopmentalStage, self).__init__(*args, **kwargs)
+
+
+class Ethnicity(BioRegistry):
+    """Ethnicity - `Human Ancestry Ontology <https://github.com/EBISPOT/hancestro>`__.
+
+    Notes:
+        For more info, see tutorial :doc:`bio-registries`
+
+        Bulk create Ethnicity records via :class:`~lamindb.dev.Registry.from_values`.
+
+    Examples:
+        >>> record = lb.Ethnicity.from_bionty(name="European")
+        >>> record.save()
+    """
+
+    id = models.CharField(max_length=8, default=ids.ontology, primary_key=True)
+    name = models.CharField(max_length=256, db_index=True)
+    """Name of the ethnicity."""
+    ontology_id = models.CharField(max_length=32, db_index=True, null=True, default=None)
+    """Ontology ID of the ethnicity."""
+    abbr = models.CharField(max_length=32, db_index=True, unique=True, null=True, default=None)
+    """A unique abbreviation of ethnicity."""
+    synonyms = models.TextField(null=True, default=None)
+    """Bar-separated (|) synonyms that correspond to this ethnicity."""
+    description = models.TextField(null=True, default=None)
+    """Description of the ethnicity."""
+    parents = models.ManyToManyField("self", symmetrical=False, related_name="children")
+    """Parent ethnicity records."""
+    bionty_source = models.ForeignKey("BiontySource", models.PROTECT, null=True, related_name="ethnicities")
+    """:class:`~lnschema_bionty.BiontySource` this ethnicity associates with."""
+    files = models.ManyToManyField("lnschema_core.File", related_name="ethnicities")
+    """Files linked to the ethnicity."""
+    datasets = models.ManyToManyField("lnschema_core.Dataset", related_name="ethnicities")
+    """Datasets linked to the ethnicity."""
+    created_at = models.DateTimeField(auto_now_add=True, db_index=True)
+    """Time of creation of record."""
+    updated_at = models.DateTimeField(auto_now=True, db_index=True)
+    """Time of last update to record."""
+    created_by = models.ForeignKey(
+        User,
+        models.PROTECT,
+        default=current_user_id,
+        related_name="created_ethnicities",
+    )
+    """Creator of record, a :class:`~lamindb.User`."""
+
+    class Meta:
+        unique_together = (("name", "ontology_id"),)
+
+    @overload
+    def __init__(
+        self,
+        name: str,
+        ontology_id: Optional[str],
+        abbr: Optional[str],
+        synonyms: Optional[str],
+        description: Optional[str],
+        parents: List["Ethnicity"],
+        bionty_source: Optional["BiontySource"],
+    ):
+        ...
+
+    @overload
+    def __init__(
+        self,
+        *db_args,
+    ):
+        ...
+
+    def __init__(
+        self,
+        *args,
+        **kwargs,
+    ):
+        super(Ethnicity, self).__init__(*args, **kwargs)
 
 
 class BiontySource(Registry):
