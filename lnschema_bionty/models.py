@@ -1008,6 +1008,82 @@ class ExperimentalFactor(BioRegistry):
         super(ExperimentalFactor, self).__init__(*args, **kwargs)
 
 
+class DevelopmentalStage(BioRegistry):
+    """Developmental stages - `Human Developmental Stages <https://github.com/obophenotype/developmental-stage-ontologies/wiki/HsapDv>`__,
+    `Mouse Developmental Stages <https://github.com/obophenotype/developmental-stage-ontologies/wiki/MmusDv>`__.  # noqa
+
+    Notes:
+        For more info, see tutorial :doc:`bio-registries`
+
+        Bulk create DevelopmentalStage records via :class:`~lamindb.dev.Registry.from_values`.
+
+    Examples:
+        >>> record = lb.DevelopmentalStage.from_bionty(name="neurula stage")
+        >>> record.save()
+    """
+
+    id = models.CharField(max_length=8, default=ids.ontology, primary_key=True)
+    name = models.CharField(max_length=256, db_index=True)
+    """Name of the developmental stage."""
+    ontology_id = models.CharField(max_length=32, db_index=True, null=True, default=None)
+    """Ontology ID of the developmental stage."""
+    abbr = models.CharField(max_length=32, db_index=True, unique=True, null=True, default=None)
+    """A unique abbreviation of developmental stage."""
+    synonyms = models.TextField(null=True, default=None)
+    """Bar-separated (|) synonyms that correspond to this developmental stage."""
+    description = models.TextField(null=True, default=None)
+    """Description of the developmental stage."""
+    parents = models.ManyToManyField("self", symmetrical=False, related_name="children")
+    """Parent developmental stage records."""
+    bionty_source = models.ForeignKey("BiontySource", models.PROTECT, null=True, related_name="developmental_stages")
+    """:class:`~lnschema_bionty.BiontySource` this developmental stage associates with."""
+    files = models.ManyToManyField("lnschema_core.File", related_name="developmental_stages")
+    """Files linked to the developmental stage."""
+    datasets = models.ManyToManyField("lnschema_core.Dataset", related_name="developmental_stages")
+    """Datasets linked to the developmental stage."""
+    created_at = models.DateTimeField(auto_now_add=True, db_index=True)
+    """Time of creation of record."""
+    updated_at = models.DateTimeField(auto_now=True, db_index=True)
+    """Time of last update to record."""
+    created_by = models.ForeignKey(
+        User,
+        models.PROTECT,
+        default=current_user_id,
+        related_name="created_developmental_stages",
+    )
+    """Creator of record, a :class:`~lamindb.User`."""
+
+    class Meta:
+        unique_together = (("name", "ontology_id"),)
+
+    @overload
+    def __init__(
+        self,
+        name: str,
+        ontology_id: Optional[str],
+        abbr: Optional[str],
+        synonyms: Optional[str],
+        description: Optional[str],
+        parents: List["DevelopmentalStage"],
+        bionty_source: Optional["BiontySource"],
+    ):
+        ...
+
+    @overload
+    def __init__(
+        self,
+        *db_args,
+    ):
+        ...
+
+    def __init__(
+        self,
+        *args,
+        **kwargs,
+    ):
+        super(DevelopmentalStage, self).__init__(*args, **kwargs)
+
+
 class BiontySource(Registry):
     """Versions of public ontologies.
 

@@ -54,6 +54,7 @@ Basic biological registries:
    Pathway
    Phenotype
    ExperimentalFactor
+   DevelopmentalStage
 
 Settings:
 
@@ -101,6 +102,7 @@ if _check_instance_setup():
         CellLine,
         CellMarker,
         CellType,
+        DevelopmentalStage,
         Disease,
         ExperimentalFactor,
         Gene,
