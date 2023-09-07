@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
+✨ Allow non-default bionty sources in LaminDB | [184](https://github.com/laminlabs/lnschema-bionty/pull/184) | [sunnyosun](https://github.com/sunnyosun) | 2023-09-07 |
 ⬆️ Transient download bar | [182](https://github.com/laminlabs/lnschema-bionty/pull/182) | [sunnyosun](https://github.com/sunnyosun) | 2023-09-05 | 0.30.4
 📝 A proper landing page | [181](https://github.com/laminlabs/lnschema-bionty/pull/181) | [falexwolf](https://github.com/falexwolf) | 2023-09-02 | 0.30.3
 ♻️ Add DB-facing constructor | [180](https://github.com/laminlabs/lnschema-bionty/pull/180) | [falexwolf](https://github.com/falexwolf) | 2023-08-28 | 0.30.1
