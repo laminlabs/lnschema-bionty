@@ -77,7 +77,11 @@ class BioRegistry(Registry, HasParents, CanValidate):
         super().__init__(*args, **kwargs)
 
     @classmethod
-    def bionty(cls, species: Optional[Union[str, Registry]] = None) -> "bt.Bionty":
+    def bionty(
+        cls,
+        species: Optional[Union[str, Registry]] = None,
+        bionty_source: Optional["BiontySource"] = None,
+    ) -> "bt.Bionty":
         """The corresponding Bionty object.
 
         e.g. lnschema_bionty.CellType.bionty() is equivalent to bionty.CellType().
@@ -104,7 +108,15 @@ class BioRegistry(Registry, HasParents, CanValidate):
         if cls.__module__.startswith("lnschema_bionty."):
             species_record = create_or_get_species_record(species=species, orm=cls)
 
-            bionty_object = getattr(bt, cls.__name__)(species=species_record.name if species_record is not None else None)
+            if bionty_source is not None:
+                species = bionty_source.species
+                source = bionty_source.source
+                version = bionty_source.version
+            else:
+                species = species_record.name if species_record is not None else None
+                source = None
+                version = None
+            bionty_object = getattr(bt, cls.__name__)(species=species, source=source, version=version)
 
             return bionty_object
 
