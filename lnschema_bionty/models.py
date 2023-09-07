@@ -154,6 +154,8 @@ class BioRegistry(Registry, HasParents, CanValidate):
             results = cls.from_values([v], field=getattr(cls, k), **kwargs)
             if len(results) == 1:
                 return results[0]
+            elif len(results) == 0:
+                return None
             else:
                 return results
 
