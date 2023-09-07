@@ -136,6 +136,11 @@ class BioRegistry(Registry, HasParents, CanValidate):
             >>> record
             >>> record.save()
 
+            Create a record from non-default source:
+
+            >>> bionty_source = lb.BiontySource.filter(entity="CellType", source="cl", version="2022-08-16").one()  # noqa
+            >>> record = lb.CellType.from_bionty(name="T cell", bionty_source=bionty_source)
+
         """
         # non-relationship kwargs
         kv = {k: v for k, v in kwargs.items() if k not in [i.name for i in cls._meta.fields if i.is_relation]}
