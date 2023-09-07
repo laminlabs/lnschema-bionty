@@ -1084,6 +1084,81 @@ class DevelopmentalStage(BioRegistry):
         super(DevelopmentalStage, self).__init__(*args, **kwargs)
 
 
+class Ethnicity(BioRegistry):
+    """Ethnicity - `Human Ancestry Ontology <https://github.com/EBISPOT/hancestro>`__.
+
+    Notes:
+        For more info, see tutorial :doc:`bio-registries`
+
+        Bulk create Ethnicity records via :class:`~lamindb.dev.Registry.from_values`.
+
+    Examples:
+        >>> record = lb.Ethnicity.from_bionty(name="European")
+        >>> record.save()
+    """
+
+    id = models.CharField(max_length=8, default=ids.ontology, primary_key=True)
+    name = models.CharField(max_length=256, db_index=True)
+    """Name of the ethnicity."""
+    ontology_id = models.CharField(max_length=32, db_index=True, null=True, default=None)
+    """Ontology ID of the ethnicity."""
+    abbr = models.CharField(max_length=32, db_index=True, unique=True, null=True, default=None)
+    """A unique abbreviation of ethnicity."""
+    synonyms = models.TextField(null=True, default=None)
+    """Bar-separated (|) synonyms that correspond to this ethnicity."""
+    description = models.TextField(null=True, default=None)
+    """Description of the ethnicity."""
+    parents = models.ManyToManyField("self", symmetrical=False, related_name="children")
+    """Parent ethnicity records."""
+    bionty_source = models.ForeignKey("BiontySource", models.PROTECT, null=True, related_name="ethnicities")
+    """:class:`~lnschema_bionty.BiontySource` this ethnicity associates with."""
+    files = models.ManyToManyField("lnschema_core.File", related_name="ethnicities")
+    """Files linked to the ethnicity."""
+    datasets = models.ManyToManyField("lnschema_core.Dataset", related_name="ethnicities")
+    """Datasets linked to the ethnicity."""
+    created_at = models.DateTimeField(auto_now_add=True, db_index=True)
+    """Time of creation of record."""
+    updated_at = models.DateTimeField(auto_now=True, db_index=True)
+    """Time of last update to record."""
+    created_by = models.ForeignKey(
+        User,
+        models.PROTECT,
+        default=current_user_id,
+        related_name="created_ethnicities",
+    )
+    """Creator of record, a :class:`~lamindb.User`."""
+
+    class Meta:
+        unique_together = (("name", "ontology_id"),)
+
+    @overload
+    def __init__(
+        self,
+        name: str,
+        ontology_id: Optional[str],
+        abbr: Optional[str],
+        synonyms: Optional[str],
+        description: Optional[str],
+        parents: List["Ethnicity"],
+        bionty_source: Optional["BiontySource"],
+    ):
+        ...
+
+    @overload
+    def __init__(
+        self,
+        *db_args,
+    ):
+        ...
+
+    def __init__(
+        self,
+        *args,
+        **kwargs,
+    ):
+        super(Ethnicity, self).__init__(*args, **kwargs)
+
+
 class BiontySource(Registry):
     """Versions of public ontologies.
 

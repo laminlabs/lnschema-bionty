@@ -55,6 +55,7 @@ Basic biological registries:
    Phenotype
    ExperimentalFactor
    DevelopmentalStage
+   Ethnicity
 
 Settings:
 
@@ -104,6 +105,7 @@ if _check_instance_setup():
         CellType,
         DevelopmentalStage,
         Disease,
+        Ethnicity,
         ExperimentalFactor,
         Gene,
         Pathway,
