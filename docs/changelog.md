@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
+⬆️ Silence download bar for <5MB files | [186](https://github.com/laminlabs/lnschema-bionty/pull/186) | [sunnyosun](https://github.com/sunnyosun) | 2023-09-08 |
 🎨 Return None if no records are created for from_bionty | [185](https://github.com/laminlabs/lnschema-bionty/pull/185) | [sunnyosun](https://github.com/sunnyosun) | 2023-09-07 | 0.31.0
 ✨ Allow non-default bionty sources in LaminDB | [184](https://github.com/laminlabs/lnschema-bionty/pull/184) | [sunnyosun](https://github.com/sunnyosun) | 2023-09-07 |
 ⬆️ Transient download bar | [182](https://github.com/laminlabs/lnschema-bionty/pull/182) | [sunnyosun](https://github.com/sunnyosun) | 2023-09-05 | 0.30.4
