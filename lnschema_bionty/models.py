@@ -159,7 +159,7 @@ class BioRegistry(Registry, HasParents, CanValidate):
             else:
                 return results
 
-    def _save_ontology_parents(self):  # saving records of parents
+    def _save_ontology_parents(self, mute: bool = False):  # saving records of parents
         if hasattr(self, "_parents"):
             import lamindb as ln
 
@@ -167,7 +167,7 @@ class BioRegistry(Registry, HasParents, CanValidate):
             # here parents is still a list of ontology ids
             logger.info(f"also saving parents of {self}")
             parents_records = self.from_values(parents, self.__class__.ontology_id)
-            ln.save(parents_records)
+            ln.save(parents_records, mute=mute)
             self.parents.set(parents_records)
 
     def save(self, parents: Optional[bool] = None, *args, **kwargs) -> None:
