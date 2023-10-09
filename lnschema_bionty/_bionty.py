@@ -3,7 +3,7 @@ from typing import Dict, Optional, Union
 import bionty as bt
 from django.core.exceptions import ObjectDoesNotExist
 from lamin_utils import logger
-from lnschema_core.models import ORM as Registry  # TODO: import Registry instead of ORM
+from lnschema_core.models import Registry  # TODO: import Registry instead of ORM
 
 from . import ids
 
