@@ -72,9 +72,9 @@ def encode_uid(orm: Registry, kwargs: dict):
         concat_str = kwargs.get("name", "")
     elif name == "biontysource":
         concat_str = f'{kwargs.get("entity", "")}{kwargs.get("source", "")}{kwargs.get("species", "")}{kwargs.get("version", "")}'  # noqa
-    elif kwargs.get("uid") is not None:
-        # species
-        concat_str = kwargs.get("uid", "")
+    elif kwargs.get("id") is not None:
+        # species, it's not "uid", here, but the taxon id
+        concat_str = kwargs.pop("id")
     elif kwargs.get("ontology_id") is not None:
         concat_str = f"{kwargs.get('name', '')}{kwargs.get('ontology_id', '')}"
         ontology = True
