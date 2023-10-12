@@ -57,7 +57,7 @@ def get_bionty_source_record(bionty_object: bt.Bionty):
     return source_record
 
 
-def encode_id(orm: Registry, kwargs: dict):
+def encode_uid(orm: Registry, kwargs: dict):
     try:
         name = orm.__name__.lower()
     except AttributeError:
@@ -72,9 +72,9 @@ def encode_id(orm: Registry, kwargs: dict):
         concat_str = kwargs.get("name", "")
     elif name == "biontysource":
         concat_str = f'{kwargs.get("entity", "")}{kwargs.get("source", "")}{kwargs.get("species", "")}{kwargs.get("version", "")}'  # noqa
-    elif kwargs.get("id") is not None:
+    elif kwargs.get("uid") is not None:
         # species
-        concat_str = kwargs.get("id", "")
+        concat_str = kwargs.get("uid", "")
     elif kwargs.get("ontology_id") is not None:
         concat_str = f"{kwargs.get('name', '')}{kwargs.get('ontology_id', '')}"
         ontology = True
@@ -86,7 +86,7 @@ def encode_id(orm: Registry, kwargs: dict):
                 id_encoder = getattr(ids, name)
             except Exception:
                 return kwargs
-        kwargs["id"] = id_encoder(concat_str)
+        kwargs["uid"] = id_encoder(concat_str)
     return kwargs
 
 
@@ -111,4 +111,4 @@ def lookup2kwargs(orm: Registry, *args, **kwargs) -> Dict:
         model_field_names = {i.name for i in orm._meta.fields}
         model_field_names.add("parents")
         bionty_kwargs = {k: v for k, v in bionty_kwargs.items() if k in model_field_names}
-    return encode_id(orm=orm, kwargs=bionty_kwargs)
+    return encode_uid(orm=orm, kwargs=bionty_kwargs)

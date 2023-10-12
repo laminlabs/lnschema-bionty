@@ -8,7 +8,7 @@ from lnschema_core.models import CanValidate, HasParents, Registry, User
 from lnschema_core.users import current_user_id
 
 from . import ids
-from ._bionty import create_or_get_species_record, encode_id, lookup2kwargs
+from ._bionty import create_or_get_species_record, encode_uid, lookup2kwargs
 
 
 class BioRegistry(Registry, HasParents, CanValidate):
@@ -51,7 +51,7 @@ class BioRegistry(Registry, HasParents, CanValidate):
                 kwargs = result
                 args = ()
         else:
-            kwargs = encode_id(orm=self, kwargs=kwargs)
+            kwargs = encode_uid(orm=self, kwargs=kwargs)
 
         # raise error if no species is passed
         if hasattr(self.__class__, "species_id"):
