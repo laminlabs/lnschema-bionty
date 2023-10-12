@@ -28,7 +28,7 @@ class Migration(migrations.Migration):
     ]
 
     dependencies = [
-        ("lnschema_core", "0024_import_legacy_data"),
+        ("lnschema_core", "0023_export_legacy_data"),
     ]
 
     operations = [
