@@ -40,10 +40,6 @@ def import_db(apps, schema_editor):
     # import data from parquet files
     directory = Path(f"./lamindb_export/{ln_setup.settings.instance.identifier}/")
     if directory.exists():
-        response = input(f"\n\nHave you re-initialized your instance and are ready to import data from the parquet files: {directory}? (y/n)\n")
-        if response != "y":
-            print("Please remove the parquet files or move them to another location")
-            raise SystemExit
         for model_name in CORE_MODELS.keys():
             registry = getattr(lnschema_bionty.models, model_name)
             import_registry(registry, directory)
@@ -56,6 +52,7 @@ def import_db(apps, schema_editor):
 class Migration(migrations.Migration):
     dependencies = [
         ("lnschema_bionty", "0001_initial_squashed_0016"),
+        ("lnschema_core", "0024_import_legacy_data"),
     ]
 
     operations = [migrations.RunPython(import_db, reverse_code=migrations.RunPython.noop)]

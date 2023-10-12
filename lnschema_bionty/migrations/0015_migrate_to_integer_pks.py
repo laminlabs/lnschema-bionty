@@ -23,12 +23,6 @@ CORE_MODELS = {
 
 
 def create_new_ids(apps, schema_editor):
-    response = input(
-        "\nDo you want to migrate your instance to integer primary keys? This involves a data export and is more cumbersome than a regular migration."
-        " (y/n)"
-    )
-    if response != "y":
-        raise SystemExit
     for model_name in CORE_MODELS.keys():
         model_class = apps.get_model("lnschema_bionty", model_name)
         new_id = 1
@@ -41,6 +35,7 @@ def create_new_ids(apps, schema_editor):
 class Migration(migrations.Migration):
     dependencies = [
         ("lnschema_bionty", "0014_ethnicity_developmentalstage"),
+        ("lnschema_core", "0023_export_legacy_data"),
     ]
 
     operations = []  # type: ignore
