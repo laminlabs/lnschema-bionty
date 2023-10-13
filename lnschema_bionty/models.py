@@ -38,19 +38,18 @@ class BioRegistry(Registry, HasParents, CanValidate):
             if isinstance(args[0], List) and len(args[0]) > 1:
                 logger.warning("multiple lookup/search results are passed, only returning record from the first entry")
             result = lookup2kwargs(self, *args, **kwargs)  # type:ignore
-            try:
-                # exclude "parents" from query arguments
-                query_kwargs = {k: v for k, v in result.items() if k != "parents"}
-                existing_object = self.filter(**query_kwargs)[0]
-                new_args = [getattr(existing_object, field.attname) for field in self._meta.concrete_fields]
-                super().__init__(*new_args)
-                self._state.adding = False  # mimic from_db
-                self._state.db = "default"
+            # exclude "parents" from query arguments
+            query_kwargs = {k: v for k, v in result.items() if k != "parents"}
+            existing_record = self.filter(**query_kwargs).one_or_none()
+            if existing_record is not None:
+                from lamindb._registry import init_self_from_db
+
+                init_self_from_db(self, existing_record)
                 return None
-            except IndexError:
-                # result already has encoded id
-                kwargs = result
+            else:
+                kwargs = result  # result already has encoded id
                 args = ()
+        # all other cases require encoding the id
         else:
             kwargs = encode_uid(orm=self, kwargs=kwargs)
 
