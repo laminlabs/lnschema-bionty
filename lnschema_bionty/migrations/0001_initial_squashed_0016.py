@@ -36,7 +36,7 @@ class Migration(migrations.Migration):
             name="BiontySource",
             fields=[
                 ("id", models.AutoField(primary_key=True, serialize=False)),
-                ("uid", models.CharField(default=lnschema_bionty.ids.biontysource, max_length=8)),
+                ("uid", models.CharField(unique=True, default=lnschema_bionty.ids.biontysource, max_length=8)),
                 ("entity", models.CharField(db_index=True, max_length=64)),
                 ("species", models.CharField(db_index=True, max_length=64)),
                 ("currently_used", models.BooleanField(db_index=True, default=False)),
@@ -66,7 +66,7 @@ class Migration(migrations.Migration):
             name="Species",
             fields=[
                 ("id", models.AutoField(primary_key=True, serialize=False)),
-                ("uid", models.CharField(default=lnschema_bionty.ids.species, max_length=4)),
+                ("uid", models.CharField(unique=True, default=lnschema_bionty.ids.species, max_length=4)),
                 ("name", models.CharField(db_index=True, default=None, max_length=64, unique=True)),
                 ("taxon_id", models.IntegerField(db_index=True, default=None, null=True, unique=True)),
                 ("scientific_name", models.CharField(db_index=True, default=None, max_length=64, null=True, unique=True)),
@@ -94,7 +94,7 @@ class Migration(migrations.Migration):
             name="Protein",
             fields=[
                 ("id", models.AutoField(primary_key=True, serialize=False)),
-                ("uid", models.CharField(default=lnschema_bionty.ids.protein, max_length=12)),
+                ("uid", models.CharField(unique=True, default=lnschema_bionty.ids.protein, max_length=12)),
                 ("name", models.CharField(db_index=True, default=None, max_length=64, null=True)),
                 ("uniprotkb_id", models.CharField(db_index=True, default=None, max_length=10, null=True, unique=True)),
                 ("synonyms", models.TextField(default=None, null=True)),
@@ -137,7 +137,7 @@ class Migration(migrations.Migration):
             name="Gene",
             fields=[
                 ("id", models.AutoField(primary_key=True, serialize=False)),
-                ("uid", models.CharField(default=lnschema_bionty.ids.gene, max_length=12)),
+                ("uid", models.CharField(unique=True, default=lnschema_bionty.ids.gene, max_length=12)),
                 ("symbol", models.CharField(db_index=True, default=None, max_length=64, null=True)),
                 ("stable_id", models.CharField(db_index=True, default=None, max_length=64, null=True, unique=True)),
                 ("ensembl_gene_id", models.CharField(db_index=True, default=None, max_length=64, null=True, unique=True)),
@@ -179,7 +179,7 @@ class Migration(migrations.Migration):
             name="CellMarker",
             fields=[
                 ("id", models.AutoField(primary_key=True, serialize=False)),
-                ("uid", models.CharField(default=lnschema_bionty.ids.cellmarker, max_length=12)),
+                ("uid", models.CharField(unique=True, default=lnschema_bionty.ids.cellmarker, max_length=12)),
                 ("name", models.CharField(db_index=True, default=None, max_length=64, unique=True)),
                 ("synonyms", models.TextField(default=None, null=True)),
                 ("gene_symbol", models.CharField(db_index=True, default=None, max_length=64, null=True)),
@@ -221,7 +221,7 @@ class Migration(migrations.Migration):
             name="Tissue",
             fields=[
                 ("id", models.AutoField(primary_key=True, serialize=False)),
-                ("uid", models.CharField(default=lnschema_bionty.ids.ontology, max_length=8)),
+                ("uid", models.CharField(unique=True, default=lnschema_bionty.ids.ontology, max_length=8)),
                 ("name", models.CharField(db_index=True, max_length=256)),
                 ("ontology_id", models.CharField(db_index=True, default=None, max_length=32, null=True)),
                 ("abbr", models.CharField(db_index=True, default=None, max_length=32, null=True, unique=True)),
@@ -257,7 +257,7 @@ class Migration(migrations.Migration):
             name="Phenotype",
             fields=[
                 ("id", models.AutoField(primary_key=True, serialize=False)),
-                ("uid", models.CharField(default=lnschema_bionty.ids.ontology, max_length=8)),
+                ("uid", models.CharField(unique=True, default=lnschema_bionty.ids.ontology, max_length=8)),
                 ("name", models.CharField(db_index=True, max_length=256)),
                 ("ontology_id", models.CharField(db_index=True, default=None, max_length=32, null=True)),
                 ("abbr", models.CharField(db_index=True, default=None, max_length=32, null=True, unique=True)),
@@ -293,7 +293,7 @@ class Migration(migrations.Migration):
             name="Pathway",
             fields=[
                 ("id", models.AutoField(primary_key=True, serialize=False)),
-                ("uid", models.CharField(default=lnschema_bionty.ids.ontology, max_length=8)),
+                ("uid", models.CharField(unique=True, default=lnschema_bionty.ids.ontology, max_length=8)),
                 ("name", models.CharField(db_index=True, max_length=256)),
                 ("ontology_id", models.CharField(db_index=True, default=None, max_length=32, null=True)),
                 ("abbr", models.CharField(db_index=True, default=None, max_length=32, null=True, unique=True)),
@@ -331,7 +331,7 @@ class Migration(migrations.Migration):
             name="ExperimentalFactor",
             fields=[
                 ("id", models.AutoField(primary_key=True, serialize=False)),
-                ("uid", models.CharField(default=lnschema_bionty.ids.ontology, max_length=8)),
+                ("uid", models.CharField(unique=True, default=lnschema_bionty.ids.ontology, max_length=8)),
                 ("name", models.CharField(db_index=True, max_length=256)),
                 ("ontology_id", models.CharField(db_index=True, default=None, max_length=32, null=True)),
                 ("abbr", models.CharField(db_index=True, default=None, max_length=32, null=True, unique=True)),
@@ -370,7 +370,7 @@ class Migration(migrations.Migration):
             name="Ethnicity",
             fields=[
                 ("id", models.AutoField(primary_key=True, serialize=False)),
-                ("uid", models.CharField(default=lnschema_bionty.ids.ontology, max_length=8)),
+                ("uid", models.CharField(unique=True, default=lnschema_bionty.ids.ontology, max_length=8)),
                 ("name", models.CharField(db_index=True, max_length=256)),
                 ("ontology_id", models.CharField(db_index=True, default=None, max_length=32, null=True)),
                 ("abbr", models.CharField(db_index=True, default=None, max_length=32, null=True, unique=True)),
@@ -406,7 +406,7 @@ class Migration(migrations.Migration):
             name="Disease",
             fields=[
                 ("id", models.AutoField(primary_key=True, serialize=False)),
-                ("uid", models.CharField(default=lnschema_bionty.ids.ontology, max_length=8)),
+                ("uid", models.CharField(unique=True, default=lnschema_bionty.ids.ontology, max_length=8)),
                 ("name", models.CharField(db_index=True, max_length=256)),
                 ("ontology_id", models.CharField(db_index=True, default=None, max_length=32, null=True)),
                 ("abbr", models.CharField(db_index=True, default=None, max_length=32, null=True, unique=True)),
@@ -442,7 +442,7 @@ class Migration(migrations.Migration):
             name="DevelopmentalStage",
             fields=[
                 ("id", models.AutoField(primary_key=True, serialize=False)),
-                ("uid", models.CharField(default=lnschema_bionty.ids.ontology, max_length=8)),
+                ("uid", models.CharField(unique=True, default=lnschema_bionty.ids.ontology, max_length=8)),
                 ("name", models.CharField(db_index=True, max_length=256)),
                 ("ontology_id", models.CharField(db_index=True, default=None, max_length=32, null=True)),
                 ("abbr", models.CharField(db_index=True, default=None, max_length=32, null=True, unique=True)),
@@ -478,7 +478,7 @@ class Migration(migrations.Migration):
             name="CellType",
             fields=[
                 ("id", models.AutoField(primary_key=True, serialize=False)),
-                ("uid", models.CharField(default=lnschema_bionty.ids.ontology, max_length=8)),
+                ("uid", models.CharField(unique=True, default=lnschema_bionty.ids.ontology, max_length=8)),
                 ("name", models.CharField(db_index=True, max_length=256)),
                 ("ontology_id", models.CharField(db_index=True, default=None, max_length=32, null=True)),
                 ("abbr", models.CharField(db_index=True, default=None, max_length=32, null=True, unique=True)),
@@ -514,7 +514,7 @@ class Migration(migrations.Migration):
             name="CellLine",
             fields=[
                 ("id", models.AutoField(primary_key=True, serialize=False)),
-                ("uid", models.CharField(default=lnschema_bionty.ids.ontology, max_length=8)),
+                ("uid", models.CharField(unique=True, default=lnschema_bionty.ids.ontology, max_length=8)),
                 ("name", models.CharField(db_index=True, max_length=256)),
                 ("ontology_id", models.CharField(db_index=True, default=None, max_length=32, null=True)),
                 ("abbr", models.CharField(db_index=True, default=None, max_length=32, null=True, unique=True)),
