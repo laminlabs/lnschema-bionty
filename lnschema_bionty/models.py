@@ -32,15 +32,16 @@ class BioRegistry(Registry, HasParents, CanValidate):
         if len(args) == len(self._meta.concrete_fields):
             super(BioRegistry, self).__init__(*args, **kwargs)
             return None
-        # now continue with the user-facing constructor
-        # set the direct parents as a private attribute
-        # this is a list of strings that store the ontology id
+
+        # passing lookup result from bionty, which is a Tuple or List
         if args and len(args) == 1 and isinstance(args[0], (Tuple, List)) and len(args[0]) > 0:
             if isinstance(args[0], List) and len(args[0]) > 1:
                 logger.warning("multiple lookup/search results are passed, only returning record from the first entry")
             result = lookup2kwargs(self, *args, **kwargs)  # type:ignore
             try:
-                existing_object = self.filter(**result)[0]
+                # exclude "parents" from query arguments
+                query_kwargs = {k: v for k, v in result.items() if k != "parents"}
+                existing_object = self.filter(**query_kwargs)[0]
                 new_args = [getattr(existing_object, field.attname) for field in self._meta.concrete_fields]
                 super().__init__(*new_args)
                 self._state.adding = False  # mimic from_db
@@ -66,6 +67,9 @@ class BioRegistry(Registry, HasParents, CanValidate):
                 if not isinstance(kwargs.get("species"), Species):
                     raise TypeError("species must be a `lnschema_bionty.Species` record")
 
+        # now continue with the user-facing constructor
+        # set the direct parents as a private attribute
+        # this is a list of strings that store the ontology id
         if "parents" in kwargs:
             parents = kwargs.pop("parents")
             # this checks if we receive a np.ndarray from pandas
