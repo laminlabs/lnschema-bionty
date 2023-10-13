@@ -8,7 +8,7 @@ from lnschema_core.models import CanValidate, HasParents, Registry, User
 from lnschema_core.users import current_user_id
 
 from . import ids
-from ._bionty import create_or_get_species_record, encode_id, lookup2kwargs
+from ._bionty import create_or_get_species_record, encode_uid, lookup2kwargs
 
 
 class BioRegistry(Registry, HasParents, CanValidate):
@@ -32,26 +32,26 @@ class BioRegistry(Registry, HasParents, CanValidate):
         if len(args) == len(self._meta.concrete_fields):
             super(BioRegistry, self).__init__(*args, **kwargs)
             return None
-        # now continue with the user-facing constructor
-        # set the direct parents as a private attribute
-        # this is a list of strings that store the ontology id
+
+        # passing lookup result from bionty, which is a Tuple or List
         if args and len(args) == 1 and isinstance(args[0], (Tuple, List)) and len(args[0]) > 0:
             if isinstance(args[0], List) and len(args[0]) > 1:
                 logger.warning("multiple lookup/search results are passed, only returning record from the first entry")
             result = lookup2kwargs(self, *args, **kwargs)  # type:ignore
-            try:
-                existing_object = self.filter(**result)[0]
-                new_args = [getattr(existing_object, field.attname) for field in self._meta.concrete_fields]
-                super().__init__(*new_args)
-                self._state.adding = False  # mimic from_db
-                self._state.db = "default"
+            # exclude "parents" from query arguments
+            query_kwargs = {k: v for k, v in result.items() if k != "parents"}
+            existing_record = self.filter(**query_kwargs).one_or_none()
+            if existing_record is not None:
+                from lamindb._registry import init_self_from_db
+
+                init_self_from_db(self, existing_record)
                 return None
-            except IndexError:
-                # result already has encoded id
-                kwargs = result
+            else:
+                kwargs = result  # result already has encoded id
                 args = ()
+        # all other cases require encoding the id
         else:
-            kwargs = encode_id(orm=self, kwargs=kwargs)
+            kwargs = encode_uid(orm=self, kwargs=kwargs)
 
         # raise error if no species is passed
         if hasattr(self.__class__, "species_id"):
@@ -66,6 +66,9 @@ class BioRegistry(Registry, HasParents, CanValidate):
                 if not isinstance(kwargs.get("species"), Species):
                     raise TypeError("species must be a `lnschema_bionty.Species` record")
 
+        # now continue with the user-facing constructor
+        # set the direct parents as a private attribute
+        # this is a list of strings that store the ontology id
         if "parents" in kwargs:
             parents = kwargs.pop("parents")
             # this checks if we receive a np.ndarray from pandas
@@ -133,8 +136,6 @@ class BioRegistry(Registry, HasParents, CanValidate):
             Create a record by passing a field value:
 
             >>> record = lb.Gene.from_bionty(symbol="TCF7", species="human")
-            >>> record
-            >>> record.save()
 
             Create a record from non-default source:
 
@@ -177,7 +178,7 @@ class BioRegistry(Registry, HasParents, CanValidate):
             parents: `bool = True`. Whether to save parents records.
         """
         # save the record first without parents
-        super().save(*args, **kwargs)
+        super(BioRegistry, self).save(*args, **kwargs)
         from .dev._settings import settings
 
         if parents is None:
@@ -192,10 +193,11 @@ class Species(BioRegistry):
 
     Examples:
         >>> record = lb.Species.from_bionty(name="rabbit")
-        >>> record.save()
     """
 
-    id = models.CharField(max_length=4, default=ids.species, primary_key=True)
+    id = models.AutoField(primary_key=True)
+    """Internal id, valid only in one DB instance."""
+    uid = models.CharField(unique=True, max_length=4, default=ids.species)
     name = models.CharField(max_length=64, db_index=True, default=None, unique=True)
     """Name of a species, required field."""
     taxon_id = models.IntegerField(unique=True, db_index=True, null=True, default=None)
@@ -247,10 +249,12 @@ class Gene(BioRegistry):
 
     Examples:
         >>> record = lb.Gene.from_bionty(symbol="TCF7", species="human")
-        >>> record.save()
     """
 
-    id = models.CharField(max_length=12, default=ids.gene, primary_key=True)
+    id = models.AutoField(primary_key=True)
+    """Internal id, valid only in one DB instance."""
+    uid = models.CharField(unique=True, max_length=12, default=ids.gene)
+    """A universal id (hash of selected field)."""
     symbol = models.CharField(max_length=64, db_index=True, null=True, default=None)
     """A unique short form of gene name."""
     stable_id = models.CharField(max_length=64, db_index=True, null=True, default=None, unique=True)
@@ -322,18 +326,13 @@ class Protein(BioRegistry):
 
     Examples:
         >>> record = lb.Protein.from_bionty(name="Synaptotagmin-15B", species="human")
-        ✅ validated 1 Protein record from Bionty on name: Synaptotagmin-15B
-        >>> record
-        Protein(id=KiCrq9BBTviZ, name=Synaptotagmin-15B, uniprotkb_id=X6R8R1, synonyms=, length=474, gene_symbol=SYT15B, species_id=uHJU, bionty_source_id=SFni, created_by_id=DzTjkKse) # noqa
-
         >>> record = lb.Protein.from_bionty(gene_symbol="SYT15B", species="human")
-        ✅ validated 1 Protein record from Bionty on gene_symbol: SYT15B
-        >>> record
-        Protein(id=KiCrq9BBTviZ, name=Synaptotagmin-15B, uniprotkb_id=X6R8R1, synonyms=, length=474, gene_symbol=SYT15B, species_id=uHJU, bionty_source_id=SFni, created_by_id=DzTjkKse) # noqa
-        >>> record.save()
     """
 
-    id = models.CharField(max_length=12, default=ids.protein, primary_key=True)
+    id = models.AutoField(primary_key=True)
+    """Internal id, valid only in one DB instance."""
+    uid = models.CharField(unique=True, max_length=12, default=ids.protein)
+    """A universal id (hash of selected field)."""
     name = models.CharField(max_length=64, db_index=True, null=True, default=None)
     """Unique name of a protein."""
     uniprotkb_id = models.CharField(max_length=10, db_index=True, null=True, default=None, unique=True)
@@ -405,10 +404,12 @@ class CellMarker(BioRegistry):
 
     Examples:
         >>> record = lb.CellMarker.from_bionty(name="PD1", species="human")
-        >>> record.save()
     """
 
-    id = models.CharField(max_length=12, default=ids.cellmarker, primary_key=True)
+    id = models.AutoField(primary_key=True)
+    """Internal id, valid only in one DB instance."""
+    uid = models.CharField(unique=True, max_length=12, default=ids.cellmarker)
+    """A universal id (hash of selected field)."""
     name = models.CharField(max_length=64, db_index=True, default=None, unique=True)
     synonyms = models.TextField(null=True, default=None)
     """Bar-separated (|) synonyms that correspond to this cell marker."""
@@ -479,10 +480,12 @@ class Tissue(BioRegistry):
 
     Examples:
         >>> record = lb.Tissue.from_bionty(name="brain")
-        >>> record.save()
     """
 
-    id = models.CharField(max_length=8, default=ids.ontology, primary_key=True)
+    id = models.AutoField(primary_key=True)
+    """Internal id, valid only in one DB instance."""
+    uid = models.CharField(unique=True, max_length=8, default=ids.ontology)
+    """A universal id (hash of selected field)."""
     name = models.CharField(max_length=256, db_index=True)
     """Name of the tissue."""
     ontology_id = models.CharField(max_length=32, db_index=True, null=True, default=None)
@@ -549,10 +552,12 @@ class CellType(BioRegistry):
 
     Examples:
         >>> record = lb.CellType.from_bionty(name="T cell")
-        >>> record.save()
     """
 
-    id = models.CharField(max_length=8, default=ids.ontology, primary_key=True)
+    id = models.AutoField(primary_key=True)
+    """Internal id, valid only in one DB instance."""
+    uid = models.CharField(unique=True, max_length=8, default=ids.ontology)
+    """A universal id (hash of selected field)."""
     name = models.CharField(max_length=256, db_index=True)
     """Name of the cell type."""
     ontology_id = models.CharField(max_length=32, db_index=True, null=True, default=None)
@@ -624,13 +629,12 @@ class Disease(BioRegistry):
 
     Examples:
         >>> record = lb.Disease.from_bionty(name="Alzheimer disease")
-        ✅ validated 1 Disease record from Bionty on name: Alzheimer disease
-        >>> record
-        Disease(id=nUmxpVTE, name=Alzheimer disease, ontology_id=MONDO:0004975, synonyms=Alzheimer's disease|Alzheimer's dementia|Alzheimers dementia|Alzheimers disease|Alzheimer dementia|Alzheimer disease|presenile and senile dementia|AD, description=A Progressive, Neurodegenerative Disease Characterized By Loss Of Function And Death Of Nerve Cells In Several Areas Of The Brain Leading To Loss Of Cognitive Function Such As Memory And Language., bionty_source_id=eeie, created_by_id=DzTjkKse) # noqa
-        >>> record.save()
     """
 
-    id = models.CharField(max_length=8, default=ids.ontology, primary_key=True)
+    id = models.AutoField(primary_key=True)
+    """Internal id, valid only in one DB instance."""
+    uid = models.CharField(unique=True, max_length=8, default=ids.ontology)
+    """A universal id (hash of selected field)."""
     name = models.CharField(max_length=256, db_index=True)
     """Name of the disease."""
     ontology_id = models.CharField(max_length=32, db_index=True, null=True, default=None)
@@ -703,13 +707,12 @@ class CellLine(BioRegistry):
     Examples:
         >>> standard_name = lb.CellLine.bionty().standardize(["K562"])[0]
         >>> record = lb.CellLine.from_bionty(name=standard_name)
-        ✅ validated 1 CellLine record from Bionty on name: K 562 cell
-        >>> record
-        CellLine(id=akITPKqK, name=K 562 cell, ontology_id=CLO:0007050, synonyms=K-562|KO|GM05372E|K.562|K562|GM05372|K 562, description=disease: leukemia, chronic myeloid, bionty_source_id=ls6p, created_by_id=DzTjkKse) # noqa
-        >>> record.save()
     """
 
-    id = models.CharField(max_length=8, default=ids.ontology, primary_key=True)
+    id = models.AutoField(primary_key=True)
+    """Internal id, valid only in one DB instance."""
+    uid = models.CharField(unique=True, max_length=8, default=ids.ontology)
+    """A universal id (hash of selected field)."""
     name = models.CharField(max_length=256, db_index=True)
     """Name of the cell line."""
     ontology_id = models.CharField(max_length=32, db_index=True, null=True, default=None)
@@ -787,7 +790,10 @@ class Phenotype(BioRegistry):
         >>> record.save()
     """
 
-    id = models.CharField(max_length=8, default=ids.ontology, primary_key=True)
+    id = models.AutoField(primary_key=True)
+    """Internal id, valid only in one DB instance."""
+    uid = models.CharField(unique=True, max_length=8, default=ids.ontology)
+    """A universal id (hash of selected field)."""
     name = models.CharField(max_length=256, db_index=True)
     """Name of the phenotype."""
     ontology_id = models.CharField(max_length=32, db_index=True, null=True, default=None)
@@ -863,7 +869,10 @@ class Pathway(BioRegistry):
         >>> record.save()
     """
 
-    id = models.CharField(max_length=8, default=ids.ontology, primary_key=True)
+    id = models.AutoField(primary_key=True)
+    """Internal id, valid only in one DB instance."""
+    uid = models.CharField(unique=True, max_length=8, default=ids.ontology)
+    """A universal id (hash of selected field)."""
     name = models.CharField(max_length=256, db_index=True)
     """Name of the pathway."""
     ontology_id = models.CharField(max_length=32, db_index=True, null=True, default=None)
@@ -941,13 +950,12 @@ class ExperimentalFactor(BioRegistry):
     Examples:
         >>> standard_name = lb.ExperimentalFactor.bionty().standardize(["scRNA-seq"])
         >>> record = lb.ExperimentalFactor.from_bionty(name=standard_name)
-        ✅ validated 1 ExperimentalFactor record from Bionty on name: single-cell RNA sequencing
-        >>> record
-        ExperimentalFactor(id=068T1Df6, name=single-cell RNA sequencing, ontology_id=EFO:0008913, synonyms=single-cell RNA-seq|single-cell transcriptome sequencing|scRNA-seq|single cell RNA sequencing, description=A Protocol That Provides The Expression Profiles Of Single Cells Via The Isolation And Barcoding Of Single Cells And Their Rna, Reverse Transcription, Amplification, Library Generation And Sequencing., molecule=RNA assay, instrument=single cell sequencing, bionty_source_id=4otL, created_by_id=DzTjkKse) # noqa
-        >>> record.save()
     """
 
-    id = models.CharField(max_length=8, default=ids.ontology, primary_key=True)
+    id = models.AutoField(primary_key=True)
+    """Internal id, valid only in one DB instance."""
+    uid = models.CharField(unique=True, max_length=8, default=ids.ontology)
+    """A universal id (hash of selected field)."""
     name = models.CharField(max_length=256, db_index=True)
     """Name of the experimental factor."""
     ontology_id = models.CharField(max_length=32, db_index=True, null=True, default=None)
@@ -1029,7 +1037,10 @@ class DevelopmentalStage(BioRegistry):
         >>> record.save()
     """
 
-    id = models.CharField(max_length=8, default=ids.ontology, primary_key=True)
+    id = models.AutoField(primary_key=True)
+    """Internal id, valid only in one DB instance."""
+    uid = models.CharField(unique=True, max_length=8, default=ids.ontology)
+    """A universal id (hash of selected field)."""
     name = models.CharField(max_length=256, db_index=True)
     """Name of the developmental stage."""
     ontology_id = models.CharField(max_length=32, db_index=True, null=True, default=None)
@@ -1104,7 +1115,10 @@ class Ethnicity(BioRegistry):
         >>> record.save()
     """
 
-    id = models.CharField(max_length=8, default=ids.ontology, primary_key=True)
+    id = models.AutoField(primary_key=True)
+    """Internal id, valid only in one DB instance."""
+    uid = models.CharField(unique=True, max_length=8, default=ids.ontology)
+    """A universal id (hash of selected field)."""
     name = models.CharField(max_length=256, db_index=True)
     """Name of the ethnicity."""
     ontology_id = models.CharField(max_length=32, db_index=True, null=True, default=None)
@@ -1174,7 +1188,10 @@ class BiontySource(Registry):
         Do not modify the records unless you know what you are doing!
     """
 
-    id = models.CharField(max_length=8, default=ids.biontysource, primary_key=True)
+    id = models.AutoField(primary_key=True)
+    """Internal id, valid only in one DB instance."""
+    uid = models.CharField(unique=True, max_length=8, default=ids.biontysource)
+    """A universal id (hash of selected field)."""
     entity = models.CharField(max_length=64, db_index=True)
     """Entity class name."""
     species = models.CharField(max_length=64, db_index=True)
@@ -1182,7 +1199,7 @@ class BiontySource(Registry):
     currently_used = models.BooleanField(default=False, db_index=True)
     """Whether this record is currently used."""
     source = models.CharField(max_length=64, db_index=True)
-    """Source key, short form, CURIE prefix for ontologies"""
+    """Source key, short form, CURIE prefix for ontologies."""
     source_name = models.TextField(blank=True, db_index=True)
     """Source full name, long form."""
     version = models.CharField(max_length=64, db_index=True)
