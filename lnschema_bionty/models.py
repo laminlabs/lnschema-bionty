@@ -197,7 +197,7 @@ class Species(BioRegistry):
 
     id = models.AutoField(primary_key=True)
     """Internal id, valid only in one DB instance."""
-    uid = models.CharField(max_length=4, default=ids.species)
+    uid = models.CharField(unique=True, max_length=4, default=ids.species)
     name = models.CharField(max_length=64, db_index=True, default=None, unique=True)
     """Name of a species, required field."""
     taxon_id = models.IntegerField(unique=True, db_index=True, null=True, default=None)
@@ -253,7 +253,7 @@ class Gene(BioRegistry):
 
     id = models.AutoField(primary_key=True)
     """Internal id, valid only in one DB instance."""
-    uid = models.CharField(max_length=12, default=ids.gene)
+    uid = models.CharField(unique=True, max_length=12, default=ids.gene)
     """A universal id (hash of selected field)."""
     symbol = models.CharField(max_length=64, db_index=True, null=True, default=None)
     """A unique short form of gene name."""
@@ -331,7 +331,7 @@ class Protein(BioRegistry):
 
     id = models.AutoField(primary_key=True)
     """Internal id, valid only in one DB instance."""
-    uid = models.CharField(max_length=12, default=ids.protein)
+    uid = models.CharField(unique=True, max_length=12, default=ids.protein)
     """A universal id (hash of selected field)."""
     name = models.CharField(max_length=64, db_index=True, null=True, default=None)
     """Unique name of a protein."""
@@ -408,7 +408,7 @@ class CellMarker(BioRegistry):
 
     id = models.AutoField(primary_key=True)
     """Internal id, valid only in one DB instance."""
-    uid = models.CharField(max_length=12, default=ids.cellmarker)
+    uid = models.CharField(unique=True, max_length=12, default=ids.cellmarker)
     """A universal id (hash of selected field)."""
     name = models.CharField(max_length=64, db_index=True, default=None, unique=True)
     synonyms = models.TextField(null=True, default=None)
@@ -484,7 +484,7 @@ class Tissue(BioRegistry):
 
     id = models.AutoField(primary_key=True)
     """Internal id, valid only in one DB instance."""
-    uid = models.CharField(max_length=8, default=ids.ontology)
+    uid = models.CharField(unique=True, max_length=8, default=ids.ontology)
     """A universal id (hash of selected field)."""
     name = models.CharField(max_length=256, db_index=True)
     """Name of the tissue."""
@@ -556,7 +556,7 @@ class CellType(BioRegistry):
 
     id = models.AutoField(primary_key=True)
     """Internal id, valid only in one DB instance."""
-    uid = models.CharField(max_length=8, default=ids.ontology)
+    uid = models.CharField(unique=True, max_length=8, default=ids.ontology)
     """A universal id (hash of selected field)."""
     name = models.CharField(max_length=256, db_index=True)
     """Name of the cell type."""
@@ -633,7 +633,7 @@ class Disease(BioRegistry):
 
     id = models.AutoField(primary_key=True)
     """Internal id, valid only in one DB instance."""
-    uid = models.CharField(max_length=8, default=ids.ontology)
+    uid = models.CharField(unique=True, max_length=8, default=ids.ontology)
     """A universal id (hash of selected field)."""
     name = models.CharField(max_length=256, db_index=True)
     """Name of the disease."""
@@ -711,7 +711,7 @@ class CellLine(BioRegistry):
 
     id = models.AutoField(primary_key=True)
     """Internal id, valid only in one DB instance."""
-    uid = models.CharField(max_length=8, default=ids.ontology)
+    uid = models.CharField(unique=True, max_length=8, default=ids.ontology)
     """A universal id (hash of selected field)."""
     name = models.CharField(max_length=256, db_index=True)
     """Name of the cell line."""
@@ -792,7 +792,7 @@ class Phenotype(BioRegistry):
 
     id = models.AutoField(primary_key=True)
     """Internal id, valid only in one DB instance."""
-    uid = models.CharField(max_length=8, default=ids.ontology)
+    uid = models.CharField(unique=True, max_length=8, default=ids.ontology)
     """A universal id (hash of selected field)."""
     name = models.CharField(max_length=256, db_index=True)
     """Name of the phenotype."""
@@ -871,7 +871,7 @@ class Pathway(BioRegistry):
 
     id = models.AutoField(primary_key=True)
     """Internal id, valid only in one DB instance."""
-    uid = models.CharField(max_length=8, default=ids.ontology)
+    uid = models.CharField(unique=True, max_length=8, default=ids.ontology)
     """A universal id (hash of selected field)."""
     name = models.CharField(max_length=256, db_index=True)
     """Name of the pathway."""
@@ -954,7 +954,7 @@ class ExperimentalFactor(BioRegistry):
 
     id = models.AutoField(primary_key=True)
     """Internal id, valid only in one DB instance."""
-    uid = models.CharField(max_length=8, default=ids.ontology)
+    uid = models.CharField(unique=True, max_length=8, default=ids.ontology)
     """A universal id (hash of selected field)."""
     name = models.CharField(max_length=256, db_index=True)
     """Name of the experimental factor."""
@@ -1039,7 +1039,7 @@ class DevelopmentalStage(BioRegistry):
 
     id = models.AutoField(primary_key=True)
     """Internal id, valid only in one DB instance."""
-    uid = models.CharField(max_length=8, default=ids.ontology)
+    uid = models.CharField(unique=True, max_length=8, default=ids.ontology)
     """A universal id (hash of selected field)."""
     name = models.CharField(max_length=256, db_index=True)
     """Name of the developmental stage."""
@@ -1117,7 +1117,7 @@ class Ethnicity(BioRegistry):
 
     id = models.AutoField(primary_key=True)
     """Internal id, valid only in one DB instance."""
-    uid = models.CharField(max_length=8, default=ids.ontology)
+    uid = models.CharField(unique=True, max_length=8, default=ids.ontology)
     """A universal id (hash of selected field)."""
     name = models.CharField(max_length=256, db_index=True)
     """Name of the ethnicity."""
@@ -1190,7 +1190,7 @@ class BiontySource(Registry):
 
     id = models.AutoField(primary_key=True)
     """Internal id, valid only in one DB instance."""
-    uid = models.CharField(max_length=8, default=ids.biontysource)
+    uid = models.CharField(unique=True, max_length=8, default=ids.biontysource)
     """A universal id (hash of selected field)."""
     entity = models.CharField(max_length=64, db_index=True)
     """Entity class name."""
