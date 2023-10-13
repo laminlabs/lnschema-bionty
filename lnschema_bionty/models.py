@@ -175,7 +175,7 @@ class BioRegistry(Registry, HasParents, CanValidate):
             parents: `bool = True`. Whether to save parents records.
         """
         # save the record first without parents
-        super().save(*args, **kwargs)
+        super(BioRegistry, self).save(*args, **kwargs)
         from .dev._settings import settings
 
         if parents is None:
