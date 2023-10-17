@@ -25,7 +25,7 @@ CORE_MODELS = {
 }
 
 
-def import_registry(registry, directory, connection):
+def import_registry(registry, directory):
     import pandas as pd
 
     table_name = registry._meta.db_table
@@ -41,6 +41,7 @@ def import_registry(registry, directory, connection):
         return (seq[pos : pos + step] for pos in range(0, len(seq), step))
 
     for chunk in chunker(df, 1000000):
+        print(table_name)
         with engine.begin() as connection:
             chunk.to_sql(table_name, connection, if_exists="append", index=False)
 
