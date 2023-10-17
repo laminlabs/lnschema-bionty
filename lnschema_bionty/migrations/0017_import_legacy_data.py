@@ -74,4 +74,6 @@ def import_db():
 
 
 if __name__ == "__main__":
+    import lamindb as ln  # noqa
+
     import_db()
