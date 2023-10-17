@@ -4,8 +4,6 @@ from pathlib import Path
 
 import lamindb_setup as ln_setup
 
-import lnschema_bionty.models
-
 # from django.db import migrations
 
 
@@ -55,6 +53,8 @@ def import_db():
     # import data from parquet files
     directory = Path(f"./lamindb_export/{ln_setup.settings.instance.identifier}/")
     if directory.exists():
+        import lnschema_bionty.models
+
         for model_name in CORE_MODELS.keys():
             registry = getattr(lnschema_bionty.models, model_name)
             import_registry(registry, directory)
@@ -74,6 +74,4 @@ def import_db():
 
 
 if __name__ == "__main__":
-    import lamindb as ln  # noqa
-
     import_db()
