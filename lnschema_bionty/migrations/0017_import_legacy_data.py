@@ -3,9 +3,7 @@
 from pathlib import Path
 
 import lamindb_setup as ln_setup
-
-# from django.db import migrations
-
+from django.db import migrations
 
 CORE_MODELS = {
     "BiontySource": False,  # add this first
@@ -40,7 +38,7 @@ def import_registry(registry, directory):
     def chunker(seq, step):
         return (seq[pos : pos + step] for pos in range(0, len(seq), step))
 
-    for chunk in chunker(df, 1000000):
+    for chunk in chunker(df, 200000):
         print(table_name)
         with engine.begin() as connection:
             try:
@@ -64,13 +62,13 @@ def import_db():
                 import_registry(link_orm, directory)
 
 
-# class Migration(migrations.Migration):
-#     dependencies = [
-#         ("lnschema_bionty", "0001_initial_squashed_0016"),
-#         ("lnschema_core", "0024_import_legacy_data"),
-#     ]
+class Migration(migrations.Migration):
+    dependencies = [
+        ("lnschema_bionty", "0001_initial_squashed_0016"),
+        ("lnschema_core", "0024_import_legacy_data"),
+    ]
 
-#     operations = [migrations.RunPython(import_db, reverse_code=migrations.RunPython.noop)]
+    operations = [migrations.RunPython(import_db, reverse_code=migrations.RunPython.noop)]
 
 
 if __name__ == "__main__":
