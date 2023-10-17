@@ -3,9 +3,11 @@
 from pathlib import Path
 
 import lamindb_setup as ln_setup
-from django.db import migrations
 
 import lnschema_bionty.models
+
+# from django.db import migrations
+
 
 CORE_MODELS = {
     "BiontySource": False,  # add this first
@@ -46,7 +48,7 @@ def import_registry(registry, directory):
             chunk.to_sql(table_name, connection, if_exists="append", index=False)
 
 
-def import_db(apps, schema_editor):
+def import_db():
     # import data from parquet files
     directory = Path(f"./lamindb_export/{ln_setup.settings.instance.identifier}/")
     if directory.exists():
@@ -59,10 +61,14 @@ def import_db(apps, schema_editor):
                 import_registry(link_orm, directory)
 
 
-class Migration(migrations.Migration):
-    dependencies = [
-        ("lnschema_bionty", "0001_initial_squashed_0016"),
-        ("lnschema_core", "0024_import_legacy_data"),
-    ]
+# class Migration(migrations.Migration):
+#     dependencies = [
+#         ("lnschema_bionty", "0001_initial_squashed_0016"),
+#         ("lnschema_core", "0024_import_legacy_data"),
+#     ]
 
-    operations = [migrations.RunPython(import_db, reverse_code=migrations.RunPython.noop)]
+#     operations = [migrations.RunPython(import_db, reverse_code=migrations.RunPython.noop)]
+
+
+if __name__ == "__main__":
+    import_db()
