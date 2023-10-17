@@ -33,26 +33,29 @@ def import_registry(registry, directory, connection):
     old_foreign_key_columns = [column for column in df.columns if column.endswith("_old")]
     for column in old_foreign_key_columns:
         df.drop(column, axis=1, inplace=True)
-    df.to_sql(table_name, connection, if_exists="append", index=False)
+    from sqlalchemy import create_engine
+
+    engine = create_engine(ln_setup.settings.instance.db, echo=False)
+
+    def chunker(seq, step):
+        return (seq[pos : pos + step] for pos in range(0, len(seq), step))
+
+    for chunk in chunker(df, 1000000):
+        with engine.begin() as connection:
+            chunk.to_sql(table_name, connection, if_exists="append", index=False)
 
 
 def import_db(apps, schema_editor):
     # import data from parquet files
     directory = Path(f"./lamindb_export/{ln_setup.settings.instance.identifier}/")
     if directory.exists():
-        from sqlalchemy import create_engine
-
-        engine = create_engine(ln_setup.settings.instance.db, echo=False)
-        with engine.begin() as connection:
-            if ln_setup.settings.instance.dialect == "postgresql":
-                connection.execute("SET CONSTRAINTS ALL DEFERRED;")
-            for model_name in CORE_MODELS.keys():
-                registry = getattr(lnschema_bionty.models, model_name)
-                import_registry(registry, directory, connection)
-                many_to_many_names = [field.name for field in registry._meta.many_to_many]
-                for many_to_many_name in many_to_many_names:
-                    link_orm = getattr(registry, many_to_many_name).through
-                    import_registry(link_orm, directory, connection)
+        for model_name in CORE_MODELS.keys():
+            registry = getattr(lnschema_bionty.models, model_name)
+            import_registry(registry, directory)
+            many_to_many_names = [field.name for field in registry._meta.many_to_many]
+            for many_to_many_name in many_to_many_names:
+                link_orm = getattr(registry, many_to_many_name).through
+                import_registry(link_orm, directory)
 
 
 class Migration(migrations.Migration):
