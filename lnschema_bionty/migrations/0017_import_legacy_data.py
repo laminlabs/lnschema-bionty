@@ -45,7 +45,10 @@ def import_registry(registry, directory):
     for chunk in chunker(df, 1000000):
         print(table_name)
         with engine.begin() as connection:
-            chunk.to_sql(table_name, connection, if_exists="append", index=False)
+            try:
+                chunk.to_sql(table_name, connection, if_exists="append", index=False)
+            except Exception:
+                print("... did not write")
 
 
 def import_db():
