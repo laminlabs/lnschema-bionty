@@ -47,7 +47,7 @@ def import_registry(registry, directory):
                 print("... did not write")
 
 
-def import_db():
+def import_db(apps, schema_editor):
     # import data from parquet files
     directory = Path(f"./lamindb_export/{ln_setup.settings.instance.identifier}/")
     if directory.exists():
@@ -69,9 +69,3 @@ class Migration(migrations.Migration):
     ]
 
     operations = [migrations.RunPython(import_db, reverse_code=migrations.RunPython.noop)]
-
-
-if __name__ == "__main__":
-    import lamindb as ln  # noqa
-
-    import_db()
