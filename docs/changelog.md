@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
+✏️ Fix uid encoder | [190](https://github.com/laminlabs/lnschema-bionty/pull/190) | [sunnyosun](https://github.com/sunnyosun) | 2023-10-18 |
 🚚 Migrate to integer primary keys | [188](https://github.com/laminlabs/lnschema-bionty/pull/188) | [falexwolf](https://github.com/falexwolf) | 2023-10-13 | 0.32.0
 🔇 Mute repetitive warning for saving parents | [187](https://github.com/laminlabs/lnschema-bionty/pull/187) | [sunnyosun](https://github.com/sunnyosun) | 2023-09-20 | 0.31.2
 ⬆️ Silence download bar for <5MB files | [186](https://github.com/laminlabs/lnschema-bionty/pull/186) | [sunnyosun](https://github.com/sunnyosun) | 2023-09-08 | 0.31.1
