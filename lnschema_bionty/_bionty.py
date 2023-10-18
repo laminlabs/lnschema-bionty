@@ -58,6 +58,9 @@ def get_bionty_source_record(bionty_object: bt.Bionty):
 
 
 def encode_uid(orm: Registry, kwargs: dict):
+    if kwargs.get("uid") is not None:
+        # if uid is passed
+        return kwargs
     try:
         name = orm.__name__.lower()
     except AttributeError:
@@ -72,12 +75,12 @@ def encode_uid(orm: Registry, kwargs: dict):
         concat_str = kwargs.get("name", "")
     elif name == "biontysource":
         concat_str = f'{kwargs.get("entity", "")}{kwargs.get("source", "")}{kwargs.get("species", "")}{kwargs.get("version", "")}'  # noqa
-    elif kwargs.get("id") is not None:
-        # species, it's not "uid", here, but the taxon id
-        concat_str = kwargs.pop("id")
     elif kwargs.get("ontology_id") is not None:
         concat_str = f"{kwargs.get('name', '')}{kwargs.get('ontology_id', '')}"
         ontology = True
+    elif (kwargs.get("id") is not None) and (name == "species") and (kwargs.get("uid") is None):
+        # species, it's not "uid", here, but the taxon id
+        concat_str = kwargs.pop("id")
     if len(concat_str) > 0:
         if ontology:
             id_encoder = ids.ontology
