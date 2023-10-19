@@ -75,3 +75,4 @@ def biontysource(input_id: Optional[str] = None):
 
 # backward compat
 source = biontysource
+species = organism

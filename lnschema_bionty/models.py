@@ -1257,3 +1257,7 @@ class BiontySource(Registry):
     ):
         kwargs = encode_uid(orm=self, kwargs=kwargs)
         super(BiontySource, self).__init__(*args, **kwargs)
+
+
+# backward compat
+Species = Organism
