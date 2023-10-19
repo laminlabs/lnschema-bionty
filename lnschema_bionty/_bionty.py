@@ -8,46 +8,46 @@ from lnschema_core.models import Registry  # TODO: import Registry instead of OR
 from . import ids
 
 
-def create_or_get_species_record(species: Optional[Union[str, Registry]], orm: Registry) -> Optional[Registry]:
-    # return None if an Registry doesn't have species field
-    species_record = None
-    if hasattr(orm, "species"):
-        # using global setting of species
+def create_or_get_organism_record(organism: Optional[Union[str, Registry]], orm: Registry) -> Optional[Registry]:
+    # return None if an Registry doesn't have organism field
+    organism_record = None
+    if hasattr(orm, "organism"):
+        # using global setting of organism
         from .dev._settings import settings
 
-        if species is None and settings.species is not None:
-            logger.debug(f"using global setting species = {settings.species.name}")
-            return settings.species
+        if organism is None and settings.organism is not None:
+            logger.debug(f"using global setting organism = {settings.organism.name}")
+            return settings.organism
 
-        if isinstance(species, Registry):
-            species_record = species
-        elif isinstance(species, str):
-            from lnschema_bionty import Species
+        if isinstance(organism, Registry):
+            organism_record = organism
+        elif isinstance(organism, str):
+            from lnschema_bionty import Organism
 
             try:
-                # existing species record
-                species_record = Species.objects.get(name=species)
+                # existing organism record
+                organism_record = Organism.objects.get(name=organism)
             except ObjectDoesNotExist:
                 try:
-                    # create a species record from bionty reference
-                    species_record = Species.from_bionty(name=species)
-                    # link the species record to the default bionty source
-                    species_record.bionty_source = get_bionty_source_record(bt.Species())  # type:ignore
-                    species_record.save()  # type:ignore
+                    # create a organism record from bionty reference
+                    organism_record = Organism.from_bionty(name=organism)
+                    # link the organism record to the default bionty source
+                    organism_record.bionty_source = get_bionty_source_record(bt.Organism())  # type:ignore
+                    organism_record.save()  # type:ignore
                 except KeyError:
-                    # no such species is found in bionty reference
-                    species_record = None
+                    # no such organism is found in bionty reference
+                    organism_record = None
 
-        if species_record is None:
-            raise AssertionError(f"{orm.__name__} requires to specify a species name via `species=` or `lb.settings.species=`!")
+        if organism_record is None:
+            raise AssertionError(f"{orm.__name__} requires to specify a organism name via `organism=` or `lb.settings.organism=`!")
 
-    return species_record
+    return organism_record
 
 
 def get_bionty_source_record(bionty_object: bt.Bionty):
     kwargs = dict(
         entity=bionty_object.__class__.__name__,
-        species=bionty_object.species,
+        organism=bionty_object.organism,
         source=bionty_object.source,
         version=bionty_object.version,
     )
@@ -74,12 +74,12 @@ def encode_uid(orm: Registry, kwargs: dict):
     elif name == "cellmarker":
         concat_str = kwargs.get("name", "")
     elif name == "biontysource":
-        concat_str = f'{kwargs.get("entity", "")}{kwargs.get("source", "")}{kwargs.get("species", "")}{kwargs.get("version", "")}'  # noqa
+        concat_str = f'{kwargs.get("entity", "")}{kwargs.get("source", "")}{kwargs.get("organism", "")}{kwargs.get("version", "")}'  # noqa
     elif kwargs.get("ontology_id") is not None:
         concat_str = f"{kwargs.get('name', '')}{kwargs.get('ontology_id', '')}"
         ontology = True
-    elif (kwargs.get("id") is not None) and (name == "species") and (kwargs.get("uid") is None):
-        # species, it's not "uid", here, but the taxon id
+    elif (kwargs.get("id") is not None) and (name == "organism") and (kwargs.get("uid") is None):
+        # organism, it's not "uid", here, but the taxon id
         concat_str = kwargs.pop("id")
     if len(concat_str) > 0:
         if ontology:
@@ -104,14 +104,18 @@ def lookup2kwargs(orm: Registry, *args, **kwargs) -> Dict:
     if len(bionty_kwargs) > 0:
         import bionty as bt
 
-        # add species and bionty_source
-        species_record = create_or_get_species_record(orm=orm.__class__, species=kwargs.get("species"))
-        if species_record is not None:
-            bionty_kwargs["species"] = species_record
-        bionty_object = getattr(bt, orm.__class__.__name__)(species=species_record.name if species_record is not None else None)
+        # add organism and bionty_source
+        organism_record = create_or_get_organism_record(orm=orm.__class__, organism=kwargs.get("organism"))
+        if organism_record is not None:
+            bionty_kwargs["organism"] = organism_record
+        bionty_object = getattr(bt, orm.__class__.__name__)(organism=organism_record.name if organism_record is not None else None)
         bionty_kwargs["bionty_source"] = get_bionty_source_record(bionty_object)
 
         model_field_names = {i.name for i in orm._meta.fields}
         model_field_names.add("parents")
         bionty_kwargs = {k: v for k, v in bionty_kwargs.items() if k in model_field_names}
     return encode_uid(orm=orm, kwargs=bionty_kwargs)
+
+
+# backward compat
+create_or_get_species_record = create_or_get_organism_record

@@ -1,10 +1,10 @@
 import pytest
 
-from lnschema_bionty.ids import species
+from lnschema_bionty.ids import organism
 
 
 def test_hash_id():
-    assert "vado" == species("NCBI_10090")
-    assert "24Dy" == species("NCBI_10091")
+    assert "vado" == organism("NCBI_10090")
+    assert "24Dy" == organism("NCBI_10091")
     with pytest.raises(ValueError):
-        species("test_12893")
+        organism("test_12893")

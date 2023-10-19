@@ -43,7 +43,7 @@ Basic biological registries:
 .. autosummary::
    :toctree: .
 
-   Species
+   Organism
    Gene
    Protein
    CellMarker
@@ -108,12 +108,13 @@ if _check_instance_setup():
         Ethnicity,
         ExperimentalFactor,
         Gene,
+        Organism,
         Pathway,
         Phenotype,
         Protein,
-        Species,
         Tissue,
     )
 
     # backward compat
     Readout = ExperimentalFactor
+    Species = Organism
