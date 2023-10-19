@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
+🚚 Rename `Species` to `Organism` | [192](https://github.com/laminlabs/lnschema-bionty/pull/192) | [sunnyosun](https://github.com/sunnyosun) | 2023-10-19 |
 🚑 Fix bionty_source_uid to be hash id | [191](https://github.com/laminlabs/lnschema-bionty/pull/191) | [sunnyosun](https://github.com/sunnyosun) | 2023-10-18 | 0.32.3
 ✏️ Fix uid encoder | [190](https://github.com/laminlabs/lnschema-bionty/pull/190) | [sunnyosun](https://github.com/sunnyosun) | 2023-10-18 | 0.32.2
 🚚 Migrate to integer primary keys | [188](https://github.com/laminlabs/lnschema-bionty/pull/188) | [falexwolf](https://github.com/falexwolf) | 2023-10-13 | 0.32.0
