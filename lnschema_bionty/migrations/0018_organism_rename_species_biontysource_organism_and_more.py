@@ -3,9 +3,34 @@
 import django.db.models.deletion
 import lnschema_core.models
 import lnschema_core.users
-from django.db import migrations, models
+from django.db import IntegrityError, migrations, models, transaction
 
 import lnschema_bionty.ids
+
+
+def forwards_func(apps, schema_editor):
+    """Replace strings in registry and registries."""
+    Feature = apps.get_model("lnschema_core", "Feature")
+    FeatureSet = apps.get_model("lnschema_core", "FeatureSet")
+    db_alias = schema_editor.connection.alias
+    # see https://stackoverflow.com/a/23326971
+    try:
+        with transaction.atomic():
+            for record in Feature.objects.using(db_alias).all():
+                if isinstance(record.registries, str):
+                    record.registries = record.registries.replace("bionty.Species", "bionty.Organism")
+                    record.save()
+            for record in FeatureSet.objects.using(db_alias).all():
+                if isinstance(record.registry, str):
+                    record.registry = record.registry.replace("bionty.Species", "bionty.Organism")
+                    record.save()
+
+    except IntegrityError:
+        pass
+
+
+def reverse_func(apps, schema_editor):
+    pass
 
 
 class Migration(migrations.Migration):
@@ -103,4 +128,5 @@ class Migration(migrations.Migration):
                 to="lnschema_bionty.organism",
             ),
         ),
+        migrations.RunPython(forwards_func, reverse_func),
     ]
