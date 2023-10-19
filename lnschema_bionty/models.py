@@ -8,7 +8,7 @@ from lnschema_core.models import CanValidate, HasParents, Registry, User
 from lnschema_core.users import current_user_id
 
 from . import ids
-from ._bionty import create_or_get_species_record, encode_uid, lookup2kwargs
+from ._bionty import create_or_get_organism_record, encode_uid, lookup2kwargs
 
 
 class BioRegistry(Registry, HasParents, CanValidate):
@@ -53,18 +53,18 @@ class BioRegistry(Registry, HasParents, CanValidate):
         else:
             kwargs = encode_uid(orm=self, kwargs=kwargs)
 
-        # raise error if no species is passed
-        if hasattr(self.__class__, "species_id"):
-            if kwargs.get("species") is None and kwargs.get("species_id") is None:
+        # raise error if no organism is passed
+        if hasattr(self.__class__, "organism_id"):
+            if kwargs.get("organism") is None and kwargs.get("organism_id") is None:
                 import lnschema_bionty as lb
 
-                if lb.settings.species is not None:
-                    kwargs["species"] = lb.settings.species
+                if lb.settings.organism is not None:
+                    kwargs["organism"] = lb.settings.organism
                 else:
-                    raise RuntimeError("please pass a species!")
-            elif kwargs.get("species") is not None:
-                if not isinstance(kwargs.get("species"), Species):
-                    raise TypeError("species must be a `lnschema_bionty.Species` record")
+                    raise RuntimeError("please pass a organism!")
+            elif kwargs.get("organism") is not None:
+                if not isinstance(kwargs.get("organism"), Organism):
+                    raise TypeError("organism must be a `lnschema_bionty.Organism` record")
 
         # now continue with the user-facing constructor
         # set the direct parents as a private attribute
@@ -82,8 +82,9 @@ class BioRegistry(Registry, HasParents, CanValidate):
     @classmethod
     def bionty(
         cls,
-        species: Optional[Union[str, Registry]] = None,
+        organism: Optional[Union[str, Registry]] = None,
         bionty_source: Optional["BiontySource"] = None,
+        **kwargs,
     ) -> "bt.Bionty":
         """The corresponding Bionty object.
 
@@ -97,7 +98,7 @@ class BioRegistry(Registry, HasParents, CanValidate):
             >>> celltype_bt = lb.CellType.bionty()
             >>> celltype_bt
             CellType
-            Species: all
+            Organism: all
             Source: cl, 2023-04-20
             #terms: 2698
             ...
@@ -109,17 +110,19 @@ class BioRegistry(Registry, HasParents, CanValidate):
             🔗 CellType.ontology: Pronto.Ontology object
         """
         if cls.__module__.startswith("lnschema_bionty."):
-            species_record = create_or_get_species_record(species=species, orm=cls)
+            if organism is None and kwargs.get("species") is not None:
+                organism = kwargs.get("species")
+            organism_record = create_or_get_organism_record(organism=organism, orm=cls)
 
             if bionty_source is not None:
-                species = bionty_source.species
+                organism = bionty_source.organism
                 source = bionty_source.source
                 version = bionty_source.version
             else:
-                species = species_record.name if species_record is not None else None
+                organism = organism_record.name if organism_record is not None else None
                 source = None
                 version = None
-            bionty_object = getattr(bt, cls.__name__)(species=species, source=source, version=version)
+            bionty_object = getattr(bt, cls.__name__)(organism=organism, source=source, version=version)
 
             return bionty_object
 
@@ -135,7 +138,7 @@ class BioRegistry(Registry, HasParents, CanValidate):
         Examples:
             Create a record by passing a field value:
 
-            >>> record = lb.Gene.from_bionty(symbol="TCF7", species="human")
+            >>> record = lb.Gene.from_bionty(symbol="TCF7", organism="human")
 
             Create a record from non-default source:
 
@@ -188,33 +191,33 @@ class BioRegistry(Registry, HasParents, CanValidate):
             self._save_ontology_parents()
 
 
-class Species(BioRegistry):
-    """Species - `NCBI Taxonomy <https://www.ncbi.nlm.nih.gov/taxonomy/>`__, `Ensembl Species <https://useast.ensembl.org/info/about/species.html>`__.
+class Organism(BioRegistry):
+    """Organism - `NCBI Taxonomy <https://www.ncbi.nlm.nih.gov/taxonomy/>`__, `Ensembl Organism <https://useast.ensembl.org/info/about/species.html>`__.
 
     Examples:
-        >>> record = lb.Species.from_bionty(name="rabbit")
+        >>> record = lb.Organism.from_bionty(name="rabbit")
     """
 
     id = models.AutoField(primary_key=True)
     """Internal id, valid only in one DB instance."""
-    uid = models.CharField(unique=True, max_length=4, default=ids.species)
+    uid = models.CharField(unique=True, max_length=4, default=ids.organism)
     name = models.CharField(max_length=64, db_index=True, default=None, unique=True)
-    """Name of a species, required field."""
+    """Name of a organism, required field."""
     taxon_id = models.IntegerField(unique=True, db_index=True, null=True, default=None)
     """NCBI Taxon ID."""
     scientific_name = models.CharField(max_length=64, db_index=True, unique=True, null=True, default=None)
-    """Scientific name of a species."""
+    """Scientific name of a organism."""
     bionty_source = models.ForeignKey("BiontySource", models.PROTECT, null=True)
     """:class:`~lnschema_bionty.BiontySource` this record associates with."""
-    files = models.ManyToManyField("lnschema_core.File", related_name="species")
-    """Files linked to the species."""
-    datasets = models.ManyToManyField("lnschema_core.Dataset", related_name="species")
-    """Datasets linked to the species."""
+    files = models.ManyToManyField("lnschema_core.File", related_name="organism")
+    """Files linked to the organism."""
+    datasets = models.ManyToManyField("lnschema_core.Dataset", related_name="organism")
+    """Datasets linked to the organism."""
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
     """Time of creation of record."""
     updated_at = models.DateTimeField(auto_now=True, db_index=True)
     """Time of last update to record."""
-    created_by = models.ForeignKey(User, models.PROTECT, default=current_user_id, related_name="created_species")
+    created_by = models.ForeignKey(User, models.PROTECT, default=current_user_id, related_name="created_organism")
     """Creator of record, a :class:`~lamindb.User`."""
 
     @overload
@@ -238,7 +241,7 @@ class Species(BioRegistry):
         *args,
         **kwargs,
     ):
-        super(Species, self).__init__(*args, **kwargs)
+        super(Organism, self).__init__(*args, **kwargs)
 
 
 class Gene(BioRegistry):
@@ -248,7 +251,7 @@ class Gene(BioRegistry):
         Bulk create Gene records via :class:`~lamindb.dev.Registry.from_values`.
 
     Examples:
-        >>> record = lb.Gene.from_bionty(symbol="TCF7", species="human")
+        >>> record = lb.Gene.from_bionty(symbol="TCF7", organism="human")
     """
 
     id = models.AutoField(primary_key=True)
@@ -260,7 +263,7 @@ class Gene(BioRegistry):
     stable_id = models.CharField(max_length=64, db_index=True, null=True, default=None, unique=True)
     """Stable ID of a gene that doesn't have ensembl_gene_id, e.g. a yeast gene."""
     ensembl_gene_id = models.CharField(max_length=64, db_index=True, null=True, default=None, unique=True)
-    """Ensembl gene stable ID, in the form ENS[species prefix][feature type prefix][a unique eleven digit number]."""
+    """Ensembl gene stable ID, in the form ENS[organism prefix][feature type prefix][a unique eleven digit number]."""
     ncbi_gene_ids = models.TextField(null=True, default=None)
     """Bar-separated (|) NCBI Gene IDs that correspond to this Ensembl Gene ID.
     NCBI Gene ID, also known as Entrez Gene ID, in the form of numeric string, 1 to 9 digits.
@@ -271,8 +274,8 @@ class Gene(BioRegistry):
     """Description of the gene."""
     synonyms = models.TextField(null=True, default=None)
     """Bar-separated (|) synonyms that correspond to this gene."""
-    species = models.ForeignKey(Species, models.PROTECT, default=None, related_name="genes")
-    """:class:`~lnschema_bionty.Species` this gene associates with."""
+    organism = models.ForeignKey(Organism, models.PROTECT, default=None, related_name="genes")
+    """:class:`~lnschema_bionty.Organism` this gene associates with."""
     bionty_source = models.ForeignKey("BiontySource", models.PROTECT, null=True, related_name="genes")
     """:class:`~lnschema_bionty.BiontySource` this gene associates with."""
     files = models.ManyToManyField("lnschema_core.File", related_name="genes")
@@ -298,7 +301,7 @@ class Gene(BioRegistry):
         biotype: Optional[str],
         description: Optional[str],
         synonyms: Optional[str],
-        species: Optional[Species],
+        organism: Optional[Organism],
         bionty_source: Optional["BiontySource"],
     ):
         ...
@@ -325,8 +328,8 @@ class Protein(BioRegistry):
         Bulk create Protein records via :class:`~lamindb.dev.Registry.from_values`.
 
     Examples:
-        >>> record = lb.Protein.from_bionty(name="Synaptotagmin-15B", species="human")
-        >>> record = lb.Protein.from_bionty(gene_symbol="SYT15B", species="human")
+        >>> record = lb.Protein.from_bionty(name="Synaptotagmin-15B", organism="human")
+        >>> record = lb.Protein.from_bionty(gene_symbol="SYT15B", organism="human")
     """
 
     id = models.AutoField(primary_key=True)
@@ -345,8 +348,8 @@ class Protein(BioRegistry):
     """The primary gene symbol corresponds to this protein."""
     ensembl_gene_ids = models.TextField(null=True, default=None)
     """Bar-separated (|) Ensembl Gene IDs that correspond to this protein."""
-    species = models.ForeignKey(Species, models.PROTECT, default=None, related_name="proteins")
-    """:class:`~lnschema_bionty.Species` this protein associates with."""
+    organism = models.ForeignKey(Organism, models.PROTECT, default=None, related_name="proteins")
+    """:class:`~lnschema_bionty.Organism` this protein associates with."""
     bionty_source = models.ForeignKey("BiontySource", models.PROTECT, null=True, related_name="proteins")
     """:class:`~lnschema_bionty.BiontySource` this protein associates with."""
     files = models.ManyToManyField("lnschema_core.File", related_name="proteins")
@@ -376,7 +379,7 @@ class Protein(BioRegistry):
         length: Optional[int],
         gene_symbol: Optional[str],
         ensembl_gene_ids: Optional[str],
-        species: Optional[Species],
+        organism: Optional[Organism],
         bionty_source: Optional["BiontySource"],
     ):
         ...
@@ -403,7 +406,7 @@ class CellMarker(BioRegistry):
         Bulk create CellMarker records via :class:`~lamindb.dev.Registry.from_values`.
 
     Examples:
-        >>> record = lb.CellMarker.from_bionty(name="PD1", species="human")
+        >>> record = lb.CellMarker.from_bionty(name="PD1", organism="human")
     """
 
     id = models.AutoField(primary_key=True)
@@ -420,8 +423,8 @@ class CellMarker(BioRegistry):
     """NCBI gene id that corresponds to this cell marker."""
     uniprotkb_id = models.CharField(max_length=10, db_index=True, null=True, default=None)
     """Uniprotkb id that corresponds to this cell marker."""
-    species = models.ForeignKey(Species, models.PROTECT, default=None, related_name="cell_markers")
-    """:class:`~lnschema_bionty.Species` this cell marker associates with."""
+    organism = models.ForeignKey(Organism, models.PROTECT, default=None, related_name="cell_markers")
+    """:class:`~lnschema_bionty.Organism` this cell marker associates with."""
     bionty_source = models.ForeignKey("BiontySource", models.PROTECT, null=True, related_name="cell_markers")
     """:class:`~lnschema_bionty.BiontySource` this cell marker associates with."""
     files = models.ManyToManyField("lnschema_core.File", related_name="cell_markers")
@@ -450,7 +453,7 @@ class CellMarker(BioRegistry):
         gene_symbol: Optional[str],
         ncbi_gene_id: Optional[str],
         uniprotkb_id: Optional[str],
-        species: Optional[Species],
+        organism: Optional[Organism],
         bionty_source: Optional["BiontySource"],
     ):
         ...
@@ -1194,8 +1197,8 @@ class BiontySource(Registry):
     """A universal id (hash of selected field)."""
     entity = models.CharField(max_length=64, db_index=True)
     """Entity class name."""
-    species = models.CharField(max_length=64, db_index=True)
-    """Species name, use 'all' if unknown or none applied."""
+    organism = models.CharField(max_length=64, db_index=True)
+    """Organism name, use 'all' if unknown or none applied."""
     currently_used = models.BooleanField(default=False, db_index=True)
     """Whether this record is currently used."""
     source = models.CharField(max_length=64, db_index=True)
@@ -1223,13 +1226,13 @@ class BiontySource(Registry):
     """Creator of record, a :class:`~lamindb.User`."""
 
     class Meta:
-        unique_together = (("entity", "source", "species", "version"),)
+        unique_together = (("entity", "source", "organism", "version"),)
 
     @overload
     def __init__(
         self,
         entity: str,
-        species: str,
+        organism: str,
         currently_used: bool,
         source: str,
         version: str,
