@@ -1,4 +1,4 @@
-from typing import List, Optional, Tuple, Union, overload  # noqa
+from typing import Dict, List, Optional, Tuple, Union, overload  # noqa
 
 import bionty as bt
 import numpy as np
@@ -170,7 +170,10 @@ class BioRegistry(Registry, HasParents, CanValidate):
             parents = self._parents
             # here parents is still a list of ontology ids
             logger.info(f"also saving parents of {self}")
-            parents_records = self.from_values(parents, self.__class__.ontology_id)
+            kwargs: Dict = {}
+            if hasattr(self, "bionty_source"):
+                kwargs = {"bionty_source": self.bionty_source}
+            parents_records = self.from_values(parents, self.__class__.ontology_id, **kwargs)
             ln.save(parents_records, mute=mute)
             self.parents.set(parents_records)
 
@@ -200,13 +203,15 @@ class Organism(BioRegistry):
 
     id = models.AutoField(primary_key=True)
     """Internal id, valid only in one DB instance."""
-    uid = models.CharField(unique=True, max_length=4, default=ids.organism)
+    uid = models.CharField(unique=True, max_length=8, default=ids.ontology)
     name = models.CharField(max_length=64, db_index=True, default=None, unique=True)
     """Name of a organism, required field."""
-    taxon_id = models.IntegerField(unique=True, db_index=True, null=True, default=None)
+    ontology_id = models.CharField(max_length=32, unique=True, db_index=True, null=True, default=None)
     """NCBI Taxon ID."""
     scientific_name = models.CharField(max_length=64, db_index=True, unique=True, null=True, default=None)
     """Scientific name of a organism."""
+    parents = models.ManyToManyField("self", symmetrical=False, related_name="children")
+    """Parent organism records."""
     bionty_source = models.ForeignKey("BiontySource", models.PROTECT, null=True)
     """:class:`~lnschema_bionty.BiontySource` this record associates with."""
     files = models.ManyToManyField("lnschema_core.File", related_name="organism")
