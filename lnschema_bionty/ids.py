@@ -40,14 +40,6 @@ def hash_id(input_id: Optional[str] = None, *, n_char: int) -> str:
         return hash_str(input_id)[:n_char].replace("_", "0").replace("-", "0")
 
 
-def organism(input_id: Optional[str] = None) -> str:
-    """4 base62."""
-    if input_id is not None:
-        if not input_id.startswith("NCBI_"):
-            raise ValueError("Only support hashing NCBI taxon ID for organism.")
-    return hash_id(input_id, n_char=4)
-
-
 def gene(input_id: Optional[str] = None) -> str:
     """12 base62."""
     return hash_id(input_id, n_char=12)
@@ -75,4 +67,5 @@ def biontysource(input_id: Optional[str] = None):
 
 # backward compat
 source = biontysource
+organism = ontology
 species = organism
