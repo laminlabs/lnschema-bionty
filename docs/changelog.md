@@ -3,7 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
-✨ Add parents to Organism | [193](https://github.com/laminlabs/lnschema-bionty/pull/193) | [sunnyosun](https://github.com/sunnyosun) | 2023-10-23 |
+✨ Add parents to Organism | [193](https://github.com/laminlabs/lnschema-bionty/pull/193) | [sunnyosun](https://github.com/sunnyosun) | 2023-10-23 | 0.34.0
 🚚 Rename `Species` to `Organism` | [192](https://github.com/laminlabs/lnschema-bionty/pull/192) | [sunnyosun](https://github.com/sunnyosun) | 2023-10-19 | 0.33.0
 🚑 Fix bionty_source_uid to be hash id | [191](https://github.com/laminlabs/lnschema-bionty/pull/191) | [sunnyosun](https://github.com/sunnyosun) | 2023-10-18 | 0.32.3
 ✏️ Fix uid encoder | [190](https://github.com/laminlabs/lnschema-bionty/pull/190) | [sunnyosun](https://github.com/sunnyosun) | 2023-10-18 | 0.32.2
