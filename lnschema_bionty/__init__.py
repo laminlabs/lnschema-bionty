@@ -78,9 +78,10 @@ Developer API:
 
    dev
 """
+
 _schema_id = "zdno"
 _name = "bionty"
-__version__ = "0.34.0"  # Denote a release candidate of version 0.1.0 with 0.1rc1
+__version__ = "0.34.1"  # Denote a release candidate of version 0.1.0 with 0.1rc1
 
 from lamindb_setup import _check_instance_setup
 
