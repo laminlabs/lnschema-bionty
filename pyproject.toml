@@ -15,7 +15,7 @@ classifiers = [
 ]
 dependencies = [
     "lnschema_core>=0.45.1",
-    "bionty==0.34.0",
+    "bionty==0.34.1",
 ]
 
 [project.urls]
