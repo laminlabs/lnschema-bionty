@@ -212,7 +212,7 @@ class Organism(BioRegistry):
     """Scientific name of a organism."""
     parents = models.ManyToManyField("self", symmetrical=False, related_name="children")
     """Parent organism records."""
-    bionty_source = models.ForeignKey("BiontySource", models.PROTECT, null=True)
+    bionty_source = models.ForeignKey("BiontySource", models.PROTECT, null=True, related_name="organisms")
     """:class:`~lnschema_bionty.BiontySource` this record associates with."""
     files = models.ManyToManyField("lnschema_core.File", related_name="organism")
     """Files linked to the organism."""
