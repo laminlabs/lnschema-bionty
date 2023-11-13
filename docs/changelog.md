@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
+🚚 Rename FK organism to organisms in BiontySource | [196](https://github.com/laminlabs/lnschema-bionty/pull/196) | [sunnyosun](https://github.com/sunnyosun) | 2023-11-13 |
 ⬆️ Update bionty | [195](https://github.com/laminlabs/lnschema-bionty/pull/195) | [sunnyosun](https://github.com/sunnyosun) | 2023-11-10 |
 ⬆️ Upgrade bionty | [194](https://github.com/laminlabs/lnschema-bionty/pull/194) | [sunnyosun](https://github.com/sunnyosun) | 2023-11-09 |
 ✨ Add parents to Organism | [193](https://github.com/laminlabs/lnschema-bionty/pull/193) | [sunnyosun](https://github.com/sunnyosun) | 2023-10-23 | 0.34.0
