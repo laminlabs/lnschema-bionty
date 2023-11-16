@@ -1,5 +1,5 @@
 import bionty as bt
-from lamin_logger import logger
+from lamin_utils import logger
 
 
 def sync_bionty_source_to_latest():
