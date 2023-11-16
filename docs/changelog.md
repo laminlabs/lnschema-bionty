@@ -3,7 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
-✨ Added functions to sync bionty source | [197](https://github.com/laminlabs/lnschema-bionty/pull/197) | [sunnyosun](https://github.com/sunnyosun) | 2023-11-16 |
+✨ Added functions to sync bionty source | [197](https://github.com/laminlabs/lnschema-bionty/pull/197) | [sunnyosun](https://github.com/sunnyosun) | 2023-11-16 | 0.35.1
 🚚 Rename FK organism to organisms in BiontySource | [196](https://github.com/laminlabs/lnschema-bionty/pull/196) | [sunnyosun](https://github.com/sunnyosun) | 2023-11-13 | 0.35.0
 ⬆️ Update bionty | [195](https://github.com/laminlabs/lnschema-bionty/pull/195) | [sunnyosun](https://github.com/sunnyosun) | 2023-11-10 |
 ⬆️ Upgrade bionty | [194](https://github.com/laminlabs/lnschema-bionty/pull/194) | [sunnyosun](https://github.com/sunnyosun) | 2023-11-09 |
