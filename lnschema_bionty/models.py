@@ -1,4 +1,4 @@
-from typing import Dict, List, Optional, Tuple, Union, overload  # noqa
+from typing import List, Optional, Tuple, Union, overload  # noqa
 
 import bionty as bt
 import numpy as np
@@ -170,10 +170,9 @@ class BioRegistry(Registry, HasParents, CanValidate):
             parents = self._parents
             # here parents is still a list of ontology ids
             logger.info(f"also saving parents of {self}")
-            kwargs: Dict = {}
-            if hasattr(self, "bionty_source"):
-                kwargs = {"bionty_source": self.bionty_source}
-            parents_records = self.from_values(parents, self.__class__.ontology_id, **kwargs)
+            # parent records are agnostic to the source
+            # TODO: bionty_source should be properly dealt with
+            parents_records = self.from_values(parents, self.__class__.ontology_id)
             ln.save(parents_records, mute=mute)
             self.parents.set(parents_records)
 
