@@ -170,9 +170,8 @@ class BioRegistry(Registry, HasParents, CanValidate):
             parents = self._parents
             # here parents is still a list of ontology ids
             logger.info(f"also saving parents of {self}")
-            # parent records are agnostic to the source
-            # TODO: bionty_source should be properly dealt with
-            parents_records = self.from_values(parents, self.__class__.ontology_id)
+            # bulk create parent records
+            parents_records = self.from_values(parents, self.__class__.ontology_id, bionty_source=self.bionty_source)
             ln.save(parents_records, mute=mute)
             self.parents.set(parents_records)
 
