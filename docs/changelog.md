@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
+⬆️ Enabled ID conversion via return_field | [200](https://github.com/laminlabs/lnschema-bionty/pull/200) | [sunnyosun](https://github.com/sunnyosun) | 2023-12-02 |
 🐛 Fix save parents with bionty_source | [198](https://github.com/laminlabs/lnschema-bionty/pull/198) | [sunnyosun](https://github.com/sunnyosun) | 2023-11-23 |
 ✨ Added functions to sync bionty source | [197](https://github.com/laminlabs/lnschema-bionty/pull/197) | [sunnyosun](https://github.com/sunnyosun) | 2023-11-16 | 0.35.1
 🚚 Rename FK organism to organisms in BiontySource | [196](https://github.com/laminlabs/lnschema-bionty/pull/196) | [sunnyosun](https://github.com/sunnyosun) | 2023-11-13 | 0.35.0
