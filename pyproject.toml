@@ -30,6 +30,7 @@ test = [
     "pytest-cov",
     "nbproject-test",
     "lamindb-setup",
+    "lamindb"
 ]
 
 [tool.black]
