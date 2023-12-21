@@ -14,7 +14,7 @@ classifiers = [
     "Programming Language :: Python :: 3.10",
 ]
 dependencies = [
-    "lnschema_core>=0.54.0",
+    "lnschema_core>=0.58.0",
     "bionty==0.35.2",
 ]
 
