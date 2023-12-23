@@ -214,8 +214,8 @@ class Organism(BioRegistry):
     """:class:`~lnschema_bionty.BiontySource` this record associates with."""
     artifacts = models.ManyToManyField("lnschema_core.Artifact", related_name="organism")
     """Artifacts linked to the organism."""
-    datasets = models.ManyToManyField("lnschema_core.Dataset", related_name="organism")
-    """Datasets linked to the organism."""
+    collections = models.ManyToManyField("lnschema_core.Collection", related_name="organism")
+    """Collections linked to the organism."""
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
     """Time of creation of record."""
     updated_at = models.DateTimeField(auto_now=True, db_index=True)
@@ -283,8 +283,8 @@ class Gene(BioRegistry):
     """:class:`~lnschema_bionty.BiontySource` this gene associates with."""
     artifacts = models.ManyToManyField("lnschema_core.Artifact", related_name="genes")
     """Artifacts linked to the gene."""
-    datasets = models.ManyToManyField("lnschema_core.Dataset", related_name="genes")
-    """Datasets linked to the gene."""
+    collections = models.ManyToManyField("lnschema_core.Collection", related_name="genes")
+    """Collections linked to the gene."""
     feature_sets = models.ManyToManyField("lnschema_core.FeatureSet", related_name="genes")
     """Featuresets linked to this gene."""
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
@@ -357,8 +357,8 @@ class Protein(BioRegistry):
     """:class:`~lnschema_bionty.BiontySource` this protein associates with."""
     artifacts = models.ManyToManyField("lnschema_core.Artifact", related_name="proteins")
     """Artifacts linked to the protein."""
-    datasets = models.ManyToManyField("lnschema_core.Dataset", related_name="proteins")
-    """Datasets linked to the protein."""
+    collections = models.ManyToManyField("lnschema_core.Collection", related_name="proteins")
+    """Collections linked to the protein."""
     feature_sets = models.ManyToManyField("lnschema_core.FeatureSet", related_name="proteins")
     """Featuresets linked to this protein."""
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
@@ -432,8 +432,8 @@ class CellMarker(BioRegistry):
     """:class:`~lnschema_bionty.BiontySource` this cell marker associates with."""
     artifacts = models.ManyToManyField("lnschema_core.Artifact", related_name="cell_markers")
     """Artifacts linked to the cell marker."""
-    datasets = models.ManyToManyField("lnschema_core.Dataset", related_name="cell_markers")
-    """Datasets linked to the cell marker."""
+    collections = models.ManyToManyField("lnschema_core.Collection", related_name="cell_markers")
+    """Collections linked to the cell marker."""
     feature_sets = models.ManyToManyField("lnschema_core.FeatureSet", related_name="cell_markers")
     """Featuresets linked to this cell marker."""
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
@@ -508,8 +508,8 @@ class Tissue(BioRegistry):
     """:class:`~lnschema_bionty.BiontySource` this tissue associates with."""
     artifacts = models.ManyToManyField("lnschema_core.Artifact", related_name="tissues")
     """Artifacts linked to the tissue."""
-    datasets = models.ManyToManyField("lnschema_core.Dataset", related_name="tissues")
-    """Datasets linked to the tissue."""
+    collections = models.ManyToManyField("lnschema_core.Collection", related_name="tissues")
+    """Collections linked to the tissue."""
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
     """Time of creation of record."""
     updated_at = models.DateTimeField(auto_now=True, db_index=True)
@@ -580,8 +580,8 @@ class CellType(BioRegistry):
     """:class:`~lnschema_bionty.BiontySource` this cell type associates with."""
     artifacts = models.ManyToManyField("lnschema_core.Artifact", related_name="cell_types")
     """Artifacts linked to the cell type."""
-    datasets = models.ManyToManyField("lnschema_core.Dataset", related_name="cell_types")
-    """Datasets linked to the cell type."""
+    collections = models.ManyToManyField("lnschema_core.Collection", related_name="cell_types")
+    """Collections linked to the cell type."""
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
     """Time of creation of record."""
     updated_at = models.DateTimeField(auto_now=True, db_index=True)
@@ -657,8 +657,8 @@ class Disease(BioRegistry):
     """:class:`~lnschema_bionty.BiontySource` this disease associates with."""
     artifacts = models.ManyToManyField("lnschema_core.Artifact", related_name="diseases")
     """Artifacts linked to the disease."""
-    datasets = models.ManyToManyField("lnschema_core.Dataset", related_name="diseases")
-    """Datasets linked to the disease."""
+    collections = models.ManyToManyField("lnschema_core.Collection", related_name="diseases")
+    """Collections linked to the disease."""
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
     """Time of creation of record."""
     updated_at = models.DateTimeField(auto_now=True, db_index=True)
@@ -735,8 +735,8 @@ class CellLine(BioRegistry):
     """:class:`~lnschema_bionty.BiontySource` this cell line associates with."""
     artifacts = models.ManyToManyField("lnschema_core.Artifact", related_name="cell_lines")
     """Artifacts linked to the cell line."""
-    datasets = models.ManyToManyField("lnschema_core.Dataset", related_name="cell_lines")
-    """Datasets linked to the cell line."""
+    collections = models.ManyToManyField("lnschema_core.Collection", related_name="cell_lines")
+    """Collections linked to the cell line."""
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
     """Time of creation of record."""
     updated_at = models.DateTimeField(auto_now=True, db_index=True)
@@ -816,8 +816,8 @@ class Phenotype(BioRegistry):
     """:class:`~lnschema_bionty.BiontySource` this phenotype associates with."""
     artifacts = models.ManyToManyField("lnschema_core.Artifact", related_name="phenotypes")
     """Artifacts linked to the phenotype."""
-    datasets = models.ManyToManyField("lnschema_core.Dataset", related_name="phenotypes")
-    """Datasets linked to the phenotype."""
+    collections = models.ManyToManyField("lnschema_core.Collection", related_name="phenotypes")
+    """Collections linked to the phenotype."""
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
     """Time of creation of record."""
     updated_at = models.DateTimeField(auto_now=True, db_index=True)
@@ -899,8 +899,8 @@ class Pathway(BioRegistry):
     """Featuresets linked to the pathway."""
     artifacts = models.ManyToManyField("lnschema_core.Artifact", related_name="pathways")
     """Artifacts linked to the pathway."""
-    datasets = models.ManyToManyField("lnschema_core.Dataset", related_name="pathways")
-    """Datasets linked to the pathway."""
+    collections = models.ManyToManyField("lnschema_core.Collection", related_name="pathways")
+    """Collections linked to the pathway."""
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
     """Time of creation of record."""
     updated_at = models.DateTimeField(auto_now=True, db_index=True)
@@ -984,8 +984,8 @@ class ExperimentalFactor(BioRegistry):
     """:class:`~lnschema_bionty.BiontySource` this experimental_factors associates with."""
     artifacts = models.ManyToManyField("lnschema_core.Artifact", related_name="experimental_factors")
     """Artifacts linked to the experimental_factors."""
-    datasets = models.ManyToManyField("lnschema_core.Dataset", related_name="experimental_factors")
-    """Datasets linked to the experimental factor."""
+    collections = models.ManyToManyField("lnschema_core.Collection", related_name="experimental_factors")
+    """Collections linked to the experimental factor."""
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
     """Time of creation of record."""
     updated_at = models.DateTimeField(auto_now=True, db_index=True)
@@ -1063,8 +1063,8 @@ class DevelopmentalStage(BioRegistry):
     """:class:`~lnschema_bionty.BiontySource` this developmental stage associates with."""
     artifacts = models.ManyToManyField("lnschema_core.Artifact", related_name="developmental_stages")
     """Artifacts linked to the developmental stage."""
-    datasets = models.ManyToManyField("lnschema_core.Dataset", related_name="developmental_stages")
-    """Datasets linked to the developmental stage."""
+    collections = models.ManyToManyField("lnschema_core.Collection", related_name="developmental_stages")
+    """Collections linked to the developmental stage."""
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
     """Time of creation of record."""
     updated_at = models.DateTimeField(auto_now=True, db_index=True)
@@ -1141,8 +1141,8 @@ class Ethnicity(BioRegistry):
     """:class:`~lnschema_bionty.BiontySource` this ethnicity associates with."""
     artifacts = models.ManyToManyField("lnschema_core.Artifact", related_name="ethnicities")
     """Artifacts linked to the ethnicity."""
-    datasets = models.ManyToManyField("lnschema_core.Dataset", related_name="ethnicities")
-    """Datasets linked to the ethnicity."""
+    collections = models.ManyToManyField("lnschema_core.Collection", related_name="ethnicities")
+    """Collections linked to the ethnicity."""
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
     """Time of creation of record."""
     updated_at = models.DateTimeField(auto_now=True, db_index=True)
