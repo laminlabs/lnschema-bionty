@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
+🚚 Rename `Dataset` to `Collection` | [205](https://github.com/laminlabs/lnschema-bionty/pull/205) | [falexwolf](https://github.com/falexwolf) | 2023-12-23 |
 ♻️ Rename File to Artifact | [201](https://github.com/laminlabs/lnschema-bionty/pull/201) | [falexwolf](https://github.com/falexwolf) | 2023-12-11 | 0.36.0
 ⬆️ Enabled ID conversion via return_field | [200](https://github.com/laminlabs/lnschema-bionty/pull/200) | [sunnyosun](https://github.com/sunnyosun) | 2023-12-02 |
 🐛 Fix save parents with bionty_source | [198](https://github.com/laminlabs/lnschema-bionty/pull/198) | [sunnyosun](https://github.com/sunnyosun) | 2023-11-23 |
