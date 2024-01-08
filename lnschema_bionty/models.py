@@ -8,7 +8,7 @@ from lnschema_core.models import CanValidate, HasParents, Registry, User
 from lnschema_core.users import current_user_id
 
 from . import ids
-from ._bionty import create_or_get_organism_record, encode_uid, lookup2kwargs
+from ._bionty import encode_uid, lookup2kwargs
 
 
 class BioRegistry(Registry, HasParents, CanValidate):
@@ -110,16 +110,17 @@ class BioRegistry(Registry, HasParents, CanValidate):
             🔗 CellType.ontology: Pronto.Ontology object
         """
         if cls.__module__.startswith("lnschema_bionty."):
+            # backward compat with renaming species to organism
             if organism is None and kwargs.get("species") is not None:
                 organism = kwargs.get("species")
-            organism_record = create_or_get_organism_record(organism=organism, orm=cls)
+            if isinstance(organism, Organism):
+                organism = organism.name
 
             if bionty_source is not None:
                 organism = bionty_source.organism
                 source = bionty_source.source
                 version = bionty_source.version
             else:
-                organism = organism_record.name if organism_record is not None else None
                 source = None
                 version = None
             bionty_object = getattr(bt, cls.__name__)(organism=organism, source=source, version=version)
