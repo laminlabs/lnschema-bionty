@@ -105,9 +105,7 @@ class Migration(migrations.Migration):
                 ("updated_at", models.DateTimeField(auto_now=True, db_index=True)),
                 (
                     "bionty_source",
-                    models.ForeignKey(
-                        null=True, on_delete=django.db.models.deletion.PROTECT, related_name="proteins", to="lnschema_bionty.biontysource"
-                    ),
+                    models.ForeignKey(null=True, on_delete=django.db.models.deletion.PROTECT, related_name="proteins", to="lnschema_bionty.biontysource"),
                 ),
                 (
                     "created_by",
@@ -123,9 +121,7 @@ class Migration(migrations.Migration):
                 ("files", models.ManyToManyField(related_name="proteins", to="lnschema_core.file")),
                 (
                     "species",
-                    models.ForeignKey(
-                        default=None, on_delete=django.db.models.deletion.PROTECT, related_name="proteins", to="lnschema_bionty.species"
-                    ),
+                    models.ForeignKey(default=None, on_delete=django.db.models.deletion.PROTECT, related_name="proteins", to="lnschema_bionty.species"),
                 ),
             ],
             options={
@@ -149,9 +145,7 @@ class Migration(migrations.Migration):
                 ("updated_at", models.DateTimeField(auto_now=True, db_index=True)),
                 (
                     "bionty_source",
-                    models.ForeignKey(
-                        null=True, on_delete=django.db.models.deletion.PROTECT, related_name="genes", to="lnschema_bionty.biontysource"
-                    ),
+                    models.ForeignKey(null=True, on_delete=django.db.models.deletion.PROTECT, related_name="genes", to="lnschema_bionty.biontysource"),
                 ),
                 (
                     "created_by",
@@ -189,9 +183,7 @@ class Migration(migrations.Migration):
                 ("updated_at", models.DateTimeField(auto_now=True, db_index=True)),
                 (
                     "bionty_source",
-                    models.ForeignKey(
-                        null=True, on_delete=django.db.models.deletion.PROTECT, related_name="cell_markers", to="lnschema_bionty.biontysource"
-                    ),
+                    models.ForeignKey(null=True, on_delete=django.db.models.deletion.PROTECT, related_name="cell_markers", to="lnschema_bionty.biontysource"),
                 ),
                 (
                     "created_by",
@@ -207,9 +199,7 @@ class Migration(migrations.Migration):
                 ("files", models.ManyToManyField(related_name="cell_markers", to="lnschema_core.file")),
                 (
                     "species",
-                    models.ForeignKey(
-                        default=None, on_delete=django.db.models.deletion.PROTECT, related_name="cell_markers", to="lnschema_bionty.species"
-                    ),
+                    models.ForeignKey(default=None, on_delete=django.db.models.deletion.PROTECT, related_name="cell_markers", to="lnschema_bionty.species"),
                 ),
             ],
             options={
@@ -231,9 +221,7 @@ class Migration(migrations.Migration):
                 ("updated_at", models.DateTimeField(auto_now=True, db_index=True)),
                 (
                     "bionty_source",
-                    models.ForeignKey(
-                        null=True, on_delete=django.db.models.deletion.PROTECT, related_name="tissues", to="lnschema_bionty.biontysource"
-                    ),
+                    models.ForeignKey(null=True, on_delete=django.db.models.deletion.PROTECT, related_name="tissues", to="lnschema_bionty.biontysource"),
                 ),
                 (
                     "created_by",
@@ -267,9 +255,7 @@ class Migration(migrations.Migration):
                 ("updated_at", models.DateTimeField(auto_now=True, db_index=True)),
                 (
                     "bionty_source",
-                    models.ForeignKey(
-                        null=True, on_delete=django.db.models.deletion.PROTECT, related_name="phenotypes", to="lnschema_bionty.biontysource"
-                    ),
+                    models.ForeignKey(null=True, on_delete=django.db.models.deletion.PROTECT, related_name="phenotypes", to="lnschema_bionty.biontysource"),
                 ),
                 (
                     "created_by",
@@ -303,9 +289,7 @@ class Migration(migrations.Migration):
                 ("updated_at", models.DateTimeField(auto_now=True, db_index=True)),
                 (
                     "bionty_source",
-                    models.ForeignKey(
-                        null=True, on_delete=django.db.models.deletion.PROTECT, related_name="pathways", to="lnschema_bionty.biontysource"
-                    ),
+                    models.ForeignKey(null=True, on_delete=django.db.models.deletion.PROTECT, related_name="pathways", to="lnschema_bionty.biontysource"),
                 ),
                 (
                     "created_by",
@@ -344,9 +328,7 @@ class Migration(migrations.Migration):
                 ("updated_at", models.DateTimeField(auto_now=True, db_index=True)),
                 (
                     "bionty_source",
-                    models.ForeignKey(
-                        null=True, on_delete=django.db.models.deletion.PROTECT, related_name="experimental_factors", to="lnschema_bionty.biontysource"
-                    ),
+                    models.ForeignKey(null=True, on_delete=django.db.models.deletion.PROTECT, related_name="experimental_factors", to="lnschema_bionty.biontysource"),
                 ),
                 (
                     "created_by",
@@ -380,9 +362,7 @@ class Migration(migrations.Migration):
                 ("updated_at", models.DateTimeField(auto_now=True, db_index=True)),
                 (
                     "bionty_source",
-                    models.ForeignKey(
-                        null=True, on_delete=django.db.models.deletion.PROTECT, related_name="ethnicities", to="lnschema_bionty.biontysource"
-                    ),
+                    models.ForeignKey(null=True, on_delete=django.db.models.deletion.PROTECT, related_name="ethnicities", to="lnschema_bionty.biontysource"),
                 ),
                 (
                     "created_by",
@@ -416,9 +396,7 @@ class Migration(migrations.Migration):
                 ("updated_at", models.DateTimeField(auto_now=True, db_index=True)),
                 (
                     "bionty_source",
-                    models.ForeignKey(
-                        null=True, on_delete=django.db.models.deletion.PROTECT, related_name="diseases", to="lnschema_bionty.biontysource"
-                    ),
+                    models.ForeignKey(null=True, on_delete=django.db.models.deletion.PROTECT, related_name="diseases", to="lnschema_bionty.biontysource"),
                 ),
                 (
                     "created_by",
@@ -452,9 +430,7 @@ class Migration(migrations.Migration):
                 ("updated_at", models.DateTimeField(auto_now=True, db_index=True)),
                 (
                     "bionty_source",
-                    models.ForeignKey(
-                        null=True, on_delete=django.db.models.deletion.PROTECT, related_name="developmental_stages", to="lnschema_bionty.biontysource"
-                    ),
+                    models.ForeignKey(null=True, on_delete=django.db.models.deletion.PROTECT, related_name="developmental_stages", to="lnschema_bionty.biontysource"),
                 ),
                 (
                     "created_by",
@@ -488,9 +464,7 @@ class Migration(migrations.Migration):
                 ("updated_at", models.DateTimeField(auto_now=True, db_index=True)),
                 (
                     "bionty_source",
-                    models.ForeignKey(
-                        null=True, on_delete=django.db.models.deletion.PROTECT, related_name="cell_types", to="lnschema_bionty.biontysource"
-                    ),
+                    models.ForeignKey(null=True, on_delete=django.db.models.deletion.PROTECT, related_name="cell_types", to="lnschema_bionty.biontysource"),
                 ),
                 (
                     "created_by",
@@ -524,9 +498,7 @@ class Migration(migrations.Migration):
                 ("updated_at", models.DateTimeField(auto_now=True, db_index=True)),
                 (
                     "bionty_source",
-                    models.ForeignKey(
-                        null=True, on_delete=django.db.models.deletion.PROTECT, related_name="cell_lines", to="lnschema_bionty.biontysource"
-                    ),
+                    models.ForeignKey(null=True, on_delete=django.db.models.deletion.PROTECT, related_name="cell_lines", to="lnschema_bionty.biontysource"),
                 ),
                 (
                     "created_by",
