@@ -123,7 +123,8 @@ class BioRegistry(Registry, HasParents, CanValidate):
             else:
                 import lnschema_bionty as lb
 
-                organism = organism if lb.settings.organism is None else lb.settings.organism.name
+                if hasattr(cls, "organism_id"):
+                    organism = organism if lb.settings.organism is None else lb.settings.organism.name
                 source = None
                 version = None
             bionty_object = getattr(bt, cls.__name__)(organism=organism, source=source, version=version)
