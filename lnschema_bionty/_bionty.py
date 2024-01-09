@@ -59,7 +59,7 @@ def get_public_source_record(bionty_object: bt.Bionty):
 
 def encode_uid(orm: Registry, kwargs: dict):
     if kwargs.get("uid") is not None:
-        # if uid is passed
+        # if uid is passed, no encoding is needed
         return kwargs
     try:
         name = orm.__name__.lower()
@@ -68,19 +68,33 @@ def encode_uid(orm: Registry, kwargs: dict):
     ontology = False
     concat_str = ""
     if name == "gene":
-        concat_str = f"{kwargs.get('stable_id', '')}{kwargs.get('ensembl_gene_id', '')}{kwargs.get('symbol', '')}"
+        concat_str = kwargs.get("ensembl_gene_id", "")
+        if concat_str == "":
+            concat_str = kwargs.get("stable_id", "")
+        if concat_str == "":
+            concat_str = kwargs.get("symbol", "")
+        if concat_str == "":
+            raise AssertionError("must provide ensembl_gene_id, stable_id or symbol")
     elif name == "protein":
         concat_str = kwargs.get("uniprotkb_id", "")
+        if concat_str == "":
+            concat_str = kwargs.get("name", "")
+        if concat_str == "":
+            raise AssertionError("must provide uniprotkb_id or name")
     elif name == "cellmarker":
         concat_str = kwargs.get("name", "")
+        if concat_str == "":
+            raise AssertionError("must provide name")
     elif name == "biontysource":
         concat_str = f'{kwargs.get("entity", "")}{kwargs.get("source", "")}{kwargs.get("organism", "")}{kwargs.get("version", "")}'  # noqa
-    elif kwargs.get("ontology_id") is not None:
-        concat_str = f"{kwargs.get('name', '')}{kwargs.get('ontology_id', '')}"
+    else:
+        concat_str = kwargs.get("ontology_id", "")
+        if concat_str == "":
+            concat_str = kwargs.get("name", "")
+        if concat_str == "":
+            raise AssertionError("must provide ontology_id or name")
         ontology = True
-    elif (kwargs.get("id") is not None) and (name == "organism") and (kwargs.get("uid") is None):
-        # organism, it's not "uid", here, but the taxon id
-        concat_str = kwargs.pop("id")
+
     if len(concat_str) > 0:
         if ontology:
             id_encoder = ids.ontology
