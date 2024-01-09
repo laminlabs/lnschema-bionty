@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
+🚚 Rename .bionty to .public | [208](https://github.com/laminlabs/lnschema-bionty/pull/208) | [sunnyosun](https://github.com/sunnyosun) | 2024-01-09 |
 🐛 Fix .bionty for global organism | [207](https://github.com/laminlabs/lnschema-bionty/pull/207) | [sunnyosun](https://github.com/sunnyosun) | 2024-01-08 |
 🚸 Do not create organism when calling bionty | [206](https://github.com/laminlabs/lnschema-bionty/pull/206) | [sunnyosun](https://github.com/sunnyosun) | 2024-01-08 |
 🚚 Rename `Dataset` to `Collection` | [205](https://github.com/laminlabs/lnschema-bionty/pull/205) | [falexwolf](https://github.com/falexwolf) | 2023-12-23 | 0.37.0
