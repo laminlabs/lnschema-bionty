@@ -85,7 +85,7 @@ def encode_uid(orm: Registry, kwargs: dict):
         concat_str = kwargs.get("name", "")
         if concat_str == "":
             raise AssertionError("must provide name")
-    elif name == "biontysource":
+    elif name == "publicsource":
         concat_str = f'{kwargs.get("entity", "")}{kwargs.get("source", "")}{kwargs.get("organism", "")}{kwargs.get("version", "")}'  # noqa
     else:
         concat_str = kwargs.get("ontology_id", "")
