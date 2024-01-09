@@ -30,9 +30,9 @@ def create_or_get_organism_record(organism: Optional[Union[str, Registry]], orm:
             except ObjectDoesNotExist:
                 try:
                     # create a organism record from bionty reference
-                    organism_record = Organism.from_bionty(name=organism)
+                    organism_record = Organism.from_public(name=organism)
                     # link the organism record to the default bionty source
-                    organism_record.bionty_source = get_bionty_source_record(bt.Organism())  # type:ignore
+                    organism_record.public_source = get_public_source_record(bt.Organism())  # type:ignore
                     organism_record.save()  # type:ignore
                 except KeyError:
                     # no such organism is found in bionty reference
@@ -44,16 +44,16 @@ def create_or_get_organism_record(organism: Optional[Union[str, Registry]], orm:
     return organism_record
 
 
-def get_bionty_source_record(bionty_object: bt.Bionty):
+def get_public_source_record(bionty_object: bt.Bionty):
     kwargs = dict(
         entity=bionty_object.__class__.__name__,
         organism=bionty_object.organism,
         source=bionty_object.source,
         version=bionty_object.version,
     )
-    from .models import BiontySource
+    from .models import PublicSource
 
-    source_record = BiontySource.objects.filter(**kwargs).get()
+    source_record = PublicSource.objects.filter(**kwargs).get()
     return source_record
 
 
@@ -104,12 +104,12 @@ def lookup2kwargs(orm: Registry, *args, **kwargs) -> Dict:
     if len(bionty_kwargs) > 0:
         import bionty as bt
 
-        # add organism and bionty_source
+        # add organism and public_source
         organism_record = create_or_get_organism_record(orm=orm.__class__, organism=kwargs.get("organism"))
         if organism_record is not None:
             bionty_kwargs["organism"] = organism_record
         bionty_object = getattr(bt, orm.__class__.__name__)(organism=organism_record.name if organism_record is not None else None)
-        bionty_kwargs["bionty_source"] = get_bionty_source_record(bionty_object)
+        bionty_kwargs["public_source"] = get_public_source_record(bionty_object)
 
         model_field_names = {i.name for i in orm._meta.fields}
         model_field_names.add("parents")
