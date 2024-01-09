@@ -13,6 +13,7 @@ Entity-related generators:
    source
 
 """
+
 import base64
 import hashlib
 from typing import Optional
@@ -60,12 +61,13 @@ def ontology(input_id: Optional[str] = None):
     return hash_id(input_id, n_char=8)
 
 
-def biontysource(input_id: Optional[str] = None):
+def publicsource(input_id: Optional[str] = None):
     """4 base62."""
     return hash_id(input_id, n_char=4)
 
 
 # backward compat
-source = biontysource
+source = publicsource
+biontysource = publicsource
 organism = ontology
 species = organism

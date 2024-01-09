@@ -3,8 +3,8 @@
 Features
 ========
 
-- Create records from entries in public ontologies using `.from_bionty()`.
-- Access full underlying public ontologies via `.bionty()` to search & bulk-create records.
+- Create records from entries in public ontologies using `.from_public()`.
+- Access full underlying public ontologies via `.public()` to search & bulk-create records.
 - Create in-house ontologies by using hierarchical relationships among records (`.parents`).
 - Use `.synonyms` and `.abbr` to manage synonyms.
 
@@ -18,7 +18,7 @@ All registries inherit from :class:`~lamindb.dev.CanValidate` &
 
    `lnschema_bionty` manages it under the hood:
 
-   - Versions of public databases are auto-tracked in :class:`BiontySource`.
+   - Versions of public databases are auto-tracked in :class:`PublicSource`.
    - Records are indexed by universal ids, created by hashing `name` & `ontology_id` for portability across databases.
 
 .. note::
@@ -69,7 +69,7 @@ Public ontology versions:
 .. autosummary::
    :toctree: .
 
-   BiontySource
+   PublicSource
 
 Developer API:
 
@@ -98,7 +98,6 @@ if _check_instance_setup():
     del __getattr__  # delete so that imports work out
     from .dev._settings import settings
     from .models import (  # noqa
-        BiontySource,
         CellLine,
         CellMarker,
         CellType,
@@ -111,9 +110,11 @@ if _check_instance_setup():
         Pathway,
         Phenotype,
         Protein,
+        PublicSource,
         Tissue,
     )
 
     # backward compat
     Readout = ExperimentalFactor
     Species = Organism
+    BiontySource = PublicSource

@@ -1,4 +1,4 @@
-from typing import List, Optional, Tuple, Union, overload  # noqa
+from typing import List, Optional, Tuple, TypeAlias, Union, overload  # noqa
 
 import bionty as bt
 import numpy as np
@@ -10,12 +10,14 @@ from lnschema_core.users import current_user_id
 from . import ids
 from ._bionty import encode_uid, lookup2kwargs
 
+ReferenceTable: TypeAlias = bt.Bionty
+
 
 class BioRegistry(Registry, HasParents, CanValidate):
     """Base Registry of lnschema_bionty.
 
     BioRegistry inherits all methods from :class:`~lamindb.dev.Registry` and provides additional methods
-    including :meth:`~lnschema_bionty.dev.BioRegistry.bionty` and :meth:`~lnschema_bionty.dev.BioRegistry.from_bionty`
+    including :meth:`~lnschema_bionty.dev.BioRegistry.public` and :meth:`~lnschema_bionty.dev.BioRegistry.from_public`.
 
     Notes:
         For more info, see tutorials:
@@ -80,23 +82,23 @@ class BioRegistry(Registry, HasParents, CanValidate):
         super().__init__(*args, **kwargs)
 
     @classmethod
-    def bionty(
+    def public(
         cls,
         organism: Optional[Union[str, Registry]] = None,
-        bionty_source: Optional["BiontySource"] = None,
+        public_source: Optional["PublicSource"] = None,
         **kwargs,
-    ) -> "bt.Bionty":
+    ) -> "ReferenceTable":
         """The corresponding Bionty object.
 
-        e.g. lnschema_bionty.CellType.bionty() is equivalent to bionty.CellType().
-        Note that the public source is auto-configured and tracked via :meth:`lnschema_bionty.BiontySource`.
+        e.g. lnschema_bionty.CellType.public() is equivalent to bionty.CellType().
+        Note that the public source is auto-configured and tracked via :meth:`lnschema_bionty.PublicSource`.
 
         See Also:
-            `Bionty <https://lamin.ai/docs/bionty/>`__
+            `Bionty <https://lamin.ai/docs/public-ontologies>`__
 
         Examples:
-            >>> celltype_bt = lb.CellType.bionty()
-            >>> celltype_bt
+            >>> celltype_pub = lb.CellType.public()
+            >>> celltype_pub
             CellType
             Organism: all
             Source: cl, 2023-04-20
@@ -116,10 +118,10 @@ class BioRegistry(Registry, HasParents, CanValidate):
             if isinstance(organism, Organism):
                 organism = organism.name
 
-            if bionty_source is not None:
-                organism = bionty_source.organism
-                source = bionty_source.source
-                version = bionty_source.version
+            if public_source is not None:
+                organism = public_source.organism
+                source = public_source.source
+                version = public_source.version
             else:
                 import lnschema_bionty as lb
 
@@ -132,8 +134,8 @@ class BioRegistry(Registry, HasParents, CanValidate):
             return bionty_object
 
     @classmethod
-    def from_bionty(cls, **kwargs) -> Optional[Union["BioRegistry", List["BioRegistry"]]]:
-        """Create a record or records from bionty based on a single field value.
+    def from_public(cls, **kwargs) -> Optional[Union["BioRegistry", List["BioRegistry"]]]:
+        """Create a record or records from public reference based on a single field value.
 
         Notes:
             For more info, see tutorial :doc:`/lnschema-bionty`
@@ -143,18 +145,18 @@ class BioRegistry(Registry, HasParents, CanValidate):
         Examples:
             Create a record by passing a field value:
 
-            >>> record = lb.Gene.from_bionty(symbol="TCF7", organism="human")
+            >>> record = lb.Gene.from_public(symbol="TCF7", organism="human")
 
             Create a record from non-default source:
 
-            >>> bionty_source = lb.BiontySource.filter(entity="CellType", source="cl", version="2022-08-16").one()  # noqa
-            >>> record = lb.CellType.from_bionty(name="T cell", bionty_source=bionty_source)
+            >>> public_source = lb.PublicSource.filter(entity="CellType", source="cl", version="2022-08-16").one()  # noqa
+            >>> record = lb.CellType.from_public(name="T cell", public_source=public_source)
 
         """
         # non-relationship kwargs
         kv = {k: v for k, v in kwargs.items() if k not in [i.name for i in cls._meta.fields if i.is_relation]}
         if len(kv) > 1:
-            raise AssertionError("Only one field can be passed to generate record from Bionty")
+            raise AssertionError("Only one field can be passed to generate record from public reference")
         elif len(kv) == 0:
             return None
         else:
@@ -176,7 +178,7 @@ class BioRegistry(Registry, HasParents, CanValidate):
             # here parents is still a list of ontology ids
             logger.info(f"also saving parents of {self}")
             # bulk create parent records
-            parents_records = self.from_values(parents, self.__class__.ontology_id, bionty_source=self.bionty_source)
+            parents_records = self.from_values(parents, self.__class__.ontology_id, public_source=self.public_source)
             ln.save(parents_records, mute=mute)
             self.parents.set(parents_records)
 
@@ -201,7 +203,7 @@ class Organism(BioRegistry):
     """Organism - `NCBI Taxonomy <https://www.ncbi.nlm.nih.gov/taxonomy/>`__, `Ensembl Organism <https://useast.ensembl.org/info/about/species.html>`__.
 
     Examples:
-        >>> record = lb.Organism.from_bionty(name="rabbit")
+        >>> record = lb.Organism.from_public(name="rabbit")
     """
 
     id = models.AutoField(primary_key=True)
@@ -215,8 +217,8 @@ class Organism(BioRegistry):
     """Scientific name of a organism."""
     parents = models.ManyToManyField("self", symmetrical=False, related_name="children")
     """Parent organism records."""
-    bionty_source = models.ForeignKey("BiontySource", models.PROTECT, null=True, related_name="organisms")
-    """:class:`~lnschema_bionty.BiontySource` this record associates with."""
+    public_source = models.ForeignKey("PublicSource", models.PROTECT, null=True, related_name="organisms")
+    """:class:`~lnschema_bionty.PublicSource` this record associates with."""
     artifacts = models.ManyToManyField("lnschema_core.Artifact", related_name="organism")
     """Artifacts linked to the organism."""
     collections = models.ManyToManyField("lnschema_core.Collection", related_name="organism")
@@ -259,7 +261,7 @@ class Gene(BioRegistry):
         Bulk create Gene records via :class:`~lamindb.dev.Registry.from_values`.
 
     Examples:
-        >>> record = lb.Gene.from_bionty(symbol="TCF7", organism="human")
+        >>> record = lb.Gene.from_public(symbol="TCF7", organism="human")
     """
 
     id = models.AutoField(primary_key=True)
@@ -284,8 +286,8 @@ class Gene(BioRegistry):
     """Bar-separated (|) synonyms that correspond to this gene."""
     organism = models.ForeignKey(Organism, models.PROTECT, default=None, related_name="genes")
     """:class:`~lnschema_bionty.Organism` this gene associates with."""
-    bionty_source = models.ForeignKey("BiontySource", models.PROTECT, null=True, related_name="genes")
-    """:class:`~lnschema_bionty.BiontySource` this gene associates with."""
+    public_source = models.ForeignKey("PublicSource", models.PROTECT, null=True, related_name="genes")
+    """:class:`~lnschema_bionty.PublicSource` this gene associates with."""
     artifacts = models.ManyToManyField("lnschema_core.Artifact", related_name="genes")
     """Artifacts linked to the gene."""
     collections = models.ManyToManyField("lnschema_core.Collection", related_name="genes")
@@ -310,7 +312,7 @@ class Gene(BioRegistry):
         description: Optional[str],
         synonyms: Optional[str],
         organism: Optional[Organism],
-        bionty_source: Optional["BiontySource"],
+        public_source: Optional["PublicSource"],
     ):
         ...
 
@@ -336,8 +338,8 @@ class Protein(BioRegistry):
         Bulk create Protein records via :class:`~lamindb.dev.Registry.from_values`.
 
     Examples:
-        >>> record = lb.Protein.from_bionty(name="Synaptotagmin-15B", organism="human")
-        >>> record = lb.Protein.from_bionty(gene_symbol="SYT15B", organism="human")
+        >>> record = lb.Protein.from_public(name="Synaptotagmin-15B", organism="human")
+        >>> record = lb.Protein.from_public(gene_symbol="SYT15B", organism="human")
     """
 
     id = models.AutoField(primary_key=True)
@@ -358,8 +360,8 @@ class Protein(BioRegistry):
     """Bar-separated (|) Ensembl Gene IDs that correspond to this protein."""
     organism = models.ForeignKey(Organism, models.PROTECT, default=None, related_name="proteins")
     """:class:`~lnschema_bionty.Organism` this protein associates with."""
-    bionty_source = models.ForeignKey("BiontySource", models.PROTECT, null=True, related_name="proteins")
-    """:class:`~lnschema_bionty.BiontySource` this protein associates with."""
+    public_source = models.ForeignKey("PublicSource", models.PROTECT, null=True, related_name="proteins")
+    """:class:`~lnschema_bionty.PublicSource` this protein associates with."""
     artifacts = models.ManyToManyField("lnschema_core.Artifact", related_name="proteins")
     """Artifacts linked to the protein."""
     collections = models.ManyToManyField("lnschema_core.Collection", related_name="proteins")
@@ -388,7 +390,7 @@ class Protein(BioRegistry):
         gene_symbol: Optional[str],
         ensembl_gene_ids: Optional[str],
         organism: Optional[Organism],
-        bionty_source: Optional["BiontySource"],
+        public_source: Optional["PublicSource"],
     ):
         ...
 
@@ -414,7 +416,7 @@ class CellMarker(BioRegistry):
         Bulk create CellMarker records via :class:`~lamindb.dev.Registry.from_values`.
 
     Examples:
-        >>> record = lb.CellMarker.from_bionty(name="PD1", organism="human")
+        >>> record = lb.CellMarker.from_public(name="PD1", organism="human")
     """
 
     id = models.AutoField(primary_key=True)
@@ -433,8 +435,8 @@ class CellMarker(BioRegistry):
     """Uniprotkb id that corresponds to this cell marker."""
     organism = models.ForeignKey(Organism, models.PROTECT, default=None, related_name="cell_markers")
     """:class:`~lnschema_bionty.Organism` this cell marker associates with."""
-    bionty_source = models.ForeignKey("BiontySource", models.PROTECT, null=True, related_name="cell_markers")
-    """:class:`~lnschema_bionty.BiontySource` this cell marker associates with."""
+    public_source = models.ForeignKey("PublicSource", models.PROTECT, null=True, related_name="cell_markers")
+    """:class:`~lnschema_bionty.PublicSource` this cell marker associates with."""
     artifacts = models.ManyToManyField("lnschema_core.Artifact", related_name="cell_markers")
     """Artifacts linked to the cell marker."""
     collections = models.ManyToManyField("lnschema_core.Collection", related_name="cell_markers")
@@ -462,7 +464,7 @@ class CellMarker(BioRegistry):
         ncbi_gene_id: Optional[str],
         uniprotkb_id: Optional[str],
         organism: Optional[Organism],
-        bionty_source: Optional["BiontySource"],
+        public_source: Optional["PublicSource"],
     ):
         ...
 
@@ -490,7 +492,7 @@ class Tissue(BioRegistry):
         Bulk create Tissue records via :class:`~lamindb.dev.Registry.from_values`.
 
     Examples:
-        >>> record = lb.Tissue.from_bionty(name="brain")
+        >>> record = lb.Tissue.from_public(name="brain")
     """
 
     id = models.AutoField(primary_key=True)
@@ -509,8 +511,8 @@ class Tissue(BioRegistry):
     """Description of the tissue."""
     parents = models.ManyToManyField("self", symmetrical=False, related_name="children")
     """Parent tissues records."""
-    bionty_source = models.ForeignKey("BiontySource", models.PROTECT, null=True, related_name="tissues")
-    """:class:`~lnschema_bionty.BiontySource` this tissue associates with."""
+    public_source = models.ForeignKey("PublicSource", models.PROTECT, null=True, related_name="tissues")
+    """:class:`~lnschema_bionty.PublicSource` this tissue associates with."""
     artifacts = models.ManyToManyField("lnschema_core.Artifact", related_name="tissues")
     """Artifacts linked to the tissue."""
     collections = models.ManyToManyField("lnschema_core.Collection", related_name="tissues")
@@ -534,7 +536,7 @@ class Tissue(BioRegistry):
         synonyms: Optional[str],
         description: Optional[str],
         parents: List["Tissue"],
-        bionty_source: Optional["BiontySource"],
+        public_source: Optional["PublicSource"],
     ):
         ...
 
@@ -562,7 +564,7 @@ class CellType(BioRegistry):
         Bulk create CellType records via :class:`~lamindb.dev.Registry.from_values`.
 
     Examples:
-        >>> record = lb.CellType.from_bionty(name="T cell")
+        >>> record = lb.CellType.from_public(name="T cell")
     """
 
     id = models.AutoField(primary_key=True)
@@ -581,8 +583,8 @@ class CellType(BioRegistry):
     """Description of the cell type."""
     parents = models.ManyToManyField("self", symmetrical=False, related_name="children")
     """Parent cell type records."""
-    bionty_source = models.ForeignKey("BiontySource", models.PROTECT, null=True, related_name="cell_types")
-    """:class:`~lnschema_bionty.BiontySource` this cell type associates with."""
+    public_source = models.ForeignKey("PublicSource", models.PROTECT, null=True, related_name="cell_types")
+    """:class:`~lnschema_bionty.PublicSource` this cell type associates with."""
     artifacts = models.ManyToManyField("lnschema_core.Artifact", related_name="cell_types")
     """Artifacts linked to the cell type."""
     collections = models.ManyToManyField("lnschema_core.Collection", related_name="cell_types")
@@ -611,7 +613,7 @@ class CellType(BioRegistry):
         synonyms: Optional[str],
         description: Optional[str],
         parents: List["CellType"],
-        bionty_source: Optional["BiontySource"],
+        public_source: Optional["PublicSource"],
     ):
         ...
 
@@ -639,7 +641,7 @@ class Disease(BioRegistry):
         Bulk create Disease records via :class:`~lamindb.dev.Registry.from_values`.
 
     Examples:
-        >>> record = lb.Disease.from_bionty(name="Alzheimer disease")
+        >>> record = lb.Disease.from_public(name="Alzheimer disease")
     """
 
     id = models.AutoField(primary_key=True)
@@ -658,8 +660,8 @@ class Disease(BioRegistry):
     """Description of the disease."""
     parents = models.ManyToManyField("self", symmetrical=False, related_name="children")
     """Parent disease records."""
-    bionty_source = models.ForeignKey("BiontySource", models.PROTECT, null=True, related_name="diseases")
-    """:class:`~lnschema_bionty.BiontySource` this disease associates with."""
+    public_source = models.ForeignKey("PublicSource", models.PROTECT, null=True, related_name="diseases")
+    """:class:`~lnschema_bionty.PublicSource` this disease associates with."""
     artifacts = models.ManyToManyField("lnschema_core.Artifact", related_name="diseases")
     """Artifacts linked to the disease."""
     collections = models.ManyToManyField("lnschema_core.Collection", related_name="diseases")
@@ -688,7 +690,7 @@ class Disease(BioRegistry):
         synonyms: Optional[str],
         description: Optional[str],
         parents: List["Disease"],
-        bionty_source: Optional["BiontySource"],
+        public_source: Optional["PublicSource"],
     ):
         ...
 
@@ -716,8 +718,8 @@ class CellLine(BioRegistry):
         Bulk create CellLine records via :class:`~lamindb.dev.Registry.from_values`.
 
     Examples:
-        >>> standard_name = lb.CellLine.bionty().standardize(["K562"])[0]
-        >>> record = lb.CellLine.from_bionty(name=standard_name)
+        >>> standard_name = lb.CellLine.public().standardize(["K562"])[0]
+        >>> record = lb.CellLine.from_public(name=standard_name)
     """
 
     id = models.AutoField(primary_key=True)
@@ -736,8 +738,8 @@ class CellLine(BioRegistry):
     """Description of the cell line."""
     parents = models.ManyToManyField("self", symmetrical=False, related_name="children")
     """Parent cell line records."""
-    bionty_source = models.ForeignKey("BiontySource", models.PROTECT, null=True, related_name="cell_lines")
-    """:class:`~lnschema_bionty.BiontySource` this cell line associates with."""
+    public_source = models.ForeignKey("PublicSource", models.PROTECT, null=True, related_name="cell_lines")
+    """:class:`~lnschema_bionty.PublicSource` this cell line associates with."""
     artifacts = models.ManyToManyField("lnschema_core.Artifact", related_name="cell_lines")
     """Artifacts linked to the cell line."""
     collections = models.ManyToManyField("lnschema_core.Collection", related_name="cell_lines")
@@ -766,7 +768,7 @@ class CellLine(BioRegistry):
         synonyms: Optional[str],
         description: Optional[str],
         parents: List["CellLine"],
-        bionty_source: Optional["BiontySource"],
+        public_source: Optional["PublicSource"],
     ):
         ...
 
@@ -797,7 +799,7 @@ class Phenotype(BioRegistry):
         Bulk create Phenotype records via :class:`~lamindb.dev.Registry.from_values`.
 
     Examples:
-        >>> record = lb.Phenotype.from_bionty(name="Arachnodactyly")
+        >>> record = lb.Phenotype.from_public(name="Arachnodactyly")
         >>> record.save()
     """
 
@@ -817,8 +819,8 @@ class Phenotype(BioRegistry):
     """Description of the phenotype."""
     parents = models.ManyToManyField("self", symmetrical=False, related_name="children")
     """Parent phenotype records."""
-    bionty_source = models.ForeignKey("BiontySource", models.PROTECT, null=True, related_name="phenotypes")
-    """:class:`~lnschema_bionty.BiontySource` this phenotype associates with."""
+    public_source = models.ForeignKey("PublicSource", models.PROTECT, null=True, related_name="phenotypes")
+    """:class:`~lnschema_bionty.PublicSource` this phenotype associates with."""
     artifacts = models.ManyToManyField("lnschema_core.Artifact", related_name="phenotypes")
     """Artifacts linked to the phenotype."""
     collections = models.ManyToManyField("lnschema_core.Collection", related_name="phenotypes")
@@ -847,7 +849,7 @@ class Phenotype(BioRegistry):
         synonyms: Optional[str],
         description: Optional[str],
         parents: List["Phenotype"],
-        bionty_source: Optional["BiontySource"],
+        public_source: Optional["PublicSource"],
     ):
         ...
 
@@ -876,7 +878,7 @@ class Pathway(BioRegistry):
         Bulk create Pathway records via :class:`~lamindb.dev.Registry.from_values`.
 
     Examples:
-        >>> record = lb.Pathway.from_bionty(ontology_id="GO:1903353")
+        >>> record = lb.Pathway.from_public(ontology_id="GO:1903353")
         >>> record.save()
     """
 
@@ -896,8 +898,8 @@ class Pathway(BioRegistry):
     """Description of the pathway."""
     parents = models.ManyToManyField("self", symmetrical=False, related_name="children")
     """Parent pathway records."""
-    bionty_source = models.ForeignKey("BiontySource", models.PROTECT, null=True, related_name="pathways")
-    """:class:`~lnschema_bionty.BiontySource` this pathway associates with."""
+    public_source = models.ForeignKey("PublicSource", models.PROTECT, null=True, related_name="pathways")
+    """:class:`~lnschema_bionty.PublicSource` this pathway associates with."""
     genes = models.ManyToManyField("Gene", related_name="pathways")
     """Genes that signifies the pathway."""
     feature_sets = models.ManyToManyField("lnschema_core.FeatureSet", related_name="pathways")
@@ -930,7 +932,7 @@ class Pathway(BioRegistry):
         synonyms: Optional[str],
         description: Optional[str],
         parents: List["Pathway"],
-        bionty_source: Optional["BiontySource"],
+        public_source: Optional["PublicSource"],
     ):
         ...
 
@@ -959,8 +961,8 @@ class ExperimentalFactor(BioRegistry):
         Bulk create ExperimentalFactor records via :class:`~lamindb.dev.Registry.from_values`.
 
     Examples:
-        >>> standard_name = lb.ExperimentalFactor.bionty().standardize(["scRNA-seq"])
-        >>> record = lb.ExperimentalFactor.from_bionty(name=standard_name)
+        >>> standard_name = lb.ExperimentalFactor.public().standardize(["scRNA-seq"])
+        >>> record = lb.ExperimentalFactor.from_public(name=standard_name)
     """
 
     id = models.AutoField(primary_key=True)
@@ -985,8 +987,8 @@ class ExperimentalFactor(BioRegistry):
     """Phenotypic experimental factor, parsed from EFO."""
     parents = models.ManyToManyField("self", symmetrical=False, related_name="children")
     """Parent experimental factor records."""
-    bionty_source = models.ForeignKey("BiontySource", models.PROTECT, null=True, related_name="experimental_factors")
-    """:class:`~lnschema_bionty.BiontySource` this experimental_factors associates with."""
+    public_source = models.ForeignKey("PublicSource", models.PROTECT, null=True, related_name="experimental_factors")
+    """:class:`~lnschema_bionty.PublicSource` this experimental_factors associates with."""
     artifacts = models.ManyToManyField("lnschema_core.Artifact", related_name="experimental_factors")
     """Artifacts linked to the experimental_factors."""
     collections = models.ManyToManyField("lnschema_core.Collection", related_name="experimental_factors")
@@ -1015,7 +1017,7 @@ class ExperimentalFactor(BioRegistry):
         synonyms: Optional[str],
         description: Optional[str],
         parents: List["ExperimentalFactor"],
-        bionty_source: Optional["BiontySource"],
+        public_source: Optional["PublicSource"],
     ):
         ...
 
@@ -1044,7 +1046,7 @@ class DevelopmentalStage(BioRegistry):
         Bulk create DevelopmentalStage records via :class:`~lamindb.dev.Registry.from_values`.
 
     Examples:
-        >>> record = lb.DevelopmentalStage.from_bionty(name="neurula stage")
+        >>> record = lb.DevelopmentalStage.from_public(name="neurula stage")
         >>> record.save()
     """
 
@@ -1064,8 +1066,8 @@ class DevelopmentalStage(BioRegistry):
     """Description of the developmental stage."""
     parents = models.ManyToManyField("self", symmetrical=False, related_name="children")
     """Parent developmental stage records."""
-    bionty_source = models.ForeignKey("BiontySource", models.PROTECT, null=True, related_name="developmental_stages")
-    """:class:`~lnschema_bionty.BiontySource` this developmental stage associates with."""
+    public_source = models.ForeignKey("PublicSource", models.PROTECT, null=True, related_name="developmental_stages")
+    """:class:`~lnschema_bionty.PublicSource` this developmental stage associates with."""
     artifacts = models.ManyToManyField("lnschema_core.Artifact", related_name="developmental_stages")
     """Artifacts linked to the developmental stage."""
     collections = models.ManyToManyField("lnschema_core.Collection", related_name="developmental_stages")
@@ -1094,7 +1096,7 @@ class DevelopmentalStage(BioRegistry):
         synonyms: Optional[str],
         description: Optional[str],
         parents: List["DevelopmentalStage"],
-        bionty_source: Optional["BiontySource"],
+        public_source: Optional["PublicSource"],
     ):
         ...
 
@@ -1122,7 +1124,7 @@ class Ethnicity(BioRegistry):
         Bulk create Ethnicity records via :class:`~lamindb.dev.Registry.from_values`.
 
     Examples:
-        >>> record = lb.Ethnicity.from_bionty(name="European")
+        >>> record = lb.Ethnicity.from_public(name="European")
         >>> record.save()
     """
 
@@ -1142,8 +1144,8 @@ class Ethnicity(BioRegistry):
     """Description of the ethnicity."""
     parents = models.ManyToManyField("self", symmetrical=False, related_name="children")
     """Parent ethnicity records."""
-    bionty_source = models.ForeignKey("BiontySource", models.PROTECT, null=True, related_name="ethnicities")
-    """:class:`~lnschema_bionty.BiontySource` this ethnicity associates with."""
+    public_source = models.ForeignKey("PublicSource", models.PROTECT, null=True, related_name="ethnicities")
+    """:class:`~lnschema_bionty.PublicSource` this ethnicity associates with."""
     artifacts = models.ManyToManyField("lnschema_core.Artifact", related_name="ethnicities")
     """Artifacts linked to the ethnicity."""
     collections = models.ManyToManyField("lnschema_core.Collection", related_name="ethnicities")
@@ -1172,7 +1174,7 @@ class Ethnicity(BioRegistry):
         synonyms: Optional[str],
         description: Optional[str],
         parents: List["Ethnicity"],
-        bionty_source: Optional["BiontySource"],
+        public_source: Optional["PublicSource"],
     ):
         ...
 
@@ -1191,7 +1193,7 @@ class Ethnicity(BioRegistry):
         super(Ethnicity, self).__init__(*args, **kwargs)
 
 
-class BiontySource(Registry):
+class PublicSource(Registry):
     """Versions of public ontologies.
 
     .. warning::
@@ -1201,7 +1203,7 @@ class BiontySource(Registry):
 
     id = models.AutoField(primary_key=True)
     """Internal id, valid only in one DB instance."""
-    uid = models.CharField(unique=True, max_length=8, default=ids.biontysource)
+    uid = models.CharField(unique=True, max_length=8, default=ids.publicsource)
     """A universal id (hash of selected field)."""
     entity = models.CharField(max_length=64, db_index=True)
     """Entity class name."""
@@ -1229,7 +1231,7 @@ class BiontySource(Registry):
         User,
         models.PROTECT,
         default=current_user_id,
-        related_name="created_bionty_sources",
+        related_name="created_public_sources",
     )
     """Creator of record, a :class:`~lamindb.User`."""
 
@@ -1264,8 +1266,9 @@ class BiontySource(Registry):
         **kwargs,
     ):
         kwargs = encode_uid(orm=self, kwargs=kwargs)
-        super(BiontySource, self).__init__(*args, **kwargs)
+        super(PublicSource, self).__init__(*args, **kwargs)
 
 
 # backward compat
 Species = Organism
+BiontySource = PublicSource

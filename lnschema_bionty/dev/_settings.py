@@ -34,7 +34,7 @@ class Settings:
 
         Examples:
             >>> lb.settings.organism = "mouse"
-            ✅ set organism: Organism(id=vado, name=mouse, taxon_id=10090, scientific_name=mus_musculus, updated_at=2023-07-21 11:37:08, bionty_source_id=CXWj, created_by_id=DzTjkKse) # noqa
+            ✅ set organism: Organism(id=vado, name=mouse, taxon_id=10090, scientific_name=mus_musculus, updated_at=2023-07-21 11:37:08, public_source_id=CXWj, created_by_id=DzTjkKse) # noqa
         """
         return self._organism
 
@@ -48,7 +48,7 @@ class Settings:
             # do not show the validated message for organism
             verbosity = ln.settings.verbosity
             ln.settings.verbosity = 1
-            organism = Organism.from_bionty(name=name)
+            organism = Organism.from_public(name=name)
             ln.settings.verbosity = verbosity
             if organism is None:
                 raise ValueError(f"No organism with name='{name}' is found, please create a organism record!")
