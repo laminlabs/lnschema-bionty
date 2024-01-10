@@ -14,7 +14,7 @@ def _encode_uid(orm, kwargs: dict):
 
 
 def forwards_func(apps, schema_editor):
-    """Replace strings in registry and registries."""
+    """Re-encode uids."""
     for model_name in [
         "CellLine",
         "CellMarker",
