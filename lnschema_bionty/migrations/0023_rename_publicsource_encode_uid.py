@@ -5,7 +5,7 @@ import lnschema_core.users
 from django.db import IntegrityError, migrations, models, transaction
 
 
-def _encode_uid(orm, kwargs: dict):
+def _encode_uid(orm, kwargs: dict) -> str:
     from lnschema_bionty._bionty import encode_uid
 
     uid = kwargs.pop("uid")
@@ -30,14 +30,16 @@ def forwards_func(apps, schema_editor):
         "Protein",
         "Tissue",
     ]:
+        print(f"Re-encoding uids for {model_name}")
         model = apps.get_model("lnschema_bionty", model_name)
         db_alias = schema_editor.connection.alias
         # see https://stackoverflow.com/a/23326971
         try:
             with transaction.atomic():
-                for record in model.objects.using(db_alias).all():
+                records = model.objects.using(db_alias).all()
+                for record in records:
                     record.uid = _encode_uid(model, record.__dict__)
-                    record.save()
+                model.objects.using(db_alias).bulk_update(records, ["uid"])
         except IntegrityError:
             pass
 
