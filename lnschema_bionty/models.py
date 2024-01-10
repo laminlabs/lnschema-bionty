@@ -10,7 +10,7 @@ from lnschema_core.users import current_user_id
 from . import ids
 from ._bionty import encode_uid, lookup2kwargs
 
-ReferenceTable: TypeAlias = bt.Bionty
+PublicOntology: TypeAlias = bt.Bionty
 
 
 class BioRegistry(Registry, HasParents, CanValidate):
@@ -87,7 +87,7 @@ class BioRegistry(Registry, HasParents, CanValidate):
         organism: Optional[Union[str, Registry]] = None,
         public_source: Optional["PublicSource"] = None,
         **kwargs,
-    ) -> "ReferenceTable":
+    ) -> "PublicOntology":
         """The corresponding Bionty object.
 
         e.g. lnschema_bionty.CellType.public() is equivalent to bionty.CellType().
