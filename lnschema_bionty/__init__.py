@@ -79,7 +79,7 @@ Developer API:
    dev
 """
 
-__version__ = "0.37.2"  # Denote a release candidate of version 0.1.0 with 0.1rc1
+__version__ = "0.38.0"  # Denote a release candidate of version 0.1.0 with 0.1rc1
 
 from lamindb_setup import _check_instance_setup
 
