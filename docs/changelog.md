@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
+🚑️ Re-encode PublicSource | [212](https://github.com/laminlabs/lnschema-bionty/pull/212) | [sunnyosun](https://github.com/sunnyosun) | 2024-01-10 |
 🔊 Remove logging | [211](https://github.com/laminlabs/lnschema-bionty/pull/211) | [sunnyosun](https://github.com/sunnyosun) | 2024-01-10 | 0.38.2
 ⚡️ Speed up previous migration | [210](https://github.com/laminlabs/lnschema-bionty/pull/210) | [sunnyosun](https://github.com/sunnyosun) | 2024-01-10 | 0.38.1
 🎨 Encode uid with ontology_id | [209](https://github.com/laminlabs/lnschema-bionty/pull/209) | [sunnyosun](https://github.com/sunnyosun) | 2024-01-10 | 0.38.0
