@@ -30,7 +30,6 @@ def forwards_func(apps, schema_editor):
         "Protein",
         "Tissue",
     ]:
-        print(f"Re-encoding uids for {model_name}")
         model = apps.get_model("lnschema_bionty", model_name)
         db_alias = schema_editor.connection.alias
         # see https://stackoverflow.com/a/23326971
