@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
+⚡️ Speed up previous migration | [210](https://github.com/laminlabs/lnschema-bionty/pull/210) | [sunnyosun](https://github.com/sunnyosun) | 2024-01-10 |
 🎨 Encode uid with ontology_id | [209](https://github.com/laminlabs/lnschema-bionty/pull/209) | [sunnyosun](https://github.com/sunnyosun) | 2024-01-10 | 0.38.0
 🚚 Rename .bionty to .public | [208](https://github.com/laminlabs/lnschema-bionty/pull/208) | [sunnyosun](https://github.com/sunnyosun) | 2024-01-09 |
 🐛 Fix .bionty for global organism | [207](https://github.com/laminlabs/lnschema-bionty/pull/207) | [sunnyosun](https://github.com/sunnyosun) | 2024-01-08 |
