@@ -29,6 +29,7 @@ def forwards_func(apps, schema_editor):
         "Phenotype",
         "Protein",
         "Tissue",
+        "PublicSource",
     ]:
         model = apps.get_model("lnschema_bionty", model_name)
         db_alias = schema_editor.connection.alias
