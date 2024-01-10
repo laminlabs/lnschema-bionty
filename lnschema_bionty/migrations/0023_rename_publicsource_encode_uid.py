@@ -2,7 +2,48 @@
 
 import django.db.models.deletion
 import lnschema_core.users
-from django.db import migrations, models
+from django.db import IntegrityError, migrations, models, transaction
+
+
+def _encode_uid(orm, kwargs: dict):
+    from lnschema_bionty._bionty import encode_uid
+
+    uid = kwargs.pop("uid")
+    encoded = encode_uid(orm, kwargs)
+    return encoded.get("uid", uid)
+
+
+def forwards_func(apps, schema_editor):
+    """Re-encode uids."""
+    for model_name in [
+        "CellLine",
+        "CellMarker",
+        "CellType",
+        "DevelopmentalStage",
+        "Disease",
+        "Ethnicity",
+        "ExperimentalFactor",
+        "Gene",
+        "Organism",
+        "Pathway",
+        "Phenotype",
+        "Protein",
+        "Tissue",
+    ]:
+        model = apps.get_model("lnschema_bionty", model_name)
+        db_alias = schema_editor.connection.alias
+        # see https://stackoverflow.com/a/23326971
+        try:
+            with transaction.atomic():
+                for record in model.objects.using(db_alias).all():
+                    record.uid = _encode_uid(model, record.__dict__)
+                    record.save()
+        except IntegrityError:
+            pass
+
+
+def reverse_func(apps, schema_editor):
+    pass
 
 
 class Migration(migrations.Migration):
@@ -91,4 +132,5 @@ class Migration(migrations.Migration):
             old_name="bionty_source",
             new_name="public_source",
         ),
+        migrations.RunPython(forwards_func, reverse_func),
     ]

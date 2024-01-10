@@ -14,31 +14,24 @@ Entity-related generators:
 
 """
 
-import base64
 import hashlib
 from typing import Optional
 
 from lnschema_core.ids import base62
 
 
-# same function exists in lamindb
-def to_b64_str(bstr: bytes) -> str:
-    b64 = base64.urlsafe_b64encode(bstr).decode().strip("=")
-    return b64
-
-
-# very similar function exists in lamindb
 def hash_str(s: str) -> str:
-    bstr = s.encode("utf-8")
+    from lamin_utils._base62 import encodebytes
+
     # as we're truncating at a short length, we choose md5 over sha512
-    return to_b64_str(hashlib.md5(bstr).digest())
+    return encodebytes(hashlib.md5(s.encode()).digest())
 
 
 def hash_id(input_id: Optional[str] = None, *, n_char: int) -> str:
     if input_id is None:
         return base62(n_char=n_char)
     else:
-        return hash_str(input_id)[:n_char].replace("_", "0").replace("-", "0")
+        return hash_str(input_id)[:n_char]
 
 
 def gene(input_id: Optional[str] = None) -> str:
