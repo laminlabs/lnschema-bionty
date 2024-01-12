@@ -1,7 +1,8 @@
-from typing import List, Optional, Tuple, TypeAlias, Union, overload  # noqa
+from typing import List, Optional, Tuple, Union, overload  # noqa
 
 import bionty as bt
 import numpy as np
+from bionty import PublicOntology
 from django.db import models
 from lamin_utils import logger
 from lnschema_core.models import CanValidate, HasParents, Registry, User
@@ -9,8 +10,6 @@ from lnschema_core.users import current_user_id
 
 from . import ids
 from ._bionty import encode_uid, lookup2kwargs
-
-PublicOntology: TypeAlias = bt.Bionty
 
 
 class BioRegistry(Registry, HasParents, CanValidate):
@@ -88,28 +87,28 @@ class BioRegistry(Registry, HasParents, CanValidate):
         public_source: Optional["PublicSource"] = None,
         **kwargs,
     ) -> "PublicOntology":
-        """The corresponding Bionty object.
+        """The corresponding PublicOntology object.
 
-        e.g. lnschema_bionty.CellType.public() is equivalent to bionty.CellType().
         Note that the public source is auto-configured and tracked via :meth:`lnschema_bionty.PublicSource`.
 
         See Also:
-            `Bionty <https://lamin.ai/docs/public-ontologies>`__
+            `PublicOntology <https://lamin.ai/docs/public-ontologies>`__
 
         Examples:
             >>> celltype_pub = lb.CellType.public()
             >>> celltype_pub
-            CellType
+            PublicOntology
+            Entity: CellType
             Organism: all
             Source: cl, 2023-04-20
             #terms: 2698
             ...
-            📖 CellType.df(): ontology reference table
-            🔎 CellType.lookup(): autocompletion of terms
-            🎯 CellType.search(): free text search of terms
-            🧐 CellType.inspect(): check if identifiers are mappable
-            👽 CellType.standardize(): map synonyms to standardized names
-            🔗 CellType.ontology: Pronto.Ontology object
+            📖 .df(): ontology reference table
+            🔎 .lookup(): autocompletion of terms
+            🎯 .search(): free text search of terms
+            🧐 .inspect(): check if identifiers are mappable
+            👽 .standardize(): map synonyms to standardized names
+            🔗 .to_pronto(): Pronto.Ontology object
         """
         if cls.__module__.startswith("lnschema_bionty."):
             # backward compat with renaming species to organism
@@ -129,9 +128,8 @@ class BioRegistry(Registry, HasParents, CanValidate):
                     organism = organism if lb.settings.organism is None else lb.settings.organism.name
                 source = None
                 version = None
-            bionty_object = getattr(bt, cls.__name__)(organism=organism, source=source, version=version)
 
-            return bionty_object
+            return getattr(bt, cls.__name__)(organism=organism, source=source, version=version)
 
     @classmethod
     def from_public(cls, **kwargs) -> Optional[Union["BioRegistry", List["BioRegistry"]]]:
