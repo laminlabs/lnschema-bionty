@@ -66,36 +66,36 @@ def encode_uid(orm: Registry, kwargs: dict):
     except AttributeError:
         name = orm.__class__.__name__.lower()
     ontology = False
-    str_to_encode = ""
+    str_to_encode = None
     if name == "gene":
-        str_to_encode = kwargs.get("ensembl_gene_id", "")
-        if str_to_encode == "":
-            str_to_encode = kwargs.get("stable_id", "")
-        if str_to_encode == "":
-            str_to_encode = kwargs.get("symbol", "")
-        if str_to_encode == "":
+        str_to_encode = kwargs.get("ensembl_gene_id")
+        if str_to_encode is None or str_to_encode == "":
+            str_to_encode = kwargs.get("stable_id")
+        if str_to_encode is None or str_to_encode == "":
+            str_to_encode = kwargs.get("symbol")
+        if str_to_encode is None or str_to_encode == "":
             raise AssertionError("must provide ensembl_gene_id, stable_id or symbol")
     elif name == "protein":
-        str_to_encode = kwargs.get("uniprotkb_id", "")
-        if str_to_encode == "":
-            str_to_encode = kwargs.get("name", "")
-        if str_to_encode == "":
+        str_to_encode = kwargs.get("uniprotkb_id")
+        if str_to_encode is None or str_to_encode == "":
+            str_to_encode = kwargs.get("name")
+        if str_to_encode is None or str_to_encode == "":
             raise AssertionError("must provide uniprotkb_id or name")
     elif name == "cellmarker":
-        str_to_encode = kwargs.get("name", "")
-        if str_to_encode == "":
+        str_to_encode = kwargs.get("name")
+        if str_to_encode is None or str_to_encode == "":
             raise AssertionError("must provide name")
     elif name == "publicsource":
         str_to_encode = f'{kwargs.get("entity", "")}{kwargs.get("source", "")}{kwargs.get("organism", "")}{kwargs.get("version", "")}'  # noqa
     else:
-        str_to_encode = kwargs.get("ontology_id", "")
-        if str_to_encode == "":
-            str_to_encode = kwargs.get("name", "")
-        if str_to_encode == "":
+        str_to_encode = kwargs.get("ontology_id")
+        if str_to_encode is None or str_to_encode == "":
+            str_to_encode = kwargs.get("name")
+        if str_to_encode is None or str_to_encode == "":
             raise AssertionError("must provide ontology_id or name")
         ontology = True
 
-    if len(str_to_encode) > 0:
+    if str_to_encode is not None and len(str_to_encode) > 0:
         if ontology:
             id_encoder = ids.ontology
         else:
