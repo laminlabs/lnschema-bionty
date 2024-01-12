@@ -44,12 +44,12 @@ def create_or_get_organism_record(organism: Optional[Union[str, Registry]], orm:
     return organism_record
 
 
-def get_public_source_record(bionty_object: bt.Bionty):
+def get_public_source_record(public_ontology: bt.PublicOntology):
     kwargs = dict(
-        entity=bionty_object.__class__.__name__,
-        organism=bionty_object.organism,
-        source=bionty_object.source,
-        version=bionty_object.version,
+        entity=public_ontology.__class__.__name__,
+        organism=public_ontology.organism,
+        source=public_ontology.source,
+        version=public_ontology.version,
     )
     from .models import PublicSource
 
@@ -122,8 +122,8 @@ def lookup2kwargs(orm: Registry, *args, **kwargs) -> Dict:
         organism_record = create_or_get_organism_record(orm=orm.__class__, organism=kwargs.get("organism"))
         if organism_record is not None:
             bionty_kwargs["organism"] = organism_record
-        bionty_object = getattr(bt, orm.__class__.__name__)(organism=organism_record.name if organism_record is not None else None)
-        bionty_kwargs["public_source"] = get_public_source_record(bionty_object)
+        public_ontology = getattr(bt, orm.__class__.__name__)(organism=organism_record.name if organism_record is not None else None)
+        bionty_kwargs["public_source"] = get_public_source_record(public_ontology)
 
         model_field_names = {i.name for i in orm._meta.fields}
         model_field_names.add("parents")
