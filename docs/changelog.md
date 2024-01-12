@@ -3,7 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
-✏️ Fix encoding | [213](https://github.com/laminlabs/lnschema-bionty/pull/213) | [sunnyosun](https://github.com/sunnyosun) | 2024-01-12 |
+✏️ Fix encoding | [213](https://github.com/laminlabs/lnschema-bionty/pull/213) | [sunnyosun](https://github.com/sunnyosun) | 2024-01-12 | 0.38.4
 🚑️ Re-encode PublicSource | [212](https://github.com/laminlabs/lnschema-bionty/pull/212) | [sunnyosun](https://github.com/sunnyosun) | 2024-01-10 | 0.38.3
 🔊 Remove logging | [211](https://github.com/laminlabs/lnschema-bionty/pull/211) | [sunnyosun](https://github.com/sunnyosun) | 2024-01-10 | 0.38.2
 ⚡️ Speed up previous migration | [210](https://github.com/laminlabs/lnschema-bionty/pull/210) | [sunnyosun](https://github.com/sunnyosun) | 2024-01-10 | 0.38.1
