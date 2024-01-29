@@ -1,12 +1,13 @@
 from typing import List, Optional, Tuple, Union, overload  # noqa
 
-import bionty as bt
+import bionty_base
 import numpy as np
-from bionty import PublicOntology
 from django.db import models
 from lamin_utils import logger
 from lnschema_core.models import CanValidate, HasParents, Registry, User
 from lnschema_core.users import current_user_id
+
+from bionty import PublicOntology
 
 from . import ids
 from ._bionty import encode_uid, lookup2kwargs
@@ -129,7 +130,7 @@ class BioRegistry(Registry, HasParents, CanValidate):
                 source = None
                 version = None
 
-            return getattr(bt, cls.__name__)(organism=organism, source=source, version=version)
+            return getattr(bionty_base, cls.__name__)(organism=organism, source=source, version=version)
 
     @classmethod
     def from_public(cls, **kwargs) -> Optional[Union["BioRegistry", List["BioRegistry"]]]:
