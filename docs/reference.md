@@ -1,5 +1,5 @@
 # Reference
 
 ```{eval-rst}
-.. automodule:: lnschema_bionty
+.. automodule:: bionty
 ```

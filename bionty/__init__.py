@@ -16,7 +16,7 @@ All registries inherit from :class:`~lamindb.dev.CanValidate` &
 
    It's important to track versions of external data dependencies.
 
-   `lnschema_bionty` manages it under the hood:
+   `bionty` manages it under the hood:
 
    - Versions of public databases are auto-tracked in :class:`PublicSource`.
    - Records are indexed by universal ids, created by hashing `name` & `ontology_id` for portability across databases.
@@ -29,14 +29,14 @@ All registries inherit from :class:`~lamindb.dev.CanValidate` &
    - :doc:`/validate`
 
    For more background on how public ontologies are accessed, see the utility
-   library `Bionty <https://lamin.ai/docs/bionty>`__.
+   library `Bionty-base <https://lamin.ai/docs/bionty-base>`__.
 
 API
 ===
 
 Import the package::
 
-   import lnschema_bionty as lb
+   import bionty as bt
 
 Basic biological registries:
 
@@ -70,6 +70,7 @@ Public ontology versions:
    :toctree: .
 
    PublicSource
+   display_available_sources
 
 Developer API:
 
@@ -84,6 +85,7 @@ __version__ = "0.39.0"  # Denote a release candidate of version 0.1.0 with 0.1rc
 from lamindb_setup import _check_instance_setup
 
 from . import ids
+from ._bionty import display_available_sources
 
 
 # trigger instance loading if users

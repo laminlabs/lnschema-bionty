@@ -3,9 +3,8 @@
 from pathlib import Path
 
 import lamindb_setup as ln_setup
-from django.db import migrations
-
 import lnschema_bionty.models
+from django.db import migrations
 
 CORE_MODELS = {
     "BiontySource": False,  # add this first

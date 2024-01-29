@@ -1,6 +1,6 @@
 from typing import Dict, Optional, Union
 
-import bionty as bt
+import bionty_base
 from django.core.exceptions import ObjectDoesNotExist
 from lamin_utils import logger
 from lnschema_core.models import Registry  # TODO: import Registry instead of ORM
@@ -32,7 +32,7 @@ def create_or_get_organism_record(organism: Optional[Union[str, Registry]], orm:
                     # create a organism record from bionty reference
                     organism_record = Organism.from_public(name=organism)
                     # link the organism record to the default bionty source
-                    organism_record.public_source = get_public_source_record(bt.Organism())  # type:ignore
+                    organism_record.public_source = get_public_source_record(bionty_base.Organism())  # type:ignore
                     organism_record.save()  # type:ignore
                 except KeyError:
                     # no such organism is found in bionty reference
@@ -44,7 +44,7 @@ def create_or_get_organism_record(organism: Optional[Union[str, Registry]], orm:
     return organism_record
 
 
-def get_public_source_record(public_ontology: bt.PublicOntology):
+def get_public_source_record(public_ontology: bionty_base.PublicOntology):
     kwargs = dict(
         entity=public_ontology.__class__.__name__,
         organism=public_ontology.organism,
@@ -130,6 +130,9 @@ def lookup2kwargs(orm: Registry, *args, **kwargs) -> Dict:
         bionty_kwargs = {k: v for k, v in bionty_kwargs.items() if k in model_field_names}
     return encode_uid(orm=orm, kwargs=bionty_kwargs)
 
+
+# functions from bionty_base
+display_available_sources = bionty_base.display_available_sources
 
 # backward compat
 create_or_get_species_record = create_or_get_organism_record

@@ -6,6 +6,9 @@ testdb/
 lnschema_bionty/alembic.ini
 lnschema_bionty/migrations/env.py
 lnschema_bionty/migrations/script.py.mako
+bionty/alembic.ini
+bionty/migrations/env.py
+bionty/migrations/script.py.mako
 
 # macOS
 .DS_Store

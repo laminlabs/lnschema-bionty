@@ -3,10 +3,9 @@
 from pathlib import Path
 
 import lamindb_setup as ln_setup
+import lnschema_bionty.models
 import pandas as pd
 from django.db import migrations
-
-import lnschema_bionty.models
 
 CORE_MODELS = {
     "Species": False,
