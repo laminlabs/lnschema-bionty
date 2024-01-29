@@ -2,12 +2,11 @@ from typing import List, Optional, Tuple, Union, overload  # noqa
 
 import bionty_base
 import numpy as np
+from bionty_base import PublicOntology
 from django.db import models
 from lamin_utils import logger
 from lnschema_core.models import CanValidate, HasParents, Registry, User
 from lnschema_core.users import current_user_id
-
-from bionty import PublicOntology
 
 from . import ids
 from ._bionty import encode_uid, lookup2kwargs
