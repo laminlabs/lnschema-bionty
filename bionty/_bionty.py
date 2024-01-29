@@ -22,7 +22,7 @@ def create_or_get_organism_record(organism: Optional[Union[str, Registry]], orm:
         if isinstance(organism, Registry):
             organism_record = organism
         elif isinstance(organism, str):
-            from lnschema_bionty import Organism
+            from bionty import Organism
 
             try:
                 # existing organism record

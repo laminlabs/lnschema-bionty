@@ -5,7 +5,7 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
     dependencies = [
-        ("lnschema_bionty", "0001_initial"),
+        ("bionty", "0001_initial"),
     ]
 
     operations = [

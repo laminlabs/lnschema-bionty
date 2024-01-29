@@ -6,7 +6,7 @@ from django.db import IntegrityError, migrations, models, transaction
 
 def forwards_func(apps, schema_editor):
     """Drop duplicated ensembl_gene_ids."""
-    Gene = apps.get_model("lnschema_bionty", "Gene")
+    Gene = apps.get_model("bionty", "Gene")
     db_alias = schema_editor.connection.alias
     # see https://stackoverflow.com/a/23326971
     try:
@@ -28,7 +28,7 @@ def reverse_func(apps, schema_editor):
 
 class Migration(migrations.Migration):
     dependencies = [
-        ("lnschema_bionty", "0007_rename_readout_experimental_factor"),
+        ("bionty", "0007_rename_readout_experimental_factor"),
     ]
 
     operations = [

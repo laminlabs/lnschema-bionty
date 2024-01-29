@@ -5,7 +5,7 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
     dependencies = [
-        ("lnschema_bionty", "0004_alter_cellline_bionty_source_and_more"),
+        ("bionty", "0004_alter_cellline_bionty_source_and_more"),
     ]
 
     operations = [
@@ -102,36 +102,36 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="cellline",
             name="parents",
-            field=models.ManyToManyField(related_name="children", to="lnschema_bionty.cellline"),
+            field=models.ManyToManyField(related_name="children", to="bionty.cellline"),
         ),
         migrations.AddField(
             model_name="celltype",
             name="parents",
-            field=models.ManyToManyField(related_name="children", to="lnschema_bionty.celltype"),
+            field=models.ManyToManyField(related_name="children", to="bionty.celltype"),
         ),
         migrations.AddField(
             model_name="disease",
             name="parents",
-            field=models.ManyToManyField(related_name="children", to="lnschema_bionty.disease"),
+            field=models.ManyToManyField(related_name="children", to="bionty.disease"),
         ),
         migrations.AddField(
             model_name="pathway",
             name="parents",
-            field=models.ManyToManyField(related_name="children", to="lnschema_bionty.pathway"),
+            field=models.ManyToManyField(related_name="children", to="bionty.pathway"),
         ),
         migrations.AddField(
             model_name="phenotype",
             name="parents",
-            field=models.ManyToManyField(related_name="children", to="lnschema_bionty.phenotype"),
+            field=models.ManyToManyField(related_name="children", to="bionty.phenotype"),
         ),
         migrations.AddField(
             model_name="readout",
             name="parents",
-            field=models.ManyToManyField(related_name="children", to="lnschema_bionty.readout"),
+            field=models.ManyToManyField(related_name="children", to="bionty.readout"),
         ),
         migrations.AddField(
             model_name="tissue",
             name="parents",
-            field=models.ManyToManyField(related_name="children", to="lnschema_bionty.tissue"),
+            field=models.ManyToManyField(related_name="children", to="bionty.tissue"),
         ),
     ]

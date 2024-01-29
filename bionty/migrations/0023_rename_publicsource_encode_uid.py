@@ -6,7 +6,7 @@ from django.db import IntegrityError, migrations, models, transaction
 
 
 def _encode_uid(orm, kwargs: dict) -> str:
-    from lnschema_bionty._bionty import encode_uid
+    from bionty._bionty import encode_uid
 
     uid = kwargs.pop("uid")
     encoded = encode_uid(orm, kwargs)
@@ -31,7 +31,7 @@ def forwards_func(apps, schema_editor):
         "Tissue",
         "PublicSource",
     ]:
-        model = apps.get_model("lnschema_bionty", model_name)
+        model = apps.get_model("bionty", model_name)
         db_alias = schema_editor.connection.alias
         # see https://stackoverflow.com/a/23326971
         try:
@@ -54,7 +54,7 @@ class Migration(migrations.Migration):
             "lnschema_core",
             "0039_remove_collection_artifacts_collectionartifact_and_more",
         ),
-        ("lnschema_bionty", "0022_rename_datasets_cellline_collections_and_more"),
+        ("bionty", "0022_rename_datasets_cellline_collections_and_more"),
     ]
 
     operations = [

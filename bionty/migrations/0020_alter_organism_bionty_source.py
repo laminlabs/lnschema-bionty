@@ -6,7 +6,7 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
     dependencies = [
-        ("lnschema_bionty", "0019_rename_taxon_id_organism_ontology_id_and_more"),
+        ("bionty", "0019_rename_taxon_id_organism_ontology_id_and_more"),
     ]
 
     operations = [
@@ -17,7 +17,7 @@ class Migration(migrations.Migration):
                 null=True,
                 on_delete=django.db.models.deletion.PROTECT,
                 related_name="organisms",
-                to="lnschema_bionty.biontysource",
+                to="bionty.biontysource",
             ),
         ),
     ]

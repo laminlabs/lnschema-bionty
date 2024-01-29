@@ -5,7 +5,7 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
     dependencies = [
-        ("lnschema_bionty", "0002_rename_gene_type_gene_biotype_and_more"),
+        ("bionty", "0002_rename_gene_type_gene_biotype_and_more"),
     ]
 
     operations = [

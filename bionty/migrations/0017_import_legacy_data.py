@@ -3,8 +3,9 @@
 from pathlib import Path
 
 import lamindb_setup as ln_setup
-import lnschema_bionty.models
 from django.db import migrations
+
+import bionty.models
 
 CORE_MODELS = {
     "BiontySource": False,  # add this first
@@ -46,7 +47,7 @@ def import_db(apps, schema_editor):
             if ln_setup.settings.instance.dialect == "postgresql":
                 connection.execute("SET CONSTRAINTS ALL DEFERRED;")
             for model_name in CORE_MODELS.keys():
-                registry = getattr(lnschema_bionty.models, model_name)
+                registry = getattr(bionty.models, model_name)
                 import_registry(registry, directory, connection)
                 many_to_many_names = [field.name for field in registry._meta.many_to_many]
                 for many_to_many_name in many_to_many_names:
@@ -56,7 +57,7 @@ def import_db(apps, schema_editor):
 
 class Migration(migrations.Migration):
     dependencies = [
-        ("lnschema_bionty", "0001_initial_squashed_0016"),
+        ("bionty", "0001_initial_squashed_0016"),
         ("lnschema_core", "0024_import_legacy_data"),
     ]
 

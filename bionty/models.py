@@ -13,10 +13,10 @@ from ._bionty import encode_uid, lookup2kwargs
 
 
 class BioRegistry(Registry, HasParents, CanValidate):
-    """Base Registry of lnschema_bionty.
+    """Base Registry of bionty.
 
     BioRegistry inherits all methods from :class:`~lamindb.dev.Registry` and provides additional methods
-    including :meth:`~lnschema_bionty.dev.BioRegistry.public` and :meth:`~lnschema_bionty.dev.BioRegistry.from_public`.
+    including :meth:`~bionty.dev.BioRegistry.public` and :meth:`~bionty.dev.BioRegistry.from_public`.
 
     Notes:
         For more info, see tutorials:
@@ -57,7 +57,7 @@ class BioRegistry(Registry, HasParents, CanValidate):
         # raise error if no organism is passed
         if hasattr(self.__class__, "organism_id"):
             if kwargs.get("organism") is None and kwargs.get("organism_id") is None:
-                import lnschema_bionty as lb
+                import bionty as lb
 
                 if lb.settings.organism is not None:
                     kwargs["organism"] = lb.settings.organism
@@ -65,7 +65,7 @@ class BioRegistry(Registry, HasParents, CanValidate):
                     raise RuntimeError("please pass a organism!")
             elif kwargs.get("organism") is not None:
                 if not isinstance(kwargs.get("organism"), Organism):
-                    raise TypeError("organism must be a `lnschema_bionty.Organism` record")
+                    raise TypeError("organism must be a `bionty.Organism` record")
 
         # now continue with the user-facing constructor
         # set the direct parents as a private attribute
@@ -89,7 +89,7 @@ class BioRegistry(Registry, HasParents, CanValidate):
     ) -> "PublicOntology":
         """The corresponding PublicOntology object.
 
-        Note that the public source is auto-configured and tracked via :meth:`lnschema_bionty.PublicSource`.
+        Note that the public source is auto-configured and tracked via :meth:`bionty.PublicSource`.
 
         See Also:
             `PublicOntology <https://lamin.ai/docs/public-ontologies>`__
@@ -110,7 +110,7 @@ class BioRegistry(Registry, HasParents, CanValidate):
             👽 .standardize(): map synonyms to standardized names
             🔗 .to_pronto(): Pronto.Ontology object
         """
-        if cls.__module__.startswith("lnschema_bionty."):
+        if cls.__module__.startswith("bionty."):
             # backward compat with renaming species to organism
             if organism is None and kwargs.get("species") is not None:
                 organism = kwargs.get("species")
@@ -122,7 +122,7 @@ class BioRegistry(Registry, HasParents, CanValidate):
                 source = public_source.source
                 version = public_source.version
             else:
-                import lnschema_bionty as lb
+                import bionty as lb
 
                 if hasattr(cls, "organism_id"):
                     organism = organism if lb.settings.organism is None else lb.settings.organism.name
@@ -216,7 +216,7 @@ class Organism(BioRegistry):
     parents = models.ManyToManyField("self", symmetrical=False, related_name="children")
     """Parent organism records."""
     public_source = models.ForeignKey("PublicSource", models.PROTECT, null=True, related_name="organisms")
-    """:class:`~lnschema_bionty.PublicSource` this record associates with."""
+    """:class:`~bionty.PublicSource` this record associates with."""
     artifacts = models.ManyToManyField("lnschema_core.Artifact", related_name="organism")
     """Artifacts linked to the organism."""
     collections = models.ManyToManyField("lnschema_core.Collection", related_name="organism")
@@ -283,9 +283,9 @@ class Gene(BioRegistry):
     synonyms = models.TextField(null=True, default=None)
     """Bar-separated (|) synonyms that correspond to this gene."""
     organism = models.ForeignKey(Organism, models.PROTECT, default=None, related_name="genes")
-    """:class:`~lnschema_bionty.Organism` this gene associates with."""
+    """:class:`~bionty.Organism` this gene associates with."""
     public_source = models.ForeignKey("PublicSource", models.PROTECT, null=True, related_name="genes")
-    """:class:`~lnschema_bionty.PublicSource` this gene associates with."""
+    """:class:`~bionty.PublicSource` this gene associates with."""
     artifacts = models.ManyToManyField("lnschema_core.Artifact", related_name="genes")
     """Artifacts linked to the gene."""
     collections = models.ManyToManyField("lnschema_core.Collection", related_name="genes")
@@ -357,9 +357,9 @@ class Protein(BioRegistry):
     ensembl_gene_ids = models.TextField(null=True, default=None)
     """Bar-separated (|) Ensembl Gene IDs that correspond to this protein."""
     organism = models.ForeignKey(Organism, models.PROTECT, default=None, related_name="proteins")
-    """:class:`~lnschema_bionty.Organism` this protein associates with."""
+    """:class:`~bionty.Organism` this protein associates with."""
     public_source = models.ForeignKey("PublicSource", models.PROTECT, null=True, related_name="proteins")
-    """:class:`~lnschema_bionty.PublicSource` this protein associates with."""
+    """:class:`~bionty.PublicSource` this protein associates with."""
     artifacts = models.ManyToManyField("lnschema_core.Artifact", related_name="proteins")
     """Artifacts linked to the protein."""
     collections = models.ManyToManyField("lnschema_core.Collection", related_name="proteins")
@@ -432,9 +432,9 @@ class CellMarker(BioRegistry):
     uniprotkb_id = models.CharField(max_length=10, db_index=True, null=True, default=None)
     """Uniprotkb id that corresponds to this cell marker."""
     organism = models.ForeignKey(Organism, models.PROTECT, default=None, related_name="cell_markers")
-    """:class:`~lnschema_bionty.Organism` this cell marker associates with."""
+    """:class:`~bionty.Organism` this cell marker associates with."""
     public_source = models.ForeignKey("PublicSource", models.PROTECT, null=True, related_name="cell_markers")
-    """:class:`~lnschema_bionty.PublicSource` this cell marker associates with."""
+    """:class:`~bionty.PublicSource` this cell marker associates with."""
     artifacts = models.ManyToManyField("lnschema_core.Artifact", related_name="cell_markers")
     """Artifacts linked to the cell marker."""
     collections = models.ManyToManyField("lnschema_core.Collection", related_name="cell_markers")
@@ -510,7 +510,7 @@ class Tissue(BioRegistry):
     parents = models.ManyToManyField("self", symmetrical=False, related_name="children")
     """Parent tissues records."""
     public_source = models.ForeignKey("PublicSource", models.PROTECT, null=True, related_name="tissues")
-    """:class:`~lnschema_bionty.PublicSource` this tissue associates with."""
+    """:class:`~bionty.PublicSource` this tissue associates with."""
     artifacts = models.ManyToManyField("lnschema_core.Artifact", related_name="tissues")
     """Artifacts linked to the tissue."""
     collections = models.ManyToManyField("lnschema_core.Collection", related_name="tissues")
@@ -582,7 +582,7 @@ class CellType(BioRegistry):
     parents = models.ManyToManyField("self", symmetrical=False, related_name="children")
     """Parent cell type records."""
     public_source = models.ForeignKey("PublicSource", models.PROTECT, null=True, related_name="cell_types")
-    """:class:`~lnschema_bionty.PublicSource` this cell type associates with."""
+    """:class:`~bionty.PublicSource` this cell type associates with."""
     artifacts = models.ManyToManyField("lnschema_core.Artifact", related_name="cell_types")
     """Artifacts linked to the cell type."""
     collections = models.ManyToManyField("lnschema_core.Collection", related_name="cell_types")
@@ -659,7 +659,7 @@ class Disease(BioRegistry):
     parents = models.ManyToManyField("self", symmetrical=False, related_name="children")
     """Parent disease records."""
     public_source = models.ForeignKey("PublicSource", models.PROTECT, null=True, related_name="diseases")
-    """:class:`~lnschema_bionty.PublicSource` this disease associates with."""
+    """:class:`~bionty.PublicSource` this disease associates with."""
     artifacts = models.ManyToManyField("lnschema_core.Artifact", related_name="diseases")
     """Artifacts linked to the disease."""
     collections = models.ManyToManyField("lnschema_core.Collection", related_name="diseases")
@@ -737,7 +737,7 @@ class CellLine(BioRegistry):
     parents = models.ManyToManyField("self", symmetrical=False, related_name="children")
     """Parent cell line records."""
     public_source = models.ForeignKey("PublicSource", models.PROTECT, null=True, related_name="cell_lines")
-    """:class:`~lnschema_bionty.PublicSource` this cell line associates with."""
+    """:class:`~bionty.PublicSource` this cell line associates with."""
     artifacts = models.ManyToManyField("lnschema_core.Artifact", related_name="cell_lines")
     """Artifacts linked to the cell line."""
     collections = models.ManyToManyField("lnschema_core.Collection", related_name="cell_lines")
@@ -818,7 +818,7 @@ class Phenotype(BioRegistry):
     parents = models.ManyToManyField("self", symmetrical=False, related_name="children")
     """Parent phenotype records."""
     public_source = models.ForeignKey("PublicSource", models.PROTECT, null=True, related_name="phenotypes")
-    """:class:`~lnschema_bionty.PublicSource` this phenotype associates with."""
+    """:class:`~bionty.PublicSource` this phenotype associates with."""
     artifacts = models.ManyToManyField("lnschema_core.Artifact", related_name="phenotypes")
     """Artifacts linked to the phenotype."""
     collections = models.ManyToManyField("lnschema_core.Collection", related_name="phenotypes")
@@ -897,7 +897,7 @@ class Pathway(BioRegistry):
     parents = models.ManyToManyField("self", symmetrical=False, related_name="children")
     """Parent pathway records."""
     public_source = models.ForeignKey("PublicSource", models.PROTECT, null=True, related_name="pathways")
-    """:class:`~lnschema_bionty.PublicSource` this pathway associates with."""
+    """:class:`~bionty.PublicSource` this pathway associates with."""
     genes = models.ManyToManyField("Gene", related_name="pathways")
     """Genes that signifies the pathway."""
     feature_sets = models.ManyToManyField("lnschema_core.FeatureSet", related_name="pathways")
@@ -986,7 +986,7 @@ class ExperimentalFactor(BioRegistry):
     parents = models.ManyToManyField("self", symmetrical=False, related_name="children")
     """Parent experimental factor records."""
     public_source = models.ForeignKey("PublicSource", models.PROTECT, null=True, related_name="experimental_factors")
-    """:class:`~lnschema_bionty.PublicSource` this experimental_factors associates with."""
+    """:class:`~bionty.PublicSource` this experimental_factors associates with."""
     artifacts = models.ManyToManyField("lnschema_core.Artifact", related_name="experimental_factors")
     """Artifacts linked to the experimental_factors."""
     collections = models.ManyToManyField("lnschema_core.Collection", related_name="experimental_factors")
@@ -1065,7 +1065,7 @@ class DevelopmentalStage(BioRegistry):
     parents = models.ManyToManyField("self", symmetrical=False, related_name="children")
     """Parent developmental stage records."""
     public_source = models.ForeignKey("PublicSource", models.PROTECT, null=True, related_name="developmental_stages")
-    """:class:`~lnschema_bionty.PublicSource` this developmental stage associates with."""
+    """:class:`~bionty.PublicSource` this developmental stage associates with."""
     artifacts = models.ManyToManyField("lnschema_core.Artifact", related_name="developmental_stages")
     """Artifacts linked to the developmental stage."""
     collections = models.ManyToManyField("lnschema_core.Collection", related_name="developmental_stages")
@@ -1143,7 +1143,7 @@ class Ethnicity(BioRegistry):
     parents = models.ManyToManyField("self", symmetrical=False, related_name="children")
     """Parent ethnicity records."""
     public_source = models.ForeignKey("PublicSource", models.PROTECT, null=True, related_name="ethnicities")
-    """:class:`~lnschema_bionty.PublicSource` this ethnicity associates with."""
+    """:class:`~bionty.PublicSource` this ethnicity associates with."""
     artifacts = models.ManyToManyField("lnschema_core.Artifact", related_name="ethnicities")
     """Artifacts linked to the ethnicity."""
     collections = models.ManyToManyField("lnschema_core.Collection", related_name="ethnicities")

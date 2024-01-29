@@ -7,7 +7,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
     dependencies = [
         (
-            "lnschema_bionty",
+            "bionty",
             "0003_alter_biontysource_entity_alter_biontysource_source_and_more",
         ),
     ]
@@ -20,7 +20,7 @@ class Migration(migrations.Migration):
                 null=True,
                 on_delete=django.db.models.deletion.PROTECT,
                 related_name="cell_lines",
-                to="lnschema_bionty.biontysource",
+                to="bionty.biontysource",
             ),
         ),
         migrations.AlterField(
@@ -30,7 +30,7 @@ class Migration(migrations.Migration):
                 null=True,
                 on_delete=django.db.models.deletion.PROTECT,
                 related_name="cell_markers",
-                to="lnschema_bionty.biontysource",
+                to="bionty.biontysource",
             ),
         ),
         migrations.AlterField(
@@ -40,7 +40,7 @@ class Migration(migrations.Migration):
                 null=True,
                 on_delete=django.db.models.deletion.PROTECT,
                 related_name="cell_markers",
-                to="lnschema_bionty.species",
+                to="bionty.species",
             ),
         ),
         migrations.AlterField(
@@ -50,7 +50,7 @@ class Migration(migrations.Migration):
                 null=True,
                 on_delete=django.db.models.deletion.PROTECT,
                 related_name="cell_types",
-                to="lnschema_bionty.biontysource",
+                to="bionty.biontysource",
             ),
         ),
         migrations.AlterField(
@@ -60,7 +60,7 @@ class Migration(migrations.Migration):
                 null=True,
                 on_delete=django.db.models.deletion.PROTECT,
                 related_name="diseases",
-                to="lnschema_bionty.biontysource",
+                to="bionty.biontysource",
             ),
         ),
         migrations.AlterField(
@@ -70,7 +70,7 @@ class Migration(migrations.Migration):
                 null=True,
                 on_delete=django.db.models.deletion.PROTECT,
                 related_name="genes",
-                to="lnschema_bionty.biontysource",
+                to="bionty.biontysource",
             ),
         ),
         migrations.AlterField(
@@ -80,7 +80,7 @@ class Migration(migrations.Migration):
                 null=True,
                 on_delete=django.db.models.deletion.PROTECT,
                 related_name="genes",
-                to="lnschema_bionty.species",
+                to="bionty.species",
             ),
         ),
         migrations.AlterField(
@@ -90,13 +90,13 @@ class Migration(migrations.Migration):
                 null=True,
                 on_delete=django.db.models.deletion.PROTECT,
                 related_name="pathways",
-                to="lnschema_bionty.biontysource",
+                to="bionty.biontysource",
             ),
         ),
         migrations.AlterField(
             model_name="pathway",
             name="genes",
-            field=models.ManyToManyField(related_name="pathways", to="lnschema_bionty.gene"),
+            field=models.ManyToManyField(related_name="pathways", to="bionty.gene"),
         ),
         migrations.AlterField(
             model_name="phenotype",
@@ -105,7 +105,7 @@ class Migration(migrations.Migration):
                 null=True,
                 on_delete=django.db.models.deletion.PROTECT,
                 related_name="phenotypes",
-                to="lnschema_bionty.biontysource",
+                to="bionty.biontysource",
             ),
         ),
         migrations.AlterField(
@@ -115,7 +115,7 @@ class Migration(migrations.Migration):
                 null=True,
                 on_delete=django.db.models.deletion.PROTECT,
                 related_name="proteins",
-                to="lnschema_bionty.biontysource",
+                to="bionty.biontysource",
             ),
         ),
         migrations.AlterField(
@@ -125,7 +125,7 @@ class Migration(migrations.Migration):
                 null=True,
                 on_delete=django.db.models.deletion.PROTECT,
                 related_name="proteins",
-                to="lnschema_bionty.species",
+                to="bionty.species",
             ),
         ),
         migrations.AlterField(
@@ -135,7 +135,7 @@ class Migration(migrations.Migration):
                 null=True,
                 on_delete=django.db.models.deletion.PROTECT,
                 related_name="readouts",
-                to="lnschema_bionty.biontysource",
+                to="bionty.biontysource",
             ),
         ),
         migrations.AlterField(
@@ -145,7 +145,7 @@ class Migration(migrations.Migration):
                 null=True,
                 on_delete=django.db.models.deletion.PROTECT,
                 related_name="tissues",
-                to="lnschema_bionty.biontysource",
+                to="bionty.biontysource",
             ),
         ),
     ]

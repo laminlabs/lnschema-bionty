@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
     dependencies = [
         ("lnschema_core", "0010_dataset_categories_file_categories"),
-        ("lnschema_bionty", "0010_alter_species_name"),
+        ("bionty", "0010_alter_species_name"),
     ]
 
     operations = [

@@ -3,9 +3,10 @@
 from pathlib import Path
 
 import lamindb_setup as ln_setup
-import lnschema_bionty.models
 import pandas as pd
 from django.db import migrations
+
+import bionty.models
 
 CORE_MODELS = {
     "Species": False,
@@ -36,7 +37,7 @@ def export_database(apps, schema_editor):
     directory.mkdir(parents=True, exist_ok=True)
     print(f"\nExporting data to parquet files in: {directory}\n")
     for model_name in CORE_MODELS.keys():
-        registry = getattr(lnschema_bionty.models, model_name)
+        registry = getattr(bionty.models, model_name)
         export_registry(registry, directory)
         many_to_many_names = [field.name for field in registry._meta.many_to_many]
         for many_to_many_name in many_to_many_names:
@@ -46,7 +47,7 @@ def export_database(apps, schema_editor):
 
 class Migration(migrations.Migration):
     dependencies = [
-        ("lnschema_bionty", "0015_migrate_to_integer_pks"),
+        ("bionty", "0015_migrate_to_integer_pks"),
     ]
 
     operations = [migrations.RunPython(export_database, reverse_code=migrations.RunPython.noop)]

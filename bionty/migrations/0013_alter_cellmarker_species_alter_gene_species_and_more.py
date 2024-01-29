@@ -6,7 +6,7 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
     dependencies = [
-        ("lnschema_bionty", "0012_gene_stable_id"),
+        ("bionty", "0012_gene_stable_id"),
     ]
 
     operations = [
@@ -17,7 +17,7 @@ class Migration(migrations.Migration):
                 default=None,
                 on_delete=django.db.models.deletion.PROTECT,
                 related_name="cell_markers",
-                to="lnschema_bionty.species",
+                to="bionty.species",
             ),
         ),
         migrations.AlterField(
@@ -27,7 +27,7 @@ class Migration(migrations.Migration):
                 default=None,
                 on_delete=django.db.models.deletion.PROTECT,
                 related_name="genes",
-                to="lnschema_bionty.species",
+                to="bionty.species",
             ),
         ),
         migrations.AlterField(
@@ -37,7 +37,7 @@ class Migration(migrations.Migration):
                 default=None,
                 on_delete=django.db.models.deletion.PROTECT,
                 related_name="proteins",
-                to="lnschema_bionty.species",
+                to="bionty.species",
             ),
         ),
     ]

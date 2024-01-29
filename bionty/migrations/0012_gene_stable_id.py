@@ -5,7 +5,7 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
     dependencies = [
-        ("lnschema_bionty", "0011_cellline_datasets_cellmarker_datasets_and_more"),
+        ("bionty", "0011_cellline_datasets_cellmarker_datasets_and_more"),
     ]
 
     operations = [

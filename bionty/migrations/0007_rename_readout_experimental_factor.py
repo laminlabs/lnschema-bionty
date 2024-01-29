@@ -6,7 +6,7 @@ from django.db import IntegrityError, migrations, models, transaction
 
 def forwards_func(apps, schema_editor):
     """Rename Readout entity in BiontySource table."""
-    BiontySource = apps.get_model("lnschema_bionty", "BiontySource")
+    BiontySource = apps.get_model("bionty", "BiontySource")
     db_alias = schema_editor.connection.alias
     # see https://stackoverflow.com/a/23326971
     try:
@@ -18,7 +18,7 @@ def forwards_func(apps, schema_editor):
 
 def reverse_func(apps, schema_editor):
     """Rename Readout entity in BiontySource table."""
-    BiontySource = apps.get_model("lnschema_bionty", "BiontySource")
+    BiontySource = apps.get_model("bionty", "BiontySource")
     db_alias = schema_editor.connection.alias
     try:
         with transaction.atomic():
@@ -31,7 +31,7 @@ class Migration(migrations.Migration):
     dependencies = [
         ("lnschema_core", "0008_file_hash_type_transform_parents"),
         (
-            "lnschema_bionty",
+            "bionty",
             "0006_alter_biontysource_options_alter_cellline_options_and_more",
         ),
     ]
@@ -60,7 +60,7 @@ class Migration(migrations.Migration):
                 null=True,
                 on_delete=django.db.models.deletion.PROTECT,
                 related_name="experimental_factors",
-                to="lnschema_bionty.biontysource",
+                to="bionty.biontysource",
             ),
         ),
         migrations.RunPython(forwards_func, reverse_func),
