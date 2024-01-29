@@ -85,7 +85,6 @@ __version__ = "0.39.0"  # Denote a release candidate of version 0.1.0 with 0.1rc
 from lamindb_setup import _check_instance_setup
 
 from . import ids
-from ._bionty import display_available_sources
 
 
 # trigger instance loading if users

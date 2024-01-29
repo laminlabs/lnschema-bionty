@@ -131,8 +131,5 @@ def lookup2kwargs(orm: Registry, *args, **kwargs) -> Dict:
     return encode_uid(orm=orm, kwargs=bionty_kwargs)
 
 
-# functions from bionty_base
-display_available_sources = bionty_base.display_available_sources
-
 # backward compat
 create_or_get_species_record = create_or_get_organism_record

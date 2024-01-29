@@ -11,5 +11,5 @@
 """
 
 from ..models import BioRegistry, PublicOntology
-from ._bionty import set_currently_used_to_latest, sync_public_source_to_latest
+from ._bionty_base import set_currently_used_to_latest, sync_public_source_to_latest
 from ._settings import Settings
