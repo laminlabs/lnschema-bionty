@@ -39,7 +39,7 @@ def create_or_get_organism_record(organism: Optional[Union[str, Registry]], orm:
                     organism_record = None
 
         if organism_record is None:
-            raise AssertionError(f"{orm.__name__} requires to specify a organism name via `organism=` or `lb.settings.organism=`!")
+            raise AssertionError(f"{orm.__name__} requires to specify a organism name via `organism=` or `bt.settings.organism=`!")
 
     return organism_record
 
@@ -116,13 +116,13 @@ def lookup2kwargs(orm: Registry, *args, **kwargs) -> Dict:
         bionty_kwargs = arg[0]._asdict()
 
     if len(bionty_kwargs) > 0:
-        import bionty as bt
+        import bionty_base
 
         # add organism and public_source
         organism_record = create_or_get_organism_record(orm=orm.__class__, organism=kwargs.get("organism"))
         if organism_record is not None:
             bionty_kwargs["organism"] = organism_record
-        public_ontology = getattr(bt, orm.__class__.__name__)(organism=organism_record.name if organism_record is not None else None)
+        public_ontology = getattr(bionty_base, orm.__class__.__name__)(organism=organism_record.name if organism_record is not None else None)
         bionty_kwargs["public_source"] = get_public_source_record(public_ontology)
 
         model_field_names = {i.name for i in orm._meta.fields}
