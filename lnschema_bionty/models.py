@@ -95,7 +95,7 @@ class BioRegistry(Registry, HasParents, CanValidate):
             `PublicOntology <https://lamin.ai/docs/public-ontologies>`__
 
         Examples:
-            >>> celltype_pub = lb.CellType.public()
+            >>> celltype_pub = bionty.CellType.public()
             >>> celltype_pub
             PublicOntology
             Entity: CellType
@@ -143,12 +143,12 @@ class BioRegistry(Registry, HasParents, CanValidate):
         Examples:
             Create a record by passing a field value:
 
-            >>> record = lb.Gene.from_public(symbol="TCF7", organism="human")
+            >>> record = bionty.Gene.from_public(symbol="TCF7", organism="human")
 
             Create a record from non-default source:
 
-            >>> public_source = lb.PublicSource.filter(entity="CellType", source="cl", version="2022-08-16").one()  # noqa
-            >>> record = lb.CellType.from_public(name="T cell", public_source=public_source)
+            >>> public_source = bionty.PublicSource.filter(entity="CellType", source="cl", version="2022-08-16").one()  # noqa
+            >>> record = bionty.CellType.from_public(name="T cell", public_source=public_source)
 
         """
         # non-relationship kwargs
@@ -201,7 +201,7 @@ class Organism(BioRegistry):
     """Organism - `NCBI Taxonomy <https://www.ncbi.nlm.nih.gov/taxonomy/>`__, `Ensembl Organism <https://useast.ensembl.org/info/about/species.html>`__.
 
     Examples:
-        >>> record = lb.Organism.from_public(name="rabbit")
+        >>> record = bionty.Organism.from_public(name="rabbit")
     """
 
     id = models.AutoField(primary_key=True)
@@ -259,7 +259,7 @@ class Gene(BioRegistry):
         Bulk create Gene records via :class:`~lamindb.dev.Registry.from_values`.
 
     Examples:
-        >>> record = lb.Gene.from_public(symbol="TCF7", organism="human")
+        >>> record = bionty.Gene.from_public(symbol="TCF7", organism="human")
     """
 
     id = models.AutoField(primary_key=True)
@@ -336,8 +336,8 @@ class Protein(BioRegistry):
         Bulk create Protein records via :class:`~lamindb.dev.Registry.from_values`.
 
     Examples:
-        >>> record = lb.Protein.from_public(name="Synaptotagmin-15B", organism="human")
-        >>> record = lb.Protein.from_public(gene_symbol="SYT15B", organism="human")
+        >>> record = bionty.Protein.from_public(name="Synaptotagmin-15B", organism="human")
+        >>> record = bionty.Protein.from_public(gene_symbol="SYT15B", organism="human")
     """
 
     id = models.AutoField(primary_key=True)
@@ -414,7 +414,7 @@ class CellMarker(BioRegistry):
         Bulk create CellMarker records via :class:`~lamindb.dev.Registry.from_values`.
 
     Examples:
-        >>> record = lb.CellMarker.from_public(name="PD1", organism="human")
+        >>> record = bionty.CellMarker.from_public(name="PD1", organism="human")
     """
 
     id = models.AutoField(primary_key=True)
@@ -490,7 +490,7 @@ class Tissue(BioRegistry):
         Bulk create Tissue records via :class:`~lamindb.dev.Registry.from_values`.
 
     Examples:
-        >>> record = lb.Tissue.from_public(name="brain")
+        >>> record = bionty.Tissue.from_public(name="brain")
     """
 
     id = models.AutoField(primary_key=True)
@@ -562,7 +562,7 @@ class CellType(BioRegistry):
         Bulk create CellType records via :class:`~lamindb.dev.Registry.from_values`.
 
     Examples:
-        >>> record = lb.CellType.from_public(name="T cell")
+        >>> record = bionty.CellType.from_public(name="T cell")
     """
 
     id = models.AutoField(primary_key=True)
@@ -639,7 +639,7 @@ class Disease(BioRegistry):
         Bulk create Disease records via :class:`~lamindb.dev.Registry.from_values`.
 
     Examples:
-        >>> record = lb.Disease.from_public(name="Alzheimer disease")
+        >>> record = bionty.Disease.from_public(name="Alzheimer disease")
     """
 
     id = models.AutoField(primary_key=True)
@@ -716,8 +716,8 @@ class CellLine(BioRegistry):
         Bulk create CellLine records via :class:`~lamindb.dev.Registry.from_values`.
 
     Examples:
-        >>> standard_name = lb.CellLine.public().standardize(["K562"])[0]
-        >>> record = lb.CellLine.from_public(name=standard_name)
+        >>> standard_name = bionty.CellLine.public().standardize(["K562"])[0]
+        >>> record = bionty.CellLine.from_public(name=standard_name)
     """
 
     id = models.AutoField(primary_key=True)
@@ -797,7 +797,7 @@ class Phenotype(BioRegistry):
         Bulk create Phenotype records via :class:`~lamindb.dev.Registry.from_values`.
 
     Examples:
-        >>> record = lb.Phenotype.from_public(name="Arachnodactyly")
+        >>> record = bionty.Phenotype.from_public(name="Arachnodactyly")
         >>> record.save()
     """
 
@@ -876,7 +876,7 @@ class Pathway(BioRegistry):
         Bulk create Pathway records via :class:`~lamindb.dev.Registry.from_values`.
 
     Examples:
-        >>> record = lb.Pathway.from_public(ontology_id="GO:1903353")
+        >>> record = bionty.Pathway.from_public(ontology_id="GO:1903353")
         >>> record.save()
     """
 
@@ -959,8 +959,8 @@ class ExperimentalFactor(BioRegistry):
         Bulk create ExperimentalFactor records via :class:`~lamindb.dev.Registry.from_values`.
 
     Examples:
-        >>> standard_name = lb.ExperimentalFactor.public().standardize(["scRNA-seq"])
-        >>> record = lb.ExperimentalFactor.from_public(name=standard_name)
+        >>> standard_name = bionty.ExperimentalFactor.public().standardize(["scRNA-seq"])
+        >>> record = bionty.ExperimentalFactor.from_public(name=standard_name)
     """
 
     id = models.AutoField(primary_key=True)
@@ -1044,7 +1044,7 @@ class DevelopmentalStage(BioRegistry):
         Bulk create DevelopmentalStage records via :class:`~lamindb.dev.Registry.from_values`.
 
     Examples:
-        >>> record = lb.DevelopmentalStage.from_public(name="neurula stage")
+        >>> record = bionty.DevelopmentalStage.from_public(name="neurula stage")
         >>> record.save()
     """
 
@@ -1122,7 +1122,7 @@ class Ethnicity(BioRegistry):
         Bulk create Ethnicity records via :class:`~lamindb.dev.Registry.from_values`.
 
     Examples:
-        >>> record = lb.Ethnicity.from_public(name="European")
+        >>> record = bionty.Ethnicity.from_public(name="European")
         >>> record.save()
     """
 

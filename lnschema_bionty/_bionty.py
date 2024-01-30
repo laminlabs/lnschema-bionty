@@ -39,7 +39,7 @@ def create_or_get_organism_record(organism: Optional[Union[str, Registry]], orm:
                     organism_record = None
 
         if organism_record is None:
-            raise AssertionError(f"{orm.__name__} requires to specify a organism name via `organism=` or `lb.settings.organism=`!")
+            raise AssertionError(f"{orm.__name__} requires to specify a organism name via `organism=` or `bionty.settings.organism=`!")
 
     return organism_record
 
