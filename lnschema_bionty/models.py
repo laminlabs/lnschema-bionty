@@ -21,7 +21,7 @@ class BioRegistry(Registry, HasParents, CanValidate):
     Notes:
         For more info, see tutorials:
 
-        - :doc:`/lnschema-bionty`
+        - :doc:`/bionty`
         - :doc:`bio-registries`
     """
 
@@ -89,7 +89,7 @@ class BioRegistry(Registry, HasParents, CanValidate):
     ) -> "PublicOntology":
         """The corresponding PublicOntology object.
 
-        Note that the public source is auto-configured and tracked via :meth:`lnschema_bionty.PublicSource`.
+        Note that the public source is auto-configured and tracked via :meth:`bionty.PublicSource`.
 
         See Also:
             `PublicOntology <https://lamin.ai/docs/public-ontologies>`__
@@ -136,7 +136,7 @@ class BioRegistry(Registry, HasParents, CanValidate):
         """Create a record or records from public reference based on a single field value.
 
         Notes:
-            For more info, see tutorial :doc:`/lnschema-bionty`
+            For more info, see tutorial :doc:`/bionty`
 
             Bulk create protein records via :class:`~lamindb.dev.Registry.from_values`.
 
