@@ -8,7 +8,7 @@ from ..models import Organism
 class Settings:
     """Settings.
 
-    Directly use `lb.settings` rather than instantiating this class yourself.
+    Directly use `.settings` rather than instantiating this class yourself.
     """
 
     def __init__(self):
@@ -33,7 +33,7 @@ class Settings:
         Only takes effect if explicitly set!
 
         Examples:
-            >>> lb.settings.organism = "mouse"
+            >>> bionty.settings.organism = "mouse"
             ✅ set organism: Organism(id=vado, name=mouse, taxon_id=10090, scientific_name=mus_musculus, updated_at=2023-07-21 11:37:08, public_source_id=CXWj, created_by_id=DzTjkKse) # noqa
         """
         return self._organism
