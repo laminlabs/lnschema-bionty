@@ -21,7 +21,7 @@ class BioRegistry(Registry, HasParents, CanValidate):
     Notes:
         For more info, see tutorials:
 
-        - :doc:`/lnschema-bionty`
+        - :doc:`/bionty`
         - :doc:`bio-registries`
     """
 
@@ -136,7 +136,7 @@ class BioRegistry(Registry, HasParents, CanValidate):
         """Create a record or records from public reference based on a single field value.
 
         Notes:
-            For more info, see tutorial :doc:`/lnschema-bionty`
+            For more info, see tutorial :doc:`/bionty`
 
             Bulk create protein records via :class:`~lamindb.dev.Registry.from_values`.
 
