@@ -89,7 +89,7 @@ class BioRegistry(Registry, HasParents, CanValidate):
     ) -> "PublicOntology":
         """The corresponding PublicOntology object.
 
-        Note that the public source is auto-configured and tracked via :meth:`lnschema_bionty.PublicSource`.
+        Note that the public source is auto-configured and tracked via :meth:`bionty.PublicSource`.
 
         See Also:
             `PublicOntology <https://lamin.ai/docs/public-ontologies>`__
