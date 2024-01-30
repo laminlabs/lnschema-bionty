@@ -1,4 +1,4 @@
-import bionty as bt
+import bionty_base
 from lamin_utils import logger
 
 
@@ -7,7 +7,7 @@ def sync_public_source_to_latest():
     from ..models import PublicSource
 
     records = PublicSource.filter().all()
-    df_sources = bt.display_available_sources().reset_index()
+    df_sources = bionty_base.display_available_sources().reset_index()
     for _, row in df_sources.iterrows():
         record = records.filter(
             source=row.source,

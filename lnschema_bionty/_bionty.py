@@ -1,6 +1,6 @@
 from typing import Dict, Optional, Union
 
-import bionty as bt
+import bionty_base
 from django.core.exceptions import ObjectDoesNotExist
 from lamin_utils import logger
 from lnschema_core.models import Registry  # TODO: import Registry instead of ORM
@@ -32,7 +32,7 @@ def create_or_get_organism_record(organism: Optional[Union[str, Registry]], orm:
                     # create a organism record from bionty reference
                     organism_record = Organism.from_public(name=organism)
                     # link the organism record to the default bionty source
-                    organism_record.public_source = get_public_source_record(bt.Organism())  # type:ignore
+                    organism_record.public_source = get_public_source_record(bionty_base.Organism())  # type:ignore
                     organism_record.save()  # type:ignore
                 except KeyError:
                     # no such organism is found in bionty reference
@@ -44,7 +44,7 @@ def create_or_get_organism_record(organism: Optional[Union[str, Registry]], orm:
     return organism_record
 
 
-def get_public_source_record(public_ontology: bt.PublicOntology):
+def get_public_source_record(public_ontology: bionty_base.PublicOntology):
     kwargs = dict(
         entity=public_ontology.__class__.__name__,
         organism=public_ontology.organism,
@@ -116,13 +116,13 @@ def lookup2kwargs(orm: Registry, *args, **kwargs) -> Dict:
         bionty_kwargs = arg[0]._asdict()
 
     if len(bionty_kwargs) > 0:
-        import bionty as bt
+        import bionty_base
 
         # add organism and public_source
         organism_record = create_or_get_organism_record(orm=orm.__class__, organism=kwargs.get("organism"))
         if organism_record is not None:
             bionty_kwargs["organism"] = organism_record
-        public_ontology = getattr(bt, orm.__class__.__name__)(organism=organism_record.name if organism_record is not None else None)
+        public_ontology = getattr(bionty_base, orm.__class__.__name__)(organism=organism_record.name if organism_record is not None else None)
         bionty_kwargs["public_source"] = get_public_source_record(public_ontology)
 
         model_field_names = {i.name for i in orm._meta.fields}
