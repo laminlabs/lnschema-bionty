@@ -8,9 +8,9 @@ Entity-related generators:
    organism
    gene
    protein
-   cell_marker
+   cellmarker
    ontology
-   source
+   publicsource
 
 """
 
