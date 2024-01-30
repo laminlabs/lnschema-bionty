@@ -1,5 +1,7 @@
 """Registries for basic biological entities, coupled to public ontologies.
 
+Since version 0.40.0, `bionty` replaces `lnschema-bionty` as the user-facing package!
+
 Features
 ========
 
@@ -79,7 +81,7 @@ Developer API:
    dev
 """
 
-__version__ = "0.39.0"  # Denote a release candidate of version 0.1.0 with 0.1rc1
+__version__ = "0.40.0"  # Denote a release candidate of version 0.1.0 with 0.1rc1
 
 from lamindb_setup import _check_instance_setup
 

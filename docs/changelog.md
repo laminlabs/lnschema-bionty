@@ -3,7 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
-📝 Update docstrings to use `bionty` | [217](https://github.com/laminlabs/lnschema-bionty/pull/217) | [sunnyosun](https://github.com/sunnyosun) | 2024-01-30 |
+📝 Update docstrings to use `bionty` | [217](https://github.com/laminlabs/lnschema-bionty/pull/217) | [sunnyosun](https://github.com/sunnyosun) | 2024-01-30 | 0.40.0
 🚚 Rename bionty to bionty-base | [216](https://github.com/laminlabs/lnschema-bionty/pull/216) | [sunnyosun](https://github.com/sunnyosun) | 2024-01-30 |
 ⬆️ Rename Bionty to PublicOntology | [214](https://github.com/laminlabs/lnschema-bionty/pull/214) | [sunnyosun](https://github.com/sunnyosun) | 2024-01-12 | 0.39.0
 ✏️ Fix encoding | [213](https://github.com/laminlabs/lnschema-bionty/pull/213) | [sunnyosun](https://github.com/sunnyosun) | 2024-01-12 | 0.38.4
