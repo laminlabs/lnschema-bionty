@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
+💚 Fix docs | [220](https://github.com/laminlabs/lnschema-bionty/pull/220) | [sunnyosun](https://github.com/sunnyosun) | 2024-01-31 |
 💚 Fix docstrings | [219](https://github.com/laminlabs/lnschema-bionty/pull/219) | [sunnyosun](https://github.com/sunnyosun) | 2024-01-30 | 0.40.1
 💚 Fix docs | [218](https://github.com/laminlabs/lnschema-bionty/pull/218) | [sunnyosun](https://github.com/sunnyosun) | 2024-01-30 |
 📝 Update docstrings to use `bionty` | [217](https://github.com/laminlabs/lnschema-bionty/pull/217) | [sunnyosun](https://github.com/sunnyosun) | 2024-01-30 | 0.40.0
