@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
+🚚 Rename dev to core | [221](https://github.com/laminlabs/lnschema-bionty/pull/221) | [falexwolf](https://github.com/falexwolf) | 2024-02-29 |
 💚 Fix docs | [220](https://github.com/laminlabs/lnschema-bionty/pull/220) | [sunnyosun](https://github.com/sunnyosun) | 2024-01-31 |
 💚 Fix docstrings | [219](https://github.com/laminlabs/lnschema-bionty/pull/219) | [sunnyosun](https://github.com/sunnyosun) | 2024-01-30 | 0.40.1
 💚 Fix docs | [218](https://github.com/laminlabs/lnschema-bionty/pull/218) | [sunnyosun](https://github.com/sunnyosun) | 2024-01-30 |
