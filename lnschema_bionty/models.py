@@ -15,7 +15,7 @@ from ._bionty import encode_uid, lookup2kwargs
 class BioRegistry(Registry, HasParents, CanValidate):
     """Base Registry of bionty.
 
-    BioRegistry inherits all methods from :class:`~lamindb.dev.Registry` and provides additional methods
+    BioRegistry inherits all methods from :class:`~lamindb.core.Registry` and provides additional methods
     including :meth:`~bionty.dev.BioRegistry.public` and :meth:`~bionty.dev.BioRegistry.from_public`.
 
     Notes:
@@ -138,7 +138,7 @@ class BioRegistry(Registry, HasParents, CanValidate):
         Notes:
             For more info, see tutorial :doc:`/bionty`
 
-            Bulk create protein records via :class:`~lamindb.dev.Registry.from_values`.
+            Bulk create protein records via :class:`~lamindb.core.Registry.from_values`.
 
         Examples:
             Create a record by passing a field value:
@@ -256,7 +256,7 @@ class Gene(BioRegistry):
     """Genes - `Ensembl <https://ensembl.org/>`__, `NCBI Gene <https://www.ncbi.nlm.nih.gov/gene/>`__.
 
     Notes:
-        Bulk create Gene records via :class:`~lamindb.dev.Registry.from_values`.
+        Bulk create Gene records via :class:`~lamindb.core.Registry.from_values`.
 
     Examples:
         >>> record = bionty.Gene.from_public(symbol="TCF7", organism="human")
@@ -333,7 +333,7 @@ class Protein(BioRegistry):
     """Proteins - `Uniprot <https://www.uniprot.org/>`__.
 
     Notes:
-        Bulk create Protein records via :class:`~lamindb.dev.Registry.from_values`.
+        Bulk create Protein records via :class:`~lamindb.core.Registry.from_values`.
 
     Examples:
         >>> record = bionty.Protein.from_public(name="Synaptotagmin-15B", organism="human")
@@ -411,7 +411,7 @@ class CellMarker(BioRegistry):
     """Cell markers - `CellMarker <http://xteam.xbio.top/CellMarker>`__.
 
     Notes:
-        Bulk create CellMarker records via :class:`~lamindb.dev.Registry.from_values`.
+        Bulk create CellMarker records via :class:`~lamindb.core.Registry.from_values`.
 
     Examples:
         >>> record = bionty.CellMarker.from_public(name="PD1", organism="human")
@@ -487,7 +487,7 @@ class Tissue(BioRegistry):
     Notes:
         For more info, see tutorial :doc:`bio-registries`
 
-        Bulk create Tissue records via :class:`~lamindb.dev.Registry.from_values`.
+        Bulk create Tissue records via :class:`~lamindb.core.Registry.from_values`.
 
     Examples:
         >>> record = bionty.Tissue.from_public(name="brain")
@@ -559,7 +559,7 @@ class CellType(BioRegistry):
     Notes:
         For more info, see tutorial :doc:`bio-registries`
 
-        Bulk create CellType records via :class:`~lamindb.dev.Registry.from_values`.
+        Bulk create CellType records via :class:`~lamindb.core.Registry.from_values`.
 
     Examples:
         >>> record = bionty.CellType.from_public(name="T cell")
@@ -636,7 +636,7 @@ class Disease(BioRegistry):
     Notes:
         For more info, see tutorial :doc:`bio-registries`
 
-        Bulk create Disease records via :class:`~lamindb.dev.Registry.from_values`.
+        Bulk create Disease records via :class:`~lamindb.core.Registry.from_values`.
 
     Examples:
         >>> record = bionty.Disease.from_public(name="Alzheimer disease")
@@ -713,7 +713,7 @@ class CellLine(BioRegistry):
     Notes:
         For more info, see tutorial :doc:`bio-registries`
 
-        Bulk create CellLine records via :class:`~lamindb.dev.Registry.from_values`.
+        Bulk create CellLine records via :class:`~lamindb.core.Registry.from_values`.
 
     Examples:
         >>> standard_name = bionty.CellLine.public().standardize(["K562"])[0]
@@ -794,7 +794,7 @@ class Phenotype(BioRegistry):
     Notes:
         For more info, see tutorial :doc:`bio-registries`
 
-        Bulk create Phenotype records via :class:`~lamindb.dev.Registry.from_values`.
+        Bulk create Phenotype records via :class:`~lamindb.core.Registry.from_values`.
 
     Examples:
         >>> record = bionty.Phenotype.from_public(name="Arachnodactyly")
@@ -873,7 +873,7 @@ class Pathway(BioRegistry):
     Notes:
         For more info, see tutorial :doc:`bio-registries`
 
-        Bulk create Pathway records via :class:`~lamindb.dev.Registry.from_values`.
+        Bulk create Pathway records via :class:`~lamindb.core.Registry.from_values`.
 
     Examples:
         >>> record = bionty.Pathway.from_public(ontology_id="GO:1903353")
@@ -956,7 +956,7 @@ class ExperimentalFactor(BioRegistry):
     Notes:
         For more info, see tutorial :doc:`bio-registries`
 
-        Bulk create ExperimentalFactor records via :class:`~lamindb.dev.Registry.from_values`.
+        Bulk create ExperimentalFactor records via :class:`~lamindb.core.Registry.from_values`.
 
     Examples:
         >>> standard_name = bionty.ExperimentalFactor.public().standardize(["scRNA-seq"])
@@ -1041,7 +1041,7 @@ class DevelopmentalStage(BioRegistry):
     Notes:
         For more info, see tutorial :doc:`bio-registries`
 
-        Bulk create DevelopmentalStage records via :class:`~lamindb.dev.Registry.from_values`.
+        Bulk create DevelopmentalStage records via :class:`~lamindb.core.Registry.from_values`.
 
     Examples:
         >>> record = bionty.DevelopmentalStage.from_public(name="neurula stage")
@@ -1119,7 +1119,7 @@ class Ethnicity(BioRegistry):
     Notes:
         For more info, see tutorial :doc:`bio-registries`
 
-        Bulk create Ethnicity records via :class:`~lamindb.dev.Registry.from_values`.
+        Bulk create Ethnicity records via :class:`~lamindb.core.Registry.from_values`.
 
     Examples:
         >>> record = bionty.Ethnicity.from_public(name="European")
