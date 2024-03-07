@@ -38,7 +38,7 @@ def import_registry(registry, directory, connection):
 
 def import_db(apps, schema_editor):
     # import data from parquet files
-    directory = Path(f"./lamindb_export/{ln_setup.settings.instance.identifier}/")
+    directory = Path(f"./lamindb_export/{ln_setup.settings.instance.slug}/")
     if directory.exists():
         from sqlalchemy import create_engine
 
