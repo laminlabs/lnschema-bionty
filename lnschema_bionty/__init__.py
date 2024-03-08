@@ -10,7 +10,6 @@ from lamindb_setup import _check_instance_setup
 from . import ids
 
 if _check_instance_setup():
-    del __getattr__  # delete so that imports work out
     from .dev._settings import settings
     from .models import (  # noqa
         CellLine,
