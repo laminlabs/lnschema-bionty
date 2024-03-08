@@ -4,9 +4,10 @@ Since version 0.40.0, `bionty` replaces `lnschema-bionty` as the user-facing pac
 
 """
 
-__version__ = "0.41.1"  # Denote a release candidate of version 0.1.0 with 0.1rc1
+__version__ = "0.41.2"  # Denote a release candidate of version 0.1.0 with 0.1rc1
 
 from lamindb_setup import _check_instance_setup
+
 from . import ids
 
 if _check_instance_setup():
