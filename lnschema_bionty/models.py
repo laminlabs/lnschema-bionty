@@ -16,7 +16,7 @@ class BioRegistry(Registry, HasParents, CanValidate):
     """Base Registry of bionty.
 
     BioRegistry inherits all methods from :class:`~lamindb.core.Registry` and provides additional methods
-    including :meth:`~bionty.dev.BioRegistry.public` and :meth:`~bionty.dev.BioRegistry.from_public`.
+    including :meth:`~bionty.core.BioRegistry.public` and :meth:`~bionty.core.BioRegistry.from_public`.
 
     Notes:
         For more info, see tutorials:
@@ -188,7 +188,7 @@ class BioRegistry(Registry, HasParents, CanValidate):
         """
         # save the record first without parents
         super(BioRegistry, self).save(*args, **kwargs)
-        from .dev._settings import settings
+        from .core._settings import settings
 
         if parents is None:
             parents = settings.auto_save_parents
