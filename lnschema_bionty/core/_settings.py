@@ -59,4 +59,4 @@ class Settings:
 
 
 settings = Settings()
-settings.__doc__ = """Global :class:`~bionty.dev.Settings`."""
+settings.__doc__ = """Global :class:`~bionty.core.Settings`."""

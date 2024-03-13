@@ -3,7 +3,7 @@ from typing import Dict, Optional, Union
 import bionty_base
 from django.core.exceptions import ObjectDoesNotExist
 from lamin_utils import logger
-from lnschema_core.models import Registry  # TODO: import Registry instead of ORM
+from lnschema_core.models import Registry
 
 from . import ids
 
@@ -11,9 +11,9 @@ from . import ids
 def create_or_get_organism_record(organism: Optional[Union[str, Registry]], orm: Registry) -> Optional[Registry]:
     # return None if an Registry doesn't have organism field
     organism_record = None
-    if hasattr(orm, "organism"):
+    if hasattr(orm, "organism_id"):
         # using global setting of organism
-        from .dev._settings import settings
+        from .core._settings import settings
 
         if organism is None and settings.organism is not None:
             logger.debug(f"using global setting organism = {settings.organism.name}")

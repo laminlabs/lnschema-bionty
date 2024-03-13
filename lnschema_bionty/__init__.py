@@ -11,7 +11,7 @@ from lamindb_setup import _check_instance_setup
 from . import ids
 
 if _check_instance_setup():
-    from .dev._settings import settings
+    from .core._settings import settings
     from .models import (  # noqa
         CellLine,
         CellMarker,
