@@ -3,7 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
-✨ Add PublicSource.set_as_currently_used | [223](https://github.com/laminlabs/lnschema-bionty/pull/223) | [sunnyosun](https://github.com/sunnyosun) | 2024-03-14 |
+✨ Add PublicSource.set_as_currently_used | [223](https://github.com/laminlabs/lnschema-bionty/pull/223) | [sunnyosun](https://github.com/sunnyosun) | 2024-03-14 | 0.41.4
 🚚 Rename dev to core | [222](https://github.com/laminlabs/lnschema-bionty/pull/222) | [sunnyosun](https://github.com/sunnyosun) | 2024-03-13 | 0.41.3
 🚚 Rename dev to core in lamindb | [221](https://github.com/laminlabs/lnschema-bionty/pull/221) | [falexwolf](https://github.com/falexwolf) | 2024-02-29 | 0.41.0
 💚 Fix docs | [220](https://github.com/laminlabs/lnschema-bionty/pull/220) | [sunnyosun](https://github.com/sunnyosun) | 2024-01-31 |
