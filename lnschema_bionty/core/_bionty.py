@@ -2,8 +2,13 @@ import bionty_base
 from lamin_utils import logger
 
 
-def sync_public_source_to_latest():
-    """Sync up the PublicSource registry with the latest available sources."""
+def sync_all_public_sources_to_latest():
+    """Sync up the PublicSource registry with the latest available sources.
+
+    Examples:
+        >>> from bionty.core import sync_all_public_sources_to_latest
+        >>> sync_all_public_sources_to_latest()
+    """
     from ..models import PublicSource
 
     records = PublicSource.filter().all()
@@ -14,22 +19,28 @@ def sync_public_source_to_latest():
             version=row.version,
             entity=row.entity,
             organism=row.organism,
-        ).all()
-        if len(record) == 0:
+        ).one_or_none()
+        if record is None:
             record = PublicSource(**row.to_dict())
             record.save()
             logger.success(f"added {record}")
         else:
+            # update metadata fields
             record.update(**row.to_dict())
             logger.success(f"updated {record.one()}")
-    logger.info("setting currently_used to latest version...")
-    set_currently_used_to_latest()
+    logger.info("setting the latest version as currently_used...")
+    set_latest_public_sources_as_currently_used()
     logger.success("synced up PublicSource registry with the latest available sources")
     logger.warning("please reload your instance to reflect the updates!")
 
 
-def set_currently_used_to_latest():
-    """Set the currently_used column to True for the latest version of each source."""
+def set_latest_public_sources_as_currently_used():
+    """Set the currently_used column to True for the latest version of each source.
+
+    Examples:
+        >>> from bionty.core import set_latest_public_sources_as_currently_used
+        >>> set_latest_public_sources_as_currently_used()
+    """
     from ..models import PublicSource
 
     records = PublicSource.filter().all()

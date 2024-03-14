@@ -6,10 +6,13 @@
    BioRegistry
    PublicOntology
    Settings
-   sync_public_source_to_latest
-   set_currently_used_to_latest
+   sync_all_public_sources_to_latest
+   set_latest_public_sources_as_currently_used
 """
 
 from ..models import BioRegistry, PublicOntology
-from ._bionty import set_currently_used_to_latest, sync_public_source_to_latest
+from ._bionty import (
+    set_latest_public_sources_as_currently_used,
+    sync_all_public_sources_to_latest,
+)
 from ._settings import Settings

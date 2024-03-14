@@ -1266,6 +1266,19 @@ class PublicSource(Registry):
         kwargs = encode_uid(orm=self, kwargs=kwargs)
         super(PublicSource, self).__init__(*args, **kwargs)
 
+    def set_as_currently_used(self):
+        """Set this record as the currently used public source.
+
+        Examples:
+            >>> record = bionty.PublicSource.filter(uid="...").one()
+            >>> record.set_as_currently_used()
+        """
+        self.currently_used = True
+        self.save()
+        PublicSource.filter(entity=self.entity, organism=self.organism, source=self.source).exclude(uid=self.uid).update(currently_used=False)
+        logger.success(f"set {self} as currently used")
+        logger.warning("please reload your instance to reflect the updates!")
+
 
 # backward compat
 Species = Organism
