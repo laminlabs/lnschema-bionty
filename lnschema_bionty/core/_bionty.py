@@ -2,7 +2,7 @@ import bionty_base
 from lamin_utils import logger
 
 
-def sync_public_source_to_latest():
+def sync_all_public_sources_to_latest():
     """Sync up the PublicSource registry with the latest available sources."""
     from ..models import PublicSource
 
@@ -23,12 +23,12 @@ def sync_public_source_to_latest():
             record.update(**row.to_dict())
             logger.success(f"updated {record.one()}")
     logger.info("setting currently_used to latest version...")
-    set_currently_used_to_latest()
+    set_latest_as_currently_used()
     logger.success("synced up PublicSource registry with the latest available sources")
     logger.warning("please reload your instance to reflect the updates!")
 
 
-def set_currently_used_to_latest():
+def set_latest_as_currently_used():
     """Set the currently_used column to True for the latest version of each source."""
     from ..models import PublicSource
 
