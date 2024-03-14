@@ -1267,7 +1267,12 @@ class PublicSource(Registry):
         super(PublicSource, self).__init__(*args, **kwargs)
 
     def set_as_currently_used(self):
-        """Set this record as the currently used public source."""
+        """Set this record as the currently used public source.
+
+        Examples:
+            >>> record = bionty.PublicSource.filter(uid="...").one()
+            >>> record.set_as_currently_used()
+        """
         self.currently_used = True
         self.save()
         PublicSource.filter(entity=self.entity, organism=self.organism, source=self.source).exclude(uid=self.uid).update(currently_used=False)
