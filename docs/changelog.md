@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
+⬆️ Upgrade bionty | [225](https://github.com/laminlabs/lnschema-bionty/pull/225) | [sunnyosun](https://github.com/sunnyosun) | 2024-03-27 |
 ✨ Add PublicSource.set_as_currently_used | [223](https://github.com/laminlabs/lnschema-bionty/pull/223) | [sunnyosun](https://github.com/sunnyosun) | 2024-03-14 | 0.41.4
 🚚 Rename dev to core | [222](https://github.com/laminlabs/lnschema-bionty/pull/222) | [sunnyosun](https://github.com/sunnyosun) | 2024-03-13 | 0.41.3
 🚚 Rename dev to core in lamindb | [221](https://github.com/laminlabs/lnschema-bionty/pull/221) | [falexwolf](https://github.com/falexwolf) | 2024-02-29 | 0.41.0
