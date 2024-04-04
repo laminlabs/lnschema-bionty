@@ -1,8 +1,10 @@
+from __future__ import annotations
+
 from typing import Optional, Union
 
 from lamin_utils import logger
 
-from ..models import Organism
+from lnschema_bionty.models import Organism
 
 
 class Settings:
@@ -25,7 +27,7 @@ class Settings:
         self._auto_save_parents = value
 
     @property
-    def organism(self) -> Optional[Organism]:
+    def organism(self) -> Organism | None:
         """Default organism argument (default `None`).
 
         Default record to use when `organism` argument is required in `lamindb` functionality.
@@ -39,7 +41,7 @@ class Settings:
         return self._organism
 
     @organism.setter
-    def organism(self, name: Union[str, Organism]):
+    def organism(self, name: str | Organism):
         if isinstance(name, Organism):
             self._organism = name
         else:
@@ -51,7 +53,9 @@ class Settings:
             organism = Organism.from_public(name=name)
             ln.settings.verbosity = verbosity
             if organism is None:
-                raise ValueError(f"No organism with name='{name}' is found, please create a organism record!")
+                raise ValueError(
+                    f"No organism with name='{name}' is found, please create a organism record!"
+                )
             if organism._state.adding:  # type:ignore
                 organism.save()  # type:ignore
             logger.debug(f"set organism: {organism}")

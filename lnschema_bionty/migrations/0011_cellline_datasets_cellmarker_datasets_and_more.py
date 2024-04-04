@@ -13,37 +13,51 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="cellline",
             name="datasets",
-            field=models.ManyToManyField(related_name="cell_lines", to="lnschema_core.dataset"),
+            field=models.ManyToManyField(
+                related_name="cell_lines", to="lnschema_core.dataset"
+            ),
         ),
         migrations.AddField(
             model_name="cellmarker",
             name="datasets",
-            field=models.ManyToManyField(related_name="cell_markers", to="lnschema_core.dataset"),
+            field=models.ManyToManyField(
+                related_name="cell_markers", to="lnschema_core.dataset"
+            ),
         ),
         migrations.AddField(
             model_name="cellmarker",
             name="files",
-            field=models.ManyToManyField(related_name="cell_markers", to="lnschema_core.file"),
+            field=models.ManyToManyField(
+                related_name="cell_markers", to="lnschema_core.file"
+            ),
         ),
         migrations.AddField(
             model_name="celltype",
             name="datasets",
-            field=models.ManyToManyField(related_name="cell_types", to="lnschema_core.dataset"),
+            field=models.ManyToManyField(
+                related_name="cell_types", to="lnschema_core.dataset"
+            ),
         ),
         migrations.AddField(
             model_name="disease",
             name="datasets",
-            field=models.ManyToManyField(related_name="diseases", to="lnschema_core.dataset"),
+            field=models.ManyToManyField(
+                related_name="diseases", to="lnschema_core.dataset"
+            ),
         ),
         migrations.AddField(
             model_name="experimentalfactor",
             name="datasets",
-            field=models.ManyToManyField(related_name="experimental_factors", to="lnschema_core.dataset"),
+            field=models.ManyToManyField(
+                related_name="experimental_factors", to="lnschema_core.dataset"
+            ),
         ),
         migrations.AddField(
             model_name="gene",
             name="datasets",
-            field=models.ManyToManyField(related_name="genes", to="lnschema_core.dataset"),
+            field=models.ManyToManyField(
+                related_name="genes", to="lnschema_core.dataset"
+            ),
         ),
         migrations.AddField(
             model_name="gene",
@@ -53,41 +67,57 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="pathway",
             name="datasets",
-            field=models.ManyToManyField(related_name="pathways", to="lnschema_core.dataset"),
+            field=models.ManyToManyField(
+                related_name="pathways", to="lnschema_core.dataset"
+            ),
         ),
         migrations.AddField(
             model_name="pathway",
             name="files",
-            field=models.ManyToManyField(related_name="pathways", to="lnschema_core.file"),
+            field=models.ManyToManyField(
+                related_name="pathways", to="lnschema_core.file"
+            ),
         ),
         migrations.AddField(
             model_name="phenotype",
             name="datasets",
-            field=models.ManyToManyField(related_name="phenotypes", to="lnschema_core.dataset"),
+            field=models.ManyToManyField(
+                related_name="phenotypes", to="lnschema_core.dataset"
+            ),
         ),
         migrations.AddField(
             model_name="protein",
             name="datasets",
-            field=models.ManyToManyField(related_name="proteins", to="lnschema_core.dataset"),
+            field=models.ManyToManyField(
+                related_name="proteins", to="lnschema_core.dataset"
+            ),
         ),
         migrations.AddField(
             model_name="protein",
             name="files",
-            field=models.ManyToManyField(related_name="proteins", to="lnschema_core.file"),
+            field=models.ManyToManyField(
+                related_name="proteins", to="lnschema_core.file"
+            ),
         ),
         migrations.AddField(
             model_name="species",
             name="datasets",
-            field=models.ManyToManyField(related_name="species", to="lnschema_core.dataset"),
+            field=models.ManyToManyField(
+                related_name="species", to="lnschema_core.dataset"
+            ),
         ),
         migrations.AddField(
             model_name="species",
             name="files",
-            field=models.ManyToManyField(related_name="species", to="lnschema_core.file"),
+            field=models.ManyToManyField(
+                related_name="species", to="lnschema_core.file"
+            ),
         ),
         migrations.AddField(
             model_name="tissue",
             name="datasets",
-            field=models.ManyToManyField(related_name="tissues", to="lnschema_core.dataset"),
+            field=models.ManyToManyField(
+                related_name="tissues", to="lnschema_core.dataset"
+            ),
         ),
     ]

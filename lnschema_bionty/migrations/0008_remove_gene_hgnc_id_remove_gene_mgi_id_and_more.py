@@ -11,7 +11,9 @@ def forwards_func(apps, schema_editor):
     # see https://stackoverflow.com/a/23326971
     try:
         with transaction.atomic():
-            Gene.objects.using(db_alias).filter(ensembl_gene_id="").update(ensembl_gene_id=None)
+            Gene.objects.using(db_alias).filter(ensembl_gene_id="").update(
+                ensembl_gene_id=None
+            )
             df = pd.DataFrame(Gene.objects.using(db_alias).values())
             if "ensembl_gene_id" in df.columns:
                 dup_ids = df[df["ensembl_gene_id"].duplicated()].id.tolist()
@@ -61,17 +63,23 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name="cellmarker",
             name="name",
-            field=models.CharField(db_index=True, default=None, max_length=64, unique=True),
+            field=models.CharField(
+                db_index=True, default=None, max_length=64, unique=True
+            ),
         ),
         migrations.AlterField(
             model_name="gene",
             name="ensembl_gene_id",
-            field=models.CharField(db_index=True, default=None, max_length=64, null=True),
+            field=models.CharField(
+                db_index=True, default=None, max_length=64, null=True
+            ),
         ),
         migrations.AlterField(
             model_name="protein",
             name="uniprotkb_id",
-            field=models.CharField(db_index=True, default=None, max_length=10, null=True, unique=True),
+            field=models.CharField(
+                db_index=True, default=None, max_length=10, null=True, unique=True
+            ),
         ),
         migrations.AlterField(
             model_name="species",

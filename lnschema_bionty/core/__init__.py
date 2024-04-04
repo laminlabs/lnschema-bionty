@@ -10,7 +10,8 @@
    set_latest_public_sources_as_currently_used
 """
 
-from ..models import BioRegistry, PublicOntology
+from lnschema_bionty.models import BioRegistry, PublicOntology
+
 from ._bionty import (
     set_latest_public_sources_as_currently_used,
     sync_all_public_sources_to_latest,

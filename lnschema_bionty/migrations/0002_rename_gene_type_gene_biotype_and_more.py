@@ -41,6 +41,8 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="protein",
             name="gene_symbol",
-            field=models.CharField(db_index=True, default=None, max_length=64, null=True),
+            field=models.CharField(
+                db_index=True, default=None, max_length=64, null=True
+            ),
         ),
     ]

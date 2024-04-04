@@ -11,7 +11,9 @@ def forwards_func(apps, schema_editor):
     # see https://stackoverflow.com/a/23326971
     try:
         with transaction.atomic():
-            BiontySource.objects.using(db_alias).filter(entity="Readout").update(entity="ExperimentalFactor")
+            BiontySource.objects.using(db_alias).filter(entity="Readout").update(
+                entity="ExperimentalFactor"
+            )
     except IntegrityError:
         pass
 
@@ -22,7 +24,9 @@ def reverse_func(apps, schema_editor):
     db_alias = schema_editor.connection.alias
     try:
         with transaction.atomic():
-            BiontySource.objects.using(db_alias).filter(entity="ExperimentalFactor").update(entity="Readout")
+            BiontySource.objects.using(db_alias).filter(
+                entity="ExperimentalFactor"
+            ).update(entity="Readout")
     except IntegrityError:
         pass
 
@@ -41,7 +45,9 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name="experimentalfactor",
             name="files",
-            field=models.ManyToManyField(to="lnschema_core.File", related_name="experimental_factors"),
+            field=models.ManyToManyField(
+                to="lnschema_core.File", related_name="experimental_factors"
+            ),
         ),
         migrations.AlterField(
             model_name="experimentalfactor",

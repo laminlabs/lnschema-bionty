@@ -33,7 +33,9 @@ class Migration(migrations.Migration):
                 ("name", models.CharField(db_index=True, max_length=256)),
                 (
                     "ontology_id",
-                    models.CharField(db_index=True, default=None, max_length=32, null=True),
+                    models.CharField(
+                        db_index=True, default=None, max_length=32, null=True
+                    ),
                 ),
                 (
                     "abbr",
@@ -69,15 +71,21 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "datasets",
-                    models.ManyToManyField(related_name="ethnicities", to="lnschema_core.dataset"),
+                    models.ManyToManyField(
+                        related_name="ethnicities", to="lnschema_core.dataset"
+                    ),
                 ),
                 (
                     "files",
-                    models.ManyToManyField(related_name="ethnicities", to="lnschema_core.file"),
+                    models.ManyToManyField(
+                        related_name="ethnicities", to="lnschema_core.file"
+                    ),
                 ),
                 (
                     "parents",
-                    models.ManyToManyField(related_name="children", to="lnschema_bionty.ethnicity"),
+                    models.ManyToManyField(
+                        related_name="children", to="lnschema_bionty.ethnicity"
+                    ),
                 ),
             ],
             options={
@@ -104,7 +112,9 @@ class Migration(migrations.Migration):
                 ("name", models.CharField(db_index=True, max_length=256)),
                 (
                     "ontology_id",
-                    models.CharField(db_index=True, default=None, max_length=32, null=True),
+                    models.CharField(
+                        db_index=True, default=None, max_length=32, null=True
+                    ),
                 ),
                 (
                     "abbr",
@@ -140,15 +150,21 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "datasets",
-                    models.ManyToManyField(related_name="developmental_stages", to="lnschema_core.dataset"),
+                    models.ManyToManyField(
+                        related_name="developmental_stages", to="lnschema_core.dataset"
+                    ),
                 ),
                 (
                     "files",
-                    models.ManyToManyField(related_name="developmental_stages", to="lnschema_core.file"),
+                    models.ManyToManyField(
+                        related_name="developmental_stages", to="lnschema_core.file"
+                    ),
                 ),
                 (
                     "parents",
-                    models.ManyToManyField(related_name="children", to="lnschema_bionty.developmentalstage"),
+                    models.ManyToManyField(
+                        related_name="children", to="lnschema_bionty.developmentalstage"
+                    ),
                 ),
             ],
             options={
