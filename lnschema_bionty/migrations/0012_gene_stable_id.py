@@ -12,6 +12,8 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="gene",
             name="stable_id",
-            field=models.CharField(db_index=True, default=None, max_length=64, null=True, unique=True),
+            field=models.CharField(
+                db_index=True, default=None, max_length=64, null=True, unique=True
+            ),
         ),
     ]

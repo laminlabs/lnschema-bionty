@@ -50,4 +50,6 @@ class Migration(migrations.Migration):
         ("lnschema_bionty", "0015_migrate_to_integer_pks"),
     ]
 
-    operations = [migrations.RunPython(export_database, reverse_code=migrations.RunPython.noop)]
+    operations = [
+        migrations.RunPython(export_database, reverse_code=migrations.RunPython.noop)
+    ]

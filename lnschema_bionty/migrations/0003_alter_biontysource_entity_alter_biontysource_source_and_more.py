@@ -38,7 +38,9 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name="cellmarker",
             name="name",
-            field=models.CharField(db_index=True, default=None, max_length=64, unique=True),
+            field=models.CharField(
+                db_index=True, default=None, max_length=64, unique=True
+            ),
             preserve_default=False,
         ),
         migrations.AlterField(

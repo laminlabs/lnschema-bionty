@@ -12,7 +12,7 @@ from . import ids
 
 if _check_instance_setup():
     from .core._settings import settings
-    from .models import (  # noqa
+    from .models import (
         CellLine,
         CellMarker,
         CellType,

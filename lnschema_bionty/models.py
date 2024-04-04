@@ -1,4 +1,6 @@
-from typing import List, Optional, Tuple, Union, overload  # noqa
+from __future__ import annotations
+
+from typing import List, Optional, Tuple, Union, overload
 
 import bionty_base
 import numpy as np
@@ -31,13 +33,20 @@ class BioRegistry(Registry, HasParents, CanValidate):
     def __init__(self, *args, **kwargs):
         # DB-facing constructor
         if len(args) == len(self._meta.concrete_fields):
-            super(BioRegistry, self).__init__(*args, **kwargs)
+            super().__init__(*args, **kwargs)
             return None
 
         # passing lookup result from bionty, which is a Tuple or List
-        if args and len(args) == 1 and isinstance(args[0], (Tuple, List)) and len(args[0]) > 0:
+        if (
+            args
+            and len(args) == 1
+            and isinstance(args[0], (Tuple, List))
+            and len(args[0]) > 0
+        ):
             if isinstance(args[0], List) and len(args[0]) > 1:
-                logger.warning("multiple lookup/search results are passed, only returning record from the first entry")
+                logger.warning(
+                    "multiple lookup/search results are passed, only returning record from the first entry"
+                )
             result = lookup2kwargs(self, *args, **kwargs)  # type:ignore
             # exclude "parents" from query arguments
             query_kwargs = {k: v for k, v in result.items() if k != "parents"}
@@ -75,7 +84,9 @@ class BioRegistry(Registry, HasParents, CanValidate):
             # this checks if we receive a np.ndarray from pandas
             if isinstance(parents, (list, np.ndarray)) and len(parents) > 0:
                 if not isinstance(parents[0], str):
-                    raise ValueError("not a valid parents kwarg, got to be list of ontology ids")
+                    raise ValueError(
+                        "not a valid parents kwarg, got to be list of ontology ids"
+                    )
                 self._parents = parents
 
         super().__init__(*args, **kwargs)
@@ -83,10 +94,10 @@ class BioRegistry(Registry, HasParents, CanValidate):
     @classmethod
     def public(
         cls,
-        organism: Optional[Union[str, Registry]] = None,
-        public_source: Optional["PublicSource"] = None,
+        organism: str | Registry | None = None,
+        public_source: PublicSource | None = None,
         **kwargs,
-    ) -> "PublicOntology":
+    ) -> PublicOntology:
         """The corresponding PublicOntology object.
 
         Note that the public source is auto-configured and tracked via :meth:`bionty.PublicSource`.
@@ -125,14 +136,20 @@ class BioRegistry(Registry, HasParents, CanValidate):
                 import lnschema_bionty as lb
 
                 if hasattr(cls, "organism_id"):
-                    organism = organism if lb.settings.organism is None else lb.settings.organism.name
+                    organism = (
+                        organism
+                        if lb.settings.organism is None
+                        else lb.settings.organism.name
+                    )
                 source = None
                 version = None
 
-            return getattr(bionty_base, cls.__name__)(organism=organism, source=source, version=version)
+            return getattr(bionty_base, cls.__name__)(
+                organism=organism, source=source, version=version
+            )
 
     @classmethod
-    def from_public(cls, **kwargs) -> Optional[Union["BioRegistry", List["BioRegistry"]]]:
+    def from_public(cls, **kwargs) -> BioRegistry | list[BioRegistry] | None:
         """Create a record or records from public reference based on a single field value.
 
         Notes:
@@ -152,9 +169,15 @@ class BioRegistry(Registry, HasParents, CanValidate):
 
         """
         # non-relationship kwargs
-        kv = {k: v for k, v in kwargs.items() if k not in [i.name for i in cls._meta.fields if i.is_relation]}
+        kv = {
+            k: v
+            for k, v in kwargs.items()
+            if k not in [i.name for i in cls._meta.fields if i.is_relation]
+        }
         if len(kv) > 1:
-            raise AssertionError("Only one field can be passed to generate record from public reference")
+            raise AssertionError(
+                "Only one field can be passed to generate record from public reference"
+            )
         elif len(kv) == 0:
             return None
         else:
@@ -176,18 +199,20 @@ class BioRegistry(Registry, HasParents, CanValidate):
             # here parents is still a list of ontology ids
             logger.info(f"also saving parents of {self}")
             # bulk create parent records
-            parents_records = self.from_values(parents, self.__class__.ontology_id, public_source=self.public_source)
+            parents_records = self.from_values(
+                parents, self.__class__.ontology_id, public_source=self.public_source
+            )
             ln.save(parents_records, mute=mute)
             self.parents.set(parents_records)
 
-    def save(self, parents: Optional[bool] = None, *args, **kwargs) -> None:
+    def save(self, parents: bool | None = None, *args, **kwargs) -> None:
         """Save the record and its parents recursively.
 
         Args:
             parents: `bool = True`. Whether to save parents records.
         """
         # save the record first without parents
-        super(BioRegistry, self).save(*args, **kwargs)
+        super().save(*args, **kwargs)
         from .core._settings import settings
 
         if parents is None:
@@ -209,31 +234,43 @@ class Organism(BioRegistry):
     uid = models.CharField(unique=True, max_length=8, default=ids.ontology)
     name = models.CharField(max_length=64, db_index=True, default=None, unique=True)
     """Name of a organism, required field."""
-    ontology_id = models.CharField(max_length=32, unique=True, db_index=True, null=True, default=None)
+    ontology_id = models.CharField(
+        max_length=32, unique=True, db_index=True, null=True, default=None
+    )
     """NCBI Taxon ID."""
-    scientific_name = models.CharField(max_length=64, db_index=True, unique=True, null=True, default=None)
+    scientific_name = models.CharField(
+        max_length=64, db_index=True, unique=True, null=True, default=None
+    )
     """Scientific name of a organism."""
     parents = models.ManyToManyField("self", symmetrical=False, related_name="children")
     """Parent organism records."""
-    public_source = models.ForeignKey("PublicSource", models.PROTECT, null=True, related_name="organisms")
+    public_source = models.ForeignKey(
+        "PublicSource", models.PROTECT, null=True, related_name="organisms"
+    )
     """:class:`~bionty.PublicSource` this record associates with."""
-    artifacts = models.ManyToManyField("lnschema_core.Artifact", related_name="organism")
+    artifacts = models.ManyToManyField(
+        "lnschema_core.Artifact", related_name="organism"
+    )
     """Artifacts linked to the organism."""
-    collections = models.ManyToManyField("lnschema_core.Collection", related_name="organism")
+    collections = models.ManyToManyField(
+        "lnschema_core.Collection", related_name="organism"
+    )
     """Collections linked to the organism."""
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
     """Time of creation of record."""
     updated_at = models.DateTimeField(auto_now=True, db_index=True)
     """Time of last update to record."""
-    created_by = models.ForeignKey(User, models.PROTECT, default=current_user_id, related_name="created_organism")
+    created_by = models.ForeignKey(
+        User, models.PROTECT, default=current_user_id, related_name="created_organism"
+    )
     """Creator of record, a :class:`~lamindb.User`."""
 
     @overload
     def __init__(
         self,
         name: str,
-        taxon_id: Optional[str],
-        scientific_name: Optional[str],
+        taxon_id: str | None,
+        scientific_name: str | None,
     ):
         ...
 
@@ -249,7 +286,7 @@ class Organism(BioRegistry):
         *args,
         **kwargs,
     ):
-        super(Organism, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
 
 class Gene(BioRegistry):
@@ -268,9 +305,13 @@ class Gene(BioRegistry):
     """A universal id (hash of selected field)."""
     symbol = models.CharField(max_length=64, db_index=True, null=True, default=None)
     """A unique short form of gene name."""
-    stable_id = models.CharField(max_length=64, db_index=True, null=True, default=None, unique=True)
+    stable_id = models.CharField(
+        max_length=64, db_index=True, null=True, default=None, unique=True
+    )
     """Stable ID of a gene that doesn't have ensembl_gene_id, e.g. a yeast gene."""
-    ensembl_gene_id = models.CharField(max_length=64, db_index=True, null=True, default=None, unique=True)
+    ensembl_gene_id = models.CharField(
+        max_length=64, db_index=True, null=True, default=None, unique=True
+    )
     """Ensembl gene stable ID, in the form ENS[organism prefix][feature type prefix][a unique eleven digit number]."""
     ncbi_gene_ids = models.TextField(null=True, default=None)
     """Bar-separated (|) NCBI Gene IDs that correspond to this Ensembl Gene ID.
@@ -282,35 +323,45 @@ class Gene(BioRegistry):
     """Description of the gene."""
     synonyms = models.TextField(null=True, default=None)
     """Bar-separated (|) synonyms that correspond to this gene."""
-    organism = models.ForeignKey(Organism, models.PROTECT, default=None, related_name="genes")
+    organism = models.ForeignKey(
+        Organism, models.PROTECT, default=None, related_name="genes"
+    )
     """:class:`~bionty.Organism` this gene associates with."""
-    public_source = models.ForeignKey("PublicSource", models.PROTECT, null=True, related_name="genes")
+    public_source = models.ForeignKey(
+        "PublicSource", models.PROTECT, null=True, related_name="genes"
+    )
     """:class:`~bionty.PublicSource` this gene associates with."""
     artifacts = models.ManyToManyField("lnschema_core.Artifact", related_name="genes")
     """Artifacts linked to the gene."""
-    collections = models.ManyToManyField("lnschema_core.Collection", related_name="genes")
+    collections = models.ManyToManyField(
+        "lnschema_core.Collection", related_name="genes"
+    )
     """Collections linked to the gene."""
-    feature_sets = models.ManyToManyField("lnschema_core.FeatureSet", related_name="genes")
+    feature_sets = models.ManyToManyField(
+        "lnschema_core.FeatureSet", related_name="genes"
+    )
     """Featuresets linked to this gene."""
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
     """Time of creation of record."""
     updated_at = models.DateTimeField(auto_now=True, db_index=True)
     """Time of last update to record."""
-    created_by = models.ForeignKey(User, models.PROTECT, default=current_user_id, related_name="created_genes")
+    created_by = models.ForeignKey(
+        User, models.PROTECT, default=current_user_id, related_name="created_genes"
+    )
     """Creator of record, a :class:`~lamindb.User`."""
 
     @overload
     def __init__(
         self,
-        symbol: Optional[str],
-        stable_id: Optional[str],
-        ensembl_gene_id: Optional[str],
-        ncbi_gene_ids: Optional[str],
-        biotype: Optional[str],
-        description: Optional[str],
-        synonyms: Optional[str],
-        organism: Optional[Organism],
-        public_source: Optional["PublicSource"],
+        symbol: str | None,
+        stable_id: str | None,
+        ensembl_gene_id: str | None,
+        ncbi_gene_ids: str | None,
+        biotype: str | None,
+        description: str | None,
+        synonyms: str | None,
+        organism: Organism | None,
+        public_source: PublicSource | None,
     ):
         ...
 
@@ -326,7 +377,7 @@ class Gene(BioRegistry):
         *args,
         **kwargs,
     ):
-        super(Gene, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
 
 class Protein(BioRegistry):
@@ -346,25 +397,39 @@ class Protein(BioRegistry):
     """A universal id (hash of selected field)."""
     name = models.CharField(max_length=64, db_index=True, null=True, default=None)
     """Unique name of a protein."""
-    uniprotkb_id = models.CharField(max_length=10, db_index=True, null=True, default=None, unique=True)
+    uniprotkb_id = models.CharField(
+        max_length=10, db_index=True, null=True, default=None, unique=True
+    )
     """UniProt protein ID, 6 alphanumeric characters, possibly suffixed by 4 more."""
     synonyms = models.TextField(null=True, default=None)
     """Bar-separated (|) synonyms that correspond to this protein."""
     length = models.BigIntegerField(db_index=True, null=True)
     """Length of the protein sequence."""
-    gene_symbol = models.CharField(max_length=64, db_index=True, null=True, default=None)
+    gene_symbol = models.CharField(
+        max_length=64, db_index=True, null=True, default=None
+    )
     """The primary gene symbol corresponds to this protein."""
     ensembl_gene_ids = models.TextField(null=True, default=None)
     """Bar-separated (|) Ensembl Gene IDs that correspond to this protein."""
-    organism = models.ForeignKey(Organism, models.PROTECT, default=None, related_name="proteins")
+    organism = models.ForeignKey(
+        Organism, models.PROTECT, default=None, related_name="proteins"
+    )
     """:class:`~bionty.Organism` this protein associates with."""
-    public_source = models.ForeignKey("PublicSource", models.PROTECT, null=True, related_name="proteins")
+    public_source = models.ForeignKey(
+        "PublicSource", models.PROTECT, null=True, related_name="proteins"
+    )
     """:class:`~bionty.PublicSource` this protein associates with."""
-    artifacts = models.ManyToManyField("lnschema_core.Artifact", related_name="proteins")
+    artifacts = models.ManyToManyField(
+        "lnschema_core.Artifact", related_name="proteins"
+    )
     """Artifacts linked to the protein."""
-    collections = models.ManyToManyField("lnschema_core.Collection", related_name="proteins")
+    collections = models.ManyToManyField(
+        "lnschema_core.Collection", related_name="proteins"
+    )
     """Collections linked to the protein."""
-    feature_sets = models.ManyToManyField("lnschema_core.FeatureSet", related_name="proteins")
+    feature_sets = models.ManyToManyField(
+        "lnschema_core.FeatureSet", related_name="proteins"
+    )
     """Featuresets linked to this protein."""
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
     """Time of creation of record."""
@@ -381,14 +446,14 @@ class Protein(BioRegistry):
     @overload
     def __init__(
         self,
-        name: Optional[str],
-        uniprotkb_id: Optional[str],
-        synonyms: Optional[str],
-        length: Optional[int],
-        gene_symbol: Optional[str],
-        ensembl_gene_ids: Optional[str],
-        organism: Optional[Organism],
-        public_source: Optional["PublicSource"],
+        name: str | None,
+        uniprotkb_id: str | None,
+        synonyms: str | None,
+        length: int | None,
+        gene_symbol: str | None,
+        ensembl_gene_ids: str | None,
+        organism: Organism | None,
+        public_source: PublicSource | None,
     ):
         ...
 
@@ -404,7 +469,7 @@ class Protein(BioRegistry):
         *args,
         **kwargs,
     ):
-        super(Protein, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
 
 class CellMarker(BioRegistry):
@@ -424,22 +489,38 @@ class CellMarker(BioRegistry):
     name = models.CharField(max_length=64, db_index=True, default=None, unique=True)
     synonyms = models.TextField(null=True, default=None)
     """Bar-separated (|) synonyms that correspond to this cell marker."""
-    gene_symbol = models.CharField(max_length=64, db_index=True, null=True, default=None)
+    gene_symbol = models.CharField(
+        max_length=64, db_index=True, null=True, default=None
+    )
     """Gene symbol that corresponds to this cell marker."""
     """Unique name of the cell marker."""
-    ncbi_gene_id = models.CharField(max_length=32, db_index=True, null=True, default=None)
+    ncbi_gene_id = models.CharField(
+        max_length=32, db_index=True, null=True, default=None
+    )
     """NCBI gene id that corresponds to this cell marker."""
-    uniprotkb_id = models.CharField(max_length=10, db_index=True, null=True, default=None)
+    uniprotkb_id = models.CharField(
+        max_length=10, db_index=True, null=True, default=None
+    )
     """Uniprotkb id that corresponds to this cell marker."""
-    organism = models.ForeignKey(Organism, models.PROTECT, default=None, related_name="cell_markers")
+    organism = models.ForeignKey(
+        Organism, models.PROTECT, default=None, related_name="cell_markers"
+    )
     """:class:`~bionty.Organism` this cell marker associates with."""
-    public_source = models.ForeignKey("PublicSource", models.PROTECT, null=True, related_name="cell_markers")
+    public_source = models.ForeignKey(
+        "PublicSource", models.PROTECT, null=True, related_name="cell_markers"
+    )
     """:class:`~bionty.PublicSource` this cell marker associates with."""
-    artifacts = models.ManyToManyField("lnschema_core.Artifact", related_name="cell_markers")
+    artifacts = models.ManyToManyField(
+        "lnschema_core.Artifact", related_name="cell_markers"
+    )
     """Artifacts linked to the cell marker."""
-    collections = models.ManyToManyField("lnschema_core.Collection", related_name="cell_markers")
+    collections = models.ManyToManyField(
+        "lnschema_core.Collection", related_name="cell_markers"
+    )
     """Collections linked to the cell marker."""
-    feature_sets = models.ManyToManyField("lnschema_core.FeatureSet", related_name="cell_markers")
+    feature_sets = models.ManyToManyField(
+        "lnschema_core.FeatureSet", related_name="cell_markers"
+    )
     """Featuresets linked to this cell marker."""
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
     """Time of creation of record."""
@@ -457,12 +538,12 @@ class CellMarker(BioRegistry):
     def __init__(
         self,
         name: str,
-        synonyms: Optional[str],
-        gene_symbol: Optional[str],
-        ncbi_gene_id: Optional[str],
-        uniprotkb_id: Optional[str],
-        organism: Optional[Organism],
-        public_source: Optional["PublicSource"],
+        synonyms: str | None,
+        gene_symbol: str | None,
+        ncbi_gene_id: str | None,
+        uniprotkb_id: str | None,
+        organism: Organism | None,
+        public_source: PublicSource | None,
     ):
         ...
 
@@ -478,7 +559,7 @@ class CellMarker(BioRegistry):
         *args,
         **kwargs,
     ):
-        super(CellMarker, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
 
 class Tissue(BioRegistry):
@@ -499,9 +580,13 @@ class Tissue(BioRegistry):
     """A universal id (hash of selected field)."""
     name = models.CharField(max_length=256, db_index=True)
     """Name of the tissue."""
-    ontology_id = models.CharField(max_length=32, db_index=True, null=True, default=None)
+    ontology_id = models.CharField(
+        max_length=32, db_index=True, null=True, default=None
+    )
     """Ontology ID of the tissue."""
-    abbr = models.CharField(max_length=32, db_index=True, unique=True, null=True, default=None)
+    abbr = models.CharField(
+        max_length=32, db_index=True, unique=True, null=True, default=None
+    )
     """A unique abbreviation of tissue."""
     synonyms = models.TextField(null=True, default=None)
     """Bar-separated (|) synonyms that correspond to this tissue."""
@@ -509,17 +594,23 @@ class Tissue(BioRegistry):
     """Description of the tissue."""
     parents = models.ManyToManyField("self", symmetrical=False, related_name="children")
     """Parent tissues records."""
-    public_source = models.ForeignKey("PublicSource", models.PROTECT, null=True, related_name="tissues")
+    public_source = models.ForeignKey(
+        "PublicSource", models.PROTECT, null=True, related_name="tissues"
+    )
     """:class:`~bionty.PublicSource` this tissue associates with."""
     artifacts = models.ManyToManyField("lnschema_core.Artifact", related_name="tissues")
     """Artifacts linked to the tissue."""
-    collections = models.ManyToManyField("lnschema_core.Collection", related_name="tissues")
+    collections = models.ManyToManyField(
+        "lnschema_core.Collection", related_name="tissues"
+    )
     """Collections linked to the tissue."""
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
     """Time of creation of record."""
     updated_at = models.DateTimeField(auto_now=True, db_index=True)
     """Time of last update to record."""
-    created_by = models.ForeignKey(User, models.PROTECT, default=current_user_id, related_name="created_tissues")
+    created_by = models.ForeignKey(
+        User, models.PROTECT, default=current_user_id, related_name="created_tissues"
+    )
     """Creator of record, a :class:`~lamindb.User`."""
 
     class Meta:
@@ -529,12 +620,12 @@ class Tissue(BioRegistry):
     def __init__(
         self,
         name: str,
-        ontology_id: Optional[str],
-        abbr: Optional[str],
-        synonyms: Optional[str],
-        description: Optional[str],
-        parents: List["Tissue"],
-        public_source: Optional["PublicSource"],
+        ontology_id: str | None,
+        abbr: str | None,
+        synonyms: str | None,
+        description: str | None,
+        parents: list[Tissue],
+        public_source: PublicSource | None,
     ):
         ...
 
@@ -550,7 +641,7 @@ class Tissue(BioRegistry):
         *args,
         **kwargs,
     ):
-        super(Tissue, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
 
 class CellType(BioRegistry):
@@ -571,9 +662,13 @@ class CellType(BioRegistry):
     """A universal id (hash of selected field)."""
     name = models.CharField(max_length=256, db_index=True)
     """Name of the cell type."""
-    ontology_id = models.CharField(max_length=32, db_index=True, null=True, default=None)
+    ontology_id = models.CharField(
+        max_length=32, db_index=True, null=True, default=None
+    )
     """Ontology ID of the cell type."""
-    abbr = models.CharField(max_length=32, db_index=True, unique=True, null=True, default=None)
+    abbr = models.CharField(
+        max_length=32, db_index=True, unique=True, null=True, default=None
+    )
     """A unique abbreviation of cell type."""
     synonyms = models.TextField(null=True, default=None)
     """Bar-separated (|) synonyms that correspond to this cell type."""
@@ -581,11 +676,17 @@ class CellType(BioRegistry):
     """Description of the cell type."""
     parents = models.ManyToManyField("self", symmetrical=False, related_name="children")
     """Parent cell type records."""
-    public_source = models.ForeignKey("PublicSource", models.PROTECT, null=True, related_name="cell_types")
+    public_source = models.ForeignKey(
+        "PublicSource", models.PROTECT, null=True, related_name="cell_types"
+    )
     """:class:`~bionty.PublicSource` this cell type associates with."""
-    artifacts = models.ManyToManyField("lnschema_core.Artifact", related_name="cell_types")
+    artifacts = models.ManyToManyField(
+        "lnschema_core.Artifact", related_name="cell_types"
+    )
     """Artifacts linked to the cell type."""
-    collections = models.ManyToManyField("lnschema_core.Collection", related_name="cell_types")
+    collections = models.ManyToManyField(
+        "lnschema_core.Collection", related_name="cell_types"
+    )
     """Collections linked to the cell type."""
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
     """Time of creation of record."""
@@ -606,12 +707,12 @@ class CellType(BioRegistry):
     def __init__(
         self,
         name: str,
-        ontology_id: Optional[str],
-        abbr: Optional[str],
-        synonyms: Optional[str],
-        description: Optional[str],
-        parents: List["CellType"],
-        public_source: Optional["PublicSource"],
+        ontology_id: str | None,
+        abbr: str | None,
+        synonyms: str | None,
+        description: str | None,
+        parents: list[CellType],
+        public_source: PublicSource | None,
     ):
         ...
 
@@ -627,7 +728,7 @@ class CellType(BioRegistry):
         *args,
         **kwargs,
     ):
-        super(CellType, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
 
 class Disease(BioRegistry):
@@ -648,9 +749,13 @@ class Disease(BioRegistry):
     """A universal id (hash of selected field)."""
     name = models.CharField(max_length=256, db_index=True)
     """Name of the disease."""
-    ontology_id = models.CharField(max_length=32, db_index=True, null=True, default=None)
+    ontology_id = models.CharField(
+        max_length=32, db_index=True, null=True, default=None
+    )
     """Ontology ID of the disease."""
-    abbr = models.CharField(max_length=32, db_index=True, unique=True, null=True, default=None)
+    abbr = models.CharField(
+        max_length=32, db_index=True, unique=True, null=True, default=None
+    )
     """A unique abbreviation of disease."""
     synonyms = models.TextField(null=True, default=None)
     """Bar-separated (|) synonyms that correspond to this disease."""
@@ -658,11 +763,17 @@ class Disease(BioRegistry):
     """Description of the disease."""
     parents = models.ManyToManyField("self", symmetrical=False, related_name="children")
     """Parent disease records."""
-    public_source = models.ForeignKey("PublicSource", models.PROTECT, null=True, related_name="diseases")
+    public_source = models.ForeignKey(
+        "PublicSource", models.PROTECT, null=True, related_name="diseases"
+    )
     """:class:`~bionty.PublicSource` this disease associates with."""
-    artifacts = models.ManyToManyField("lnschema_core.Artifact", related_name="diseases")
+    artifacts = models.ManyToManyField(
+        "lnschema_core.Artifact", related_name="diseases"
+    )
     """Artifacts linked to the disease."""
-    collections = models.ManyToManyField("lnschema_core.Collection", related_name="diseases")
+    collections = models.ManyToManyField(
+        "lnschema_core.Collection", related_name="diseases"
+    )
     """Collections linked to the disease."""
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
     """Time of creation of record."""
@@ -683,12 +794,12 @@ class Disease(BioRegistry):
     def __init__(
         self,
         name: str,
-        ontology_id: Optional[str],
-        abbr: Optional[str],
-        synonyms: Optional[str],
-        description: Optional[str],
-        parents: List["Disease"],
-        public_source: Optional["PublicSource"],
+        ontology_id: str | None,
+        abbr: str | None,
+        synonyms: str | None,
+        description: str | None,
+        parents: list[Disease],
+        public_source: PublicSource | None,
     ):
         ...
 
@@ -704,7 +815,7 @@ class Disease(BioRegistry):
         *args,
         **kwargs,
     ):
-        super(Disease, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
 
 class CellLine(BioRegistry):
@@ -726,9 +837,13 @@ class CellLine(BioRegistry):
     """A universal id (hash of selected field)."""
     name = models.CharField(max_length=256, db_index=True)
     """Name of the cell line."""
-    ontology_id = models.CharField(max_length=32, db_index=True, null=True, default=None)
+    ontology_id = models.CharField(
+        max_length=32, db_index=True, null=True, default=None
+    )
     """Ontology ID of the cell line."""
-    abbr = models.CharField(max_length=32, db_index=True, unique=True, null=True, default=None)
+    abbr = models.CharField(
+        max_length=32, db_index=True, unique=True, null=True, default=None
+    )
     """A unique abbreviation of cell line."""
     synonyms = models.TextField(null=True, default=None)
     """Bar-separated (|) synonyms that correspond to this cell line."""
@@ -736,11 +851,17 @@ class CellLine(BioRegistry):
     """Description of the cell line."""
     parents = models.ManyToManyField("self", symmetrical=False, related_name="children")
     """Parent cell line records."""
-    public_source = models.ForeignKey("PublicSource", models.PROTECT, null=True, related_name="cell_lines")
+    public_source = models.ForeignKey(
+        "PublicSource", models.PROTECT, null=True, related_name="cell_lines"
+    )
     """:class:`~bionty.PublicSource` this cell line associates with."""
-    artifacts = models.ManyToManyField("lnschema_core.Artifact", related_name="cell_lines")
+    artifacts = models.ManyToManyField(
+        "lnschema_core.Artifact", related_name="cell_lines"
+    )
     """Artifacts linked to the cell line."""
-    collections = models.ManyToManyField("lnschema_core.Collection", related_name="cell_lines")
+    collections = models.ManyToManyField(
+        "lnschema_core.Collection", related_name="cell_lines"
+    )
     """Collections linked to the cell line."""
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
     """Time of creation of record."""
@@ -761,12 +882,12 @@ class CellLine(BioRegistry):
     def __init__(
         self,
         name: str,
-        ontology_id: Optional[str],
-        abbr: Optional[str],
-        synonyms: Optional[str],
-        description: Optional[str],
-        parents: List["CellLine"],
-        public_source: Optional["PublicSource"],
+        ontology_id: str | None,
+        abbr: str | None,
+        synonyms: str | None,
+        description: str | None,
+        parents: list[CellLine],
+        public_source: PublicSource | None,
     ):
         ...
 
@@ -782,7 +903,7 @@ class CellLine(BioRegistry):
         *args,
         **kwargs,
     ):
-        super(CellLine, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
 
 class Phenotype(BioRegistry):
@@ -807,9 +928,13 @@ class Phenotype(BioRegistry):
     """A universal id (hash of selected field)."""
     name = models.CharField(max_length=256, db_index=True)
     """Name of the phenotype."""
-    ontology_id = models.CharField(max_length=32, db_index=True, null=True, default=None)
+    ontology_id = models.CharField(
+        max_length=32, db_index=True, null=True, default=None
+    )
     """Ontology ID of the phenotype."""
-    abbr = models.CharField(max_length=32, db_index=True, unique=True, null=True, default=None)
+    abbr = models.CharField(
+        max_length=32, db_index=True, unique=True, null=True, default=None
+    )
     """A unique abbreviation of phenotype."""
     synonyms = models.TextField(null=True, default=None)
     """Bar-separated (|) synonyms that correspond to this phenotype."""
@@ -817,11 +942,17 @@ class Phenotype(BioRegistry):
     """Description of the phenotype."""
     parents = models.ManyToManyField("self", symmetrical=False, related_name="children")
     """Parent phenotype records."""
-    public_source = models.ForeignKey("PublicSource", models.PROTECT, null=True, related_name="phenotypes")
+    public_source = models.ForeignKey(
+        "PublicSource", models.PROTECT, null=True, related_name="phenotypes"
+    )
     """:class:`~bionty.PublicSource` this phenotype associates with."""
-    artifacts = models.ManyToManyField("lnschema_core.Artifact", related_name="phenotypes")
+    artifacts = models.ManyToManyField(
+        "lnschema_core.Artifact", related_name="phenotypes"
+    )
     """Artifacts linked to the phenotype."""
-    collections = models.ManyToManyField("lnschema_core.Collection", related_name="phenotypes")
+    collections = models.ManyToManyField(
+        "lnschema_core.Collection", related_name="phenotypes"
+    )
     """Collections linked to the phenotype."""
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
     """Time of creation of record."""
@@ -842,12 +973,12 @@ class Phenotype(BioRegistry):
     def __init__(
         self,
         name: str,
-        ontology_id: Optional[str],
-        abbr: Optional[str],
-        synonyms: Optional[str],
-        description: Optional[str],
-        parents: List["Phenotype"],
-        public_source: Optional["PublicSource"],
+        ontology_id: str | None,
+        abbr: str | None,
+        synonyms: str | None,
+        description: str | None,
+        parents: list[Phenotype],
+        public_source: PublicSource | None,
     ):
         ...
 
@@ -863,7 +994,7 @@ class Phenotype(BioRegistry):
         *args,
         **kwargs,
     ):
-        super(Phenotype, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
 
 class Pathway(BioRegistry):
@@ -886,9 +1017,13 @@ class Pathway(BioRegistry):
     """A universal id (hash of selected field)."""
     name = models.CharField(max_length=256, db_index=True)
     """Name of the pathway."""
-    ontology_id = models.CharField(max_length=32, db_index=True, null=True, default=None)
+    ontology_id = models.CharField(
+        max_length=32, db_index=True, null=True, default=None
+    )
     """Ontology ID of the pathway."""
-    abbr = models.CharField(max_length=32, db_index=True, unique=True, null=True, default=None)
+    abbr = models.CharField(
+        max_length=32, db_index=True, unique=True, null=True, default=None
+    )
     """A unique abbreviation of pathway."""
     synonyms = models.TextField(null=True, default=None)
     """Bar-separated (|) synonyms that correspond to this pathway."""
@@ -896,15 +1031,23 @@ class Pathway(BioRegistry):
     """Description of the pathway."""
     parents = models.ManyToManyField("self", symmetrical=False, related_name="children")
     """Parent pathway records."""
-    public_source = models.ForeignKey("PublicSource", models.PROTECT, null=True, related_name="pathways")
+    public_source = models.ForeignKey(
+        "PublicSource", models.PROTECT, null=True, related_name="pathways"
+    )
     """:class:`~bionty.PublicSource` this pathway associates with."""
     genes = models.ManyToManyField("Gene", related_name="pathways")
     """Genes that signifies the pathway."""
-    feature_sets = models.ManyToManyField("lnschema_core.FeatureSet", related_name="pathways")
+    feature_sets = models.ManyToManyField(
+        "lnschema_core.FeatureSet", related_name="pathways"
+    )
     """Featuresets linked to the pathway."""
-    artifacts = models.ManyToManyField("lnschema_core.Artifact", related_name="pathways")
+    artifacts = models.ManyToManyField(
+        "lnschema_core.Artifact", related_name="pathways"
+    )
     """Artifacts linked to the pathway."""
-    collections = models.ManyToManyField("lnschema_core.Collection", related_name="pathways")
+    collections = models.ManyToManyField(
+        "lnschema_core.Collection", related_name="pathways"
+    )
     """Collections linked to the pathway."""
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
     """Time of creation of record."""
@@ -925,12 +1068,12 @@ class Pathway(BioRegistry):
     def __init__(
         self,
         name: str,
-        ontology_id: Optional[str],
-        abbr: Optional[str],
-        synonyms: Optional[str],
-        description: Optional[str],
-        parents: List["Pathway"],
-        public_source: Optional["PublicSource"],
+        ontology_id: str | None,
+        abbr: str | None,
+        synonyms: str | None,
+        description: str | None,
+        parents: list[Pathway],
+        public_source: PublicSource | None,
     ):
         ...
 
@@ -946,12 +1089,11 @@ class Pathway(BioRegistry):
         *args,
         **kwargs,
     ):
-        super(Pathway, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
 
 class ExperimentalFactor(BioRegistry):
     """Experimental factors - `Experimental Factor Ontology <https://www.ebi.ac.uk/ols/ontologies/efo>`__.
-
 
     Notes:
         For more info, see tutorial :doc:`bio-registries`
@@ -969,9 +1111,13 @@ class ExperimentalFactor(BioRegistry):
     """A universal id (hash of selected field)."""
     name = models.CharField(max_length=256, db_index=True)
     """Name of the experimental factor."""
-    ontology_id = models.CharField(max_length=32, db_index=True, null=True, default=None)
+    ontology_id = models.CharField(
+        max_length=32, db_index=True, null=True, default=None
+    )
     """Ontology ID of the experimental factor."""
-    abbr = models.CharField(max_length=32, db_index=True, unique=True, null=True, default=None)
+    abbr = models.CharField(
+        max_length=32, db_index=True, unique=True, null=True, default=None
+    )
     """A unique abbreviation of experimental factor."""
     synonyms = models.TextField(null=True, default=None)
     """Bar-separated (|) synonyms that correspond to this experimental factor."""
@@ -985,11 +1131,17 @@ class ExperimentalFactor(BioRegistry):
     """Phenotypic experimental factor, parsed from EFO."""
     parents = models.ManyToManyField("self", symmetrical=False, related_name="children")
     """Parent experimental factor records."""
-    public_source = models.ForeignKey("PublicSource", models.PROTECT, null=True, related_name="experimental_factors")
+    public_source = models.ForeignKey(
+        "PublicSource", models.PROTECT, null=True, related_name="experimental_factors"
+    )
     """:class:`~bionty.PublicSource` this experimental_factors associates with."""
-    artifacts = models.ManyToManyField("lnschema_core.Artifact", related_name="experimental_factors")
+    artifacts = models.ManyToManyField(
+        "lnschema_core.Artifact", related_name="experimental_factors"
+    )
     """Artifacts linked to the experimental_factors."""
-    collections = models.ManyToManyField("lnschema_core.Collection", related_name="experimental_factors")
+    collections = models.ManyToManyField(
+        "lnschema_core.Collection", related_name="experimental_factors"
+    )
     """Collections linked to the experimental factor."""
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
     """Time of creation of record."""
@@ -1010,12 +1162,12 @@ class ExperimentalFactor(BioRegistry):
     def __init__(
         self,
         name: str,
-        ontology_id: Optional[str],
-        abbr: Optional[str],
-        synonyms: Optional[str],
-        description: Optional[str],
-        parents: List["ExperimentalFactor"],
-        public_source: Optional["PublicSource"],
+        ontology_id: str | None,
+        abbr: str | None,
+        synonyms: str | None,
+        description: str | None,
+        parents: list[ExperimentalFactor],
+        public_source: PublicSource | None,
     ):
         ...
 
@@ -1031,12 +1183,12 @@ class ExperimentalFactor(BioRegistry):
         *args,
         **kwargs,
     ):
-        super(ExperimentalFactor, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
 
 class DevelopmentalStage(BioRegistry):
     """Developmental stages - `Human Developmental Stages <https://github.com/obophenotype/developmental-stage-ontologies/wiki/HsapDv>`__,
-    `Mouse Developmental Stages <https://github.com/obophenotype/developmental-stage-ontologies/wiki/MmusDv>`__.  # noqa
+    `Mouse Developmental Stages <https://github.com/obophenotype/developmental-stage-ontologies/wiki/MmusDv>`__.  # noqa.
 
     Notes:
         For more info, see tutorial :doc:`bio-registries`
@@ -1054,9 +1206,13 @@ class DevelopmentalStage(BioRegistry):
     """A universal id (hash of selected field)."""
     name = models.CharField(max_length=256, db_index=True)
     """Name of the developmental stage."""
-    ontology_id = models.CharField(max_length=32, db_index=True, null=True, default=None)
+    ontology_id = models.CharField(
+        max_length=32, db_index=True, null=True, default=None
+    )
     """Ontology ID of the developmental stage."""
-    abbr = models.CharField(max_length=32, db_index=True, unique=True, null=True, default=None)
+    abbr = models.CharField(
+        max_length=32, db_index=True, unique=True, null=True, default=None
+    )
     """A unique abbreviation of developmental stage."""
     synonyms = models.TextField(null=True, default=None)
     """Bar-separated (|) synonyms that correspond to this developmental stage."""
@@ -1064,11 +1220,17 @@ class DevelopmentalStage(BioRegistry):
     """Description of the developmental stage."""
     parents = models.ManyToManyField("self", symmetrical=False, related_name="children")
     """Parent developmental stage records."""
-    public_source = models.ForeignKey("PublicSource", models.PROTECT, null=True, related_name="developmental_stages")
+    public_source = models.ForeignKey(
+        "PublicSource", models.PROTECT, null=True, related_name="developmental_stages"
+    )
     """:class:`~bionty.PublicSource` this developmental stage associates with."""
-    artifacts = models.ManyToManyField("lnschema_core.Artifact", related_name="developmental_stages")
+    artifacts = models.ManyToManyField(
+        "lnschema_core.Artifact", related_name="developmental_stages"
+    )
     """Artifacts linked to the developmental stage."""
-    collections = models.ManyToManyField("lnschema_core.Collection", related_name="developmental_stages")
+    collections = models.ManyToManyField(
+        "lnschema_core.Collection", related_name="developmental_stages"
+    )
     """Collections linked to the developmental stage."""
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
     """Time of creation of record."""
@@ -1089,12 +1251,12 @@ class DevelopmentalStage(BioRegistry):
     def __init__(
         self,
         name: str,
-        ontology_id: Optional[str],
-        abbr: Optional[str],
-        synonyms: Optional[str],
-        description: Optional[str],
-        parents: List["DevelopmentalStage"],
-        public_source: Optional["PublicSource"],
+        ontology_id: str | None,
+        abbr: str | None,
+        synonyms: str | None,
+        description: str | None,
+        parents: list[DevelopmentalStage],
+        public_source: PublicSource | None,
     ):
         ...
 
@@ -1110,7 +1272,7 @@ class DevelopmentalStage(BioRegistry):
         *args,
         **kwargs,
     ):
-        super(DevelopmentalStage, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
 
 class Ethnicity(BioRegistry):
@@ -1132,9 +1294,13 @@ class Ethnicity(BioRegistry):
     """A universal id (hash of selected field)."""
     name = models.CharField(max_length=256, db_index=True)
     """Name of the ethnicity."""
-    ontology_id = models.CharField(max_length=32, db_index=True, null=True, default=None)
+    ontology_id = models.CharField(
+        max_length=32, db_index=True, null=True, default=None
+    )
     """Ontology ID of the ethnicity."""
-    abbr = models.CharField(max_length=32, db_index=True, unique=True, null=True, default=None)
+    abbr = models.CharField(
+        max_length=32, db_index=True, unique=True, null=True, default=None
+    )
     """A unique abbreviation of ethnicity."""
     synonyms = models.TextField(null=True, default=None)
     """Bar-separated (|) synonyms that correspond to this ethnicity."""
@@ -1142,11 +1308,17 @@ class Ethnicity(BioRegistry):
     """Description of the ethnicity."""
     parents = models.ManyToManyField("self", symmetrical=False, related_name="children")
     """Parent ethnicity records."""
-    public_source = models.ForeignKey("PublicSource", models.PROTECT, null=True, related_name="ethnicities")
+    public_source = models.ForeignKey(
+        "PublicSource", models.PROTECT, null=True, related_name="ethnicities"
+    )
     """:class:`~bionty.PublicSource` this ethnicity associates with."""
-    artifacts = models.ManyToManyField("lnschema_core.Artifact", related_name="ethnicities")
+    artifacts = models.ManyToManyField(
+        "lnschema_core.Artifact", related_name="ethnicities"
+    )
     """Artifacts linked to the ethnicity."""
-    collections = models.ManyToManyField("lnschema_core.Collection", related_name="ethnicities")
+    collections = models.ManyToManyField(
+        "lnschema_core.Collection", related_name="ethnicities"
+    )
     """Collections linked to the ethnicity."""
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
     """Time of creation of record."""
@@ -1167,12 +1339,12 @@ class Ethnicity(BioRegistry):
     def __init__(
         self,
         name: str,
-        ontology_id: Optional[str],
-        abbr: Optional[str],
-        synonyms: Optional[str],
-        description: Optional[str],
-        parents: List["Ethnicity"],
-        public_source: Optional["PublicSource"],
+        ontology_id: str | None,
+        abbr: str | None,
+        synonyms: str | None,
+        description: str | None,
+        parents: list[Ethnicity],
+        public_source: PublicSource | None,
     ):
         ...
 
@@ -1188,7 +1360,7 @@ class Ethnicity(BioRegistry):
         *args,
         **kwargs,
     ):
-        super(Ethnicity, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
 
 class PublicSource(Registry):
@@ -1244,10 +1416,10 @@ class PublicSource(Registry):
         currently_used: bool,
         source: str,
         version: str,
-        source_name: Optional[str],
-        url: Optional[str],
-        md5: Optional[str],
-        source_website: Optional[str],
+        source_name: str | None,
+        url: str | None,
+        md5: str | None,
+        source_website: str | None,
     ):
         ...
 
@@ -1264,7 +1436,7 @@ class PublicSource(Registry):
         **kwargs,
     ):
         kwargs = encode_uid(orm=self, kwargs=kwargs)
-        super(PublicSource, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     def set_as_currently_used(self):
         """Set this record as the currently used public source.
@@ -1275,7 +1447,9 @@ class PublicSource(Registry):
         """
         self.currently_used = True
         self.save()
-        PublicSource.filter(entity=self.entity, organism=self.organism, source=self.source).exclude(uid=self.uid).update(currently_used=False)
+        PublicSource.filter(
+            entity=self.entity, organism=self.organism, source=self.source
+        ).exclude(uid=self.uid).update(currently_used=False)
         logger.success(f"set {self} as currently used")
         logger.warning("please reload your instance to reflect the updates!")
 

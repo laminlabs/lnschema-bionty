@@ -12,6 +12,8 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name="gene",
             name="ensembl_gene_id",
-            field=models.CharField(db_index=True, default=None, max_length=64, null=True, unique=True),
+            field=models.CharField(
+                db_index=True, default=None, max_length=64, null=True, unique=True
+            ),
         ),
     ]

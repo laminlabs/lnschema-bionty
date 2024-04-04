@@ -9,7 +9,7 @@ def sync_all_public_sources_to_latest():
         >>> from bionty.core import sync_all_public_sources_to_latest
         >>> sync_all_public_sources_to_latest()
     """
-    from ..models import PublicSource
+    from lnschema_bionty.models import PublicSource
 
     records = PublicSource.filter().all()
     df_sources = bionty_base.display_available_sources().reset_index()
@@ -41,11 +41,13 @@ def set_latest_public_sources_as_currently_used():
         >>> from bionty.core import set_latest_public_sources_as_currently_used
         >>> set_latest_public_sources_as_currently_used()
     """
-    from ..models import PublicSource
+    from lnschema_bionty.models import PublicSource
 
     records = PublicSource.filter().all()
     df = records.df()
     for (entity, organism), df_group in df.groupby(["entity", "organism"]):
         latest_uid = df_group.sort_values("version", ascending=False).uid.iloc[0]
         records.filter(uid=latest_uid).update(currently_used=True)
-        records.filter(entity=entity, organism=organism).exclude(uid=latest_uid).update(currently_used=False)
+        records.filter(entity=entity, organism=organism).exclude(uid=latest_uid).update(
+            currently_used=False
+        )

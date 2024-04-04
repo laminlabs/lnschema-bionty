@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from typing import Dict, Optional, Union
 
 import bionty_base
@@ -8,7 +10,9 @@ from lnschema_core.models import Registry
 from . import ids
 
 
-def create_or_get_organism_record(organism: Optional[Union[str, Registry]], orm: Registry) -> Optional[Registry]:
+def create_or_get_organism_record(
+    organism: str | Registry | None, orm: Registry
+) -> Registry | None:
     # return None if an Registry doesn't have organism field
     organism_record = None
     if hasattr(orm, "organism_id"):
@@ -32,25 +36,29 @@ def create_or_get_organism_record(organism: Optional[Union[str, Registry]], orm:
                     # create a organism record from bionty reference
                     organism_record = Organism.from_public(name=organism)
                     # link the organism record to the default bionty source
-                    organism_record.public_source = get_public_source_record(bionty_base.Organism())  # type:ignore
+                    organism_record.public_source = get_public_source_record(
+                        bionty_base.Organism()
+                    )  # type:ignore
                     organism_record.save()  # type:ignore
                 except KeyError:
                     # no such organism is found in bionty reference
                     organism_record = None
 
         if organism_record is None:
-            raise AssertionError(f"{orm.__name__} requires to specify a organism name via `organism=` or `bionty.settings.organism=`!")
+            raise AssertionError(
+                f"{orm.__name__} requires to specify a organism name via `organism=` or `bionty.settings.organism=`!"
+            )
 
     return organism_record
 
 
 def get_public_source_record(public_ontology: bionty_base.PublicOntology):
-    kwargs = dict(
-        entity=public_ontology.__class__.__name__,
-        organism=public_ontology.organism,
-        source=public_ontology.source,
-        version=public_ontology.version,
-    )
+    kwargs = {
+        "entity": public_ontology.__class__.__name__,
+        "organism": public_ontology.organism,
+        "source": public_ontology.source,
+        "version": public_ontology.version,
+    }
     from .models import PublicSource
 
     source_record = PublicSource.objects.filter(**kwargs).get()
@@ -86,7 +94,7 @@ def encode_uid(orm: Registry, kwargs: dict):
         if str_to_encode is None or str_to_encode == "":
             raise AssertionError("must provide name")
     elif name == "publicsource":
-        str_to_encode = f'{kwargs.get("entity", "")}{kwargs.get("source", "")}{kwargs.get("organism", "")}{kwargs.get("version", "")}'  # noqa
+        str_to_encode = f'{kwargs.get("entity", "")}{kwargs.get("source", "")}{kwargs.get("organism", "")}{kwargs.get("version", "")}'
     else:
         str_to_encode = kwargs.get("ontology_id")
         if str_to_encode is None or str_to_encode == "":
@@ -107,7 +115,7 @@ def encode_uid(orm: Registry, kwargs: dict):
     return kwargs
 
 
-def lookup2kwargs(orm: Registry, *args, **kwargs) -> Dict:
+def lookup2kwargs(orm: Registry, *args, **kwargs) -> dict:
     """Pass bionty search/lookup results."""
     arg = args[0]
     if isinstance(arg, tuple):
@@ -119,15 +127,21 @@ def lookup2kwargs(orm: Registry, *args, **kwargs) -> Dict:
         import bionty_base
 
         # add organism and public_source
-        organism_record = create_or_get_organism_record(orm=orm.__class__, organism=kwargs.get("organism"))
+        organism_record = create_or_get_organism_record(
+            orm=orm.__class__, organism=kwargs.get("organism")
+        )
         if organism_record is not None:
             bionty_kwargs["organism"] = organism_record
-        public_ontology = getattr(bionty_base, orm.__class__.__name__)(organism=organism_record.name if organism_record is not None else None)
+        public_ontology = getattr(bionty_base, orm.__class__.__name__)(
+            organism=organism_record.name if organism_record is not None else None
+        )
         bionty_kwargs["public_source"] = get_public_source_record(public_ontology)
 
         model_field_names = {i.name for i in orm._meta.fields}
         model_field_names.add("parents")
-        bionty_kwargs = {k: v for k, v in bionty_kwargs.items() if k in model_field_names}
+        bionty_kwargs = {
+            k: v for k, v in bionty_kwargs.items() if k in model_field_names
+        }
     return encode_uid(orm=orm, kwargs=bionty_kwargs)
 
 

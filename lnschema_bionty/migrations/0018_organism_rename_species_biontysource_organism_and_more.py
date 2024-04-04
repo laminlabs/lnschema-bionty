@@ -18,11 +18,15 @@ def forwards_func(apps, schema_editor):
         with transaction.atomic():
             for record in Feature.objects.using(db_alias).all():
                 if isinstance(record.registries, str):
-                    record.registries = record.registries.replace("bionty.Species", "bionty.Organism")
+                    record.registries = record.registries.replace(
+                        "bionty.Species", "bionty.Organism"
+                    )
                     record.save()
             for record in FeatureSet.objects.using(db_alias).all():
                 if isinstance(record.registry, str):
-                    record.registry = record.registry.replace("bionty.Species", "bionty.Organism")
+                    record.registry = record.registry.replace(
+                        "bionty.Species", "bionty.Organism"
+                    )
                     record.save()
 
     except IntegrityError:
@@ -52,7 +56,9 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name="organism",
             name="uid",
-            field=models.CharField(unique=True, max_length=4, default=lnschema_bionty.ids.organism),
+            field=models.CharField(
+                unique=True, max_length=4, default=lnschema_bionty.ids.organism
+            ),
         ),
         migrations.AlterField(
             model_name="organism",
@@ -76,12 +82,16 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name="organism",
             name="datasets",
-            field=models.ManyToManyField(related_name="organism", to="lnschema_core.dataset"),
+            field=models.ManyToManyField(
+                related_name="organism", to="lnschema_core.dataset"
+            ),
         ),
         migrations.AlterField(
             model_name="organism",
             name="files",
-            field=models.ManyToManyField(related_name="organism", to="lnschema_core.file"),
+            field=models.ManyToManyField(
+                related_name="organism", to="lnschema_core.file"
+            ),
         ),
         migrations.RenameField(
             model_name="cellmarker",

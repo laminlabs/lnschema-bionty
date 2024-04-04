@@ -80,7 +80,9 @@ class Migration(migrations.Migration):
                 ("name", models.CharField(db_index=True, default=None, max_length=64)),
                 (
                     "taxon_id",
-                    models.IntegerField(db_index=True, default=None, null=True, unique=True),
+                    models.IntegerField(
+                        db_index=True, default=None, null=True, unique=True
+                    ),
                 ),
                 (
                     "scientific_name",
@@ -130,15 +132,21 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "name",
-                    models.CharField(db_index=True, default=None, max_length=64, null=True),
+                    models.CharField(
+                        db_index=True, default=None, max_length=64, null=True
+                    ),
                 ),
                 (
                     "uniprotkb_id",
-                    models.CharField(db_index=True, default=None, max_length=10, null=True),
+                    models.CharField(
+                        db_index=True, default=None, max_length=10, null=True
+                    ),
                 ),
                 (
                     "uniprotkb_name",
-                    models.CharField(db_index=True, default=None, max_length=32, null=True),
+                    models.CharField(
+                        db_index=True, default=None, max_length=32, null=True
+                    ),
                 ),
                 ("synonyms", models.TextField(default=None, null=True)),
                 ("length", models.BigIntegerField(db_index=True, null=True)),
@@ -167,7 +175,9 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "featuresets",
-                    models.ManyToManyField(related_name="proteins", to="lnschema_core.featureset"),
+                    models.ManyToManyField(
+                        related_name="proteins", to="lnschema_core.featureset"
+                    ),
                 ),
                 (
                     "species",
@@ -197,25 +207,35 @@ class Migration(migrations.Migration):
                 ("ensembl_gene_id", models.CharField(db_index=True, max_length=64)),
                 (
                     "symbol",
-                    models.CharField(db_index=True, default=None, max_length=64, null=True),
+                    models.CharField(
+                        db_index=True, default=None, max_length=64, null=True
+                    ),
                 ),
                 (
                     "gene_type",
-                    models.CharField(db_index=True, default=None, max_length=64, null=True),
+                    models.CharField(
+                        db_index=True, default=None, max_length=64, null=True
+                    ),
                 ),
                 ("description", models.TextField(default=None, null=True)),
                 ("ncbi_gene_id", models.BigIntegerField(db_index=True, null=True)),
                 (
                     "hgnc_id",
-                    models.CharField(db_index=True, default=None, max_length=10, null=True),
+                    models.CharField(
+                        db_index=True, default=None, max_length=10, null=True
+                    ),
                 ),
                 (
                     "mgi_id",
-                    models.CharField(db_index=True, default=None, max_length=11, null=True),
+                    models.CharField(
+                        db_index=True, default=None, max_length=11, null=True
+                    ),
                 ),
                 (
                     "omim_id",
-                    models.CharField(db_index=True, default=None, max_length=6, null=True),
+                    models.CharField(
+                        db_index=True, default=None, max_length=6, null=True
+                    ),
                 ),
                 ("synonyms", models.TextField(default=None, null=True)),
                 ("created_at", models.DateTimeField(auto_now_add=True, db_index=True)),
@@ -239,7 +259,9 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "featuresets",
-                    models.ManyToManyField(related_name="genes", to="lnschema_core.featureset"),
+                    models.ManyToManyField(
+                        related_name="genes", to="lnschema_core.featureset"
+                    ),
                 ),
                 (
                     "species",
@@ -278,16 +300,22 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "ncbi_gene_id",
-                    models.CharField(db_index=True, default=None, max_length=32, null=True),
+                    models.CharField(
+                        db_index=True, default=None, max_length=32, null=True
+                    ),
                 ),
                 (
                     "gene_symbol",
-                    models.CharField(db_index=True, default=None, max_length=64, null=True),
+                    models.CharField(
+                        db_index=True, default=None, max_length=64, null=True
+                    ),
                 ),
                 ("gene_name", models.TextField(default=None, null=True)),
                 (
                     "uniprotkb_id",
-                    models.CharField(db_index=True, default=None, max_length=10, null=True),
+                    models.CharField(
+                        db_index=True, default=None, max_length=10, null=True
+                    ),
                 ),
                 ("synonyms", models.TextField(default=None, null=True)),
                 ("created_at", models.DateTimeField(auto_now_add=True, db_index=True)),
@@ -311,7 +339,9 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "featuresets",
-                    models.ManyToManyField(related_name="cell_markers", to="lnschema_core.featureset"),
+                    models.ManyToManyField(
+                        related_name="cell_markers", to="lnschema_core.featureset"
+                    ),
                 ),
                 (
                     "species",
@@ -340,7 +370,9 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "name",
-                    models.CharField(db_index=True, default=None, max_length=256, null=True),
+                    models.CharField(
+                        db_index=True, default=None, max_length=256, null=True
+                    ),
                 ),
                 (
                     "short_name",
@@ -355,7 +387,9 @@ class Migration(migrations.Migration):
                 ("synonyms", models.TextField(default=None, null=True)),
                 (
                     "ontology_id",
-                    models.CharField(db_index=True, default=None, max_length=32, null=True),
+                    models.CharField(
+                        db_index=True, default=None, max_length=32, null=True
+                    ),
                 ),
                 ("definition", models.TextField(default=None, null=True)),
                 ("created_at", models.DateTimeField(auto_now_add=True, db_index=True)),
@@ -379,7 +413,9 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "files",
-                    models.ManyToManyField(related_name="tissues", to="lnschema_core.file"),
+                    models.ManyToManyField(
+                        related_name="tissues", to="lnschema_core.file"
+                    ),
                 ),
             ],
             options={
@@ -401,7 +437,9 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "name",
-                    models.CharField(db_index=True, default=None, max_length=256, null=True),
+                    models.CharField(
+                        db_index=True, default=None, max_length=256, null=True
+                    ),
                 ),
                 (
                     "short_name",
@@ -416,7 +454,9 @@ class Migration(migrations.Migration):
                 ("synonyms", models.TextField(default=None, null=True)),
                 (
                     "ontology_id",
-                    models.CharField(db_index=True, default=None, max_length=32, null=True),
+                    models.CharField(
+                        db_index=True, default=None, max_length=32, null=True
+                    ),
                 ),
                 ("definition", models.TextField(default=None, null=True)),
                 ("molecule", models.TextField(db_index=True, default=None, null=True)),
@@ -449,7 +489,9 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "files",
-                    models.ManyToManyField(related_name="readouts", to="lnschema_core.file"),
+                    models.ManyToManyField(
+                        related_name="readouts", to="lnschema_core.file"
+                    ),
                 ),
             ],
             options={
@@ -471,7 +513,9 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "name",
-                    models.CharField(db_index=True, default=None, max_length=256, null=True),
+                    models.CharField(
+                        db_index=True, default=None, max_length=256, null=True
+                    ),
                 ),
                 (
                     "short_name",
@@ -486,7 +530,9 @@ class Migration(migrations.Migration):
                 ("synonyms", models.TextField(default=None, null=True)),
                 (
                     "ontology_id",
-                    models.CharField(db_index=True, default=None, max_length=32, null=True),
+                    models.CharField(
+                        db_index=True, default=None, max_length=32, null=True
+                    ),
                 ),
                 ("definition", models.TextField(default=None, null=True)),
                 ("created_at", models.DateTimeField(auto_now_add=True, db_index=True)),
@@ -510,7 +556,9 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "files",
-                    models.ManyToManyField(related_name="phenotypes", to="lnschema_core.file"),
+                    models.ManyToManyField(
+                        related_name="phenotypes", to="lnschema_core.file"
+                    ),
                 ),
             ],
             options={
@@ -532,7 +580,9 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "name",
-                    models.CharField(db_index=True, default=None, max_length=256, null=True),
+                    models.CharField(
+                        db_index=True, default=None, max_length=256, null=True
+                    ),
                 ),
                 (
                     "short_name",
@@ -547,7 +597,9 @@ class Migration(migrations.Migration):
                 ("synonyms", models.TextField(default=None, null=True)),
                 (
                     "ontology_id",
-                    models.CharField(db_index=True, default=None, max_length=32, null=True),
+                    models.CharField(
+                        db_index=True, default=None, max_length=32, null=True
+                    ),
                 ),
                 ("definition", models.TextField(default=None, null=True)),
                 ("created_at", models.DateTimeField(auto_now_add=True, db_index=True)),
@@ -571,7 +623,9 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "featuresets",
-                    models.ManyToManyField(related_name="pathways", to="lnschema_core.featureset"),
+                    models.ManyToManyField(
+                        related_name="pathways", to="lnschema_core.featureset"
+                    ),
                 ),
                 ("genes", models.ManyToManyField(to="lnschema_bionty.gene")),
             ],
@@ -594,7 +648,9 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "name",
-                    models.CharField(db_index=True, default=None, max_length=256, null=True),
+                    models.CharField(
+                        db_index=True, default=None, max_length=256, null=True
+                    ),
                 ),
                 (
                     "short_name",
@@ -609,7 +665,9 @@ class Migration(migrations.Migration):
                 ("synonyms", models.TextField(default=None, null=True)),
                 (
                     "ontology_id",
-                    models.CharField(db_index=True, default=None, max_length=32, null=True),
+                    models.CharField(
+                        db_index=True, default=None, max_length=32, null=True
+                    ),
                 ),
                 ("definition", models.TextField(default=None, null=True)),
                 ("created_at", models.DateTimeField(auto_now_add=True, db_index=True)),
@@ -633,7 +691,9 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "files",
-                    models.ManyToManyField(related_name="diseases", to="lnschema_core.file"),
+                    models.ManyToManyField(
+                        related_name="diseases", to="lnschema_core.file"
+                    ),
                 ),
             ],
             options={
@@ -655,7 +715,9 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "name",
-                    models.CharField(db_index=True, default=None, max_length=256, null=True),
+                    models.CharField(
+                        db_index=True, default=None, max_length=256, null=True
+                    ),
                 ),
                 (
                     "short_name",
@@ -670,7 +732,9 @@ class Migration(migrations.Migration):
                 ("synonyms", models.TextField(default=None, null=True)),
                 (
                     "ontology_id",
-                    models.CharField(db_index=True, default=None, max_length=32, null=True),
+                    models.CharField(
+                        db_index=True, default=None, max_length=32, null=True
+                    ),
                 ),
                 ("definition", models.TextField(default=None, null=True)),
                 ("created_at", models.DateTimeField(auto_now_add=True, db_index=True)),
@@ -694,7 +758,9 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "files",
-                    models.ManyToManyField(related_name="cell_types", to="lnschema_core.file"),
+                    models.ManyToManyField(
+                        related_name="cell_types", to="lnschema_core.file"
+                    ),
                 ),
             ],
             options={
@@ -716,7 +782,9 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "name",
-                    models.CharField(db_index=True, default=None, max_length=256, null=True),
+                    models.CharField(
+                        db_index=True, default=None, max_length=256, null=True
+                    ),
                 ),
                 (
                     "short_name",
@@ -731,7 +799,9 @@ class Migration(migrations.Migration):
                 ("synonyms", models.TextField(default=None, null=True)),
                 (
                     "ontology_id",
-                    models.CharField(db_index=True, default=None, max_length=32, null=True),
+                    models.CharField(
+                        db_index=True, default=None, max_length=32, null=True
+                    ),
                 ),
                 ("definition", models.TextField(default=None, null=True)),
                 ("created_at", models.DateTimeField(auto_now_add=True, db_index=True)),
@@ -755,7 +825,9 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "files",
-                    models.ManyToManyField(related_name="cell_lines", to="lnschema_core.file"),
+                    models.ManyToManyField(
+                        related_name="cell_lines", to="lnschema_core.file"
+                    ),
                 ),
             ],
             options={

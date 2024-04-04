@@ -30,7 +30,9 @@ def forwards_func(apps, schema_editor):
                 pass
             try:
                 # yeast
-                record = Organism.objects.using(db_alias).get(name="saccharomyces cerevisiae")
+                record = Organism.objects.using(db_alias).get(
+                    name="saccharomyces cerevisiae"
+                )
                 record.uid = "XapD5kLk"
                 record.ontology_id = "NCBITaxon:559292"
                 record.save()
@@ -61,17 +63,23 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name="organism",
             name="ontology_id",
-            field=models.CharField(db_index=True, default=None, max_length=32, null=True, unique=True),
+            field=models.CharField(
+                db_index=True, default=None, max_length=32, null=True, unique=True
+            ),
         ),
         migrations.AlterField(
             model_name="organism",
             name="uid",
-            field=models.CharField(default=lnschema_bionty.ids.ontology, max_length=8, unique=True),
+            field=models.CharField(
+                default=lnschema_bionty.ids.ontology, max_length=8, unique=True
+            ),
         ),
         migrations.AddField(
             model_name="organism",
             name="parents",
-            field=models.ManyToManyField(related_name="children", to="lnschema_bionty.organism"),
+            field=models.ManyToManyField(
+                related_name="children", to="lnschema_bionty.organism"
+            ),
         ),
         migrations.RunPython(forwards_func, reverse_func),
     ]

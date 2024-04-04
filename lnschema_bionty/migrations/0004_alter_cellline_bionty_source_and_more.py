@@ -96,7 +96,9 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name="pathway",
             name="genes",
-            field=models.ManyToManyField(related_name="pathways", to="lnschema_bionty.gene"),
+            field=models.ManyToManyField(
+                related_name="pathways", to="lnschema_bionty.gene"
+            ),
         ),
         migrations.AlterField(
             model_name="phenotype",
