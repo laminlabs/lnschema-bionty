@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-from typing import Optional, Union
-
 from lamin_utils import logger
 
 from lnschema_bionty.models import Organism

@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-from typing import Dict, Optional, Union
-
 import bionty_base
 from django.core.exceptions import ObjectDoesNotExist
 from lamin_utils import logger
