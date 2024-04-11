@@ -19,8 +19,8 @@ def sync_all_public_sources_to_latest():
             version=row.version,
             entity=row.entity,
             organism=row.organism,
-        ).one_or_none()
-        if record is None:
+        ).all()
+        if len(record) == 0:
             record = PublicSource(**row.to_dict())
             record.save()
             logger.success(f"added {record}")
