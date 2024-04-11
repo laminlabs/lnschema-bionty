@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
+:bug: Remove repr | [231](https://github.com/laminlabs/lnschema-bionty/pull/231) | [Zethson](https://github.com/Zethson) | 2024-04-11 |
 🐛 Fix syncing public sources | [230](https://github.com/laminlabs/lnschema-bionty/pull/230) | [sunnyosun](https://github.com/sunnyosun) | 2024-04-11 |
 Upgrade bionty-base | [229](https://github.com/laminlabs/lnschema-bionty/pull/229) | [Zethson](https://github.com/Zethson) | 2024-04-05 |
 __repr__ for Registries | [228](https://github.com/laminlabs/lnschema-bionty/pull/228) | [Zethson](https://github.com/Zethson) | 2024-04-05 |
