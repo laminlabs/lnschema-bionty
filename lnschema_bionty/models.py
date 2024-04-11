@@ -91,21 +91,6 @@ class BioRegistry(Registry, HasParents, CanValidate):
 
         super().__init__(*args, **kwargs)
 
-    def __repr__(self) -> str:
-        # fmt: off
-        representation = (
-            f"Private registry\n"
-            f"Entity: {self.__class__.__name__}\n"
-            f"📖 .df(): reference table\n"
-            f"🔎 .lookup(): autocompletion of terms\n"
-            f"🎯 .search(): free text search of terms\n"
-            f"✅ .validate(): strictly validate values\n"
-            f"🧐 .inspect(): full inspection of values\n"
-            f"👽 .standardize(): convert to standardized names"
-        )
-        # fmt: on
-        return representation
-
     @classmethod
     def public(
         cls,
