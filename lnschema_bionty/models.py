@@ -149,7 +149,9 @@ class BioRegistry(Registry, HasParents, CanValidate):
             )
 
     @classmethod
-    def from_public(cls, **kwargs) -> BioRegistry | list[BioRegistry] | None:
+    def from_public(
+        cls, mute: bool = False, **kwargs
+    ) -> BioRegistry | list[BioRegistry] | None:
         """Create a record or records from public reference based on a single field value.
 
         Notes:
@@ -183,7 +185,7 @@ class BioRegistry(Registry, HasParents, CanValidate):
         else:
             k = next(iter(kv))
             v = kwargs.pop(k)
-            results = cls.from_values([v], field=getattr(cls, k), **kwargs)
+            results = cls.from_values([v], field=getattr(cls, k), mute=mute, **kwargs)
             if len(results) == 1:
                 return results[0]
             elif len(results) == 0:
