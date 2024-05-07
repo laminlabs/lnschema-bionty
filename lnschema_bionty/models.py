@@ -227,6 +227,10 @@ class BioRegistry(Registry, HasParents, CanValidate):
 class Organism(BioRegistry):
     """Organism - `NCBI Taxonomy <https://www.ncbi.nlm.nih.gov/taxonomy/>`__, `Ensembl Organism <https://useast.ensembl.org/info/about/species.html>`__.
 
+    Notes:
+        For more info, see tutorials :doc:`bio-registries` and :doc:`/organism`.
+
+
     Examples:
         >>> record = bionty.Organism.from_public(name="rabbit")
     """
@@ -295,6 +299,8 @@ class Gene(BioRegistry):
     """Genes - `Ensembl <https://ensembl.org/>`__, `NCBI Gene <https://www.ncbi.nlm.nih.gov/gene/>`__.
 
     Notes:
+        For more info, see tutorials :doc:`bio-registries` and :doc:`/gene`.
+
         Bulk create Gene records via :class:`~lamindb.core.Registry.from_values`.
 
     Examples:
@@ -386,6 +392,8 @@ class Protein(BioRegistry):
     """Proteins - `Uniprot <https://www.uniprot.org/>`__.
 
     Notes:
+        For more info, see tutorials :doc:`bio-registries` and :doc:`/protein`.
+
         Bulk create Protein records via :class:`~lamindb.core.Registry.from_values`.
 
     Examples:
@@ -478,6 +486,8 @@ class CellMarker(BioRegistry):
     """Cell markers - `CellMarker <http://xteam.xbio.top/CellMarker>`__.
 
     Notes:
+        For more info, see tutorials :doc:`bio-registries` and :doc:`/cell_marker`.
+
         Bulk create CellMarker records via :class:`~lamindb.core.Registry.from_values`.
 
     Examples:
@@ -568,7 +578,7 @@ class Tissue(BioRegistry):
     """Tissues - `Uberon <http://obophenotype.github.io/uberon/>`__.
 
     Notes:
-        For more info, see tutorial :doc:`bio-registries`
+        For more info, see tutorials :doc:`bio-registries` :doc:`/tissue`.
 
         Bulk create Tissue records via :class:`~lamindb.core.Registry.from_values`.
 
@@ -650,7 +660,7 @@ class CellType(BioRegistry):
     """Cell types - `Cell Ontology <https://obophenotype.github.io/cell-ontology/>`__.
 
     Notes:
-        For more info, see tutorial :doc:`bio-registries`
+        For more info, see tutorial :doc:`bio-registries` and :doc:`/cell_type`.
 
         Bulk create CellType records via :class:`~lamindb.core.Registry.from_values`.
 
@@ -737,9 +747,9 @@ class Disease(BioRegistry):
     """Diseases - `Mondo <https://mondo.monarchinitiative.org/>`__, `Human Disease <https://disease-ontology.org/>`__.
 
     Notes:
-        For more info, see tutorial :doc:`bio-registries`
-
         Bulk create Disease records via :class:`~lamindb.core.Registry.from_values`.
+
+        For more info, see tutorial: :doc:`/disease`.
 
     Examples:
         >>> record = bionty.Disease.from_public(name="Alzheimer disease")
@@ -824,7 +834,7 @@ class CellLine(BioRegistry):
     """Cell lines - `Cell Line Ontology <https://github.com/CLO-ontology/CLO>`__.
 
     Notes:
-        For more info, see tutorial :doc:`bio-registries`
+        For more info, see tutorials :doc:`bio-registries` and :doc:`/cell_line`.
 
         Bulk create CellLine records via :class:`~lamindb.core.Registry.from_values`.
 
@@ -915,7 +925,7 @@ class Phenotype(BioRegistry):
     `Zebrafish Phenotype <http://obofoundry.org/ontology/zp.html>`__.
 
     Notes:
-        For more info, see tutorial :doc:`bio-registries`
+        For more info, see tutorials :doc:`bio-registries` and :doc:`/phenotype`.
 
         Bulk create Phenotype records via :class:`~lamindb.core.Registry.from_values`.
 
@@ -1004,7 +1014,7 @@ class Pathway(BioRegistry):
     `Pathway Ontology <https://bioportal.bioontology.org/ontologies/PW>`__.
 
     Notes:
-        For more info, see tutorial :doc:`bio-registries`
+        For more info, see tutorials :doc:`bio-registries` and :doc:`/pathway`.
 
         Bulk create Pathway records via :class:`~lamindb.core.Registry.from_values`.
 
@@ -1098,7 +1108,7 @@ class ExperimentalFactor(BioRegistry):
     """Experimental factors - `Experimental Factor Ontology <https://www.ebi.ac.uk/ols/ontologies/efo>`__.
 
     Notes:
-        For more info, see tutorial :doc:`bio-registries`
+        For more info, see tutorials :doc:`bio-registries` and :doc:`/experimental_factor`.
 
         Bulk create ExperimentalFactor records via :class:`~lamindb.core.Registry.from_values`.
 
@@ -1193,7 +1203,7 @@ class DevelopmentalStage(BioRegistry):
     `Mouse Developmental Stages <https://github.com/obophenotype/developmental-stage-ontologies/wiki/MmusDv>`__.  # noqa.
 
     Notes:
-        For more info, see tutorial :doc:`bio-registries`
+        For more info, see tutorials :doc:`bio-registries` and :doc:`/developmental_stage`.
 
         Bulk create DevelopmentalStage records via :class:`~lamindb.core.Registry.from_values`.
 
@@ -1281,7 +1291,7 @@ class Ethnicity(BioRegistry):
     """Ethnicity - `Human Ancestry Ontology <https://github.com/EBISPOT/hancestro>`__.
 
     Notes:
-        For more info, see tutorial :doc:`bio-registries`
+        For more info, see tutorials :doc:`bio-registries` and :doc:`/ethnicity`.
 
         Bulk create Ethnicity records via :class:`~lamindb.core.Registry.from_values`.
 
