@@ -660,7 +660,7 @@ class CellType(BioRegistry):
     """Cell types - `Cell Ontology <https://obophenotype.github.io/cell-ontology/>`__.
 
     Notes:
-        For more info, see tutorial :doc:`bio-registries` and :doc:`/cell_type`.
+        For more info, see tutorials :doc:`bio-registries` and :doc:`/cell_type`.
 
         Bulk create CellType records via :class:`~lamindb.core.Registry.from_values`.
 
@@ -749,7 +749,7 @@ class Disease(BioRegistry):
     Notes:
         Bulk create Disease records via :class:`~lamindb.core.Registry.from_values`.
 
-        For more info, see tutorial: :doc:`/disease`.
+        For more info, see tutorials: :doc:`/disease`.
 
     Examples:
         >>> record = bionty.Disease.from_public(name="Alzheimer disease")
