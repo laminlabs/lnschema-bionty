@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
+Fix registry links | [234](https://github.com/laminlabs/lnschema-bionty/pull/234) | [Zethson](https://github.com/Zethson) | 2024-05-07 |
 :sparkles: Add links to all specific bionty registry tutorials | [233](https://github.com/laminlabs/lnschema-bionty/pull/233) | [Zethson](https://github.com/Zethson) | 2024-05-07 |
 🚑️ Fix public_source in inspect | [232](https://github.com/laminlabs/lnschema-bionty/pull/232) | [sunnyosun](https://github.com/sunnyosun) | 2024-04-18 |
 :bug: Remove repr | [231](https://github.com/laminlabs/lnschema-bionty/pull/231) | [Zethson](https://github.com/Zethson) | 2024-04-11 |
