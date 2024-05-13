@@ -147,7 +147,7 @@ class BioRegistry(Registry, HasParents, CanValidate):
 
     @classmethod
     def from_public(
-        cls, mute: bool = False, **kwargs
+        cls, *, mute: bool = False, **kwargs
     ) -> BioRegistry | list[BioRegistry] | None:
         """Create a record or records from public reference based on a single field value.
 
