@@ -92,6 +92,22 @@ class BioRegistry(Registry, HasParents, CanValidate):
         super().__init__(*args, **kwargs)
 
     @classmethod
+    def sources(cls, currently_used: bool = None) -> PublicSource:
+        """Default public source for the registry.
+
+        Args:
+            currently_used: Only returns currently used sources
+
+        Examples:
+            >>> bionty.Gene.sources()
+            >>> bionty.Gene.sources(currently_used=True)
+        """
+        filters = {}
+        if currently_used is not None:
+            filters["currently_used"] = currently_used
+        return PublicSource.filter(entity=cls.__name__, **filters)
+
+    @classmethod
     def public(
         cls,
         organism: str | Registry | None = None,
