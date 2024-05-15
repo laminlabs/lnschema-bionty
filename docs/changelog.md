@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
+🔥 Remove linking Collection to all Bionty entities | [238](https://github.com/laminlabs/lnschema-bionty/pull/238) | [falexwolf](https://github.com/falexwolf) | 2024-05-15 |
 ✨ Add sources | [237](https://github.com/laminlabs/lnschema-bionty/pull/237) | [sunnyosun](https://github.com/sunnyosun) | 2024-05-14 |
 🎨 Fix passing arguments to from_public | [236](https://github.com/laminlabs/lnschema-bionty/pull/236) | [sunnyosun](https://github.com/sunnyosun) | 2024-05-13 |
 🐛 Fix organism | [235](https://github.com/laminlabs/lnschema-bionty/pull/235) | [sunnyosun](https://github.com/sunnyosun) | 2024-05-08 |
