@@ -271,10 +271,6 @@ class Organism(BioRegistry):
         "lnschema_core.Artifact", related_name="organism"
     )
     """Artifacts linked to the organism."""
-    collections = models.ManyToManyField(
-        "lnschema_core.Collection", related_name="organism"
-    )
-    """Collections linked to the organism."""
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
     """Time of creation of record."""
     updated_at = models.DateTimeField(auto_now=True, db_index=True)
@@ -354,10 +350,6 @@ class Gene(BioRegistry):
     """:class:`~bionty.PublicSource` this gene associates with."""
     artifacts = models.ManyToManyField("lnschema_core.Artifact", related_name="genes")
     """Artifacts linked to the gene."""
-    collections = models.ManyToManyField(
-        "lnschema_core.Collection", related_name="genes"
-    )
-    """Collections linked to the gene."""
     feature_sets = models.ManyToManyField(
         "lnschema_core.FeatureSet", related_name="genes"
     )
@@ -446,10 +438,6 @@ class Protein(BioRegistry):
         "lnschema_core.Artifact", related_name="proteins"
     )
     """Artifacts linked to the protein."""
-    collections = models.ManyToManyField(
-        "lnschema_core.Collection", related_name="proteins"
-    )
-    """Collections linked to the protein."""
     feature_sets = models.ManyToManyField(
         "lnschema_core.FeatureSet", related_name="proteins"
     )
@@ -539,10 +527,6 @@ class CellMarker(BioRegistry):
         "lnschema_core.Artifact", related_name="cell_markers"
     )
     """Artifacts linked to the cell marker."""
-    collections = models.ManyToManyField(
-        "lnschema_core.Collection", related_name="cell_markers"
-    )
-    """Collections linked to the cell marker."""
     feature_sets = models.ManyToManyField(
         "lnschema_core.FeatureSet", related_name="cell_markers"
     )
@@ -625,10 +609,6 @@ class Tissue(BioRegistry):
     """:class:`~bionty.PublicSource` this tissue associates with."""
     artifacts = models.ManyToManyField("lnschema_core.Artifact", related_name="tissues")
     """Artifacts linked to the tissue."""
-    collections = models.ManyToManyField(
-        "lnschema_core.Collection", related_name="tissues"
-    )
-    """Collections linked to the tissue."""
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
     """Time of creation of record."""
     updated_at = models.DateTimeField(auto_now=True, db_index=True)
@@ -709,10 +689,6 @@ class CellType(BioRegistry):
         "lnschema_core.Artifact", related_name="cell_types"
     )
     """Artifacts linked to the cell type."""
-    collections = models.ManyToManyField(
-        "lnschema_core.Collection", related_name="cell_types"
-    )
-    """Collections linked to the cell type."""
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
     """Time of creation of record."""
     updated_at = models.DateTimeField(auto_now=True, db_index=True)
@@ -796,10 +772,6 @@ class Disease(BioRegistry):
         "lnschema_core.Artifact", related_name="diseases"
     )
     """Artifacts linked to the disease."""
-    collections = models.ManyToManyField(
-        "lnschema_core.Collection", related_name="diseases"
-    )
-    """Collections linked to the disease."""
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
     """Time of creation of record."""
     updated_at = models.DateTimeField(auto_now=True, db_index=True)
@@ -884,10 +856,6 @@ class CellLine(BioRegistry):
         "lnschema_core.Artifact", related_name="cell_lines"
     )
     """Artifacts linked to the cell line."""
-    collections = models.ManyToManyField(
-        "lnschema_core.Collection", related_name="cell_lines"
-    )
-    """Collections linked to the cell line."""
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
     """Time of creation of record."""
     updated_at = models.DateTimeField(auto_now=True, db_index=True)
@@ -975,10 +943,6 @@ class Phenotype(BioRegistry):
         "lnschema_core.Artifact", related_name="phenotypes"
     )
     """Artifacts linked to the phenotype."""
-    collections = models.ManyToManyField(
-        "lnschema_core.Collection", related_name="phenotypes"
-    )
-    """Collections linked to the phenotype."""
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
     """Time of creation of record."""
     updated_at = models.DateTimeField(auto_now=True, db_index=True)
@@ -1070,10 +1034,6 @@ class Pathway(BioRegistry):
         "lnschema_core.Artifact", related_name="pathways"
     )
     """Artifacts linked to the pathway."""
-    collections = models.ManyToManyField(
-        "lnschema_core.Collection", related_name="pathways"
-    )
-    """Collections linked to the pathway."""
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
     """Time of creation of record."""
     updated_at = models.DateTimeField(auto_now=True, db_index=True)
@@ -1164,10 +1124,6 @@ class ExperimentalFactor(BioRegistry):
         "lnschema_core.Artifact", related_name="experimental_factors"
     )
     """Artifacts linked to the experimental_factors."""
-    collections = models.ManyToManyField(
-        "lnschema_core.Collection", related_name="experimental_factors"
-    )
-    """Collections linked to the experimental factor."""
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
     """Time of creation of record."""
     updated_at = models.DateTimeField(auto_now=True, db_index=True)
@@ -1253,10 +1209,6 @@ class DevelopmentalStage(BioRegistry):
         "lnschema_core.Artifact", related_name="developmental_stages"
     )
     """Artifacts linked to the developmental stage."""
-    collections = models.ManyToManyField(
-        "lnschema_core.Collection", related_name="developmental_stages"
-    )
-    """Collections linked to the developmental stage."""
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
     """Time of creation of record."""
     updated_at = models.DateTimeField(auto_now=True, db_index=True)
@@ -1341,10 +1293,6 @@ class Ethnicity(BioRegistry):
         "lnschema_core.Artifact", related_name="ethnicities"
     )
     """Artifacts linked to the ethnicity."""
-    collections = models.ManyToManyField(
-        "lnschema_core.Collection", related_name="ethnicities"
-    )
-    """Collections linked to the ethnicity."""
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
     """Time of creation of record."""
     updated_at = models.DateTimeField(auto_now=True, db_index=True)
