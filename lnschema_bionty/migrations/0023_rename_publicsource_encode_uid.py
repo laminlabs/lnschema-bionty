@@ -49,7 +49,9 @@ def reverse_func(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-    dependencies = [("lnschema_bionty", "0001_initial_squashed_0023")]  # type: ignore
+    dependencies = [
+        ("lnschema_bionty", "0022_rename_datasets_cellline_collections_and_more")
+    ]  # type: ignore
 
     operations = [
         migrations.RenameModel(old_name="BiontySource", new_name="PublicSource"),
