@@ -49,7 +49,7 @@ def reverse_func(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-    dependencies = []  # type: ignore
+    dependencies = [("lnschema_bionty", "0001_initial_squashed_0023")]  # type: ignore
 
     operations = [
         migrations.RenameModel(old_name="BiontySource", new_name="PublicSource"),
