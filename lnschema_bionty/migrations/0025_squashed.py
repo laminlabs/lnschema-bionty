@@ -11,15 +11,6 @@ import lnschema_bionty.ids
 
 class Migration(migrations.Migration):
     replaces = [
-        ("lnschema_bionty", "0001_initial_squashed_0016"),
-        ("lnschema_bionty", "0017_import_legacy_data"),
-        (
-            "lnschema_bionty",
-            "0018_organism_rename_species_biontysource_organism_and_more",
-        ),
-        ("lnschema_bionty", "0019_rename_taxon_id_organism_ontology_id_and_more"),
-        ("lnschema_bionty", "0020_alter_organism_bionty_source"),
-        ("lnschema_bionty", "0021_rename_files_cellline_artifacts_and_more"),
         ("lnschema_bionty", "0022_rename_datasets_cellline_collections_and_more"),
         ("lnschema_bionty", "0023_rename_publicsource_encode_uid"),
         ("lnschema_bionty", "0024_remove_cellline_collections_and_more"),
@@ -27,7 +18,7 @@ class Migration(migrations.Migration):
     ]
 
     dependencies = [
-        ("lnschema_core", "0001_initial_squashed_0047"),
+        ("lnschema_core", "0048_squashed"),
     ]
 
     operations = [
