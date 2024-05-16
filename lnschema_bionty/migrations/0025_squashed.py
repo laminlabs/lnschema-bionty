@@ -11,7 +11,6 @@ import lnschema_bionty.ids
 
 class Migration(migrations.Migration):
     replaces = [
-        ("lnschema_bionty", "0022_rename_datasets_cellline_collections_and_more"),
         ("lnschema_bionty", "0023_rename_publicsource_encode_uid"),
         ("lnschema_bionty", "0024_remove_cellline_collections_and_more"),
         ("lnschema_bionty", "0025_artifactcellline_alter_cellline_artifacts_and_more"),
