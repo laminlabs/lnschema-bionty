@@ -612,7 +612,7 @@ class Migration(migrations.Migration):
         migrations.RunSQL(
             f"""
             INSERT INTO lnschema_bionty_artifactcellmarker (artifact_id, cell_marker_id, feature_id, created_by_id, created_at)
-            SELECT artifact_id, cell_marker_id, NULL, {1}, CURRENT_TIMESTAMP
+            SELECT artifact_id, cellmarker_id, NULL, {1}, CURRENT_TIMESTAMP
             FROM lnschema_bionty_cellmarker_artifacts;
             """  # Replace with appropriate user_id logic
         ),
@@ -626,7 +626,7 @@ class Migration(migrations.Migration):
         migrations.RunSQL(
             f"""
             INSERT INTO lnschema_bionty_artifactcelltype (artifact_id, cell_type_id, feature_id, created_by_id, created_at)
-            SELECT artifact_id, cell_type_id, NULL, {1}, CURRENT_TIMESTAMP
+            SELECT artifact_id, celltype_id, NULL, {1}, CURRENT_TIMESTAMP
             FROM lnschema_bionty_celltype_artifacts;
             """  # Replace with appropriate user_id logic
         ),
@@ -661,14 +661,14 @@ class Migration(migrations.Migration):
         migrations.RunSQL(
             f"""
             INSERT INTO lnschema_bionty_artifactexperimentalfactor (artifact_id, experimental_factor_id, feature_id, created_by_id, created_at)
-            SELECT artifact_id, experimental_factor_id, NULL, {1}, CURRENT_TIMESTAMP
+            SELECT artifact_id, experimentalfactor_id, NULL, {1}, CURRENT_TIMESTAMP
             FROM lnschema_bionty_experimentalfactor_artifacts;
             """  # Replace with appropriate user_id logic
         ),
         migrations.RunSQL(
             f"""
             INSERT INTO lnschema_bionty_artifactdevelopmentalstage (artifact_id, developmental_stage_id, feature_id, created_by_id, created_at)
-            SELECT artifact_id, developmental_stage_id, NULL, {1}, CURRENT_TIMESTAMP
+            SELECT artifact_id, developmentalstage_id, NULL, {1}, CURRENT_TIMESTAMP
             FROM lnschema_bionty_developmentalstage_artifacts;
             """  # Replace with appropriate user_id logic
         ),
