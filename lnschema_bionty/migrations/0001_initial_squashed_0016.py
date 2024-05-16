@@ -11,7 +11,7 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ("lnschema_core", "0023_export_legacy_data"),
+        ("lnschema_core", "0001_initial_squashed_0023"),
     ]
 
     operations = [
