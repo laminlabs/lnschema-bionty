@@ -591,91 +591,91 @@ class Migration(migrations.Migration):
         migrations.RunSQL(
             f"""
             INSERT INTO lnschema_bionty_artifactorganism (artifact_id, organism_id, feature_id, created_by_id, created_at)
-            SELECT artifact_id, organism_id, NULL, {1}, NOW()
+            SELECT artifact_id, organism_id, NULL, {1}, CURRENT_TIMESTAMP
             FROM lnschema_bionty_organism_artifacts;
             """  # Replace with appropriate user_id logic
         ),
         migrations.RunSQL(
             f"""
             INSERT INTO lnschema_bionty_artifactgene (artifact_id, gene_id, feature_id, created_by_id, created_at)
-            SELECT artifact_id, gene_id, NULL, {1}, NOW()
+            SELECT artifact_id, gene_id, NULL, {1}, CURRENT_TIMESTAMP
             FROM lnschema_bionty_gene_artifacts;
             """  # Replace with appropriate user_id logic
         ),
         migrations.RunSQL(
             f"""
             INSERT INTO lnschema_bionty_artifactprotein (artifact_id, protein_id, feature_id, created_by_id, created_at)
-            SELECT artifact_id, protein_id, NULL, {1}, NOW()
+            SELECT artifact_id, protein_id, NULL, {1}, CURRENT_TIMESTAMP
             FROM lnschema_bionty_protein_artifacts;
             """  # Replace with appropriate user_id logic
         ),
         migrations.RunSQL(
             f"""
             INSERT INTO lnschema_bionty_artifactcellmarker (artifact_id, cell_marker_id, feature_id, created_by_id, created_at)
-            SELECT artifact_id, cell_marker_id, NULL, {1}, NOW()
+            SELECT artifact_id, cell_marker_id, NULL, {1}, CURRENT_TIMESTAMP
             FROM lnschema_bionty_cellmarker_artifacts;
             """  # Replace with appropriate user_id logic
         ),
         migrations.RunSQL(
             f"""
             INSERT INTO lnschema_bionty_artifacttissue (artifact_id, tissue_id, feature_id, created_by_id, created_at)
-            SELECT artifact_id, tissue_id, NULL, {1}, NOW()
+            SELECT artifact_id, tissue_id, NULL, {1}, CURRENT_TIMESTAMP
             FROM lnschema_bionty_tissue_artifacts;
             """  # Replace with appropriate user_id logic
         ),
         migrations.RunSQL(
             f"""
             INSERT INTO lnschema_bionty_artifactcelltype (artifact_id, cell_type_id, feature_id, created_by_id, created_at)
-            SELECT artifact_id, cell_type_id, NULL, {1}, NOW()
+            SELECT artifact_id, cell_type_id, NULL, {1}, CURRENT_TIMESTAMP
             FROM lnschema_bionty_celltype_artifacts;
             """  # Replace with appropriate user_id logic
         ),
         migrations.RunSQL(
             f"""
             INSERT INTO lnschema_bionty_artifactdisease (artifact_id, disease_id, feature_id, created_by_id, created_at)
-            SELECT artifact_id, disease_id, NULL, {1}, NOW()
+            SELECT artifact_id, disease_id, NULL, {1}, CURRENT_TIMESTAMP
             FROM lnschema_bionty_disease_artifacts;
             """  # Replace with appropriate user_id logic
         ),
         migrations.RunSQL(
             f"""
             INSERT INTO lnschema_bionty_artifactcellline (artifact_id, cell_line_id, feature_id, created_by_id, created_at)
-            SELECT artifact_id, cell_line_id, NULL, {1}, NOW()
+            SELECT artifact_id, cell_line_id, NULL, {1}, CURRENT_TIMESTAMP
             FROM lnschema_bionty_cellline_artifacts;
             """  # Replace with appropriate user_id logic
         ),
         migrations.RunSQL(
             f"""
             INSERT INTO lnschema_bionty_artifactphenotype (artifact_id, phenotype_id, feature_id, created_by_id, created_at)
-            SELECT artifact_id, phenotype_id, NULL, {1}, NOW()
+            SELECT artifact_id, phenotype_id, NULL, {1}, CURRENT_TIMESTAMP
             FROM lnschema_bionty_phenotype_artifacts;
             """  # Replace with appropriate user_id logic
         ),
         migrations.RunSQL(
             f"""
             INSERT INTO lnschema_bionty_artifactpathway (artifact_id, pathway_id, feature_id, created_by_id, created_at)
-            SELECT artifact_id, pathway_id, NULL, {1}, NOW()
+            SELECT artifact_id, pathway_id, NULL, {1}, CURRENT_TIMESTAMP
             FROM lnschema_bionty_pathway_artifacts;
             """  # Replace with appropriate user_id logic
         ),
         migrations.RunSQL(
             f"""
             INSERT INTO lnschema_bionty_artifactexperimentalfactor (artifact_id, experimental_factor_id, feature_id, created_by_id, created_at)
-            SELECT artifact_id, experimental_factor_id, NULL, {1}, NOW()
+            SELECT artifact_id, experimental_factor_id, NULL, {1}, CURRENT_TIMESTAMP
             FROM lnschema_bionty_experimentalfactor_artifacts;
             """  # Replace with appropriate user_id logic
         ),
         migrations.RunSQL(
             f"""
             INSERT INTO lnschema_bionty_artifactdevelopmentalstage (artifact_id, developmental_stage_id, feature_id, created_by_id, created_at)
-            SELECT artifact_id, developmental_stage_id, NULL, {1}, NOW()
+            SELECT artifact_id, developmental_stage_id, NULL, {1}, CURRENT_TIMESTAMP
             FROM lnschema_bionty_developmentalstage_artifacts;
             """  # Replace with appropriate user_id logic
         ),
         migrations.RunSQL(
             f"""
             INSERT INTO lnschema_bionty_artifactethnicity (artifact_id, ethnicity_id, feature_id, created_by_id, created_at)
-            SELECT artifact_id, ethnicity_id, NULL, {1}, NOW()
+            SELECT artifact_id, ethnicity_id, NULL, {1}, CURRENT_TIMESTAMP
             FROM lnschema_bionty_ethnicity_artifacts;
             """  # Replace with appropriate user_id logic
         ),
