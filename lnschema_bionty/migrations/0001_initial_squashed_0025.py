@@ -29,3 +29,1760 @@ class Migration(migrations.Migration):
     dependencies = [
         ("lnschema_core", "0046_storage_instance_uid"),
     ]
+
+    operations = [
+        migrations.CreateModel(
+            name="ArtifactCellLine",
+            fields=[
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                (
+                    "artifact",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="lnschema_core.artifact",
+                    ),
+                ),
+                (
+                    "created_by",
+                    models.ForeignKey(
+                        default=lnschema_core.users.current_user_id,
+                        on_delete=django.db.models.deletion.PROTECT,
+                        to="lnschema_core.user",
+                    ),
+                ),
+                (
+                    "feature",
+                    models.ForeignKey(
+                        default=None,
+                        null=True,
+                        on_delete=django.db.models.deletion.PROTECT,
+                        to="lnschema_core.feature",
+                    ),
+                ),
+            ],
+            options={
+                "abstract": False,
+            },
+            bases=(models.Model, lnschema_core.models.LinkORM),
+        ),
+        migrations.CreateModel(
+            name="ArtifactCellMarker",
+            fields=[
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                (
+                    "artifact",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="lnschema_core.artifact",
+                    ),
+                ),
+                (
+                    "created_by",
+                    models.ForeignKey(
+                        default=lnschema_core.users.current_user_id,
+                        on_delete=django.db.models.deletion.PROTECT,
+                        to="lnschema_core.user",
+                    ),
+                ),
+                (
+                    "feature",
+                    models.ForeignKey(
+                        default=None,
+                        null=True,
+                        on_delete=django.db.models.deletion.PROTECT,
+                        to="lnschema_core.feature",
+                    ),
+                ),
+            ],
+            options={
+                "abstract": False,
+            },
+            bases=(models.Model, lnschema_core.models.LinkORM),
+        ),
+        migrations.CreateModel(
+            name="ArtifactCellType",
+            fields=[
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                (
+                    "artifact",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="lnschema_core.artifact",
+                    ),
+                ),
+                (
+                    "created_by",
+                    models.ForeignKey(
+                        default=lnschema_core.users.current_user_id,
+                        on_delete=django.db.models.deletion.PROTECT,
+                        to="lnschema_core.user",
+                    ),
+                ),
+                (
+                    "feature",
+                    models.ForeignKey(
+                        default=None,
+                        null=True,
+                        on_delete=django.db.models.deletion.PROTECT,
+                        to="lnschema_core.feature",
+                    ),
+                ),
+            ],
+            options={
+                "abstract": False,
+            },
+            bases=(models.Model, lnschema_core.models.LinkORM),
+        ),
+        migrations.CreateModel(
+            name="ArtifactDevelopmentalStage",
+            fields=[
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                (
+                    "artifact",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="lnschema_core.artifact",
+                    ),
+                ),
+                (
+                    "created_by",
+                    models.ForeignKey(
+                        default=lnschema_core.users.current_user_id,
+                        on_delete=django.db.models.deletion.PROTECT,
+                        to="lnschema_core.user",
+                    ),
+                ),
+                (
+                    "feature",
+                    models.ForeignKey(
+                        default=None,
+                        null=True,
+                        on_delete=django.db.models.deletion.PROTECT,
+                        to="lnschema_core.feature",
+                    ),
+                ),
+            ],
+            options={
+                "abstract": False,
+            },
+            bases=(models.Model, lnschema_core.models.LinkORM),
+        ),
+        migrations.CreateModel(
+            name="ArtifactDisease",
+            fields=[
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                (
+                    "artifact",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="lnschema_core.artifact",
+                    ),
+                ),
+                (
+                    "created_by",
+                    models.ForeignKey(
+                        default=lnschema_core.users.current_user_id,
+                        on_delete=django.db.models.deletion.PROTECT,
+                        to="lnschema_core.user",
+                    ),
+                ),
+                (
+                    "feature",
+                    models.ForeignKey(
+                        default=None,
+                        null=True,
+                        on_delete=django.db.models.deletion.PROTECT,
+                        to="lnschema_core.feature",
+                    ),
+                ),
+            ],
+            options={
+                "abstract": False,
+            },
+            bases=(models.Model, lnschema_core.models.LinkORM),
+        ),
+        migrations.CreateModel(
+            name="ArtifactEthnicity",
+            fields=[
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                (
+                    "artifact",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="lnschema_core.artifact",
+                    ),
+                ),
+                (
+                    "created_by",
+                    models.ForeignKey(
+                        default=lnschema_core.users.current_user_id,
+                        on_delete=django.db.models.deletion.PROTECT,
+                        to="lnschema_core.user",
+                    ),
+                ),
+                (
+                    "feature",
+                    models.ForeignKey(
+                        default=None,
+                        null=True,
+                        on_delete=django.db.models.deletion.PROTECT,
+                        to="lnschema_core.feature",
+                    ),
+                ),
+            ],
+            options={
+                "abstract": False,
+            },
+            bases=(models.Model, lnschema_core.models.LinkORM),
+        ),
+        migrations.CreateModel(
+            name="ArtifactExperimentalFactor",
+            fields=[
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                (
+                    "artifact",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="lnschema_core.artifact",
+                    ),
+                ),
+                (
+                    "created_by",
+                    models.ForeignKey(
+                        default=lnschema_core.users.current_user_id,
+                        on_delete=django.db.models.deletion.PROTECT,
+                        to="lnschema_core.user",
+                    ),
+                ),
+                (
+                    "feature",
+                    models.ForeignKey(
+                        default=None,
+                        null=True,
+                        on_delete=django.db.models.deletion.PROTECT,
+                        to="lnschema_core.feature",
+                    ),
+                ),
+            ],
+            options={
+                "abstract": False,
+            },
+            bases=(models.Model, lnschema_core.models.LinkORM),
+        ),
+        migrations.CreateModel(
+            name="ArtifactGene",
+            fields=[
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                (
+                    "artifact",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="lnschema_core.artifact",
+                    ),
+                ),
+                (
+                    "created_by",
+                    models.ForeignKey(
+                        default=lnschema_core.users.current_user_id,
+                        on_delete=django.db.models.deletion.PROTECT,
+                        to="lnschema_core.user",
+                    ),
+                ),
+                (
+                    "feature",
+                    models.ForeignKey(
+                        default=None,
+                        null=True,
+                        on_delete=django.db.models.deletion.PROTECT,
+                        to="lnschema_core.feature",
+                    ),
+                ),
+            ],
+            options={
+                "abstract": False,
+            },
+            bases=(models.Model, lnschema_core.models.LinkORM),
+        ),
+        migrations.CreateModel(
+            name="ArtifactOrganism",
+            fields=[
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                (
+                    "artifact",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="lnschema_core.artifact",
+                    ),
+                ),
+                (
+                    "created_by",
+                    models.ForeignKey(
+                        default=lnschema_core.users.current_user_id,
+                        on_delete=django.db.models.deletion.PROTECT,
+                        to="lnschema_core.user",
+                    ),
+                ),
+                (
+                    "feature",
+                    models.ForeignKey(
+                        default=None,
+                        null=True,
+                        on_delete=django.db.models.deletion.PROTECT,
+                        to="lnschema_core.feature",
+                    ),
+                ),
+            ],
+            options={
+                "abstract": False,
+            },
+            bases=(models.Model, lnschema_core.models.LinkORM),
+        ),
+        migrations.CreateModel(
+            name="ArtifactPathway",
+            fields=[
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                (
+                    "artifact",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="lnschema_core.artifact",
+                    ),
+                ),
+                (
+                    "created_by",
+                    models.ForeignKey(
+                        default=lnschema_core.users.current_user_id,
+                        on_delete=django.db.models.deletion.PROTECT,
+                        to="lnschema_core.user",
+                    ),
+                ),
+                (
+                    "feature",
+                    models.ForeignKey(
+                        default=None,
+                        null=True,
+                        on_delete=django.db.models.deletion.PROTECT,
+                        to="lnschema_core.feature",
+                    ),
+                ),
+            ],
+            options={
+                "abstract": False,
+            },
+            bases=(models.Model, lnschema_core.models.LinkORM),
+        ),
+        migrations.CreateModel(
+            name="ArtifactPhenotype",
+            fields=[
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                (
+                    "artifact",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="lnschema_core.artifact",
+                    ),
+                ),
+                (
+                    "created_by",
+                    models.ForeignKey(
+                        default=lnschema_core.users.current_user_id,
+                        on_delete=django.db.models.deletion.PROTECT,
+                        to="lnschema_core.user",
+                    ),
+                ),
+                (
+                    "feature",
+                    models.ForeignKey(
+                        default=None,
+                        null=True,
+                        on_delete=django.db.models.deletion.PROTECT,
+                        to="lnschema_core.feature",
+                    ),
+                ),
+            ],
+            options={
+                "abstract": False,
+            },
+            bases=(models.Model, lnschema_core.models.LinkORM),
+        ),
+        migrations.CreateModel(
+            name="ArtifactProtein",
+            fields=[
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                (
+                    "artifact",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="lnschema_core.artifact",
+                    ),
+                ),
+                (
+                    "created_by",
+                    models.ForeignKey(
+                        default=lnschema_core.users.current_user_id,
+                        on_delete=django.db.models.deletion.PROTECT,
+                        to="lnschema_core.user",
+                    ),
+                ),
+                (
+                    "feature",
+                    models.ForeignKey(
+                        default=None,
+                        null=True,
+                        on_delete=django.db.models.deletion.PROTECT,
+                        to="lnschema_core.feature",
+                    ),
+                ),
+            ],
+            options={
+                "abstract": False,
+            },
+            bases=(models.Model, lnschema_core.models.LinkORM),
+        ),
+        migrations.CreateModel(
+            name="ArtifactTissue",
+            fields=[
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                (
+                    "artifact",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="lnschema_core.artifact",
+                    ),
+                ),
+                (
+                    "created_by",
+                    models.ForeignKey(
+                        default=lnschema_core.users.current_user_id,
+                        on_delete=django.db.models.deletion.PROTECT,
+                        to="lnschema_core.user",
+                    ),
+                ),
+                (
+                    "feature",
+                    models.ForeignKey(
+                        default=None,
+                        null=True,
+                        on_delete=django.db.models.deletion.PROTECT,
+                        to="lnschema_core.feature",
+                    ),
+                ),
+            ],
+            options={
+                "abstract": False,
+            },
+            bases=(models.Model, lnschema_core.models.LinkORM),
+        ),
+        migrations.CreateModel(
+            name="CellLine",
+            fields=[
+                ("id", models.AutoField(primary_key=True, serialize=False)),
+                (
+                    "uid",
+                    models.CharField(
+                        default=lnschema_bionty.ids.ontology, max_length=8, unique=True
+                    ),
+                ),
+                ("name", models.CharField(db_index=True, max_length=256)),
+                (
+                    "ontology_id",
+                    models.CharField(
+                        db_index=True, default=None, max_length=32, null=True
+                    ),
+                ),
+                (
+                    "abbr",
+                    models.CharField(
+                        db_index=True,
+                        default=None,
+                        max_length=32,
+                        null=True,
+                        unique=True,
+                    ),
+                ),
+                ("synonyms", models.TextField(default=None, null=True)),
+                ("description", models.TextField(default=None, null=True)),
+                ("created_at", models.DateTimeField(auto_now_add=True, db_index=True)),
+                ("updated_at", models.DateTimeField(auto_now=True, db_index=True)),
+                (
+                    "artifacts",
+                    models.ManyToManyField(
+                        related_name="cell_lines",
+                        through="lnschema_bionty.ArtifactCellLine",
+                        to="lnschema_core.artifact",
+                    ),
+                ),
+                (
+                    "created_by",
+                    models.ForeignKey(
+                        default=lnschema_core.users.current_user_id,
+                        on_delete=django.db.models.deletion.PROTECT,
+                        related_name="created_cell_lines",
+                        to="lnschema_core.user",
+                    ),
+                ),
+                (
+                    "parents",
+                    models.ManyToManyField(
+                        related_name="children", to="lnschema_bionty.cellline"
+                    ),
+                ),
+            ],
+            bases=(
+                models.Model,
+                lnschema_core.models.HasParents,
+                lnschema_core.models.CanValidate,
+            ),
+        ),
+        migrations.AddField(
+            model_name="artifactcellline",
+            name="cell_line",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                to="lnschema_bionty.cellline",
+            ),
+        ),
+        migrations.CreateModel(
+            name="CellMarker",
+            fields=[
+                ("id", models.AutoField(primary_key=True, serialize=False)),
+                (
+                    "uid",
+                    models.CharField(
+                        default=lnschema_bionty.ids.cellmarker,
+                        max_length=12,
+                        unique=True,
+                    ),
+                ),
+                (
+                    "name",
+                    models.CharField(
+                        db_index=True, default=None, max_length=64, unique=True
+                    ),
+                ),
+                ("synonyms", models.TextField(default=None, null=True)),
+                (
+                    "gene_symbol",
+                    models.CharField(
+                        db_index=True, default=None, max_length=64, null=True
+                    ),
+                ),
+                (
+                    "ncbi_gene_id",
+                    models.CharField(
+                        db_index=True, default=None, max_length=32, null=True
+                    ),
+                ),
+                (
+                    "uniprotkb_id",
+                    models.CharField(
+                        db_index=True, default=None, max_length=10, null=True
+                    ),
+                ),
+                ("created_at", models.DateTimeField(auto_now_add=True, db_index=True)),
+                ("updated_at", models.DateTimeField(auto_now=True, db_index=True)),
+                (
+                    "artifacts",
+                    models.ManyToManyField(
+                        related_name="cell_markers",
+                        through="lnschema_bionty.ArtifactCellMarker",
+                        to="lnschema_core.artifact",
+                    ),
+                ),
+                (
+                    "created_by",
+                    models.ForeignKey(
+                        default=lnschema_core.users.current_user_id,
+                        on_delete=django.db.models.deletion.PROTECT,
+                        related_name="created_cell_markers",
+                        to="lnschema_core.user",
+                    ),
+                ),
+                (
+                    "feature_sets",
+                    models.ManyToManyField(
+                        related_name="cell_markers", to="lnschema_core.featureset"
+                    ),
+                ),
+            ],
+            options={
+                "abstract": False,
+            },
+            bases=(
+                models.Model,
+                lnschema_core.models.HasParents,
+                lnschema_core.models.CanValidate,
+            ),
+        ),
+        migrations.AddField(
+            model_name="artifactcellmarker",
+            name="cell_marker",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                to="lnschema_bionty.cellmarker",
+            ),
+        ),
+        migrations.CreateModel(
+            name="CellType",
+            fields=[
+                ("id", models.AutoField(primary_key=True, serialize=False)),
+                (
+                    "uid",
+                    models.CharField(
+                        default=lnschema_bionty.ids.ontology, max_length=8, unique=True
+                    ),
+                ),
+                ("name", models.CharField(db_index=True, max_length=256)),
+                (
+                    "ontology_id",
+                    models.CharField(
+                        db_index=True, default=None, max_length=32, null=True
+                    ),
+                ),
+                (
+                    "abbr",
+                    models.CharField(
+                        db_index=True,
+                        default=None,
+                        max_length=32,
+                        null=True,
+                        unique=True,
+                    ),
+                ),
+                ("synonyms", models.TextField(default=None, null=True)),
+                ("description", models.TextField(default=None, null=True)),
+                ("created_at", models.DateTimeField(auto_now_add=True, db_index=True)),
+                ("updated_at", models.DateTimeField(auto_now=True, db_index=True)),
+                (
+                    "artifacts",
+                    models.ManyToManyField(
+                        related_name="cell_types",
+                        through="lnschema_bionty.ArtifactCellType",
+                        to="lnschema_core.artifact",
+                    ),
+                ),
+                (
+                    "created_by",
+                    models.ForeignKey(
+                        default=lnschema_core.users.current_user_id,
+                        on_delete=django.db.models.deletion.PROTECT,
+                        related_name="created_cell_types",
+                        to="lnschema_core.user",
+                    ),
+                ),
+                (
+                    "parents",
+                    models.ManyToManyField(
+                        related_name="children", to="lnschema_bionty.celltype"
+                    ),
+                ),
+            ],
+            bases=(
+                models.Model,
+                lnschema_core.models.HasParents,
+                lnschema_core.models.CanValidate,
+            ),
+        ),
+        migrations.AddField(
+            model_name="artifactcelltype",
+            name="cell_type",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                to="lnschema_bionty.celltype",
+            ),
+        ),
+        migrations.CreateModel(
+            name="DevelopmentalStage",
+            fields=[
+                ("id", models.AutoField(primary_key=True, serialize=False)),
+                (
+                    "uid",
+                    models.CharField(
+                        default=lnschema_bionty.ids.ontology, max_length=8, unique=True
+                    ),
+                ),
+                ("name", models.CharField(db_index=True, max_length=256)),
+                (
+                    "ontology_id",
+                    models.CharField(
+                        db_index=True, default=None, max_length=32, null=True
+                    ),
+                ),
+                (
+                    "abbr",
+                    models.CharField(
+                        db_index=True,
+                        default=None,
+                        max_length=32,
+                        null=True,
+                        unique=True,
+                    ),
+                ),
+                ("synonyms", models.TextField(default=None, null=True)),
+                ("description", models.TextField(default=None, null=True)),
+                ("created_at", models.DateTimeField(auto_now_add=True, db_index=True)),
+                ("updated_at", models.DateTimeField(auto_now=True, db_index=True)),
+                (
+                    "artifacts",
+                    models.ManyToManyField(
+                        related_name="developmental_stages",
+                        through="lnschema_bionty.ArtifactDevelopmentalStage",
+                        to="lnschema_core.artifact",
+                    ),
+                ),
+                (
+                    "created_by",
+                    models.ForeignKey(
+                        default=lnschema_core.users.current_user_id,
+                        on_delete=django.db.models.deletion.PROTECT,
+                        related_name="created_developmental_stages",
+                        to="lnschema_core.user",
+                    ),
+                ),
+                (
+                    "parents",
+                    models.ManyToManyField(
+                        related_name="children", to="lnschema_bionty.developmentalstage"
+                    ),
+                ),
+            ],
+            bases=(
+                models.Model,
+                lnschema_core.models.HasParents,
+                lnschema_core.models.CanValidate,
+            ),
+        ),
+        migrations.AddField(
+            model_name="artifactdevelopmentalstage",
+            name="developmental_stage",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                to="lnschema_bionty.developmentalstage",
+            ),
+        ),
+        migrations.CreateModel(
+            name="Disease",
+            fields=[
+                ("id", models.AutoField(primary_key=True, serialize=False)),
+                (
+                    "uid",
+                    models.CharField(
+                        default=lnschema_bionty.ids.ontology, max_length=8, unique=True
+                    ),
+                ),
+                ("name", models.CharField(db_index=True, max_length=256)),
+                (
+                    "ontology_id",
+                    models.CharField(
+                        db_index=True, default=None, max_length=32, null=True
+                    ),
+                ),
+                (
+                    "abbr",
+                    models.CharField(
+                        db_index=True,
+                        default=None,
+                        max_length=32,
+                        null=True,
+                        unique=True,
+                    ),
+                ),
+                ("synonyms", models.TextField(default=None, null=True)),
+                ("description", models.TextField(default=None, null=True)),
+                ("created_at", models.DateTimeField(auto_now_add=True, db_index=True)),
+                ("updated_at", models.DateTimeField(auto_now=True, db_index=True)),
+                (
+                    "artifacts",
+                    models.ManyToManyField(
+                        related_name="diseases",
+                        through="lnschema_bionty.ArtifactDisease",
+                        to="lnschema_core.artifact",
+                    ),
+                ),
+                (
+                    "created_by",
+                    models.ForeignKey(
+                        default=lnschema_core.users.current_user_id,
+                        on_delete=django.db.models.deletion.PROTECT,
+                        related_name="created_diseases",
+                        to="lnschema_core.user",
+                    ),
+                ),
+                (
+                    "parents",
+                    models.ManyToManyField(
+                        related_name="children", to="lnschema_bionty.disease"
+                    ),
+                ),
+            ],
+            bases=(
+                models.Model,
+                lnschema_core.models.HasParents,
+                lnschema_core.models.CanValidate,
+            ),
+        ),
+        migrations.AddField(
+            model_name="artifactdisease",
+            name="disease",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                to="lnschema_bionty.disease",
+            ),
+        ),
+        migrations.CreateModel(
+            name="Ethnicity",
+            fields=[
+                ("id", models.AutoField(primary_key=True, serialize=False)),
+                (
+                    "uid",
+                    models.CharField(
+                        default=lnschema_bionty.ids.ontology, max_length=8, unique=True
+                    ),
+                ),
+                ("name", models.CharField(db_index=True, max_length=256)),
+                (
+                    "ontology_id",
+                    models.CharField(
+                        db_index=True, default=None, max_length=32, null=True
+                    ),
+                ),
+                (
+                    "abbr",
+                    models.CharField(
+                        db_index=True,
+                        default=None,
+                        max_length=32,
+                        null=True,
+                        unique=True,
+                    ),
+                ),
+                ("synonyms", models.TextField(default=None, null=True)),
+                ("description", models.TextField(default=None, null=True)),
+                ("created_at", models.DateTimeField(auto_now_add=True, db_index=True)),
+                ("updated_at", models.DateTimeField(auto_now=True, db_index=True)),
+                (
+                    "artifacts",
+                    models.ManyToManyField(
+                        related_name="ethnicities",
+                        through="lnschema_bionty.ArtifactEthnicity",
+                        to="lnschema_core.artifact",
+                    ),
+                ),
+                (
+                    "created_by",
+                    models.ForeignKey(
+                        default=lnschema_core.users.current_user_id,
+                        on_delete=django.db.models.deletion.PROTECT,
+                        related_name="created_ethnicities",
+                        to="lnschema_core.user",
+                    ),
+                ),
+                (
+                    "parents",
+                    models.ManyToManyField(
+                        related_name="children", to="lnschema_bionty.ethnicity"
+                    ),
+                ),
+            ],
+            bases=(
+                models.Model,
+                lnschema_core.models.HasParents,
+                lnschema_core.models.CanValidate,
+            ),
+        ),
+        migrations.AddField(
+            model_name="artifactethnicity",
+            name="ethnicity",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                to="lnschema_bionty.ethnicity",
+            ),
+        ),
+        migrations.CreateModel(
+            name="ExperimentalFactor",
+            fields=[
+                ("id", models.AutoField(primary_key=True, serialize=False)),
+                (
+                    "uid",
+                    models.CharField(
+                        default=lnschema_bionty.ids.ontology, max_length=8, unique=True
+                    ),
+                ),
+                ("name", models.CharField(db_index=True, max_length=256)),
+                (
+                    "ontology_id",
+                    models.CharField(
+                        db_index=True, default=None, max_length=32, null=True
+                    ),
+                ),
+                (
+                    "abbr",
+                    models.CharField(
+                        db_index=True,
+                        default=None,
+                        max_length=32,
+                        null=True,
+                        unique=True,
+                    ),
+                ),
+                ("synonyms", models.TextField(default=None, null=True)),
+                ("description", models.TextField(default=None, null=True)),
+                ("molecule", models.TextField(db_index=True, default=None, null=True)),
+                (
+                    "instrument",
+                    models.TextField(db_index=True, default=None, null=True),
+                ),
+                (
+                    "measurement",
+                    models.TextField(db_index=True, default=None, null=True),
+                ),
+                ("created_at", models.DateTimeField(auto_now_add=True, db_index=True)),
+                ("updated_at", models.DateTimeField(auto_now=True, db_index=True)),
+                (
+                    "artifacts",
+                    models.ManyToManyField(
+                        related_name="experimental_factors",
+                        through="lnschema_bionty.ArtifactExperimentalFactor",
+                        to="lnschema_core.artifact",
+                    ),
+                ),
+                (
+                    "created_by",
+                    models.ForeignKey(
+                        default=lnschema_core.users.current_user_id,
+                        on_delete=django.db.models.deletion.PROTECT,
+                        related_name="created_experimental_factors",
+                        to="lnschema_core.user",
+                    ),
+                ),
+                (
+                    "parents",
+                    models.ManyToManyField(
+                        related_name="children", to="lnschema_bionty.experimentalfactor"
+                    ),
+                ),
+            ],
+            bases=(
+                models.Model,
+                lnschema_core.models.HasParents,
+                lnschema_core.models.CanValidate,
+            ),
+        ),
+        migrations.AddField(
+            model_name="artifactexperimentalfactor",
+            name="experimental_factor",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                to="lnschema_bionty.experimentalfactor",
+            ),
+        ),
+        migrations.CreateModel(
+            name="Gene",
+            fields=[
+                ("id", models.AutoField(primary_key=True, serialize=False)),
+                (
+                    "uid",
+                    models.CharField(
+                        default=lnschema_bionty.ids.gene, max_length=12, unique=True
+                    ),
+                ),
+                (
+                    "symbol",
+                    models.CharField(
+                        db_index=True, default=None, max_length=64, null=True
+                    ),
+                ),
+                (
+                    "stable_id",
+                    models.CharField(
+                        db_index=True,
+                        default=None,
+                        max_length=64,
+                        null=True,
+                        unique=True,
+                    ),
+                ),
+                (
+                    "ensembl_gene_id",
+                    models.CharField(
+                        db_index=True,
+                        default=None,
+                        max_length=64,
+                        null=True,
+                        unique=True,
+                    ),
+                ),
+                ("ncbi_gene_ids", models.TextField(default=None, null=True)),
+                (
+                    "biotype",
+                    models.CharField(
+                        db_index=True, default=None, max_length=64, null=True
+                    ),
+                ),
+                ("description", models.TextField(default=None, null=True)),
+                ("synonyms", models.TextField(default=None, null=True)),
+                ("created_at", models.DateTimeField(auto_now_add=True, db_index=True)),
+                ("updated_at", models.DateTimeField(auto_now=True, db_index=True)),
+                (
+                    "artifacts",
+                    models.ManyToManyField(
+                        related_name="genes",
+                        through="lnschema_bionty.ArtifactGene",
+                        to="lnschema_core.artifact",
+                    ),
+                ),
+                (
+                    "created_by",
+                    models.ForeignKey(
+                        default=lnschema_core.users.current_user_id,
+                        on_delete=django.db.models.deletion.PROTECT,
+                        related_name="created_genes",
+                        to="lnschema_core.user",
+                    ),
+                ),
+                (
+                    "feature_sets",
+                    models.ManyToManyField(
+                        related_name="genes", to="lnschema_core.featureset"
+                    ),
+                ),
+            ],
+            options={
+                "abstract": False,
+            },
+            bases=(
+                models.Model,
+                lnschema_core.models.HasParents,
+                lnschema_core.models.CanValidate,
+            ),
+        ),
+        migrations.AddField(
+            model_name="artifactgene",
+            name="gene",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE, to="lnschema_bionty.gene"
+            ),
+        ),
+        migrations.CreateModel(
+            name="Organism",
+            fields=[
+                ("id", models.AutoField(primary_key=True, serialize=False)),
+                (
+                    "uid",
+                    models.CharField(
+                        default=lnschema_bionty.ids.ontology, max_length=8, unique=True
+                    ),
+                ),
+                (
+                    "name",
+                    models.CharField(
+                        db_index=True, default=None, max_length=64, unique=True
+                    ),
+                ),
+                (
+                    "ontology_id",
+                    models.CharField(
+                        db_index=True,
+                        default=None,
+                        max_length=32,
+                        null=True,
+                        unique=True,
+                    ),
+                ),
+                (
+                    "scientific_name",
+                    models.CharField(
+                        db_index=True,
+                        default=None,
+                        max_length=64,
+                        null=True,
+                        unique=True,
+                    ),
+                ),
+                ("created_at", models.DateTimeField(auto_now_add=True, db_index=True)),
+                ("updated_at", models.DateTimeField(auto_now=True, db_index=True)),
+                (
+                    "artifacts",
+                    models.ManyToManyField(
+                        related_name="organisms",
+                        through="lnschema_bionty.ArtifactOrganism",
+                        to="lnschema_core.artifact",
+                    ),
+                ),
+                (
+                    "created_by",
+                    models.ForeignKey(
+                        default=lnschema_core.users.current_user_id,
+                        on_delete=django.db.models.deletion.PROTECT,
+                        related_name="created_organism",
+                        to="lnschema_core.user",
+                    ),
+                ),
+                (
+                    "parents",
+                    models.ManyToManyField(
+                        related_name="children", to="lnschema_bionty.organism"
+                    ),
+                ),
+            ],
+            options={
+                "abstract": False,
+            },
+            bases=(
+                models.Model,
+                lnschema_core.models.HasParents,
+                lnschema_core.models.CanValidate,
+            ),
+        ),
+        migrations.AddField(
+            model_name="gene",
+            name="organism",
+            field=models.ForeignKey(
+                default=None,
+                on_delete=django.db.models.deletion.PROTECT,
+                related_name="genes",
+                to="lnschema_bionty.organism",
+            ),
+        ),
+        migrations.AddField(
+            model_name="cellmarker",
+            name="organism",
+            field=models.ForeignKey(
+                default=None,
+                on_delete=django.db.models.deletion.PROTECT,
+                related_name="cell_markers",
+                to="lnschema_bionty.organism",
+            ),
+        ),
+        migrations.AddField(
+            model_name="artifactorganism",
+            name="organism",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                to="lnschema_bionty.organism",
+            ),
+        ),
+        migrations.CreateModel(
+            name="Pathway",
+            fields=[
+                ("id", models.AutoField(primary_key=True, serialize=False)),
+                (
+                    "uid",
+                    models.CharField(
+                        default=lnschema_bionty.ids.ontology, max_length=8, unique=True
+                    ),
+                ),
+                ("name", models.CharField(db_index=True, max_length=256)),
+                (
+                    "ontology_id",
+                    models.CharField(
+                        db_index=True, default=None, max_length=32, null=True
+                    ),
+                ),
+                (
+                    "abbr",
+                    models.CharField(
+                        db_index=True,
+                        default=None,
+                        max_length=32,
+                        null=True,
+                        unique=True,
+                    ),
+                ),
+                ("synonyms", models.TextField(default=None, null=True)),
+                ("description", models.TextField(default=None, null=True)),
+                ("created_at", models.DateTimeField(auto_now_add=True, db_index=True)),
+                ("updated_at", models.DateTimeField(auto_now=True, db_index=True)),
+                (
+                    "artifacts",
+                    models.ManyToManyField(
+                        related_name="pathways",
+                        through="lnschema_bionty.ArtifactPathway",
+                        to="lnschema_core.artifact",
+                    ),
+                ),
+                (
+                    "created_by",
+                    models.ForeignKey(
+                        default=lnschema_core.users.current_user_id,
+                        on_delete=django.db.models.deletion.PROTECT,
+                        related_name="created_pathways",
+                        to="lnschema_core.user",
+                    ),
+                ),
+                (
+                    "feature_sets",
+                    models.ManyToManyField(
+                        related_name="pathways", to="lnschema_core.featureset"
+                    ),
+                ),
+                (
+                    "genes",
+                    models.ManyToManyField(
+                        related_name="pathways", to="lnschema_bionty.gene"
+                    ),
+                ),
+                (
+                    "parents",
+                    models.ManyToManyField(
+                        related_name="children", to="lnschema_bionty.pathway"
+                    ),
+                ),
+            ],
+            bases=(
+                models.Model,
+                lnschema_core.models.HasParents,
+                lnschema_core.models.CanValidate,
+            ),
+        ),
+        migrations.AddField(
+            model_name="artifactpathway",
+            name="pathway",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                to="lnschema_bionty.pathway",
+            ),
+        ),
+        migrations.CreateModel(
+            name="Phenotype",
+            fields=[
+                ("id", models.AutoField(primary_key=True, serialize=False)),
+                (
+                    "uid",
+                    models.CharField(
+                        default=lnschema_bionty.ids.ontology, max_length=8, unique=True
+                    ),
+                ),
+                ("name", models.CharField(db_index=True, max_length=256)),
+                (
+                    "ontology_id",
+                    models.CharField(
+                        db_index=True, default=None, max_length=32, null=True
+                    ),
+                ),
+                (
+                    "abbr",
+                    models.CharField(
+                        db_index=True,
+                        default=None,
+                        max_length=32,
+                        null=True,
+                        unique=True,
+                    ),
+                ),
+                ("synonyms", models.TextField(default=None, null=True)),
+                ("description", models.TextField(default=None, null=True)),
+                ("created_at", models.DateTimeField(auto_now_add=True, db_index=True)),
+                ("updated_at", models.DateTimeField(auto_now=True, db_index=True)),
+                (
+                    "artifacts",
+                    models.ManyToManyField(
+                        related_name="phenotypes",
+                        through="lnschema_bionty.ArtifactPhenotype",
+                        to="lnschema_core.artifact",
+                    ),
+                ),
+                (
+                    "created_by",
+                    models.ForeignKey(
+                        default=lnschema_core.users.current_user_id,
+                        on_delete=django.db.models.deletion.PROTECT,
+                        related_name="created_phenotypes",
+                        to="lnschema_core.user",
+                    ),
+                ),
+                (
+                    "parents",
+                    models.ManyToManyField(
+                        related_name="children", to="lnschema_bionty.phenotype"
+                    ),
+                ),
+            ],
+            bases=(
+                models.Model,
+                lnschema_core.models.HasParents,
+                lnschema_core.models.CanValidate,
+            ),
+        ),
+        migrations.AddField(
+            model_name="artifactphenotype",
+            name="phenotype",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                to="lnschema_bionty.phenotype",
+            ),
+        ),
+        migrations.CreateModel(
+            name="Protein",
+            fields=[
+                ("id", models.AutoField(primary_key=True, serialize=False)),
+                (
+                    "uid",
+                    models.CharField(
+                        default=lnschema_bionty.ids.protein, max_length=12, unique=True
+                    ),
+                ),
+                (
+                    "name",
+                    models.CharField(
+                        db_index=True, default=None, max_length=64, null=True
+                    ),
+                ),
+                (
+                    "uniprotkb_id",
+                    models.CharField(
+                        db_index=True,
+                        default=None,
+                        max_length=10,
+                        null=True,
+                        unique=True,
+                    ),
+                ),
+                ("synonyms", models.TextField(default=None, null=True)),
+                ("length", models.BigIntegerField(db_index=True, null=True)),
+                (
+                    "gene_symbol",
+                    models.CharField(
+                        db_index=True, default=None, max_length=64, null=True
+                    ),
+                ),
+                ("ensembl_gene_ids", models.TextField(default=None, null=True)),
+                ("created_at", models.DateTimeField(auto_now_add=True, db_index=True)),
+                ("updated_at", models.DateTimeField(auto_now=True, db_index=True)),
+                (
+                    "artifacts",
+                    models.ManyToManyField(
+                        related_name="proteins",
+                        through="lnschema_bionty.ArtifactProtein",
+                        to="lnschema_core.artifact",
+                    ),
+                ),
+                (
+                    "created_by",
+                    models.ForeignKey(
+                        default=lnschema_core.users.current_user_id,
+                        on_delete=django.db.models.deletion.PROTECT,
+                        related_name="created_proteins",
+                        to="lnschema_core.user",
+                    ),
+                ),
+                (
+                    "feature_sets",
+                    models.ManyToManyField(
+                        related_name="proteins", to="lnschema_core.featureset"
+                    ),
+                ),
+                (
+                    "organism",
+                    models.ForeignKey(
+                        default=None,
+                        on_delete=django.db.models.deletion.PROTECT,
+                        related_name="proteins",
+                        to="lnschema_bionty.organism",
+                    ),
+                ),
+            ],
+            options={
+                "abstract": False,
+            },
+            bases=(
+                models.Model,
+                lnschema_core.models.HasParents,
+                lnschema_core.models.CanValidate,
+            ),
+        ),
+        migrations.AddField(
+            model_name="artifactprotein",
+            name="protein",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                to="lnschema_bionty.protein",
+            ),
+        ),
+        migrations.CreateModel(
+            name="PublicSource",
+            fields=[
+                ("id", models.AutoField(primary_key=True, serialize=False)),
+                (
+                    "uid",
+                    models.CharField(
+                        default=lnschema_bionty.ids.publicsource,
+                        max_length=8,
+                        unique=True,
+                    ),
+                ),
+                ("entity", models.CharField(db_index=True, max_length=64)),
+                ("organism", models.CharField(db_index=True, max_length=64)),
+                ("currently_used", models.BooleanField(db_index=True, default=False)),
+                ("source", models.CharField(db_index=True, max_length=64)),
+                ("source_name", models.TextField(blank=True, db_index=True)),
+                ("version", models.CharField(db_index=True, max_length=64)),
+                ("url", models.TextField(default=None, null=True)),
+                ("md5", models.TextField(default=None, null=True)),
+                ("source_website", models.TextField(default=None, null=True)),
+                ("created_at", models.DateTimeField(auto_now_add=True, db_index=True)),
+                ("updated_at", models.DateTimeField(auto_now=True, db_index=True)),
+                (
+                    "created_by",
+                    models.ForeignKey(
+                        default=lnschema_core.users.current_user_id,
+                        on_delete=django.db.models.deletion.PROTECT,
+                        related_name="created_public_sources",
+                        to="lnschema_core.user",
+                    ),
+                ),
+            ],
+            options={
+                "unique_together": {("entity", "source", "organism", "version")},
+            },
+        ),
+        migrations.AddField(
+            model_name="protein",
+            name="public_source",
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.PROTECT,
+                related_name="proteins",
+                to="lnschema_bionty.publicsource",
+            ),
+        ),
+        migrations.AddField(
+            model_name="phenotype",
+            name="public_source",
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.PROTECT,
+                related_name="phenotypes",
+                to="lnschema_bionty.publicsource",
+            ),
+        ),
+        migrations.AddField(
+            model_name="pathway",
+            name="public_source",
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.PROTECT,
+                related_name="pathways",
+                to="lnschema_bionty.publicsource",
+            ),
+        ),
+        migrations.AddField(
+            model_name="organism",
+            name="public_source",
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.PROTECT,
+                related_name="organisms",
+                to="lnschema_bionty.publicsource",
+            ),
+        ),
+        migrations.AddField(
+            model_name="gene",
+            name="public_source",
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.PROTECT,
+                related_name="genes",
+                to="lnschema_bionty.publicsource",
+            ),
+        ),
+        migrations.AddField(
+            model_name="experimentalfactor",
+            name="public_source",
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.PROTECT,
+                related_name="experimental_factors",
+                to="lnschema_bionty.publicsource",
+            ),
+        ),
+        migrations.AddField(
+            model_name="ethnicity",
+            name="public_source",
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.PROTECT,
+                related_name="ethnicities",
+                to="lnschema_bionty.publicsource",
+            ),
+        ),
+        migrations.AddField(
+            model_name="disease",
+            name="public_source",
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.PROTECT,
+                related_name="diseases",
+                to="lnschema_bionty.publicsource",
+            ),
+        ),
+        migrations.AddField(
+            model_name="developmentalstage",
+            name="public_source",
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.PROTECT,
+                related_name="developmental_stages",
+                to="lnschema_bionty.publicsource",
+            ),
+        ),
+        migrations.AddField(
+            model_name="celltype",
+            name="public_source",
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.PROTECT,
+                related_name="cell_types",
+                to="lnschema_bionty.publicsource",
+            ),
+        ),
+        migrations.AddField(
+            model_name="cellmarker",
+            name="public_source",
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.PROTECT,
+                related_name="cell_markers",
+                to="lnschema_bionty.publicsource",
+            ),
+        ),
+        migrations.AddField(
+            model_name="cellline",
+            name="public_source",
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.PROTECT,
+                related_name="cell_lines",
+                to="lnschema_bionty.publicsource",
+            ),
+        ),
+        migrations.CreateModel(
+            name="Tissue",
+            fields=[
+                ("id", models.AutoField(primary_key=True, serialize=False)),
+                (
+                    "uid",
+                    models.CharField(
+                        default=lnschema_bionty.ids.ontology, max_length=8, unique=True
+                    ),
+                ),
+                ("name", models.CharField(db_index=True, max_length=256)),
+                (
+                    "ontology_id",
+                    models.CharField(
+                        db_index=True, default=None, max_length=32, null=True
+                    ),
+                ),
+                (
+                    "abbr",
+                    models.CharField(
+                        db_index=True,
+                        default=None,
+                        max_length=32,
+                        null=True,
+                        unique=True,
+                    ),
+                ),
+                ("synonyms", models.TextField(default=None, null=True)),
+                ("description", models.TextField(default=None, null=True)),
+                ("created_at", models.DateTimeField(auto_now_add=True, db_index=True)),
+                ("updated_at", models.DateTimeField(auto_now=True, db_index=True)),
+                (
+                    "artifacts",
+                    models.ManyToManyField(
+                        related_name="tissues",
+                        through="lnschema_bionty.ArtifactTissue",
+                        to="lnschema_core.artifact",
+                    ),
+                ),
+                (
+                    "created_by",
+                    models.ForeignKey(
+                        default=lnschema_core.users.current_user_id,
+                        on_delete=django.db.models.deletion.PROTECT,
+                        related_name="created_tissues",
+                        to="lnschema_core.user",
+                    ),
+                ),
+                (
+                    "parents",
+                    models.ManyToManyField(
+                        related_name="children", to="lnschema_bionty.tissue"
+                    ),
+                ),
+                (
+                    "public_source",
+                    models.ForeignKey(
+                        null=True,
+                        on_delete=django.db.models.deletion.PROTECT,
+                        related_name="tissues",
+                        to="lnschema_bionty.publicsource",
+                    ),
+                ),
+            ],
+            options={
+                "unique_together": {("name", "ontology_id")},
+            },
+            bases=(
+                models.Model,
+                lnschema_core.models.HasParents,
+                lnschema_core.models.CanValidate,
+            ),
+        ),
+        migrations.AddField(
+            model_name="artifacttissue",
+            name="tissue",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE, to="lnschema_bionty.tissue"
+            ),
+        ),
+        migrations.AlterUniqueTogether(
+            name="phenotype",
+            unique_together={("name", "ontology_id")},
+        ),
+        migrations.AlterUniqueTogether(
+            name="pathway",
+            unique_together={("name", "ontology_id")},
+        ),
+        migrations.AlterUniqueTogether(
+            name="experimentalfactor",
+            unique_together={("name", "ontology_id")},
+        ),
+        migrations.AlterUniqueTogether(
+            name="ethnicity",
+            unique_together={("name", "ontology_id")},
+        ),
+        migrations.AlterUniqueTogether(
+            name="disease",
+            unique_together={("name", "ontology_id")},
+        ),
+        migrations.AlterUniqueTogether(
+            name="developmentalstage",
+            unique_together={("name", "ontology_id")},
+        ),
+        migrations.AlterUniqueTogether(
+            name="celltype",
+            unique_together={("name", "ontology_id")},
+        ),
+        migrations.AlterUniqueTogether(
+            name="cellline",
+            unique_together={("name", "ontology_id")},
+        ),
+    ]
