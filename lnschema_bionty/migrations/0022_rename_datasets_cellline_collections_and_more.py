@@ -12,7 +12,7 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ("lnschema_core", "0048_squashed"),
+        ("lnschema_core", "0037_rename_dataset_to_collection"),
     ]
 
     operations = [
