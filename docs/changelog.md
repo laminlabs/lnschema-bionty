@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
+🔥 Delete old migrations and create a new squashed initial migration | [241](https://github.com/laminlabs/lnschema-bionty/pull/241) | [falexwolf](https://github.com/falexwolf) | 2024-05-16 |
 🏗️  Spell out link tables with `Artifact` and link features | [239](https://github.com/laminlabs/lnschema-bionty/pull/239) | [falexwolf](https://github.com/falexwolf) | 2024-05-16 |
 🔥 Remove linking Collection to all Bionty entities | [238](https://github.com/laminlabs/lnschema-bionty/pull/238) | [falexwolf](https://github.com/falexwolf) | 2024-05-15 |
 ✨ Add sources | [237](https://github.com/laminlabs/lnschema-bionty/pull/237) | [sunnyosun](https://github.com/sunnyosun) | 2024-05-14 |
