@@ -640,7 +640,7 @@ class Migration(migrations.Migration):
         migrations.RunSQL(
             f"""
             INSERT INTO lnschema_bionty_artifactcellline (artifact_id, cell_line_id, feature_id, created_by_id, created_at)
-            SELECT artifact_id, cell_line_id, NULL, {1}, CURRENT_TIMESTAMP
+            SELECT artifact_id, cellline_id, NULL, {1}, CURRENT_TIMESTAMP
             FROM lnschema_bionty_cellline_artifacts;
             """  # Replace with appropriate user_id logic
         ),
