@@ -27,12 +27,5 @@ class Migration(migrations.Migration):
     ]
 
     dependencies = [
-        ("lnschema_core", "0023_export_legacy_data"),
-        ("lnschema_core", "0024_import_legacy_data"),
-        ("lnschema_core", "0031_rename_file_to_artifact"),
-        (
-            "lnschema_core",
-            "0039_remove_collection_artifacts_collectionartifact_and_more",
-        ),
         ("lnschema_core", "0046_storage_instance_uid"),
     ]

@@ -6,7 +6,6 @@ from django.db import migrations
 class Migration(migrations.Migration):
     dependencies = [
         ("lnschema_bionty", "0020_alter_organism_bionty_source"),
-        ("lnschema_core", "0031_rename_file_to_artifact"),
     ]
 
     operations = [
