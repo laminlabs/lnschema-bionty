@@ -39,7 +39,6 @@ def reverse_func(apps, schema_editor):
 
 class Migration(migrations.Migration):
     dependencies = [
-        ("lnschema_core", "0024_import_legacy_data"),
         ("lnschema_bionty", "0017_import_legacy_data"),
     ]
     operations = [

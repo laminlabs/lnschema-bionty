@@ -50,10 +50,6 @@ def reverse_func(apps, schema_editor):
 
 class Migration(migrations.Migration):
     dependencies = [
-        (
-            "lnschema_core",
-            "0039_remove_collection_artifacts_collectionartifact_and_more",
-        ),
         ("lnschema_bionty", "0022_rename_datasets_cellline_collections_and_more"),
     ]
 

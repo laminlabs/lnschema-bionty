@@ -62,7 +62,6 @@ def import_db(apps, schema_editor):
 class Migration(migrations.Migration):
     dependencies = [
         ("lnschema_bionty", "0001_initial_squashed_0016"),
-        ("lnschema_core", "0024_import_legacy_data"),
     ]
 
     operations = [
