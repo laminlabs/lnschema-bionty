@@ -9,7 +9,6 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
     dependencies = [
         ("lnschema_bionty", "0024_remove_cellline_collections_and_more"),
-        ("lnschema_core", "0046_storage_instance_uid"),
     ]
 
     operations = [

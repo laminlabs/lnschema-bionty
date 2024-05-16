@@ -17,7 +17,7 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name="BiontySource",
+            name="PublicSource",
             fields=[
                 ("id", models.AutoField(primary_key=True, serialize=False)),
                 (
@@ -44,7 +44,7 @@ class Migration(migrations.Migration):
                     models.ForeignKey(
                         default=lnschema_core.users.current_user_id,
                         on_delete=django.db.models.deletion.PROTECT,
-                        related_name="created_bionty_sources",
+                        related_name="created_public_sources",
                         to="lnschema_core.user",
                     ),
                 ),
@@ -88,11 +88,11 @@ class Migration(migrations.Migration):
                 ("created_at", models.DateTimeField(auto_now_add=True, db_index=True)),
                 ("updated_at", models.DateTimeField(auto_now=True, db_index=True)),
                 (
-                    "bionty_source",
+                    "public_source",
                     models.ForeignKey(
                         null=True,
                         on_delete=django.db.models.deletion.PROTECT,
-                        to="lnschema_bionty.biontysource",
+                        to="lnschema_bionty.publicsource",
                     ),
                 ),
                 (
@@ -164,12 +164,12 @@ class Migration(migrations.Migration):
                 ("created_at", models.DateTimeField(auto_now_add=True, db_index=True)),
                 ("updated_at", models.DateTimeField(auto_now=True, db_index=True)),
                 (
-                    "bionty_source",
+                    "public_source",
                     models.ForeignKey(
                         null=True,
                         on_delete=django.db.models.deletion.PROTECT,
                         related_name="proteins",
-                        to="lnschema_bionty.biontysource",
+                        to="lnschema_bionty.publicsource",
                     ),
                 ),
                 (
@@ -266,12 +266,12 @@ class Migration(migrations.Migration):
                 ("created_at", models.DateTimeField(auto_now_add=True, db_index=True)),
                 ("updated_at", models.DateTimeField(auto_now=True, db_index=True)),
                 (
-                    "bionty_source",
+                    "public_source",
                     models.ForeignKey(
                         null=True,
                         on_delete=django.db.models.deletion.PROTECT,
                         related_name="genes",
-                        to="lnschema_bionty.biontysource",
+                        to="lnschema_bionty.publicsource",
                     ),
                 ),
                 (
@@ -360,12 +360,12 @@ class Migration(migrations.Migration):
                 ("created_at", models.DateTimeField(auto_now_add=True, db_index=True)),
                 ("updated_at", models.DateTimeField(auto_now=True, db_index=True)),
                 (
-                    "bionty_source",
+                    "public_source",
                     models.ForeignKey(
                         null=True,
                         on_delete=django.db.models.deletion.PROTECT,
                         related_name="cell_markers",
-                        to="lnschema_bionty.biontysource",
+                        to="lnschema_bionty.publicsource",
                     ),
                 ),
                 (
@@ -446,12 +446,12 @@ class Migration(migrations.Migration):
                 ("created_at", models.DateTimeField(auto_now_add=True, db_index=True)),
                 ("updated_at", models.DateTimeField(auto_now=True, db_index=True)),
                 (
-                    "bionty_source",
+                    "public_source",
                     models.ForeignKey(
                         null=True,
                         on_delete=django.db.models.deletion.PROTECT,
                         related_name="tissues",
-                        to="lnschema_bionty.biontysource",
+                        to="lnschema_bionty.publicsource",
                     ),
                 ),
                 (
@@ -523,12 +523,12 @@ class Migration(migrations.Migration):
                 ("created_at", models.DateTimeField(auto_now_add=True, db_index=True)),
                 ("updated_at", models.DateTimeField(auto_now=True, db_index=True)),
                 (
-                    "bionty_source",
+                    "public_source",
                     models.ForeignKey(
                         null=True,
                         on_delete=django.db.models.deletion.PROTECT,
                         related_name="phenotypes",
-                        to="lnschema_bionty.biontysource",
+                        to="lnschema_bionty.publicsource",
                     ),
                 ),
                 (
@@ -600,12 +600,12 @@ class Migration(migrations.Migration):
                 ("created_at", models.DateTimeField(auto_now_add=True, db_index=True)),
                 ("updated_at", models.DateTimeField(auto_now=True, db_index=True)),
                 (
-                    "bionty_source",
+                    "public_source",
                     models.ForeignKey(
                         null=True,
                         on_delete=django.db.models.deletion.PROTECT,
                         related_name="pathways",
-                        to="lnschema_bionty.biontysource",
+                        to="lnschema_bionty.publicsource",
                     ),
                 ),
                 (
@@ -698,12 +698,12 @@ class Migration(migrations.Migration):
                 ("created_at", models.DateTimeField(auto_now_add=True, db_index=True)),
                 ("updated_at", models.DateTimeField(auto_now=True, db_index=True)),
                 (
-                    "bionty_source",
+                    "public_source",
                     models.ForeignKey(
                         null=True,
                         on_delete=django.db.models.deletion.PROTECT,
                         related_name="experimental_factors",
-                        to="lnschema_bionty.biontysource",
+                        to="lnschema_bionty.publicsource",
                     ),
                 ),
                 (
@@ -775,12 +775,12 @@ class Migration(migrations.Migration):
                 ("created_at", models.DateTimeField(auto_now_add=True, db_index=True)),
                 ("updated_at", models.DateTimeField(auto_now=True, db_index=True)),
                 (
-                    "bionty_source",
+                    "public_source",
                     models.ForeignKey(
                         null=True,
                         on_delete=django.db.models.deletion.PROTECT,
                         related_name="ethnicities",
-                        to="lnschema_bionty.biontysource",
+                        to="lnschema_bionty.publicsource",
                     ),
                 ),
                 (
@@ -852,12 +852,12 @@ class Migration(migrations.Migration):
                 ("created_at", models.DateTimeField(auto_now_add=True, db_index=True)),
                 ("updated_at", models.DateTimeField(auto_now=True, db_index=True)),
                 (
-                    "bionty_source",
+                    "public_source",
                     models.ForeignKey(
                         null=True,
                         on_delete=django.db.models.deletion.PROTECT,
                         related_name="diseases",
-                        to="lnschema_bionty.biontysource",
+                        to="lnschema_bionty.publicsource",
                     ),
                 ),
                 (
@@ -929,12 +929,12 @@ class Migration(migrations.Migration):
                 ("created_at", models.DateTimeField(auto_now_add=True, db_index=True)),
                 ("updated_at", models.DateTimeField(auto_now=True, db_index=True)),
                 (
-                    "bionty_source",
+                    "public_source",
                     models.ForeignKey(
                         null=True,
                         on_delete=django.db.models.deletion.PROTECT,
                         related_name="developmental_stages",
-                        to="lnschema_bionty.biontysource",
+                        to="lnschema_bionty.publicsource",
                     ),
                 ),
                 (
@@ -1006,12 +1006,12 @@ class Migration(migrations.Migration):
                 ("created_at", models.DateTimeField(auto_now_add=True, db_index=True)),
                 ("updated_at", models.DateTimeField(auto_now=True, db_index=True)),
                 (
-                    "bionty_source",
+                    "public_source",
                     models.ForeignKey(
                         null=True,
                         on_delete=django.db.models.deletion.PROTECT,
                         related_name="cell_types",
-                        to="lnschema_bionty.biontysource",
+                        to="lnschema_bionty.publicsource",
                     ),
                 ),
                 (
@@ -1083,12 +1083,12 @@ class Migration(migrations.Migration):
                 ("created_at", models.DateTimeField(auto_now_add=True, db_index=True)),
                 ("updated_at", models.DateTimeField(auto_now=True, db_index=True)),
                 (
-                    "bionty_source",
+                    "public_source",
                     models.ForeignKey(
                         null=True,
                         on_delete=django.db.models.deletion.PROTECT,
                         related_name="cell_lines",
-                        to="lnschema_bionty.biontysource",
+                        to="lnschema_bionty.publicsource",
                     ),
                 ),
                 (
@@ -1129,12 +1129,12 @@ class Migration(migrations.Migration):
             ),
         ),
         migrations.RenameField(
-            model_name="biontysource",
+            model_name="publicsource",
             old_name="species",
             new_name="organism",
         ),
         migrations.AlterUniqueTogether(
-            name="biontysource",
+            name="publicsource",
             unique_together={("entity", "source", "organism", "version")},
         ),
         migrations.RenameModel(
@@ -1150,11 +1150,11 @@ class Migration(migrations.Migration):
         ),
         migrations.AlterField(
             model_name="organism",
-            name="bionty_source",
+            name="public_source",
             field=models.ForeignKey(
                 null=True,
                 on_delete=django.db.models.deletion.PROTECT,
-                to="lnschema_bionty.biontysource",
+                to="lnschema_bionty.publicsource",
             ),
         ),
         migrations.AlterField(
@@ -1382,10 +1382,6 @@ class Migration(migrations.Migration):
             old_name="datasets",
             new_name="collections",
         ),
-        migrations.RenameModel(
-            old_name="BiontySource",
-            new_name="PublicSource",
-        ),
         migrations.AlterField(
             model_name="publicsource",
             name="created_by",
@@ -1396,51 +1392,6 @@ class Migration(migrations.Migration):
                 to="lnschema_core.user",
             ),
         ),
-        migrations.RenameField(
-            model_name="cellline",
-            old_name="bionty_source",
-            new_name="public_source",
-        ),
-        migrations.RenameField(
-            model_name="cellmarker",
-            old_name="bionty_source",
-            new_name="public_source",
-        ),
-        migrations.RenameField(
-            model_name="celltype",
-            old_name="bionty_source",
-            new_name="public_source",
-        ),
-        migrations.RenameField(
-            model_name="developmentalstage",
-            old_name="bionty_source",
-            new_name="public_source",
-        ),
-        migrations.RenameField(
-            model_name="disease",
-            old_name="bionty_source",
-            new_name="public_source",
-        ),
-        migrations.RenameField(
-            model_name="ethnicity",
-            old_name="bionty_source",
-            new_name="public_source",
-        ),
-        migrations.RenameField(
-            model_name="experimentalfactor",
-            old_name="bionty_source",
-            new_name="public_source",
-        ),
-        migrations.RenameField(
-            model_name="gene",
-            old_name="bionty_source",
-            new_name="public_source",
-        ),
-        migrations.RenameField(
-            model_name="organism",
-            old_name="bionty_source",
-            new_name="public_source",
-        ),
         migrations.AlterField(
             model_name="organism",
             name="public_source",
@@ -1448,27 +1399,7 @@ class Migration(migrations.Migration):
                 null=True,
                 on_delete=django.db.models.deletion.PROTECT,
                 related_name="organisms",
-                to="lnschema_bionty.biontysource",
+                to="lnschema_bionty.publicsource",
             ),
-        ),
-        migrations.RenameField(
-            model_name="pathway",
-            old_name="bionty_source",
-            new_name="public_source",
-        ),
-        migrations.RenameField(
-            model_name="phenotype",
-            old_name="bionty_source",
-            new_name="public_source",
-        ),
-        migrations.RenameField(
-            model_name="protein",
-            old_name="bionty_source",
-            new_name="public_source",
-        ),
-        migrations.RenameField(
-            model_name="tissue",
-            old_name="bionty_source",
-            new_name="public_source",
         ),
     ]

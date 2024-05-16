@@ -11,13 +11,14 @@ import lnschema_bionty.ids
 
 class Migration(migrations.Migration):
     replaces = [
+        ("lnschema_bionty", "0022_rename_datasets_cellline_collections_and_more"),
         ("lnschema_bionty", "0023_rename_publicsource_encode_uid"),
         ("lnschema_bionty", "0024_remove_cellline_collections_and_more"),
         ("lnschema_bionty", "0025_artifactcellline_alter_cellline_artifacts_and_more"),
     ]
 
     dependencies = [
-        ("lnschema_core", "0001_initial_squashed_0047"),
+        ("lnschema_core", "0048_squashed"),
     ]
 
     operations = [
