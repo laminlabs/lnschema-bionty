@@ -12,7 +12,7 @@ import lnschema_bionty.ids
 class Migration(migrations.Migration):
     initial = True
     dependencies = [
-        ("lnschema_core", "0001_initial_squashed_0037"),
+        ("lnschema_core", "0037_rename_dataset_to_collection"),
     ]
 
     operations = [
