@@ -1,4 +1,5 @@
 # internal
+docsbuild/
 docs/guide/lnbionty-test/
 lamin-site-assets_test/
 tests/lamin-site-assets_test/
