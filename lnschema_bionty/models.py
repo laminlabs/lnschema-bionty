@@ -138,13 +138,6 @@ class BioRegistry(Registry, HasParents, CanValidate):
             Organism: all
             Source: cl, 2023-04-20
             #terms: 2698
-            ...
-            📖 .df(): ontology reference table
-            🔎 .lookup(): autocompletion of terms
-            🎯 .search(): free text search of terms
-            🧐 .inspect(): check if identifiers are mappable
-            👽 .standardize(): map synonyms to standardized names
-            🔗 .to_pronto(): Pronto.Ontology object
         """
         if cls.__module__.startswith("lnschema_bionty."):
             # backward compat with renaming species to organism
@@ -277,7 +270,7 @@ class Organism(BioRegistry):
     )
     """:class:`~bionty.PublicSource` this record associates with."""
     artifacts = models.ManyToManyField(
-        Artifact, through="ArtifactOrganism", related_name="organism"
+        Artifact, through="ArtifactOrganism", related_name="organisms"
     )
     """Artifacts linked to the organism."""
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
@@ -1449,7 +1442,7 @@ class ArtifactOrganism(Registry, LinkORM):
     artifact = models.ForeignKey(Artifact, on_delete=models.CASCADE)
     organism = models.ForeignKey("Organism", on_delete=models.CASCADE)
     feature = models.ForeignKey(
-        "Feature", on_delete=models.PROTECT, null=True, default=None
+        Feature, on_delete=models.PROTECT, null=True, default=None
     )
     created_by = models.ForeignKey(
         User, on_delete=models.PROTECT, default=current_user_id
@@ -1461,7 +1454,7 @@ class ArtifactGene(Registry, LinkORM):
     artifact = models.ForeignKey(Artifact, on_delete=models.CASCADE)
     gene = models.ForeignKey("Gene", on_delete=models.CASCADE)
     feature = models.ForeignKey(
-        "Feature", on_delete=models.PROTECT, null=True, default=None
+        Feature, on_delete=models.PROTECT, null=True, default=None
     )
     created_by = models.ForeignKey(
         User, on_delete=models.PROTECT, default=current_user_id
@@ -1473,7 +1466,7 @@ class ArtifactProtein(Registry, LinkORM):
     artifact = models.ForeignKey(Artifact, on_delete=models.CASCADE)
     protein = models.ForeignKey("Protein", on_delete=models.CASCADE)
     feature = models.ForeignKey(
-        "Feature", on_delete=models.PROTECT, null=True, default=None
+        Feature, on_delete=models.PROTECT, null=True, default=None
     )
     created_by = models.ForeignKey(
         User, on_delete=models.PROTECT, default=current_user_id
@@ -1485,7 +1478,7 @@ class ArtifactCellMarker(Registry, LinkORM):
     artifact = models.ForeignKey(Artifact, on_delete=models.CASCADE)
     cell_marker = models.ForeignKey("CellMarker", on_delete=models.CASCADE)
     feature = models.ForeignKey(
-        "Feature", on_delete=models.PROTECT, null=True, default=None
+        Feature, on_delete=models.PROTECT, null=True, default=None
     )
     created_by = models.ForeignKey(
         User, on_delete=models.PROTECT, default=current_user_id
@@ -1497,7 +1490,7 @@ class ArtifactTissue(Registry, LinkORM):
     artifact = models.ForeignKey(Artifact, on_delete=models.CASCADE)
     tissue = models.ForeignKey("Tissue", on_delete=models.CASCADE)
     feature = models.ForeignKey(
-        "Feature", on_delete=models.PROTECT, null=True, default=None
+        Feature, on_delete=models.PROTECT, null=True, default=None
     )
     created_by = models.ForeignKey(
         User, on_delete=models.PROTECT, default=current_user_id
@@ -1509,7 +1502,7 @@ class ArtifactCellType(Registry, LinkORM):
     artifact = models.ForeignKey(Artifact, on_delete=models.CASCADE)
     cell_type = models.ForeignKey("CellType", on_delete=models.CASCADE)
     feature = models.ForeignKey(
-        "Feature", on_delete=models.PROTECT, null=True, default=None
+        Feature, on_delete=models.PROTECT, null=True, default=None
     )
     created_by = models.ForeignKey(
         User, on_delete=models.PROTECT, default=current_user_id
@@ -1521,7 +1514,7 @@ class ArtifactDisease(Registry, LinkORM):
     artifact = models.ForeignKey(Artifact, on_delete=models.CASCADE)
     disease = models.ForeignKey("Disease", on_delete=models.CASCADE)
     feature = models.ForeignKey(
-        "Feature", on_delete=models.PROTECT, null=True, default=None
+        Feature, on_delete=models.PROTECT, null=True, default=None
     )
     created_by = models.ForeignKey(
         User, on_delete=models.PROTECT, default=current_user_id
@@ -1533,7 +1526,7 @@ class ArtifactCellLine(Registry, LinkORM):
     artifact = models.ForeignKey(Artifact, on_delete=models.CASCADE)
     cell_line = models.ForeignKey("CellLine", on_delete=models.CASCADE)
     feature = models.ForeignKey(
-        "Feature", on_delete=models.PROTECT, null=True, default=None
+        Feature, on_delete=models.PROTECT, null=True, default=None
     )
     created_by = models.ForeignKey(
         User, on_delete=models.PROTECT, default=current_user_id
@@ -1545,7 +1538,7 @@ class ArtifactPhenotype(Registry, LinkORM):
     artifact = models.ForeignKey(Artifact, on_delete=models.CASCADE)
     phenotype = models.ForeignKey("Phenotype", on_delete=models.CASCADE)
     feature = models.ForeignKey(
-        "Feature", on_delete=models.PROTECT, null=True, default=None
+        Feature, on_delete=models.PROTECT, null=True, default=None
     )
     created_by = models.ForeignKey(
         User, on_delete=models.PROTECT, default=current_user_id
@@ -1557,7 +1550,7 @@ class ArtifactPathway(Registry, LinkORM):
     artifact = models.ForeignKey(Artifact, on_delete=models.CASCADE)
     pathway = models.ForeignKey("Pathway", on_delete=models.CASCADE)
     feature = models.ForeignKey(
-        "Feature", on_delete=models.PROTECT, null=True, default=None
+        Feature, on_delete=models.PROTECT, null=True, default=None
     )
     created_by = models.ForeignKey(
         User, on_delete=models.PROTECT, default=current_user_id
@@ -1571,7 +1564,7 @@ class ArtifactExperimentalFactor(Registry, LinkORM):
         "ExperimentalFactor", on_delete=models.CASCADE
     )
     feature = models.ForeignKey(
-        "Feature", on_delete=models.PROTECT, null=True, default=None
+        Feature, on_delete=models.PROTECT, null=True, default=None
     )
     created_by = models.ForeignKey(
         User, on_delete=models.PROTECT, default=current_user_id
@@ -1585,7 +1578,7 @@ class ArtifactDevelopmentalStage(Registry, LinkORM):
         "DevelopmentalStage", on_delete=models.CASCADE
     )
     feature = models.ForeignKey(
-        "Feature", on_delete=models.PROTECT, null=True, default=None
+        Feature, on_delete=models.PROTECT, null=True, default=None
     )
     created_by = models.ForeignKey(
         User, on_delete=models.PROTECT, default=current_user_id
@@ -1597,7 +1590,7 @@ class ArtifactEthnicity(Registry, LinkORM):
     artifact = models.ForeignKey(Artifact, on_delete=models.CASCADE)
     ethnicity = models.ForeignKey("Ethnicity", on_delete=models.CASCADE)
     feature = models.ForeignKey(
-        "Feature", on_delete=models.PROTECT, null=True, default=None
+        Feature, on_delete=models.PROTECT, null=True, default=None
     )
     created_by = models.ForeignKey(
         User, on_delete=models.PROTECT, default=current_user_id
