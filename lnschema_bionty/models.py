@@ -8,8 +8,10 @@ from bionty_base import PublicOntology
 from django.db import models
 from lamin_utils import logger
 from lnschema_core.models import (
+    Artifact,
     CanValidate,
     Feature,
+    FeatureSet,
     HasParents,
     LinkORM,
     Registry,
@@ -275,7 +277,7 @@ class Organism(BioRegistry):
     )
     """:class:`~bionty.PublicSource` this record associates with."""
     artifacts = models.ManyToManyField(
-        "lnschema_core.Artifact", through="ArtifactOrganism", related_name="organism"
+        Artifact, through="ArtifactOrganism", related_name="organism"
     )
     """Artifacts linked to the organism."""
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
@@ -356,12 +358,10 @@ class Gene(BioRegistry):
     )
     """:class:`~bionty.PublicSource` this gene associates with."""
     artifacts = models.ManyToManyField(
-        "lnschema_core.Artifact", through="ArtifactGene", related_name="genes"
+        Artifact, through="ArtifactGene", related_name="genes"
     )
     """Artifacts linked to the gene."""
-    feature_sets = models.ManyToManyField(
-        "lnschema_core.FeatureSet", related_name="genes"
-    )
+    feature_sets = models.ManyToManyField(FeatureSet, related_name="genes")
     """Featuresets linked to this gene."""
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
     """Time of creation of record."""
@@ -444,12 +444,10 @@ class Protein(BioRegistry):
     )
     """:class:`~bionty.PublicSource` this protein associates with."""
     artifacts = models.ManyToManyField(
-        "lnschema_core.Artifact", through="ArtifactProtein", related_name="proteins"
+        Artifact, through="ArtifactProtein", related_name="proteins"
     )
     """Artifacts linked to the protein."""
-    feature_sets = models.ManyToManyField(
-        "lnschema_core.FeatureSet", related_name="proteins"
-    )
+    feature_sets = models.ManyToManyField(FeatureSet, related_name="proteins")
     """Featuresets linked to this protein."""
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
     """Time of creation of record."""
@@ -533,14 +531,12 @@ class CellMarker(BioRegistry):
     )
     """:class:`~bionty.PublicSource` this cell marker associates with."""
     artifacts = models.ManyToManyField(
-        "lnschema_core.Artifact",
+        Artifact,
         through="ArtifactCellMarker",
         related_name="cell_markers",
     )
     """Artifacts linked to the cell marker."""
-    feature_sets = models.ManyToManyField(
-        "lnschema_core.FeatureSet", related_name="cell_markers"
-    )
+    feature_sets = models.ManyToManyField(FeatureSet, related_name="cell_markers")
     """Featuresets linked to this cell marker."""
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
     """Time of creation of record."""
@@ -619,7 +615,7 @@ class Tissue(BioRegistry):
     )
     """:class:`~bionty.PublicSource` this tissue associates with."""
     artifacts = models.ManyToManyField(
-        "lnschema_core.Artifact", through="ArtifactTissue", related_name="tissues"
+        Artifact, through="ArtifactTissue", related_name="tissues"
     )
     """Artifacts linked to the tissue."""
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
@@ -699,7 +695,7 @@ class CellType(BioRegistry):
     )
     """:class:`~bionty.PublicSource` this cell type associates with."""
     artifacts = models.ManyToManyField(
-        "lnschema_core.Artifact", through="ArtifactCellType", related_name="cell_types"
+        Artifact, through="ArtifactCellType", related_name="cell_types"
     )
     """Artifacts linked to the cell type."""
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
@@ -782,7 +778,7 @@ class Disease(BioRegistry):
     )
     """:class:`~bionty.PublicSource` this disease associates with."""
     artifacts = models.ManyToManyField(
-        "lnschema_core.Artifact", through="ArtifactDisease", related_name="diseases"
+        Artifact, through="ArtifactDisease", related_name="diseases"
     )
     """Artifacts linked to the disease."""
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
@@ -866,7 +862,7 @@ class CellLine(BioRegistry):
     )
     """:class:`~bionty.PublicSource` this cell line associates with."""
     artifacts = models.ManyToManyField(
-        "lnschema_core.Artifact", through="ArtifactCellLine", related_name="cell_lines"
+        Artifact, through="ArtifactCellLine", related_name="cell_lines"
     )
     """Artifacts linked to the cell line."""
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
@@ -953,7 +949,7 @@ class Phenotype(BioRegistry):
     )
     """:class:`~bionty.PublicSource` this phenotype associates with."""
     artifacts = models.ManyToManyField(
-        "lnschema_core.Artifact", through="ArtifactPhenotype", related_name="phenotypes"
+        Artifact, through="ArtifactPhenotype", related_name="phenotypes"
     )
     """Artifacts linked to the phenotype."""
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
@@ -1039,12 +1035,10 @@ class Pathway(BioRegistry):
     """:class:`~bionty.PublicSource` this pathway associates with."""
     genes = models.ManyToManyField("Gene", related_name="pathways")
     """Genes that signifies the pathway."""
-    feature_sets = models.ManyToManyField(
-        "lnschema_core.FeatureSet", related_name="pathways"
-    )
+    feature_sets = models.ManyToManyField(FeatureSet, related_name="pathways")
     """Featuresets linked to the pathway."""
     artifacts = models.ManyToManyField(
-        "lnschema_core.Artifact", through="ArtifactPathway", related_name="pathways"
+        Artifact, through="ArtifactPathway", related_name="pathways"
     )
     """Artifacts linked to the pathway."""
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
@@ -1134,7 +1128,7 @@ class ExperimentalFactor(BioRegistry):
     )
     """:class:`~bionty.PublicSource` this experimental_factors associates with."""
     artifacts = models.ManyToManyField(
-        "lnschema_core.Artifact",
+        Artifact,
         through="ArtifactExperimentalFactor",
         related_name="experimental_factors",
     )
@@ -1221,7 +1215,7 @@ class DevelopmentalStage(BioRegistry):
     )
     """:class:`~bionty.PublicSource` this developmental stage associates with."""
     artifacts = models.ManyToManyField(
-        "lnschema_core.Artifact",
+        Artifact,
         through="ArtifactDevelopmentalStage",
         related_name="developmental_stages",
     )
@@ -1307,7 +1301,7 @@ class Ethnicity(BioRegistry):
     )
     """:class:`~bionty.PublicSource` this ethnicity associates with."""
     artifacts = models.ManyToManyField(
-        "lnschema_core.Artifact",
+        Artifact,
         through="ArtifactEthnicity",
         related_name="ethnicities",
     )
@@ -1452,7 +1446,7 @@ BiontySource = PublicSource
 
 
 class ArtifactOrganism(Registry, LinkORM):
-    artifact = models.ForeignKey("lnschema_core.Artifact", on_delete=models.CASCADE)
+    artifact = models.ForeignKey(Artifact, on_delete=models.CASCADE)
     organism = models.ForeignKey("Organism", on_delete=models.CASCADE)
     feature = models.ForeignKey(
         "Feature", on_delete=models.PROTECT, null=True, default=None
@@ -1464,7 +1458,7 @@ class ArtifactOrganism(Registry, LinkORM):
 
 
 class ArtifactGene(Registry, LinkORM):
-    artifact = models.ForeignKey("lnschema_core.Artifact", on_delete=models.CASCADE)
+    artifact = models.ForeignKey(Artifact, on_delete=models.CASCADE)
     gene = models.ForeignKey("Gene", on_delete=models.CASCADE)
     feature = models.ForeignKey(
         "Feature", on_delete=models.PROTECT, null=True, default=None
@@ -1476,7 +1470,7 @@ class ArtifactGene(Registry, LinkORM):
 
 
 class ArtifactProtein(Registry, LinkORM):
-    artifact = models.ForeignKey("lnschema_core.Artifact", on_delete=models.CASCADE)
+    artifact = models.ForeignKey(Artifact, on_delete=models.CASCADE)
     protein = models.ForeignKey("Protein", on_delete=models.CASCADE)
     feature = models.ForeignKey(
         "Feature", on_delete=models.PROTECT, null=True, default=None
@@ -1488,7 +1482,7 @@ class ArtifactProtein(Registry, LinkORM):
 
 
 class ArtifactCellMarker(Registry, LinkORM):
-    artifact = models.ForeignKey("lnschema_core.Artifact", on_delete=models.CASCADE)
+    artifact = models.ForeignKey(Artifact, on_delete=models.CASCADE)
     cell_marker = models.ForeignKey("CellMarker", on_delete=models.CASCADE)
     feature = models.ForeignKey(
         "Feature", on_delete=models.PROTECT, null=True, default=None
@@ -1500,7 +1494,7 @@ class ArtifactCellMarker(Registry, LinkORM):
 
 
 class ArtifactTissue(Registry, LinkORM):
-    artifact = models.ForeignKey("lnschema_core.Artifact", on_delete=models.CASCADE)
+    artifact = models.ForeignKey(Artifact, on_delete=models.CASCADE)
     tissue = models.ForeignKey("Tissue", on_delete=models.CASCADE)
     feature = models.ForeignKey(
         "Feature", on_delete=models.PROTECT, null=True, default=None
@@ -1512,7 +1506,7 @@ class ArtifactTissue(Registry, LinkORM):
 
 
 class ArtifactCellType(Registry, LinkORM):
-    artifact = models.ForeignKey("lnschema_core.Artifact", on_delete=models.CASCADE)
+    artifact = models.ForeignKey(Artifact, on_delete=models.CASCADE)
     cell_type = models.ForeignKey("CellType", on_delete=models.CASCADE)
     feature = models.ForeignKey(
         "Feature", on_delete=models.PROTECT, null=True, default=None
@@ -1524,7 +1518,7 @@ class ArtifactCellType(Registry, LinkORM):
 
 
 class ArtifactDisease(Registry, LinkORM):
-    artifact = models.ForeignKey("lnschema_core.Artifact", on_delete=models.CASCADE)
+    artifact = models.ForeignKey(Artifact, on_delete=models.CASCADE)
     disease = models.ForeignKey("Disease", on_delete=models.CASCADE)
     feature = models.ForeignKey(
         "Feature", on_delete=models.PROTECT, null=True, default=None
@@ -1536,7 +1530,7 @@ class ArtifactDisease(Registry, LinkORM):
 
 
 class ArtifactCellLine(Registry, LinkORM):
-    artifact = models.ForeignKey("lnschema_core.Artifact", on_delete=models.CASCADE)
+    artifact = models.ForeignKey(Artifact, on_delete=models.CASCADE)
     cell_line = models.ForeignKey("CellLine", on_delete=models.CASCADE)
     feature = models.ForeignKey(
         "Feature", on_delete=models.PROTECT, null=True, default=None
@@ -1548,7 +1542,7 @@ class ArtifactCellLine(Registry, LinkORM):
 
 
 class ArtifactPhenotype(Registry, LinkORM):
-    artifact = models.ForeignKey("lnschema_core.Artifact", on_delete=models.CASCADE)
+    artifact = models.ForeignKey(Artifact, on_delete=models.CASCADE)
     phenotype = models.ForeignKey("Phenotype", on_delete=models.CASCADE)
     feature = models.ForeignKey(
         "Feature", on_delete=models.PROTECT, null=True, default=None
@@ -1560,7 +1554,7 @@ class ArtifactPhenotype(Registry, LinkORM):
 
 
 class ArtifactPathway(Registry, LinkORM):
-    artifact = models.ForeignKey("lnschema_core.Artifact", on_delete=models.CASCADE)
+    artifact = models.ForeignKey(Artifact, on_delete=models.CASCADE)
     pathway = models.ForeignKey("Pathway", on_delete=models.CASCADE)
     feature = models.ForeignKey(
         "Feature", on_delete=models.PROTECT, null=True, default=None
@@ -1572,7 +1566,7 @@ class ArtifactPathway(Registry, LinkORM):
 
 
 class ArtifactExperimentalFactor(Registry, LinkORM):
-    artifact = models.ForeignKey("lnschema_core.Artifact", on_delete=models.CASCADE)
+    artifact = models.ForeignKey(Artifact, on_delete=models.CASCADE)
     experimental_factor = models.ForeignKey(
         "ExperimentalFactor", on_delete=models.CASCADE
     )
@@ -1586,7 +1580,7 @@ class ArtifactExperimentalFactor(Registry, LinkORM):
 
 
 class ArtifactDevelopmentalStage(Registry, LinkORM):
-    artifact = models.ForeignKey("lnschema_core.Artifact", on_delete=models.CASCADE)
+    artifact = models.ForeignKey(Artifact, on_delete=models.CASCADE)
     developmental_stage = models.ForeignKey(
         "DevelopmentalStage", on_delete=models.CASCADE
     )
@@ -1600,7 +1594,7 @@ class ArtifactDevelopmentalStage(Registry, LinkORM):
 
 
 class ArtifactEthnicity(Registry, LinkORM):
-    artifact = models.ForeignKey("lnschema_core.Artifact", on_delete=models.CASCADE)
+    artifact = models.ForeignKey(Artifact, on_delete=models.CASCADE)
     ethnicity = models.ForeignKey("Ethnicity", on_delete=models.CASCADE)
     feature = models.ForeignKey(
         "Feature", on_delete=models.PROTECT, null=True, default=None
