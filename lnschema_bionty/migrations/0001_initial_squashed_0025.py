@@ -27,7 +27,7 @@ class Migration(migrations.Migration):
     ]
 
     dependencies = [
-        ("lnschema_core", "0046_storage_instance_uid"),
+        ("lnschema_core", "0001_initial_squashed_0047"),
     ]
 
     operations = [
