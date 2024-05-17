@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
+♻️ Account for migrations in lnschema_core | [244](https://github.com/laminlabs/lnschema-bionty/pull/244) | [falexwolf](https://github.com/falexwolf) | 2024-05-17 |
 🔥 Prune migrations | [243](https://github.com/laminlabs/lnschema-bionty/pull/243) | [falexwolf](https://github.com/falexwolf) | 2024-05-16 |
 🔥 Delete old migrations and create a new squashed initial migration | [241](https://github.com/laminlabs/lnschema-bionty/pull/241) | [falexwolf](https://github.com/falexwolf) | 2024-05-16 |
 🏗️  Spell out link tables with `Artifact` and link features | [239](https://github.com/laminlabs/lnschema-bionty/pull/239) | [falexwolf](https://github.com/falexwolf) | 2024-05-16 |
