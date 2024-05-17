@@ -17,7 +17,7 @@ class Migration(migrations.Migration):
     ]
 
     dependencies = [
-        ("lnschema_core", "0048_squashed"),
+        ("lnschema_core", "0049_squashed"),
     ]
 
     operations = [
