@@ -8,7 +8,6 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
     dependencies = [
         ("lnschema_bionty", "0026_artifactcellline_cell_line_ref_is_name_and_more"),
-        ("lnschema_core", "0050_squashed"),
     ]
 
     operations = [
