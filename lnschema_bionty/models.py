@@ -5,7 +5,8 @@ from typing import List, Tuple, overload
 import bionty_base
 import numpy as np
 from bionty_base import PublicOntology
-from django.db import CASCADE, PROTECT, models
+from django.db import models
+from django.db.models import CASCADE, PROTECT
 from lamin_utils import logger
 from lnschema_core.models import (
     Artifact,
