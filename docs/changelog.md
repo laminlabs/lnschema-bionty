@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
+🏗️ Naming conventions for link tables, protecting deletion in link tables, maintaining integrity upon label & feature renames | [245](https://github.com/laminlabs/lnschema-bionty/pull/245) | [falexwolf](https://github.com/falexwolf) | 2024-05-18 |
 ♻️ Account for migrations in lnschema_core | [244](https://github.com/laminlabs/lnschema-bionty/pull/244) | [falexwolf](https://github.com/falexwolf) | 2024-05-17 |
 🔥 Prune migrations | [243](https://github.com/laminlabs/lnschema-bionty/pull/243) | [falexwolf](https://github.com/falexwolf) | 2024-05-16 |
 🔥 Delete old migrations and create a new squashed initial migration | [241](https://github.com/laminlabs/lnschema-bionty/pull/241) | [falexwolf](https://github.com/falexwolf) | 2024-05-16 |
