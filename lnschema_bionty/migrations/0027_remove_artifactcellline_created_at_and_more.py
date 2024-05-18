@@ -5,14 +5,6 @@ import lnschema_core.models
 from django.db import migrations, models
 
 
-def create_sql_insert(table_name, source_table):
-    return f"""
-    INSERT INTO {table_name} (feature_set_id, {source_table.split('_')[1]}_id)
-    SELECT feature_set_id, {source_table.split('_')[1]}_id
-    FROM {source_table};
-    """
-
-
 class Migration(migrations.Migration):
     dependencies = [
         ("lnschema_bionty", "0026_artifactcellline_cell_line_ref_is_name_and_more"),
@@ -294,27 +286,32 @@ class Migration(migrations.Migration):
             bases=(models.Model, lnschema_core.models.LinkORM),
         ),
         migrations.RunSQL(
-            create_sql_insert(
-                "lnschema_bionty_featuresetgene", "lnschema_bionty_gene_feature_sets"
-            ),
+            """
+            INSERT INTO lnschema_bionty_featuresetgene (feature_set_id, gene_id)
+            SELECT featureset_id, gene_id
+            FROM lnschema_bionty_gene_feature_sets;
+            """
         ),
         migrations.RunSQL(
-            create_sql_insert(
-                "lnschema_bionty_featuresetprotein",
-                "lnschema_bionty_protein_feature_sets",
-            ),
+            """
+            INSERT INTO lnschema_bionty_featuresetprotein (feature_set_id, protein_id)
+            SELECT featureset_id, protein_id
+            FROM lnschema_bionty_protein_feature_sets;
+            """
         ),
         migrations.RunSQL(
-            create_sql_insert(
-                "lnschema_bionty_featuresetcellmarker",
-                "lnschema_bionty_cellmarker_feature_sets",
-            ),
+            """
+            INSERT INTO lnschema_bionty_featuresetcellmarker (feature_set_id, cell_marker_id)
+            SELECT featureset_id, cellmarker_id
+            FROM lnschema_bionty_cellmarker_feature_sets;
+            """
         ),
         migrations.RunSQL(
-            create_sql_insert(
-                "lnschema_bionty_featuresetpathway",
-                "lnschema_bionty_pathway_feature_sets",
-            ),
+            """
+            INSERT INTO lnschema_bionty_featuresetpathway (feature_set_id, pathway_id)
+            SELECT featureset_id, pathway_id
+            FROM lnschema_bionty_pathway_feature_sets;
+            """
         ),
         # Remove the old ManyToMany fields and replace them with the new through models
         migrations.RemoveField(
