@@ -1447,7 +1447,8 @@ BiontySource = PublicSource
 
 class FeatureSetGene(Registry, LinkORM):
     id = models.BigAutoField(primary_key=True)
-    feature_set = models.ForeignKey(
+    # follow the .lower() convention in link models
+    featureset = models.ForeignKey(
         "lnschema_core.FeatureSet", CASCADE, related_name="+"
     )
     gene = models.ForeignKey("Gene", PROTECT, related_name="+")
@@ -1455,7 +1456,8 @@ class FeatureSetGene(Registry, LinkORM):
 
 class FeatureSetProtein(Registry, LinkORM):
     id = models.BigAutoField(primary_key=True)
-    feature_set = models.ForeignKey(
+    # follow the .lower() convention in link models
+    featureset = models.ForeignKey(
         "lnschema_core.FeatureSet", CASCADE, related_name="+"
     )
     protein = models.ForeignKey("Protein", PROTECT, related_name="+")
@@ -1463,15 +1465,18 @@ class FeatureSetProtein(Registry, LinkORM):
 
 class FeatureSetCellMarker(Registry, LinkORM):
     id = models.BigAutoField(primary_key=True)
-    feature_set = models.ForeignKey(
+    # follow the .lower() convention in link models
+    featureset = models.ForeignKey(
         "lnschema_core.FeatureSet", CASCADE, related_name="+"
     )
-    cell_marker = models.ForeignKey("CellMarker", PROTECT, related_name="+")
+    # follow the .lower() convention in link models
+    cellmarker = models.ForeignKey("CellMarker", PROTECT, related_name="+")
 
 
 class FeatureSetPathway(Registry, LinkORM):
     id = models.BigAutoField(primary_key=True)
-    feature_set = models.ForeignKey(
+    # follow the .lower() convention in link models
+    featureset = models.ForeignKey(
         "lnschema_core.FeatureSet", CASCADE, related_name="+"
     )
     pathway = models.ForeignKey("Pathway", PROTECT, related_name="+")
@@ -1513,9 +1518,8 @@ class ArtifactProtein(Registry, LinkORM):
 class ArtifactCellMarker(Registry, LinkORM):
     id = models.BigAutoField(primary_key=True)
     artifact = models.ForeignKey(Artifact, CASCADE, related_name="cell_marker_links")
-    cell_marker = models.ForeignKey(
-        "CellMarker", PROTECT, related_name="artifact_links"
-    )
+    # follow the .lower() convention in link models
+    cellmarker = models.ForeignKey("CellMarker", PROTECT, related_name="artifact_links")
     feature = models.ForeignKey(
         Feature,
         PROTECT,
@@ -1541,7 +1545,8 @@ class ArtifactTissue(Registry, LinkORM):
 class ArtifactCellType(Registry, LinkORM):
     id = models.BigAutoField(primary_key=True)
     artifact = models.ForeignKey(Artifact, CASCADE, related_name="cell_type_links")
-    cell_type = models.ForeignKey("CellType", PROTECT, related_name="artifact_links")
+    # follow the .lower() convention in link models
+    celltype = models.ForeignKey("CellType", PROTECT, related_name="artifact_links")
     feature = models.ForeignKey(
         Feature, PROTECT, null=True, default=None, related_name="artifactcelltype_links"
     )
@@ -1563,7 +1568,8 @@ class ArtifactDisease(Registry, LinkORM):
 class ArtifactCellLine(Registry, LinkORM):
     id = models.BigAutoField(primary_key=True)
     artifact = models.ForeignKey(Artifact, CASCADE, related_name="cell_line_links")
-    cell_line = models.ForeignKey("CellLine", PROTECT, related_name="artifact_links")
+    # follow the .lower() convention in link models
+    cellline = models.ForeignKey("CellLine", PROTECT, related_name="artifact_links")
     feature = models.ForeignKey(
         Feature, PROTECT, null=True, default=None, related_name="artifactcellline_links"
     )
@@ -1621,7 +1627,8 @@ class ArtifactDevelopmentalStage(Registry, LinkORM):
     artifact = models.ForeignKey(
         Artifact, CASCADE, related_name="developmental_stage_links"
     )
-    developmental_stage = models.ForeignKey(
+    # follow the .lower() convention in link models
+    developmentalstage = models.ForeignKey(
         "DevelopmentalStage", PROTECT, related_name="artifact_links"
     )
     feature = models.ForeignKey(

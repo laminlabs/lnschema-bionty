@@ -185,7 +185,7 @@ class Migration(migrations.Migration):
             fields=[
                 ("id", models.BigAutoField(primary_key=True, serialize=False)),
                 (
-                    "cell_marker",
+                    "cellmarker",
                     models.ForeignKey(
                         on_delete=django.db.models.deletion.PROTECT,
                         related_name="+",
@@ -193,7 +193,7 @@ class Migration(migrations.Migration):
                     ),
                 ),
                 (
-                    "feature_set",
+                    "featureset",
                     models.ForeignKey(
                         on_delete=django.db.models.deletion.CASCADE,
                         related_name="+",
@@ -211,7 +211,7 @@ class Migration(migrations.Migration):
             fields=[
                 ("id", models.BigAutoField(primary_key=True, serialize=False)),
                 (
-                    "feature_set",
+                    "featureset",
                     models.ForeignKey(
                         on_delete=django.db.models.deletion.CASCADE,
                         related_name="+",
@@ -237,7 +237,7 @@ class Migration(migrations.Migration):
             fields=[
                 ("id", models.BigAutoField(primary_key=True, serialize=False)),
                 (
-                    "feature_set",
+                    "featureset",
                     models.ForeignKey(
                         on_delete=django.db.models.deletion.CASCADE,
                         related_name="+",
@@ -263,7 +263,7 @@ class Migration(migrations.Migration):
             fields=[
                 ("id", models.BigAutoField(primary_key=True, serialize=False)),
                 (
-                    "feature_set",
+                    "featureset",
                     models.ForeignKey(
                         on_delete=django.db.models.deletion.CASCADE,
                         related_name="+",
@@ -286,28 +286,28 @@ class Migration(migrations.Migration):
         ),
         migrations.RunSQL(
             """
-            INSERT INTO lnschema_bionty_featuresetgene (feature_set_id, gene_id)
+            INSERT INTO lnschema_bionty_featuresetgene (featureset_id, gene_id)
             SELECT featureset_id, gene_id
             FROM lnschema_bionty_gene_feature_sets;
             """
         ),
         migrations.RunSQL(
             """
-            INSERT INTO lnschema_bionty_featuresetprotein (feature_set_id, protein_id)
+            INSERT INTO lnschema_bionty_featuresetprotein (featureset_id, protein_id)
             SELECT featureset_id, protein_id
             FROM lnschema_bionty_protein_feature_sets;
             """
         ),
         migrations.RunSQL(
             """
-            INSERT INTO lnschema_bionty_featuresetcellmarker (feature_set_id, cell_marker_id)
+            INSERT INTO lnschema_bionty_featuresetcellmarker (featureset_id, cellmarker_id)
             SELECT featureset_id, cellmarker_id
             FROM lnschema_bionty_cellmarker_feature_sets;
             """
         ),
         migrations.RunSQL(
             """
-            INSERT INTO lnschema_bionty_featuresetpathway (feature_set_id, pathway_id)
+            INSERT INTO lnschema_bionty_featuresetpathway (featureset_id, pathway_id)
             SELECT featureset_id, pathway_id
             FROM lnschema_bionty_pathway_feature_sets;
             """
@@ -364,5 +364,25 @@ class Migration(migrations.Migration):
                 to="lnschema_core.FeatureSet",
                 related_name="pathways",
             ),
+        ),
+        migrations.RenameField(
+            model_name="artifactcellline",
+            old_name="cell_line",
+            new_name="cellline",
+        ),
+        migrations.RenameField(
+            model_name="artifactcellmarker",
+            old_name="cell_marker",
+            new_name="cellmarker",
+        ),
+        migrations.RenameField(
+            model_name="artifactcelltype",
+            old_name="cell_type",
+            new_name="celltype",
+        ),
+        migrations.RenameField(
+            model_name="artifactdevelopmentalstage",
+            old_name="developmental_stage",
+            new_name="developmentalstage",
         ),
     ]
