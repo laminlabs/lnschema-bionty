@@ -1438,104 +1438,186 @@ BiontySource = PublicSource
 
 
 class ArtifactOrganism(Registry, LinkORM):
-    artifact = models.ForeignKey(Artifact, CASCADE)
-    organism = models.ForeignKey("Organism", CASCADE)
-    feature = models.ForeignKey(Feature, PROTECT, null=True, default=None)
+    artifact = models.ForeignKey(Artifact, CASCADE, related_name="organism_links")
+    organism = models.ForeignKey("Organism", PROTECT, related_name="artifact_links")
+    feature = models.ForeignKey(
+        Feature, PROTECT, null=True, default=None, related_name="artifactorganism_links"
+    )
     created_by = models.ForeignKey(User, PROTECT, default=current_user_id)
     created_at = models.DateTimeField(auto_now_add=True)
+    organism_ref_is_name = models.BooleanField(null=True, default=None)
+    feature_ref_is_name = models.BooleanField(null=True, default=None)
 
 
 class ArtifactGene(Registry, LinkORM):
-    artifact = models.ForeignKey(Artifact, CASCADE)
-    gene = models.ForeignKey("Gene", CASCADE)
-    feature = models.ForeignKey(Feature, PROTECT, null=True, default=None)
+    artifact = models.ForeignKey(Artifact, CASCADE, related_name="gene_links")
+    gene = models.ForeignKey("Gene", PROTECT, related_name="artifact_links")
+    feature = models.ForeignKey(
+        Feature, PROTECT, null=True, default=None, related_name="artifactgene_links"
+    )
     created_by = models.ForeignKey(User, PROTECT, default=current_user_id)
     created_at = models.DateTimeField(auto_now_add=True)
+    gene_ref_is_symbol = models.BooleanField(null=True, default=None)
+    feature_ref_is_symbol = models.BooleanField(null=True, default=None)
 
 
 class ArtifactProtein(Registry, LinkORM):
-    artifact = models.ForeignKey(Artifact, CASCADE)
-    protein = models.ForeignKey("Protein", CASCADE)
-    feature = models.ForeignKey(Feature, PROTECT, null=True, default=None)
+    artifact = models.ForeignKey(Artifact, CASCADE, related_name="protein_links")
+    protein = models.ForeignKey("Protein", PROTECT, related_name="artifact_links")
+    feature = models.ForeignKey(
+        Feature, PROTECT, null=True, default=None, related_name="artifactprotein_links"
+    )
     created_by = models.ForeignKey(User, PROTECT, default=current_user_id)
     created_at = models.DateTimeField(auto_now_add=True)
+    protein_ref_is_name = models.BooleanField(null=True, default=None)
+    feature_ref_is_name = models.BooleanField(null=True, default=None)
 
 
 class ArtifactCellMarker(Registry, LinkORM):
-    artifact = models.ForeignKey(Artifact, CASCADE)
-    cell_marker = models.ForeignKey("CellMarker", CASCADE)
-    feature = models.ForeignKey(Feature, PROTECT, null=True, default=None)
+    artifact = models.ForeignKey(Artifact, CASCADE, related_name="cell_marker_links")
+    cell_marker = models.ForeignKey(
+        "CellMarker", PROTECT, related_name="artifact_links"
+    )
+    feature = models.ForeignKey(
+        Feature,
+        PROTECT,
+        null=True,
+        default=None,
+        related_name="artifactcellmarker_links",
+    )
     created_by = models.ForeignKey(User, PROTECT, default=current_user_id)
     created_at = models.DateTimeField(auto_now_add=True)
+    cell_marker_ref_is_name = models.BooleanField(null=True, default=None)
+    feature_ref_is_name = models.BooleanField(null=True, default=None)
 
 
 class ArtifactTissue(Registry, LinkORM):
-    artifact = models.ForeignKey(Artifact, CASCADE)
-    tissue = models.ForeignKey("Tissue", CASCADE)
-    feature = models.ForeignKey(Feature, PROTECT, null=True, default=None)
+    artifact = models.ForeignKey(Artifact, CASCADE, related_name="tissue_links")
+    tissue = models.ForeignKey("Tissue", PROTECT, related_name="artifact_links")
+    feature = models.ForeignKey(
+        Feature, PROTECT, null=True, default=None, related_name="artifacttissue_links"
+    )
     created_by = models.ForeignKey(User, PROTECT, default=current_user_id)
     created_at = models.DateTimeField(auto_now_add=True)
+    tissue_ref_is_name = models.BooleanField(null=True, default=None)
+    feature_ref_is_name = models.BooleanField(null=True, default=None)
 
 
 class ArtifactCellType(Registry, LinkORM):
-    artifact = models.ForeignKey(Artifact, CASCADE)
-    cell_type = models.ForeignKey("CellType", CASCADE)
-    feature = models.ForeignKey(Feature, PROTECT, null=True, default=None)
+    artifact = models.ForeignKey(Artifact, CASCADE, related_name="cell_type_links")
+    cell_type = models.ForeignKey("CellType", PROTECT, related_name="artifact_links")
+    feature = models.ForeignKey(
+        Feature, PROTECT, null=True, default=None, related_name="artifactcelltype_links"
+    )
     created_by = models.ForeignKey(User, PROTECT, default=current_user_id)
     created_at = models.DateTimeField(auto_now_add=True)
+    cell_type_ref_is_name = models.BooleanField(null=True, default=None)
+    feature_ref_is_name = models.BooleanField(null=True, default=None)
 
 
 class ArtifactDisease(Registry, LinkORM):
-    artifact = models.ForeignKey(Artifact, CASCADE)
-    disease = models.ForeignKey("Disease", CASCADE)
-    feature = models.ForeignKey(Feature, PROTECT, null=True, default=None)
+    artifact = models.ForeignKey(Artifact, CASCADE, related_name="disease_links")
+    disease = models.ForeignKey("Disease", PROTECT, related_name="artifact_links")
+    feature = models.ForeignKey(
+        Feature, PROTECT, null=True, default=None, related_name="artifactdisease_links"
+    )
     created_by = models.ForeignKey(User, PROTECT, default=current_user_id)
     created_at = models.DateTimeField(auto_now_add=True)
+    disease_ref_is_name = models.BooleanField(null=True, default=None)
+    feature_ref_is_name = models.BooleanField(null=True, default=None)
 
 
 class ArtifactCellLine(Registry, LinkORM):
-    artifact = models.ForeignKey(Artifact, CASCADE)
-    cell_line = models.ForeignKey("CellLine", CASCADE)
-    feature = models.ForeignKey(Feature, PROTECT, null=True, default=None)
+    artifact = models.ForeignKey(Artifact, CASCADE, related_name="cell_line_links")
+    cell_line = models.ForeignKey("CellLine", PROTECT, related_name="artifact_links")
+    feature = models.ForeignKey(
+        Feature, PROTECT, null=True, default=None, related_name="artifactcellline_links"
+    )
     created_by = models.ForeignKey(User, PROTECT, default=current_user_id)
     created_at = models.DateTimeField(auto_now_add=True)
+    cell_line_ref_is_name = models.BooleanField(null=True, default=None)
+    feature_ref_is_name = models.BooleanField(null=True, default=None)
 
 
 class ArtifactPhenotype(Registry, LinkORM):
-    artifact = models.ForeignKey(Artifact, CASCADE)
-    phenotype = models.ForeignKey("Phenotype", CASCADE)
-    feature = models.ForeignKey(Feature, PROTECT, null=True, default=None)
+    artifact = models.ForeignKey(Artifact, CASCADE, related_name="phenotype_links")
+    phenotype = models.ForeignKey("Phenotype", PROTECT, related_name="artifact_links")
+    feature = models.ForeignKey(
+        Feature,
+        PROTECT,
+        null=True,
+        default=None,
+        related_name="artifactphenotype_links",
+    )
     created_by = models.ForeignKey(User, PROTECT, default=current_user_id)
     created_at = models.DateTimeField(auto_now_add=True)
+    phenotype_ref_is_name = models.BooleanField(null=True, default=None)
+    feature_ref_is_name = models.BooleanField(null=True, default=None)
 
 
 class ArtifactPathway(Registry, LinkORM):
-    artifact = models.ForeignKey(Artifact, CASCADE)
-    pathway = models.ForeignKey("Pathway", CASCADE)
-    feature = models.ForeignKey(Feature, PROTECT, null=True, default=None)
+    artifact = models.ForeignKey(Artifact, CASCADE, related_name="pathway_links")
+    pathway = models.ForeignKey("Pathway", PROTECT, related_name="artifact_links")
+    feature = models.ForeignKey(
+        Feature, PROTECT, null=True, default=None, related_name="artifactpathway_links"
+    )
     created_by = models.ForeignKey(User, PROTECT, default=current_user_id)
     created_at = models.DateTimeField(auto_now_add=True)
+    pathway_ref_is_name = models.BooleanField(null=True, default=None)
+    feature_ref_is_name = models.BooleanField(null=True, default=None)
 
 
 class ArtifactExperimentalFactor(Registry, LinkORM):
-    artifact = models.ForeignKey(Artifact, CASCADE)
-    experimental_factor = models.ForeignKey("ExperimentalFactor", CASCADE)
-    feature = models.ForeignKey(Feature, PROTECT, null=True, default=None)
+    artifact = models.ForeignKey(
+        Artifact, CASCADE, related_name="experimental_factor_links"
+    )
+    experimental_factor = models.ForeignKey(
+        "ExperimentalFactor", PROTECT, related_name="artifact_links"
+    )
+    feature = models.ForeignKey(
+        Feature,
+        PROTECT,
+        null=True,
+        default=None,
+        related_name="artifactexperimentalfactor_links",
+    )
     created_by = models.ForeignKey(User, PROTECT, default=current_user_id)
     created_at = models.DateTimeField(auto_now_add=True)
+    experimental_factor_ref_is_name = models.BooleanField(null=True, default=None)
+    feature_ref_is_name = models.BooleanField(null=True, default=None)
 
 
 class ArtifactDevelopmentalStage(Registry, LinkORM):
-    artifact = models.ForeignKey(Artifact, CASCADE)
-    developmental_stage = models.ForeignKey("DevelopmentalStage", CASCADE)
-    feature = models.ForeignKey(Feature, PROTECT, null=True, default=None)
+    artifact = models.ForeignKey(
+        Artifact, CASCADE, related_name="developmental_stage_links"
+    )
+    developmental_stage = models.ForeignKey(
+        "DevelopmentalStage", PROTECT, related_name="artifact_links"
+    )
+    feature = models.ForeignKey(
+        Feature,
+        PROTECT,
+        null=True,
+        default=None,
+        related_name="artifactdevelopmentalstage_links",
+    )
     created_by = models.ForeignKey(User, PROTECT, default=current_user_id)
     created_at = models.DateTimeField(auto_now_add=True)
+    developmental_stage_ref_is_name = models.BooleanField(null=True, default=None)
+    feature_ref_is_name = models.BooleanField(null=True, default=None)
 
 
 class ArtifactEthnicity(Registry, LinkORM):
-    artifact = models.ForeignKey(Artifact, CASCADE)
-    ethnicity = models.ForeignKey("Ethnicity", CASCADE)
-    feature = models.ForeignKey(Feature, PROTECT, null=True, default=None)
+    artifact = models.ForeignKey(Artifact, CASCADE, related_name="ethnicity_links")
+    ethnicity = models.ForeignKey("Ethnicity", PROTECT, related_name="artifact_links")
+    feature = models.ForeignKey(
+        Feature,
+        PROTECT,
+        null=True,
+        default=None,
+        related_name="artifactethnicity_links",
+    )
     created_by = models.ForeignKey(User, PROTECT, default=current_user_id)
     created_at = models.DateTimeField(auto_now_add=True)
+    ethnicity_ref_is_name = models.BooleanField(null=True, default=None)
+    feature_ref_is_name = models.BooleanField(null=True, default=None)
