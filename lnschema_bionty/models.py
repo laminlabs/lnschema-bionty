@@ -5,7 +5,7 @@ from typing import List, Tuple, overload
 import bionty_base
 import numpy as np
 from bionty_base import PublicOntology
-from django.db import models
+from django.db import CASCADE, PROTECT, models
 from lamin_utils import logger
 from lnschema_core.models import (
     Artifact,
@@ -266,7 +266,7 @@ class Organism(BioRegistry):
     parents = models.ManyToManyField("self", symmetrical=False, related_name="children")
     """Parent organism records."""
     public_source = models.ForeignKey(
-        "PublicSource", models.PROTECT, null=True, related_name="organisms"
+        "PublicSource", PROTECT, null=True, related_name="organisms"
     )
     """:class:`~bionty.PublicSource` this record associates with."""
     artifacts = models.ManyToManyField(
@@ -278,7 +278,7 @@ class Organism(BioRegistry):
     updated_at = models.DateTimeField(auto_now=True, db_index=True)
     """Time of last update to record."""
     created_by = models.ForeignKey(
-        User, models.PROTECT, default=current_user_id, related_name="created_organism"
+        User, PROTECT, default=current_user_id, related_name="created_organism"
     )
     """Creator of record, a :class:`~lamindb.User`."""
 
@@ -342,12 +342,10 @@ class Gene(BioRegistry):
     """Description of the gene."""
     synonyms = models.TextField(null=True, default=None)
     """Bar-separated (|) synonyms that correspond to this gene."""
-    organism = models.ForeignKey(
-        Organism, models.PROTECT, default=None, related_name="genes"
-    )
+    organism = models.ForeignKey(Organism, PROTECT, default=None, related_name="genes")
     """:class:`~bionty.Organism` this gene associates with."""
     public_source = models.ForeignKey(
-        "PublicSource", models.PROTECT, null=True, related_name="genes"
+        "PublicSource", PROTECT, null=True, related_name="genes"
     )
     """:class:`~bionty.PublicSource` this gene associates with."""
     artifacts = models.ManyToManyField(
@@ -361,7 +359,7 @@ class Gene(BioRegistry):
     updated_at = models.DateTimeField(auto_now=True, db_index=True)
     """Time of last update to record."""
     created_by = models.ForeignKey(
-        User, models.PROTECT, default=current_user_id, related_name="created_genes"
+        User, PROTECT, default=current_user_id, related_name="created_genes"
     )
     """Creator of record, a :class:`~lamindb.User`."""
 
@@ -429,11 +427,11 @@ class Protein(BioRegistry):
     ensembl_gene_ids = models.TextField(null=True, default=None)
     """Bar-separated (|) Ensembl Gene IDs that correspond to this protein."""
     organism = models.ForeignKey(
-        Organism, models.PROTECT, default=None, related_name="proteins"
+        Organism, PROTECT, default=None, related_name="proteins"
     )
     """:class:`~bionty.Organism` this protein associates with."""
     public_source = models.ForeignKey(
-        "PublicSource", models.PROTECT, null=True, related_name="proteins"
+        "PublicSource", PROTECT, null=True, related_name="proteins"
     )
     """:class:`~bionty.PublicSource` this protein associates with."""
     artifacts = models.ManyToManyField(
@@ -448,7 +446,7 @@ class Protein(BioRegistry):
     """Time of last update to record."""
     created_by = models.ForeignKey(
         User,
-        models.PROTECT,
+        PROTECT,
         default=current_user_id,
         related_name="created_proteins",
     )
@@ -516,11 +514,11 @@ class CellMarker(BioRegistry):
     )
     """Uniprotkb id that corresponds to this cell marker."""
     organism = models.ForeignKey(
-        Organism, models.PROTECT, default=None, related_name="cell_markers"
+        Organism, PROTECT, default=None, related_name="cell_markers"
     )
     """:class:`~bionty.Organism` this cell marker associates with."""
     public_source = models.ForeignKey(
-        "PublicSource", models.PROTECT, null=True, related_name="cell_markers"
+        "PublicSource", PROTECT, null=True, related_name="cell_markers"
     )
     """:class:`~bionty.PublicSource` this cell marker associates with."""
     artifacts = models.ManyToManyField(
@@ -537,7 +535,7 @@ class CellMarker(BioRegistry):
     """Time of last update to record."""
     created_by = models.ForeignKey(
         User,
-        models.PROTECT,
+        PROTECT,
         default=current_user_id,
         related_name="created_cell_markers",
     )
@@ -604,7 +602,7 @@ class Tissue(BioRegistry):
     parents = models.ManyToManyField("self", symmetrical=False, related_name="children")
     """Parent tissues records."""
     public_source = models.ForeignKey(
-        "PublicSource", models.PROTECT, null=True, related_name="tissues"
+        "PublicSource", PROTECT, null=True, related_name="tissues"
     )
     """:class:`~bionty.PublicSource` this tissue associates with."""
     artifacts = models.ManyToManyField(
@@ -616,7 +614,7 @@ class Tissue(BioRegistry):
     updated_at = models.DateTimeField(auto_now=True, db_index=True)
     """Time of last update to record."""
     created_by = models.ForeignKey(
-        User, models.PROTECT, default=current_user_id, related_name="created_tissues"
+        User, PROTECT, default=current_user_id, related_name="created_tissues"
     )
     """Creator of record, a :class:`~lamindb.User`."""
 
@@ -684,7 +682,7 @@ class CellType(BioRegistry):
     parents = models.ManyToManyField("self", symmetrical=False, related_name="children")
     """Parent cell type records."""
     public_source = models.ForeignKey(
-        "PublicSource", models.PROTECT, null=True, related_name="cell_types"
+        "PublicSource", PROTECT, null=True, related_name="cell_types"
     )
     """:class:`~bionty.PublicSource` this cell type associates with."""
     artifacts = models.ManyToManyField(
@@ -697,7 +695,7 @@ class CellType(BioRegistry):
     """Time of last update to record."""
     created_by = models.ForeignKey(
         User,
-        models.PROTECT,
+        PROTECT,
         default=current_user_id,
         related_name="created_cell_types",
     )
@@ -767,7 +765,7 @@ class Disease(BioRegistry):
     parents = models.ManyToManyField("self", symmetrical=False, related_name="children")
     """Parent disease records."""
     public_source = models.ForeignKey(
-        "PublicSource", models.PROTECT, null=True, related_name="diseases"
+        "PublicSource", PROTECT, null=True, related_name="diseases"
     )
     """:class:`~bionty.PublicSource` this disease associates with."""
     artifacts = models.ManyToManyField(
@@ -780,7 +778,7 @@ class Disease(BioRegistry):
     """Time of last update to record."""
     created_by = models.ForeignKey(
         User,
-        models.PROTECT,
+        PROTECT,
         default=current_user_id,
         related_name="created_diseases",
     )
@@ -851,7 +849,7 @@ class CellLine(BioRegistry):
     parents = models.ManyToManyField("self", symmetrical=False, related_name="children")
     """Parent cell line records."""
     public_source = models.ForeignKey(
-        "PublicSource", models.PROTECT, null=True, related_name="cell_lines"
+        "PublicSource", PROTECT, null=True, related_name="cell_lines"
     )
     """:class:`~bionty.PublicSource` this cell line associates with."""
     artifacts = models.ManyToManyField(
@@ -864,7 +862,7 @@ class CellLine(BioRegistry):
     """Time of last update to record."""
     created_by = models.ForeignKey(
         User,
-        models.PROTECT,
+        PROTECT,
         default=current_user_id,
         related_name="created_cell_lines",
     )
@@ -938,7 +936,7 @@ class Phenotype(BioRegistry):
     parents = models.ManyToManyField("self", symmetrical=False, related_name="children")
     """Parent phenotype records."""
     public_source = models.ForeignKey(
-        "PublicSource", models.PROTECT, null=True, related_name="phenotypes"
+        "PublicSource", PROTECT, null=True, related_name="phenotypes"
     )
     """:class:`~bionty.PublicSource` this phenotype associates with."""
     artifacts = models.ManyToManyField(
@@ -951,7 +949,7 @@ class Phenotype(BioRegistry):
     """Time of last update to record."""
     created_by = models.ForeignKey(
         User,
-        models.PROTECT,
+        PROTECT,
         default=current_user_id,
         related_name="created_phenotypes",
     )
@@ -1023,7 +1021,7 @@ class Pathway(BioRegistry):
     parents = models.ManyToManyField("self", symmetrical=False, related_name="children")
     """Parent pathway records."""
     public_source = models.ForeignKey(
-        "PublicSource", models.PROTECT, null=True, related_name="pathways"
+        "PublicSource", PROTECT, null=True, related_name="pathways"
     )
     """:class:`~bionty.PublicSource` this pathway associates with."""
     genes = models.ManyToManyField("Gene", related_name="pathways")
@@ -1040,7 +1038,7 @@ class Pathway(BioRegistry):
     """Time of last update to record."""
     created_by = models.ForeignKey(
         User,
-        models.PROTECT,
+        PROTECT,
         default=current_user_id,
         related_name="created_pathways",
     )
@@ -1117,7 +1115,7 @@ class ExperimentalFactor(BioRegistry):
     parents = models.ManyToManyField("self", symmetrical=False, related_name="children")
     """Parent experimental factor records."""
     public_source = models.ForeignKey(
-        "PublicSource", models.PROTECT, null=True, related_name="experimental_factors"
+        "PublicSource", PROTECT, null=True, related_name="experimental_factors"
     )
     """:class:`~bionty.PublicSource` this experimental_factors associates with."""
     artifacts = models.ManyToManyField(
@@ -1132,7 +1130,7 @@ class ExperimentalFactor(BioRegistry):
     """Time of last update to record."""
     created_by = models.ForeignKey(
         User,
-        models.PROTECT,
+        PROTECT,
         default=current_user_id,
         related_name="created_experimental_factors",
     )
@@ -1204,7 +1202,7 @@ class DevelopmentalStage(BioRegistry):
     parents = models.ManyToManyField("self", symmetrical=False, related_name="children")
     """Parent developmental stage records."""
     public_source = models.ForeignKey(
-        "PublicSource", models.PROTECT, null=True, related_name="developmental_stages"
+        "PublicSource", PROTECT, null=True, related_name="developmental_stages"
     )
     """:class:`~bionty.PublicSource` this developmental stage associates with."""
     artifacts = models.ManyToManyField(
@@ -1219,7 +1217,7 @@ class DevelopmentalStage(BioRegistry):
     """Time of last update to record."""
     created_by = models.ForeignKey(
         User,
-        models.PROTECT,
+        PROTECT,
         default=current_user_id,
         related_name="created_developmental_stages",
     )
@@ -1290,7 +1288,7 @@ class Ethnicity(BioRegistry):
     parents = models.ManyToManyField("self", symmetrical=False, related_name="children")
     """Parent ethnicity records."""
     public_source = models.ForeignKey(
-        "PublicSource", models.PROTECT, null=True, related_name="ethnicities"
+        "PublicSource", PROTECT, null=True, related_name="ethnicities"
     )
     """:class:`~bionty.PublicSource` this ethnicity associates with."""
     artifacts = models.ManyToManyField(
@@ -1305,7 +1303,7 @@ class Ethnicity(BioRegistry):
     """Time of last update to record."""
     created_by = models.ForeignKey(
         User,
-        models.PROTECT,
+        PROTECT,
         default=current_user_id,
         related_name="created_ethnicities",
     )
@@ -1378,7 +1376,7 @@ class PublicSource(Registry):
     """Time of last update to record."""
     created_by = models.ForeignKey(
         User,
-        models.PROTECT,
+        PROTECT,
         default=current_user_id,
         related_name="created_public_sources",
     )
@@ -1439,160 +1437,104 @@ BiontySource = PublicSource
 
 
 class ArtifactOrganism(Registry, LinkORM):
-    artifact = models.ForeignKey(Artifact, on_delete=models.CASCADE)
-    organism = models.ForeignKey("Organism", on_delete=models.CASCADE)
-    feature = models.ForeignKey(
-        Feature, on_delete=models.PROTECT, null=True, default=None
-    )
-    created_by = models.ForeignKey(
-        User, on_delete=models.PROTECT, default=current_user_id
-    )
+    artifact = models.ForeignKey(Artifact, CASCADE)
+    organism = models.ForeignKey("Organism", CASCADE)
+    feature = models.ForeignKey(Feature, PROTECT, null=True, default=None)
+    created_by = models.ForeignKey(User, PROTECT, default=current_user_id)
     created_at = models.DateTimeField(auto_now_add=True)
 
 
 class ArtifactGene(Registry, LinkORM):
-    artifact = models.ForeignKey(Artifact, on_delete=models.CASCADE)
-    gene = models.ForeignKey("Gene", on_delete=models.CASCADE)
-    feature = models.ForeignKey(
-        Feature, on_delete=models.PROTECT, null=True, default=None
-    )
-    created_by = models.ForeignKey(
-        User, on_delete=models.PROTECT, default=current_user_id
-    )
+    artifact = models.ForeignKey(Artifact, CASCADE)
+    gene = models.ForeignKey("Gene", CASCADE)
+    feature = models.ForeignKey(Feature, PROTECT, null=True, default=None)
+    created_by = models.ForeignKey(User, PROTECT, default=current_user_id)
     created_at = models.DateTimeField(auto_now_add=True)
 
 
 class ArtifactProtein(Registry, LinkORM):
-    artifact = models.ForeignKey(Artifact, on_delete=models.CASCADE)
-    protein = models.ForeignKey("Protein", on_delete=models.CASCADE)
-    feature = models.ForeignKey(
-        Feature, on_delete=models.PROTECT, null=True, default=None
-    )
-    created_by = models.ForeignKey(
-        User, on_delete=models.PROTECT, default=current_user_id
-    )
+    artifact = models.ForeignKey(Artifact, CASCADE)
+    protein = models.ForeignKey("Protein", CASCADE)
+    feature = models.ForeignKey(Feature, PROTECT, null=True, default=None)
+    created_by = models.ForeignKey(User, PROTECT, default=current_user_id)
     created_at = models.DateTimeField(auto_now_add=True)
 
 
 class ArtifactCellMarker(Registry, LinkORM):
-    artifact = models.ForeignKey(Artifact, on_delete=models.CASCADE)
-    cell_marker = models.ForeignKey("CellMarker", on_delete=models.CASCADE)
-    feature = models.ForeignKey(
-        Feature, on_delete=models.PROTECT, null=True, default=None
-    )
-    created_by = models.ForeignKey(
-        User, on_delete=models.PROTECT, default=current_user_id
-    )
+    artifact = models.ForeignKey(Artifact, CASCADE)
+    cell_marker = models.ForeignKey("CellMarker", CASCADE)
+    feature = models.ForeignKey(Feature, PROTECT, null=True, default=None)
+    created_by = models.ForeignKey(User, PROTECT, default=current_user_id)
     created_at = models.DateTimeField(auto_now_add=True)
 
 
 class ArtifactTissue(Registry, LinkORM):
-    artifact = models.ForeignKey(Artifact, on_delete=models.CASCADE)
-    tissue = models.ForeignKey("Tissue", on_delete=models.CASCADE)
-    feature = models.ForeignKey(
-        Feature, on_delete=models.PROTECT, null=True, default=None
-    )
-    created_by = models.ForeignKey(
-        User, on_delete=models.PROTECT, default=current_user_id
-    )
+    artifact = models.ForeignKey(Artifact, CASCADE)
+    tissue = models.ForeignKey("Tissue", CASCADE)
+    feature = models.ForeignKey(Feature, PROTECT, null=True, default=None)
+    created_by = models.ForeignKey(User, PROTECT, default=current_user_id)
     created_at = models.DateTimeField(auto_now_add=True)
 
 
 class ArtifactCellType(Registry, LinkORM):
-    artifact = models.ForeignKey(Artifact, on_delete=models.CASCADE)
-    cell_type = models.ForeignKey("CellType", on_delete=models.CASCADE)
-    feature = models.ForeignKey(
-        Feature, on_delete=models.PROTECT, null=True, default=None
-    )
-    created_by = models.ForeignKey(
-        User, on_delete=models.PROTECT, default=current_user_id
-    )
+    artifact = models.ForeignKey(Artifact, CASCADE)
+    cell_type = models.ForeignKey("CellType", CASCADE)
+    feature = models.ForeignKey(Feature, PROTECT, null=True, default=None)
+    created_by = models.ForeignKey(User, PROTECT, default=current_user_id)
     created_at = models.DateTimeField(auto_now_add=True)
 
 
 class ArtifactDisease(Registry, LinkORM):
-    artifact = models.ForeignKey(Artifact, on_delete=models.CASCADE)
-    disease = models.ForeignKey("Disease", on_delete=models.CASCADE)
-    feature = models.ForeignKey(
-        Feature, on_delete=models.PROTECT, null=True, default=None
-    )
-    created_by = models.ForeignKey(
-        User, on_delete=models.PROTECT, default=current_user_id
-    )
+    artifact = models.ForeignKey(Artifact, CASCADE)
+    disease = models.ForeignKey("Disease", CASCADE)
+    feature = models.ForeignKey(Feature, PROTECT, null=True, default=None)
+    created_by = models.ForeignKey(User, PROTECT, default=current_user_id)
     created_at = models.DateTimeField(auto_now_add=True)
 
 
 class ArtifactCellLine(Registry, LinkORM):
-    artifact = models.ForeignKey(Artifact, on_delete=models.CASCADE)
-    cell_line = models.ForeignKey("CellLine", on_delete=models.CASCADE)
-    feature = models.ForeignKey(
-        Feature, on_delete=models.PROTECT, null=True, default=None
-    )
-    created_by = models.ForeignKey(
-        User, on_delete=models.PROTECT, default=current_user_id
-    )
+    artifact = models.ForeignKey(Artifact, CASCADE)
+    cell_line = models.ForeignKey("CellLine", CASCADE)
+    feature = models.ForeignKey(Feature, PROTECT, null=True, default=None)
+    created_by = models.ForeignKey(User, PROTECT, default=current_user_id)
     created_at = models.DateTimeField(auto_now_add=True)
 
 
 class ArtifactPhenotype(Registry, LinkORM):
-    artifact = models.ForeignKey(Artifact, on_delete=models.CASCADE)
-    phenotype = models.ForeignKey("Phenotype", on_delete=models.CASCADE)
-    feature = models.ForeignKey(
-        Feature, on_delete=models.PROTECT, null=True, default=None
-    )
-    created_by = models.ForeignKey(
-        User, on_delete=models.PROTECT, default=current_user_id
-    )
+    artifact = models.ForeignKey(Artifact, CASCADE)
+    phenotype = models.ForeignKey("Phenotype", CASCADE)
+    feature = models.ForeignKey(Feature, PROTECT, null=True, default=None)
+    created_by = models.ForeignKey(User, PROTECT, default=current_user_id)
     created_at = models.DateTimeField(auto_now_add=True)
 
 
 class ArtifactPathway(Registry, LinkORM):
-    artifact = models.ForeignKey(Artifact, on_delete=models.CASCADE)
-    pathway = models.ForeignKey("Pathway", on_delete=models.CASCADE)
-    feature = models.ForeignKey(
-        Feature, on_delete=models.PROTECT, null=True, default=None
-    )
-    created_by = models.ForeignKey(
-        User, on_delete=models.PROTECT, default=current_user_id
-    )
+    artifact = models.ForeignKey(Artifact, CASCADE)
+    pathway = models.ForeignKey("Pathway", CASCADE)
+    feature = models.ForeignKey(Feature, PROTECT, null=True, default=None)
+    created_by = models.ForeignKey(User, PROTECT, default=current_user_id)
     created_at = models.DateTimeField(auto_now_add=True)
 
 
 class ArtifactExperimentalFactor(Registry, LinkORM):
-    artifact = models.ForeignKey(Artifact, on_delete=models.CASCADE)
-    experimental_factor = models.ForeignKey(
-        "ExperimentalFactor", on_delete=models.CASCADE
-    )
-    feature = models.ForeignKey(
-        Feature, on_delete=models.PROTECT, null=True, default=None
-    )
-    created_by = models.ForeignKey(
-        User, on_delete=models.PROTECT, default=current_user_id
-    )
+    artifact = models.ForeignKey(Artifact, CASCADE)
+    experimental_factor = models.ForeignKey("ExperimentalFactor", CASCADE)
+    feature = models.ForeignKey(Feature, PROTECT, null=True, default=None)
+    created_by = models.ForeignKey(User, PROTECT, default=current_user_id)
     created_at = models.DateTimeField(auto_now_add=True)
 
 
 class ArtifactDevelopmentalStage(Registry, LinkORM):
-    artifact = models.ForeignKey(Artifact, on_delete=models.CASCADE)
-    developmental_stage = models.ForeignKey(
-        "DevelopmentalStage", on_delete=models.CASCADE
-    )
-    feature = models.ForeignKey(
-        Feature, on_delete=models.PROTECT, null=True, default=None
-    )
-    created_by = models.ForeignKey(
-        User, on_delete=models.PROTECT, default=current_user_id
-    )
+    artifact = models.ForeignKey(Artifact, CASCADE)
+    developmental_stage = models.ForeignKey("DevelopmentalStage", CASCADE)
+    feature = models.ForeignKey(Feature, PROTECT, null=True, default=None)
+    created_by = models.ForeignKey(User, PROTECT, default=current_user_id)
     created_at = models.DateTimeField(auto_now_add=True)
 
 
 class ArtifactEthnicity(Registry, LinkORM):
-    artifact = models.ForeignKey(Artifact, on_delete=models.CASCADE)
-    ethnicity = models.ForeignKey("Ethnicity", on_delete=models.CASCADE)
-    feature = models.ForeignKey(
-        Feature, on_delete=models.PROTECT, null=True, default=None
-    )
-    created_by = models.ForeignKey(
-        User, on_delete=models.PROTECT, default=current_user_id
-    )
+    artifact = models.ForeignKey(Artifact, CASCADE)
+    ethnicity = models.ForeignKey("Ethnicity", CASCADE)
+    feature = models.ForeignKey(Feature, PROTECT, null=True, default=None)
+    created_by = models.ForeignKey(User, PROTECT, default=current_user_id)
     created_at = models.DateTimeField(auto_now_add=True)
