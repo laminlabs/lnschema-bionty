@@ -16,9 +16,9 @@ from lnschema_core.models import (
     HasParents,
     LinkORM,
     Registry,
-    User,
+    TracksRun,
+    TracksUpdates,
 )
-from lnschema_core.users import current_user_id
 
 from . import ids
 from ._bionty import encode_uid, lookup2kwargs
@@ -240,7 +240,7 @@ class BioRegistry(Registry, HasParents, CanValidate):
             self._save_ontology_parents()
 
 
-class Organism(BioRegistry):
+class Organism(BioRegistry, TracksRun, TracksUpdates):
     """Organism - `NCBI Taxonomy <https://www.ncbi.nlm.nih.gov/taxonomy/>`__, `Ensembl Organism <https://useast.ensembl.org/info/about/species.html>`__.
 
     Notes:
@@ -250,6 +250,9 @@ class Organism(BioRegistry):
     Examples:
         >>> record = bionty.Organism.from_public(name="rabbit")
     """
+
+    class Meta(BioRegistry.Meta, TracksRun.Meta, TracksUpdates.Meta):
+        abstract = False
 
     id = models.AutoField(primary_key=True)
     """Internal id, valid only in one DB instance."""
@@ -274,14 +277,6 @@ class Organism(BioRegistry):
         Artifact, through="ArtifactOrganism", related_name="organisms"
     )
     """Artifacts linked to the organism."""
-    created_at = models.DateTimeField(auto_now_add=True, db_index=True)
-    """Time of creation of record."""
-    updated_at = models.DateTimeField(auto_now=True, db_index=True)
-    """Time of last update to record."""
-    created_by = models.ForeignKey(
-        User, PROTECT, default=current_user_id, related_name="created_organism"
-    )
-    """Creator of record, a :class:`~lamindb.User`."""
 
     @overload
     def __init__(
@@ -307,7 +302,7 @@ class Organism(BioRegistry):
         super().__init__(*args, **kwargs)
 
 
-class Gene(BioRegistry):
+class Gene(BioRegistry, TracksRun, TracksUpdates):
     """Genes - `Ensembl <https://ensembl.org/>`__, `NCBI Gene <https://www.ncbi.nlm.nih.gov/gene/>`__.
 
     Notes:
@@ -318,6 +313,9 @@ class Gene(BioRegistry):
     Examples:
         >>> record = bionty.Gene.from_public(symbol="TCF7", organism="human")
     """
+
+    class Meta(BioRegistry.Meta, TracksRun.Meta, TracksUpdates.Meta):
+        abstract = False
 
     id = models.AutoField(primary_key=True)
     """Internal id, valid only in one DB instance."""
@@ -357,14 +355,6 @@ class Gene(BioRegistry):
         FeatureSet, through="FeatureSetGene", related_name="genes"
     )
     """Featuresets linked to this gene."""
-    created_at = models.DateTimeField(auto_now_add=True, db_index=True)
-    """Time of creation of record."""
-    updated_at = models.DateTimeField(auto_now=True, db_index=True)
-    """Time of last update to record."""
-    created_by = models.ForeignKey(
-        User, PROTECT, default=current_user_id, related_name="created_genes"
-    )
-    """Creator of record, a :class:`~lamindb.User`."""
 
     @overload
     def __init__(
@@ -396,7 +386,7 @@ class Gene(BioRegistry):
         super().__init__(*args, **kwargs)
 
 
-class Protein(BioRegistry):
+class Protein(BioRegistry, TracksRun, TracksUpdates):
     """Proteins - `Uniprot <https://www.uniprot.org/>`__.
 
     Notes:
@@ -408,6 +398,9 @@ class Protein(BioRegistry):
         >>> record = bionty.Protein.from_public(name="Synaptotagmin-15B", organism="human")
         >>> record = bionty.Protein.from_public(gene_symbol="SYT15B", organism="human")
     """
+
+    class Meta(BioRegistry.Meta, TracksRun.Meta, TracksUpdates.Meta):
+        abstract = False
 
     id = models.AutoField(primary_key=True)
     """Internal id, valid only in one DB instance."""
@@ -445,17 +438,6 @@ class Protein(BioRegistry):
         FeatureSet, through="FeatureSetProtein", related_name="proteins"
     )
     """Featuresets linked to this protein."""
-    created_at = models.DateTimeField(auto_now_add=True, db_index=True)
-    """Time of creation of record."""
-    updated_at = models.DateTimeField(auto_now=True, db_index=True)
-    """Time of last update to record."""
-    created_by = models.ForeignKey(
-        User,
-        PROTECT,
-        default=current_user_id,
-        related_name="created_proteins",
-    )
-    """Creator of record, a :class:`~lamindb.User`."""
 
     @overload
     def __init__(
@@ -486,7 +468,7 @@ class Protein(BioRegistry):
         super().__init__(*args, **kwargs)
 
 
-class CellMarker(BioRegistry):
+class CellMarker(BioRegistry, TracksRun, TracksUpdates):
     """Cell markers - `CellMarker <http://xteam.xbio.top/CellMarker>`__.
 
     Notes:
@@ -497,6 +479,9 @@ class CellMarker(BioRegistry):
     Examples:
         >>> record = bionty.CellMarker.from_public(name="PD1", organism="human")
     """
+
+    class Meta(BioRegistry.Meta, TracksRun.Meta, TracksUpdates.Meta):
+        abstract = False
 
     id = models.AutoField(primary_key=True)
     """Internal id, valid only in one DB instance."""
@@ -536,17 +521,6 @@ class CellMarker(BioRegistry):
         FeatureSet, through="FeatureSetCellMarker", related_name="cell_markers"
     )
     """Featuresets linked to this cell marker."""
-    created_at = models.DateTimeField(auto_now_add=True, db_index=True)
-    """Time of creation of record."""
-    updated_at = models.DateTimeField(auto_now=True, db_index=True)
-    """Time of last update to record."""
-    created_by = models.ForeignKey(
-        User,
-        PROTECT,
-        default=current_user_id,
-        related_name="created_cell_markers",
-    )
-    """Creator of record, a :class:`~lamindb.User`."""
 
     @overload
     def __init__(
@@ -576,7 +550,7 @@ class CellMarker(BioRegistry):
         super().__init__(*args, **kwargs)
 
 
-class Tissue(BioRegistry):
+class Tissue(BioRegistry, TracksRun, TracksUpdates):
     """Tissues - `Uberon <http://obophenotype.github.io/uberon/>`__.
 
     Notes:
@@ -587,6 +561,10 @@ class Tissue(BioRegistry):
     Examples:
         >>> record = bionty.Tissue.from_public(name="brain")
     """
+
+    class Meta(BioRegistry.Meta, TracksRun.Meta, TracksUpdates.Meta):
+        abstract = False
+        unique_together = (("name", "ontology_id"),)
 
     id = models.AutoField(primary_key=True)
     """Internal id, valid only in one DB instance."""
@@ -616,17 +594,6 @@ class Tissue(BioRegistry):
         Artifact, through="ArtifactTissue", related_name="tissues"
     )
     """Artifacts linked to the tissue."""
-    created_at = models.DateTimeField(auto_now_add=True, db_index=True)
-    """Time of creation of record."""
-    updated_at = models.DateTimeField(auto_now=True, db_index=True)
-    """Time of last update to record."""
-    created_by = models.ForeignKey(
-        User, PROTECT, default=current_user_id, related_name="created_tissues"
-    )
-    """Creator of record, a :class:`~lamindb.User`."""
-
-    class Meta:
-        unique_together = (("name", "ontology_id"),)
 
     @overload
     def __init__(
@@ -656,7 +623,7 @@ class Tissue(BioRegistry):
         super().__init__(*args, **kwargs)
 
 
-class CellType(BioRegistry):
+class CellType(BioRegistry, TracksRun, TracksUpdates):
     """Cell types - `Cell Ontology <https://obophenotype.github.io/cell-ontology/>`__.
 
     Notes:
@@ -667,6 +634,10 @@ class CellType(BioRegistry):
     Examples:
         >>> record = bionty.CellType.from_public(name="T cell")
     """
+
+    class Meta(BioRegistry.Meta, TracksRun.Meta, TracksUpdates.Meta):
+        abstract = False
+        unique_together = (("name", "ontology_id"),)
 
     id = models.AutoField(primary_key=True)
     """Internal id, valid only in one DB instance."""
@@ -696,20 +667,6 @@ class CellType(BioRegistry):
         Artifact, through="ArtifactCellType", related_name="cell_types"
     )
     """Artifacts linked to the cell type."""
-    created_at = models.DateTimeField(auto_now_add=True, db_index=True)
-    """Time of creation of record."""
-    updated_at = models.DateTimeField(auto_now=True, db_index=True)
-    """Time of last update to record."""
-    created_by = models.ForeignKey(
-        User,
-        PROTECT,
-        default=current_user_id,
-        related_name="created_cell_types",
-    )
-    """Creator of record, a :class:`~lamindb.User`."""
-
-    class Meta:
-        unique_together = (("name", "ontology_id"),)
 
     @overload
     def __init__(
@@ -739,7 +696,7 @@ class CellType(BioRegistry):
         super().__init__(*args, **kwargs)
 
 
-class Disease(BioRegistry):
+class Disease(BioRegistry, TracksRun, TracksUpdates):
     """Diseases - `Mondo <https://mondo.monarchinitiative.org/>`__, `Human Disease <https://disease-ontology.org/>`__.
 
     Notes:
@@ -750,6 +707,10 @@ class Disease(BioRegistry):
     Examples:
         >>> record = bionty.Disease.from_public(name="Alzheimer disease")
     """
+
+    class Meta(BioRegistry.Meta, TracksRun.Meta, TracksUpdates.Meta):
+        abstract = False
+        unique_together = (("name", "ontology_id"),)
 
     id = models.AutoField(primary_key=True)
     """Internal id, valid only in one DB instance."""
@@ -779,20 +740,6 @@ class Disease(BioRegistry):
         Artifact, through="ArtifactDisease", related_name="diseases"
     )
     """Artifacts linked to the disease."""
-    created_at = models.DateTimeField(auto_now_add=True, db_index=True)
-    """Time of creation of record."""
-    updated_at = models.DateTimeField(auto_now=True, db_index=True)
-    """Time of last update to record."""
-    created_by = models.ForeignKey(
-        User,
-        PROTECT,
-        default=current_user_id,
-        related_name="created_diseases",
-    )
-    """Creator of record, a :class:`~lamindb.User`."""
-
-    class Meta:
-        unique_together = (("name", "ontology_id"),)
 
     @overload
     def __init__(
@@ -822,7 +769,7 @@ class Disease(BioRegistry):
         super().__init__(*args, **kwargs)
 
 
-class CellLine(BioRegistry):
+class CellLine(BioRegistry, TracksRun, TracksUpdates):
     """Cell lines - `Cell Line Ontology <https://github.com/CLO-ontology/CLO>`__.
 
     Notes:
@@ -834,6 +781,10 @@ class CellLine(BioRegistry):
         >>> standard_name = bionty.CellLine.public().standardize(["K562"])[0]
         >>> record = bionty.CellLine.from_public(name=standard_name)
     """
+
+    class Meta(BioRegistry.Meta, TracksRun.Meta, TracksUpdates.Meta):
+        abstract = False
+        unique_together = (("name", "ontology_id"),)
 
     id = models.AutoField(primary_key=True)
     """Internal id, valid only in one DB instance."""
@@ -863,20 +814,6 @@ class CellLine(BioRegistry):
         Artifact, through="ArtifactCellLine", related_name="cell_lines"
     )
     """Artifacts linked to the cell line."""
-    created_at = models.DateTimeField(auto_now_add=True, db_index=True)
-    """Time of creation of record."""
-    updated_at = models.DateTimeField(auto_now=True, db_index=True)
-    """Time of last update to record."""
-    created_by = models.ForeignKey(
-        User,
-        PROTECT,
-        default=current_user_id,
-        related_name="created_cell_lines",
-    )
-    """Creator of record, a :class:`~lamindb.User`."""
-
-    class Meta:
-        unique_together = (("name", "ontology_id"),)
 
     @overload
     def __init__(
@@ -906,7 +843,7 @@ class CellLine(BioRegistry):
         super().__init__(*args, **kwargs)
 
 
-class Phenotype(BioRegistry):
+class Phenotype(BioRegistry, TracksRun, TracksUpdates):
     """Phenotypes - `Human Phenotype <https://hpo.jax.org/app/>`__,
     `Phecodes <https://phewascatalog.org/phecodes_icd10>`__,
     `Mammalian Phenotype <http://obofoundry.org/ontology/mp.html>`__,
@@ -921,6 +858,10 @@ class Phenotype(BioRegistry):
         >>> record = bionty.Phenotype.from_public(name="Arachnodactyly")
         >>> record.save()
     """
+
+    class Meta(BioRegistry.Meta, TracksRun.Meta, TracksUpdates.Meta):
+        abstract = False
+        unique_together = (("name", "ontology_id"),)
 
     id = models.AutoField(primary_key=True)
     """Internal id, valid only in one DB instance."""
@@ -950,20 +891,6 @@ class Phenotype(BioRegistry):
         Artifact, through="ArtifactPhenotype", related_name="phenotypes"
     )
     """Artifacts linked to the phenotype."""
-    created_at = models.DateTimeField(auto_now_add=True, db_index=True)
-    """Time of creation of record."""
-    updated_at = models.DateTimeField(auto_now=True, db_index=True)
-    """Time of last update to record."""
-    created_by = models.ForeignKey(
-        User,
-        PROTECT,
-        default=current_user_id,
-        related_name="created_phenotypes",
-    )
-    """Creator of record, a :class:`~lamindb.User`."""
-
-    class Meta:
-        unique_together = (("name", "ontology_id"),)
 
     @overload
     def __init__(
@@ -993,7 +920,7 @@ class Phenotype(BioRegistry):
         super().__init__(*args, **kwargs)
 
 
-class Pathway(BioRegistry):
+class Pathway(BioRegistry, TracksRun, TracksUpdates):
     """Pathways - `Gene Ontology <https://bioportal.bioontology.org/ontologies/GO>`__,
     `Pathway Ontology <https://bioportal.bioontology.org/ontologies/PW>`__.
 
@@ -1006,6 +933,10 @@ class Pathway(BioRegistry):
         >>> record = bionty.Pathway.from_public(ontology_id="GO:1903353")
         >>> record.save()
     """
+
+    class Meta(BioRegistry.Meta, TracksRun.Meta, TracksUpdates.Meta):
+        abstract = False
+        unique_together = (("name", "ontology_id"),)
 
     id = models.AutoField(primary_key=True)
     """Internal id, valid only in one DB instance."""
@@ -1041,20 +972,6 @@ class Pathway(BioRegistry):
         Artifact, through="ArtifactPathway", related_name="pathways"
     )
     """Artifacts linked to the pathway."""
-    created_at = models.DateTimeField(auto_now_add=True, db_index=True)
-    """Time of creation of record."""
-    updated_at = models.DateTimeField(auto_now=True, db_index=True)
-    """Time of last update to record."""
-    created_by = models.ForeignKey(
-        User,
-        PROTECT,
-        default=current_user_id,
-        related_name="created_pathways",
-    )
-    """Creator of record, a :class:`~lamindb.User`."""
-
-    class Meta:
-        unique_together = (("name", "ontology_id"),)
 
     @overload
     def __init__(
@@ -1084,7 +1001,7 @@ class Pathway(BioRegistry):
         super().__init__(*args, **kwargs)
 
 
-class ExperimentalFactor(BioRegistry):
+class ExperimentalFactor(BioRegistry, TracksRun, TracksUpdates):
     """Experimental factors - `Experimental Factor Ontology <https://www.ebi.ac.uk/ols/ontologies/efo>`__.
 
     Notes:
@@ -1096,6 +1013,10 @@ class ExperimentalFactor(BioRegistry):
         >>> standard_name = bionty.ExperimentalFactor.public().standardize(["scRNA-seq"])
         >>> record = bionty.ExperimentalFactor.from_public(name=standard_name)
     """
+
+    class Meta(BioRegistry.Meta, TracksRun.Meta, TracksUpdates.Meta):
+        abstract = False
+        unique_together = (("name", "ontology_id"),)
 
     id = models.AutoField(primary_key=True)
     """Internal id, valid only in one DB instance."""
@@ -1133,20 +1054,6 @@ class ExperimentalFactor(BioRegistry):
         related_name="experimental_factors",
     )
     """Artifacts linked to the experimental_factors."""
-    created_at = models.DateTimeField(auto_now_add=True, db_index=True)
-    """Time of creation of record."""
-    updated_at = models.DateTimeField(auto_now=True, db_index=True)
-    """Time of last update to record."""
-    created_by = models.ForeignKey(
-        User,
-        PROTECT,
-        default=current_user_id,
-        related_name="created_experimental_factors",
-    )
-    """Creator of record, a :class:`~lamindb.User`."""
-
-    class Meta:
-        unique_together = (("name", "ontology_id"),)
 
     @overload
     def __init__(
@@ -1176,7 +1083,7 @@ class ExperimentalFactor(BioRegistry):
         super().__init__(*args, **kwargs)
 
 
-class DevelopmentalStage(BioRegistry):
+class DevelopmentalStage(BioRegistry, TracksRun, TracksUpdates):
     """Developmental stages - `Human Developmental Stages <https://github.com/obophenotype/developmental-stage-ontologies/wiki/HsapDv>`__,
     `Mouse Developmental Stages <https://github.com/obophenotype/developmental-stage-ontologies/wiki/MmusDv>`__.  # noqa.
 
@@ -1189,6 +1096,10 @@ class DevelopmentalStage(BioRegistry):
         >>> record = bionty.DevelopmentalStage.from_public(name="neurula stage")
         >>> record.save()
     """
+
+    class Meta(BioRegistry.Meta, TracksRun.Meta, TracksUpdates.Meta):
+        abstract = False
+        unique_together = (("name", "ontology_id"),)
 
     id = models.AutoField(primary_key=True)
     """Internal id, valid only in one DB instance."""
@@ -1220,20 +1131,6 @@ class DevelopmentalStage(BioRegistry):
         related_name="developmental_stages",
     )
     """Artifacts linked to the developmental stage."""
-    created_at = models.DateTimeField(auto_now_add=True, db_index=True)
-    """Time of creation of record."""
-    updated_at = models.DateTimeField(auto_now=True, db_index=True)
-    """Time of last update to record."""
-    created_by = models.ForeignKey(
-        User,
-        PROTECT,
-        default=current_user_id,
-        related_name="created_developmental_stages",
-    )
-    """Creator of record, a :class:`~lamindb.User`."""
-
-    class Meta:
-        unique_together = (("name", "ontology_id"),)
 
     @overload
     def __init__(
@@ -1263,7 +1160,7 @@ class DevelopmentalStage(BioRegistry):
         super().__init__(*args, **kwargs)
 
 
-class Ethnicity(BioRegistry):
+class Ethnicity(BioRegistry, TracksRun, TracksUpdates):
     """Ethnicity - `Human Ancestry Ontology <https://github.com/EBISPOT/hancestro>`__.
 
     Notes:
@@ -1275,6 +1172,10 @@ class Ethnicity(BioRegistry):
         >>> record = bionty.Ethnicity.from_public(name="European")
         >>> record.save()
     """
+
+    class Meta(BioRegistry.Meta, TracksRun.Meta, TracksUpdates.Meta):
+        abstract = False
+        unique_together = (("name", "ontology_id"),)
 
     id = models.AutoField(primary_key=True)
     """Internal id, valid only in one DB instance."""
@@ -1306,20 +1207,6 @@ class Ethnicity(BioRegistry):
         related_name="ethnicities",
     )
     """Artifacts linked to the ethnicity."""
-    created_at = models.DateTimeField(auto_now_add=True, db_index=True)
-    """Time of creation of record."""
-    updated_at = models.DateTimeField(auto_now=True, db_index=True)
-    """Time of last update to record."""
-    created_by = models.ForeignKey(
-        User,
-        PROTECT,
-        default=current_user_id,
-        related_name="created_ethnicities",
-    )
-    """Creator of record, a :class:`~lamindb.User`."""
-
-    class Meta:
-        unique_together = (("name", "ontology_id"),)
 
     @overload
     def __init__(
@@ -1349,13 +1236,17 @@ class Ethnicity(BioRegistry):
         super().__init__(*args, **kwargs)
 
 
-class PublicSource(Registry):
+class PublicSource(Registry, TracksRun, TracksUpdates):
     """Versions of public ontologies.
 
     .. warning::
 
         Do not modify the records unless you know what you are doing!
     """
+
+    class Meta(BioRegistry.Meta, TracksRun.Meta, TracksUpdates.Meta):
+        abstract = False
+        unique_together = (("entity", "source", "organism", "version"),)
 
     id = models.AutoField(primary_key=True)
     """Internal id, valid only in one DB instance."""
@@ -1379,20 +1270,6 @@ class PublicSource(Registry):
     """Hash md5 of the source file."""
     source_website = models.TextField(null=True, default=None)
     """Website of the source."""
-    created_at = models.DateTimeField(auto_now_add=True, db_index=True)
-    """Time of creation of record."""
-    updated_at = models.DateTimeField(auto_now=True, db_index=True)
-    """Time of last update to record."""
-    created_by = models.ForeignKey(
-        User,
-        PROTECT,
-        default=current_user_id,
-        related_name="created_public_sources",
-    )
-    """Creator of record, a :class:`~lamindb.User`."""
-
-    class Meta:
-        unique_together = (("entity", "source", "organism", "version"),)
 
     @overload
     def __init__(
@@ -1482,7 +1359,7 @@ class FeatureSetPathway(Registry, LinkORM):
     pathway = models.ForeignKey("Pathway", PROTECT, related_name="+")
 
 
-class ArtifactOrganism(Registry, LinkORM):
+class ArtifactOrganism(Registry, LinkORM, TracksRun):
     id = models.BigAutoField(primary_key=True)
     artifact = models.ForeignKey(Artifact, CASCADE, related_name="organism_links")
     organism = models.ForeignKey("Organism", PROTECT, related_name="artifact_links")
@@ -1493,7 +1370,7 @@ class ArtifactOrganism(Registry, LinkORM):
     feature_ref_is_name = models.BooleanField(null=True, default=None)
 
 
-class ArtifactGene(Registry, LinkORM):
+class ArtifactGene(Registry, LinkORM, TracksRun):
     id = models.BigAutoField(primary_key=True)
     artifact = models.ForeignKey(Artifact, CASCADE, related_name="gene_links")
     gene = models.ForeignKey("Gene", PROTECT, related_name="artifact_links")
@@ -1504,7 +1381,7 @@ class ArtifactGene(Registry, LinkORM):
     feature_ref_is_symbol = models.BooleanField(null=True, default=None)
 
 
-class ArtifactProtein(Registry, LinkORM):
+class ArtifactProtein(Registry, LinkORM, TracksRun):
     id = models.BigAutoField(primary_key=True)
     artifact = models.ForeignKey(Artifact, CASCADE, related_name="protein_links")
     protein = models.ForeignKey("Protein", PROTECT, related_name="artifact_links")
@@ -1515,7 +1392,7 @@ class ArtifactProtein(Registry, LinkORM):
     feature_ref_is_name = models.BooleanField(null=True, default=None)
 
 
-class ArtifactCellMarker(Registry, LinkORM):
+class ArtifactCellMarker(Registry, LinkORM, TracksRun):
     id = models.BigAutoField(primary_key=True)
     artifact = models.ForeignKey(Artifact, CASCADE, related_name="cell_marker_links")
     # follow the .lower() convention in link models
@@ -1531,7 +1408,7 @@ class ArtifactCellMarker(Registry, LinkORM):
     feature_ref_is_name = models.BooleanField(null=True, default=None)
 
 
-class ArtifactTissue(Registry, LinkORM):
+class ArtifactTissue(Registry, LinkORM, TracksRun):
     id = models.BigAutoField(primary_key=True)
     artifact = models.ForeignKey(Artifact, CASCADE, related_name="tissue_links")
     tissue = models.ForeignKey("Tissue", PROTECT, related_name="artifact_links")
@@ -1542,7 +1419,7 @@ class ArtifactTissue(Registry, LinkORM):
     feature_ref_is_name = models.BooleanField(null=True, default=None)
 
 
-class ArtifactCellType(Registry, LinkORM):
+class ArtifactCellType(Registry, LinkORM, TracksRun):
     id = models.BigAutoField(primary_key=True)
     artifact = models.ForeignKey(Artifact, CASCADE, related_name="cell_type_links")
     # follow the .lower() convention in link models
@@ -1554,7 +1431,7 @@ class ArtifactCellType(Registry, LinkORM):
     feature_ref_is_name = models.BooleanField(null=True, default=None)
 
 
-class ArtifactDisease(Registry, LinkORM):
+class ArtifactDisease(Registry, LinkORM, TracksRun):
     id = models.BigAutoField(primary_key=True)
     artifact = models.ForeignKey(Artifact, CASCADE, related_name="disease_links")
     disease = models.ForeignKey("Disease", PROTECT, related_name="artifact_links")
@@ -1565,7 +1442,7 @@ class ArtifactDisease(Registry, LinkORM):
     feature_ref_is_name = models.BooleanField(null=True, default=None)
 
 
-class ArtifactCellLine(Registry, LinkORM):
+class ArtifactCellLine(Registry, LinkORM, TracksRun):
     id = models.BigAutoField(primary_key=True)
     artifact = models.ForeignKey(Artifact, CASCADE, related_name="cell_line_links")
     # follow the .lower() convention in link models
@@ -1577,7 +1454,7 @@ class ArtifactCellLine(Registry, LinkORM):
     feature_ref_is_name = models.BooleanField(null=True, default=None)
 
 
-class ArtifactPhenotype(Registry, LinkORM):
+class ArtifactPhenotype(Registry, LinkORM, TracksRun):
     id = models.BigAutoField(primary_key=True)
     artifact = models.ForeignKey(Artifact, CASCADE, related_name="phenotype_links")
     phenotype = models.ForeignKey("Phenotype", PROTECT, related_name="artifact_links")
@@ -1592,7 +1469,7 @@ class ArtifactPhenotype(Registry, LinkORM):
     feature_ref_is_name = models.BooleanField(null=True, default=None)
 
 
-class ArtifactPathway(Registry, LinkORM):
+class ArtifactPathway(Registry, LinkORM, TracksRun):
     id = models.BigAutoField(primary_key=True)
     artifact = models.ForeignKey(Artifact, CASCADE, related_name="pathway_links")
     pathway = models.ForeignKey("Pathway", PROTECT, related_name="artifact_links")
@@ -1603,7 +1480,7 @@ class ArtifactPathway(Registry, LinkORM):
     feature_ref_is_name = models.BooleanField(null=True, default=None)
 
 
-class ArtifactExperimentalFactor(Registry, LinkORM):
+class ArtifactExperimentalFactor(Registry, LinkORM, TracksRun):
     id = models.BigAutoField(primary_key=True)
     artifact = models.ForeignKey(
         Artifact, CASCADE, related_name="experimental_factor_links"
@@ -1622,7 +1499,7 @@ class ArtifactExperimentalFactor(Registry, LinkORM):
     feature_ref_is_name = models.BooleanField(null=True, default=None)
 
 
-class ArtifactDevelopmentalStage(Registry, LinkORM):
+class ArtifactDevelopmentalStage(Registry, LinkORM, TracksRun):
     id = models.BigAutoField(primary_key=True)
     artifact = models.ForeignKey(
         Artifact, CASCADE, related_name="developmental_stage_links"
@@ -1642,7 +1519,7 @@ class ArtifactDevelopmentalStage(Registry, LinkORM):
     feature_ref_is_name = models.BooleanField(null=True, default=None)
 
 
-class ArtifactEthnicity(Registry, LinkORM):
+class ArtifactEthnicity(Registry, LinkORM, TracksRun):
     id = models.BigAutoField(primary_key=True)
     artifact = models.ForeignKey(Artifact, CASCADE, related_name="ethnicity_links")
     ethnicity = models.ForeignKey("Ethnicity", PROTECT, related_name="artifact_links")
