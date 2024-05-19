@@ -18,15 +18,13 @@ from lnschema_core.models import (
     Registry,
     TracksRun,
     TracksUpdates,
-    User,
 )
-from lnschema_core.users import current_user_id
 
 from . import ids
 from ._bionty import encode_uid, lookup2kwargs
 
 
-class BioRegistry(Registry, HasParents, CanValidate, TracksRun, TracksUpdates):
+class BioRegistry(Registry, HasParents, CanValidate):
     """Base Registry of bionty.
 
     BioRegistry inherits all methods from :class:`~lamindb.core.Registry` and provides additional methods
@@ -242,7 +240,7 @@ class BioRegistry(Registry, HasParents, CanValidate, TracksRun, TracksUpdates):
             self._save_ontology_parents()
 
 
-class Organism(BioRegistry):
+class Organism(BioRegistry, TracksRun, TracksUpdates):
     """Organism - `NCBI Taxonomy <https://www.ncbi.nlm.nih.gov/taxonomy/>`__, `Ensembl Organism <https://useast.ensembl.org/info/about/species.html>`__.
 
     Notes:
@@ -252,6 +250,9 @@ class Organism(BioRegistry):
     Examples:
         >>> record = bionty.Organism.from_public(name="rabbit")
     """
+
+    class Meta(BioRegistry.Meta, TracksRun.Meta, TracksUpdates.Meta):
+        abstract = False
 
     id = models.AutoField(primary_key=True)
     """Internal id, valid only in one DB instance."""
@@ -301,7 +302,7 @@ class Organism(BioRegistry):
         super().__init__(*args, **kwargs)
 
 
-class Gene(BioRegistry):
+class Gene(BioRegistry, TracksRun, TracksUpdates):
     """Genes - `Ensembl <https://ensembl.org/>`__, `NCBI Gene <https://www.ncbi.nlm.nih.gov/gene/>`__.
 
     Notes:
@@ -312,6 +313,9 @@ class Gene(BioRegistry):
     Examples:
         >>> record = bionty.Gene.from_public(symbol="TCF7", organism="human")
     """
+
+    class Meta(BioRegistry.Meta, TracksRun.Meta, TracksUpdates.Meta):
+        abstract = False
 
     id = models.AutoField(primary_key=True)
     """Internal id, valid only in one DB instance."""
@@ -382,7 +386,7 @@ class Gene(BioRegistry):
         super().__init__(*args, **kwargs)
 
 
-class Protein(BioRegistry):
+class Protein(BioRegistry, TracksRun, TracksUpdates):
     """Proteins - `Uniprot <https://www.uniprot.org/>`__.
 
     Notes:
@@ -394,6 +398,9 @@ class Protein(BioRegistry):
         >>> record = bionty.Protein.from_public(name="Synaptotagmin-15B", organism="human")
         >>> record = bionty.Protein.from_public(gene_symbol="SYT15B", organism="human")
     """
+
+    class Meta(BioRegistry.Meta, TracksRun.Meta, TracksUpdates.Meta):
+        abstract = False
 
     id = models.AutoField(primary_key=True)
     """Internal id, valid only in one DB instance."""
@@ -461,7 +468,7 @@ class Protein(BioRegistry):
         super().__init__(*args, **kwargs)
 
 
-class CellMarker(BioRegistry):
+class CellMarker(BioRegistry, TracksRun, TracksUpdates):
     """Cell markers - `CellMarker <http://xteam.xbio.top/CellMarker>`__.
 
     Notes:
@@ -472,6 +479,9 @@ class CellMarker(BioRegistry):
     Examples:
         >>> record = bionty.CellMarker.from_public(name="PD1", organism="human")
     """
+
+    class Meta(BioRegistry.Meta, TracksRun.Meta, TracksUpdates.Meta):
+        abstract = False
 
     id = models.AutoField(primary_key=True)
     """Internal id, valid only in one DB instance."""
@@ -540,7 +550,7 @@ class CellMarker(BioRegistry):
         super().__init__(*args, **kwargs)
 
 
-class Tissue(BioRegistry):
+class Tissue(BioRegistry, TracksRun, TracksUpdates):
     """Tissues - `Uberon <http://obophenotype.github.io/uberon/>`__.
 
     Notes:
@@ -551,6 +561,10 @@ class Tissue(BioRegistry):
     Examples:
         >>> record = bionty.Tissue.from_public(name="brain")
     """
+
+    class Meta(BioRegistry.Meta, TracksRun.Meta, TracksUpdates.Meta):
+        abstract = False
+        unique_together = (("name", "ontology_id"),)
 
     id = models.AutoField(primary_key=True)
     """Internal id, valid only in one DB instance."""
@@ -581,9 +595,6 @@ class Tissue(BioRegistry):
     )
     """Artifacts linked to the tissue."""
 
-    class Meta:
-        unique_together = (("name", "ontology_id"),)
-
     @overload
     def __init__(
         self,
@@ -612,7 +623,7 @@ class Tissue(BioRegistry):
         super().__init__(*args, **kwargs)
 
 
-class CellType(BioRegistry):
+class CellType(BioRegistry, TracksRun, TracksUpdates):
     """Cell types - `Cell Ontology <https://obophenotype.github.io/cell-ontology/>`__.
 
     Notes:
@@ -623,6 +634,10 @@ class CellType(BioRegistry):
     Examples:
         >>> record = bionty.CellType.from_public(name="T cell")
     """
+
+    class Meta(BioRegistry.Meta, TracksRun.Meta, TracksUpdates.Meta):
+        abstract = False
+        unique_together = (("name", "ontology_id"),)
 
     id = models.AutoField(primary_key=True)
     """Internal id, valid only in one DB instance."""
@@ -653,9 +668,6 @@ class CellType(BioRegistry):
     )
     """Artifacts linked to the cell type."""
 
-    class Meta:
-        unique_together = (("name", "ontology_id"),)
-
     @overload
     def __init__(
         self,
@@ -684,7 +696,7 @@ class CellType(BioRegistry):
         super().__init__(*args, **kwargs)
 
 
-class Disease(BioRegistry):
+class Disease(BioRegistry, TracksRun, TracksUpdates):
     """Diseases - `Mondo <https://mondo.monarchinitiative.org/>`__, `Human Disease <https://disease-ontology.org/>`__.
 
     Notes:
@@ -695,6 +707,10 @@ class Disease(BioRegistry):
     Examples:
         >>> record = bionty.Disease.from_public(name="Alzheimer disease")
     """
+
+    class Meta(BioRegistry.Meta, TracksRun.Meta, TracksUpdates.Meta):
+        abstract = False
+        unique_together = (("name", "ontology_id"),)
 
     id = models.AutoField(primary_key=True)
     """Internal id, valid only in one DB instance."""
@@ -725,9 +741,6 @@ class Disease(BioRegistry):
     )
     """Artifacts linked to the disease."""
 
-    class Meta:
-        unique_together = (("name", "ontology_id"),)
-
     @overload
     def __init__(
         self,
@@ -756,7 +769,7 @@ class Disease(BioRegistry):
         super().__init__(*args, **kwargs)
 
 
-class CellLine(BioRegistry):
+class CellLine(BioRegistry, TracksRun, TracksUpdates):
     """Cell lines - `Cell Line Ontology <https://github.com/CLO-ontology/CLO>`__.
 
     Notes:
@@ -768,6 +781,10 @@ class CellLine(BioRegistry):
         >>> standard_name = bionty.CellLine.public().standardize(["K562"])[0]
         >>> record = bionty.CellLine.from_public(name=standard_name)
     """
+
+    class Meta(BioRegistry.Meta, TracksRun.Meta, TracksUpdates.Meta):
+        abstract = False
+        unique_together = (("name", "ontology_id"),)
 
     id = models.AutoField(primary_key=True)
     """Internal id, valid only in one DB instance."""
@@ -798,9 +815,6 @@ class CellLine(BioRegistry):
     )
     """Artifacts linked to the cell line."""
 
-    class Meta:
-        unique_together = (("name", "ontology_id"),)
-
     @overload
     def __init__(
         self,
@@ -829,7 +843,7 @@ class CellLine(BioRegistry):
         super().__init__(*args, **kwargs)
 
 
-class Phenotype(BioRegistry):
+class Phenotype(BioRegistry, TracksRun, TracksUpdates):
     """Phenotypes - `Human Phenotype <https://hpo.jax.org/app/>`__,
     `Phecodes <https://phewascatalog.org/phecodes_icd10>`__,
     `Mammalian Phenotype <http://obofoundry.org/ontology/mp.html>`__,
@@ -844,6 +858,10 @@ class Phenotype(BioRegistry):
         >>> record = bionty.Phenotype.from_public(name="Arachnodactyly")
         >>> record.save()
     """
+
+    class Meta(BioRegistry.Meta, TracksRun.Meta, TracksUpdates.Meta):
+        abstract = False
+        unique_together = (("name", "ontology_id"),)
 
     id = models.AutoField(primary_key=True)
     """Internal id, valid only in one DB instance."""
@@ -874,9 +892,6 @@ class Phenotype(BioRegistry):
     )
     """Artifacts linked to the phenotype."""
 
-    class Meta:
-        unique_together = (("name", "ontology_id"),)
-
     @overload
     def __init__(
         self,
@@ -905,7 +920,7 @@ class Phenotype(BioRegistry):
         super().__init__(*args, **kwargs)
 
 
-class Pathway(BioRegistry):
+class Pathway(BioRegistry, TracksRun, TracksUpdates):
     """Pathways - `Gene Ontology <https://bioportal.bioontology.org/ontologies/GO>`__,
     `Pathway Ontology <https://bioportal.bioontology.org/ontologies/PW>`__.
 
@@ -918,6 +933,10 @@ class Pathway(BioRegistry):
         >>> record = bionty.Pathway.from_public(ontology_id="GO:1903353")
         >>> record.save()
     """
+
+    class Meta(BioRegistry.Meta, TracksRun.Meta, TracksUpdates.Meta):
+        abstract = False
+        unique_together = (("name", "ontology_id"),)
 
     id = models.AutoField(primary_key=True)
     """Internal id, valid only in one DB instance."""
@@ -954,9 +973,6 @@ class Pathway(BioRegistry):
     )
     """Artifacts linked to the pathway."""
 
-    class Meta:
-        unique_together = (("name", "ontology_id"),)
-
     @overload
     def __init__(
         self,
@@ -985,7 +1001,7 @@ class Pathway(BioRegistry):
         super().__init__(*args, **kwargs)
 
 
-class ExperimentalFactor(BioRegistry):
+class ExperimentalFactor(BioRegistry, TracksRun, TracksUpdates):
     """Experimental factors - `Experimental Factor Ontology <https://www.ebi.ac.uk/ols/ontologies/efo>`__.
 
     Notes:
@@ -997,6 +1013,10 @@ class ExperimentalFactor(BioRegistry):
         >>> standard_name = bionty.ExperimentalFactor.public().standardize(["scRNA-seq"])
         >>> record = bionty.ExperimentalFactor.from_public(name=standard_name)
     """
+
+    class Meta(BioRegistry.Meta, TracksRun.Meta, TracksUpdates.Meta):
+        abstract = False
+        unique_together = (("name", "ontology_id"),)
 
     id = models.AutoField(primary_key=True)
     """Internal id, valid only in one DB instance."""
@@ -1035,9 +1055,6 @@ class ExperimentalFactor(BioRegistry):
     )
     """Artifacts linked to the experimental_factors."""
 
-    class Meta:
-        unique_together = (("name", "ontology_id"),)
-
     @overload
     def __init__(
         self,
@@ -1066,7 +1083,7 @@ class ExperimentalFactor(BioRegistry):
         super().__init__(*args, **kwargs)
 
 
-class DevelopmentalStage(BioRegistry):
+class DevelopmentalStage(BioRegistry, TracksRun, TracksUpdates):
     """Developmental stages - `Human Developmental Stages <https://github.com/obophenotype/developmental-stage-ontologies/wiki/HsapDv>`__,
     `Mouse Developmental Stages <https://github.com/obophenotype/developmental-stage-ontologies/wiki/MmusDv>`__.  # noqa.
 
@@ -1079,6 +1096,10 @@ class DevelopmentalStage(BioRegistry):
         >>> record = bionty.DevelopmentalStage.from_public(name="neurula stage")
         >>> record.save()
     """
+
+    class Meta(BioRegistry.Meta, TracksRun.Meta, TracksUpdates.Meta):
+        abstract = False
+        unique_together = (("name", "ontology_id"),)
 
     id = models.AutoField(primary_key=True)
     """Internal id, valid only in one DB instance."""
@@ -1111,9 +1132,6 @@ class DevelopmentalStage(BioRegistry):
     )
     """Artifacts linked to the developmental stage."""
 
-    class Meta:
-        unique_together = (("name", "ontology_id"),)
-
     @overload
     def __init__(
         self,
@@ -1142,7 +1160,7 @@ class DevelopmentalStage(BioRegistry):
         super().__init__(*args, **kwargs)
 
 
-class Ethnicity(BioRegistry):
+class Ethnicity(BioRegistry, TracksRun, TracksUpdates):
     """Ethnicity - `Human Ancestry Ontology <https://github.com/EBISPOT/hancestro>`__.
 
     Notes:
@@ -1154,6 +1172,10 @@ class Ethnicity(BioRegistry):
         >>> record = bionty.Ethnicity.from_public(name="European")
         >>> record.save()
     """
+
+    class Meta(BioRegistry.Meta, TracksRun.Meta, TracksUpdates.Meta):
+        abstract = False
+        unique_together = (("name", "ontology_id"),)
 
     id = models.AutoField(primary_key=True)
     """Internal id, valid only in one DB instance."""
@@ -1185,9 +1207,6 @@ class Ethnicity(BioRegistry):
         related_name="ethnicities",
     )
     """Artifacts linked to the ethnicity."""
-
-    class Meta:
-        unique_together = (("name", "ontology_id"),)
 
     @overload
     def __init__(
@@ -1225,6 +1244,10 @@ class PublicSource(Registry, TracksRun, TracksUpdates):
         Do not modify the records unless you know what you are doing!
     """
 
+    class Meta(BioRegistry.Meta, TracksRun.Meta, TracksUpdates.Meta):
+        abstract = False
+        unique_together = (("entity", "source", "organism", "version"),)
+
     id = models.AutoField(primary_key=True)
     """Internal id, valid only in one DB instance."""
     uid = models.CharField(unique=True, max_length=8, default=ids.publicsource)
@@ -1247,9 +1270,6 @@ class PublicSource(Registry, TracksRun, TracksUpdates):
     """Hash md5 of the source file."""
     source_website = models.TextField(null=True, default=None)
     """Website of the source."""
-
-    class Meta:
-        unique_together = (("entity", "source", "organism", "version"),)
 
     @overload
     def __init__(
