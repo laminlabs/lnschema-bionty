@@ -3,7 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
-🐛 Fix clashing reverse accessors between `.previous_runs` and `.run` | [249](https://github.com/laminlabs/lnschema-bionty/pull/249) | [falexwolf](https://github.com/falexwolf) | 2024-06-13 |
+🐛 Fix clashing reverse accessors between `.previous_runs` and `.run` | [249](https://github.com/laminlabs/lnschema-bionty/pull/249) | [falexwolf](https://github.com/falexwolf) | 2024-06-13 | 0.43.0
 ♻️ Reformulate data lineage, remove json field from run | [247](https://github.com/laminlabs/lnschema-bionty/pull/247) | [falexwolf](https://github.com/falexwolf) | 2024-05-19 | 0.42.0
 ♻️ Protect gene, protein, cell_marker & pathway in their FeatureSet relationships | [246](https://github.com/laminlabs/lnschema-bionty/pull/246) | [falexwolf](https://github.com/falexwolf) | 2024-05-18 |
 🏗️ Naming conventions for link tables, protecting deletion in link tables, maintaining integrity upon label & feature renames | [245](https://github.com/laminlabs/lnschema-bionty/pull/245) | [falexwolf](https://github.com/falexwolf) | 2024-05-18 |
