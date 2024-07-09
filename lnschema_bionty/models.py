@@ -1366,7 +1366,7 @@ class ArtifactOrganism(Registry, LinkORM, TracksRun):
     feature = models.ForeignKey(
         Feature, PROTECT, null=True, default=None, related_name="artifactorganism_links"
     )
-    organism_ref_is_name = models.BooleanField(null=True, default=None)
+    label_ref_is_name = models.BooleanField(null=True, default=None)
     feature_ref_is_name = models.BooleanField(null=True, default=None)
 
 
@@ -1377,7 +1377,7 @@ class ArtifactGene(Registry, LinkORM, TracksRun):
     feature = models.ForeignKey(
         Feature, PROTECT, null=True, default=None, related_name="artifactgene_links"
     )
-    gene_ref_is_symbol = models.BooleanField(null=True, default=None)
+    label_ref_is_name = models.BooleanField(null=True, default=None)
     feature_ref_is_symbol = models.BooleanField(null=True, default=None)
 
 
@@ -1388,7 +1388,7 @@ class ArtifactProtein(Registry, LinkORM, TracksRun):
     feature = models.ForeignKey(
         Feature, PROTECT, null=True, default=None, related_name="artifactprotein_links"
     )
-    protein_ref_is_name = models.BooleanField(null=True, default=None)
+    label_ref_is_name = models.BooleanField(null=True, default=None)
     feature_ref_is_name = models.BooleanField(null=True, default=None)
 
 
@@ -1404,7 +1404,7 @@ class ArtifactCellMarker(Registry, LinkORM, TracksRun):
         default=None,
         related_name="artifactcellmarker_links",
     )
-    cell_marker_ref_is_name = models.BooleanField(null=True, default=None)
+    label_ref_is_name = models.BooleanField(null=True, default=None)
     feature_ref_is_name = models.BooleanField(null=True, default=None)
 
 
@@ -1415,7 +1415,7 @@ class ArtifactTissue(Registry, LinkORM, TracksRun):
     feature = models.ForeignKey(
         Feature, PROTECT, null=True, default=None, related_name="artifacttissue_links"
     )
-    tissue_ref_is_name = models.BooleanField(null=True, default=None)
+    label_ref_is_name = models.BooleanField(null=True, default=None)
     feature_ref_is_name = models.BooleanField(null=True, default=None)
 
 
@@ -1427,7 +1427,7 @@ class ArtifactCellType(Registry, LinkORM, TracksRun):
     feature = models.ForeignKey(
         Feature, PROTECT, null=True, default=None, related_name="artifactcelltype_links"
     )
-    cell_type_ref_is_name = models.BooleanField(null=True, default=None)
+    label_ref_is_name = models.BooleanField(null=True, default=None)
     feature_ref_is_name = models.BooleanField(null=True, default=None)
 
 
@@ -1438,7 +1438,7 @@ class ArtifactDisease(Registry, LinkORM, TracksRun):
     feature = models.ForeignKey(
         Feature, PROTECT, null=True, default=None, related_name="artifactdisease_links"
     )
-    disease_ref_is_name = models.BooleanField(null=True, default=None)
+    label_ref_is_name = models.BooleanField(null=True, default=None)
     feature_ref_is_name = models.BooleanField(null=True, default=None)
 
 
@@ -1450,7 +1450,7 @@ class ArtifactCellLine(Registry, LinkORM, TracksRun):
     feature = models.ForeignKey(
         Feature, PROTECT, null=True, default=None, related_name="artifactcellline_links"
     )
-    cell_line_ref_is_name = models.BooleanField(null=True, default=None)
+    label_ref_is_name = models.BooleanField(null=True, default=None)
     feature_ref_is_name = models.BooleanField(null=True, default=None)
 
 
@@ -1465,7 +1465,7 @@ class ArtifactPhenotype(Registry, LinkORM, TracksRun):
         default=None,
         related_name="artifactphenotype_links",
     )
-    phenotype_ref_is_name = models.BooleanField(null=True, default=None)
+    label_ref_is_name = models.BooleanField(null=True, default=None)
     feature_ref_is_name = models.BooleanField(null=True, default=None)
 
 
@@ -1476,7 +1476,7 @@ class ArtifactPathway(Registry, LinkORM, TracksRun):
     feature = models.ForeignKey(
         Feature, PROTECT, null=True, default=None, related_name="artifactpathway_links"
     )
-    pathway_ref_is_name = models.BooleanField(null=True, default=None)
+    label_ref_is_name = models.BooleanField(null=True, default=None)
     feature_ref_is_name = models.BooleanField(null=True, default=None)
 
 
@@ -1485,7 +1485,7 @@ class ArtifactExperimentalFactor(Registry, LinkORM, TracksRun):
     artifact = models.ForeignKey(
         Artifact, CASCADE, related_name="experimental_factor_links"
     )
-    experimental_factor = models.ForeignKey(
+    experimentalfactor = models.ForeignKey(
         "ExperimentalFactor", PROTECT, related_name="artifact_links"
     )
     feature = models.ForeignKey(
@@ -1495,7 +1495,7 @@ class ArtifactExperimentalFactor(Registry, LinkORM, TracksRun):
         default=None,
         related_name="artifactexperimentalfactor_links",
     )
-    experimental_factor_ref_is_name = models.BooleanField(null=True, default=None)
+    label_ref_is_name = models.BooleanField(null=True, default=None)
     feature_ref_is_name = models.BooleanField(null=True, default=None)
 
 
@@ -1515,7 +1515,7 @@ class ArtifactDevelopmentalStage(Registry, LinkORM, TracksRun):
         default=None,
         related_name="artifactdevelopmentalstage_links",
     )
-    developmental_stage_ref_is_name = models.BooleanField(null=True, default=None)
+    label_ref_is_name = models.BooleanField(null=True, default=None)
     feature_ref_is_name = models.BooleanField(null=True, default=None)
 
 
@@ -1530,5 +1530,5 @@ class ArtifactEthnicity(Registry, LinkORM, TracksRun):
         default=None,
         related_name="artifactethnicity_links",
     )
-    ethnicity_ref_is_name = models.BooleanField(null=True, default=None)
+    label_ref_is_name = models.BooleanField(null=True, default=None)
     feature_ref_is_name = models.BooleanField(null=True, default=None)
