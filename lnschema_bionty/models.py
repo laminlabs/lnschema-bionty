@@ -254,6 +254,8 @@ class Organism(BioRegistry, TracksRun, TracksUpdates):
     class Meta(BioRegistry.Meta, TracksRun.Meta, TracksUpdates.Meta):
         abstract = False
 
+    _name_field: str = "name"
+
     id = models.AutoField(primary_key=True)
     """Internal id, valid only in one DB instance."""
     uid = models.CharField(unique=True, max_length=8, default=ids.ontology)
@@ -316,6 +318,8 @@ class Gene(BioRegistry, TracksRun, TracksUpdates):
 
     class Meta(BioRegistry.Meta, TracksRun.Meta, TracksUpdates.Meta):
         abstract = False
+
+    _name_field: str = "symbol"
 
     id = models.AutoField(primary_key=True)
     """Internal id, valid only in one DB instance."""
@@ -402,6 +406,8 @@ class Protein(BioRegistry, TracksRun, TracksUpdates):
     class Meta(BioRegistry.Meta, TracksRun.Meta, TracksUpdates.Meta):
         abstract = False
 
+    _name_field: str = "name"
+
     id = models.AutoField(primary_key=True)
     """Internal id, valid only in one DB instance."""
     uid = models.CharField(unique=True, max_length=12, default=ids.protein)
@@ -482,6 +488,8 @@ class CellMarker(BioRegistry, TracksRun, TracksUpdates):
 
     class Meta(BioRegistry.Meta, TracksRun.Meta, TracksUpdates.Meta):
         abstract = False
+
+    _name_field: str = "name"
 
     id = models.AutoField(primary_key=True)
     """Internal id, valid only in one DB instance."""
@@ -566,6 +574,8 @@ class Tissue(BioRegistry, TracksRun, TracksUpdates):
         abstract = False
         unique_together = (("name", "ontology_id"),)
 
+    _name_field: str = "name"
+
     id = models.AutoField(primary_key=True)
     """Internal id, valid only in one DB instance."""
     uid = models.CharField(unique=True, max_length=8, default=ids.ontology)
@@ -638,6 +648,8 @@ class CellType(BioRegistry, TracksRun, TracksUpdates):
     class Meta(BioRegistry.Meta, TracksRun.Meta, TracksUpdates.Meta):
         abstract = False
         unique_together = (("name", "ontology_id"),)
+
+    _name_field: str = "name"
 
     id = models.AutoField(primary_key=True)
     """Internal id, valid only in one DB instance."""
@@ -712,6 +724,8 @@ class Disease(BioRegistry, TracksRun, TracksUpdates):
         abstract = False
         unique_together = (("name", "ontology_id"),)
 
+    _name_field: str = "name"
+
     id = models.AutoField(primary_key=True)
     """Internal id, valid only in one DB instance."""
     uid = models.CharField(unique=True, max_length=8, default=ids.ontology)
@@ -785,6 +799,8 @@ class CellLine(BioRegistry, TracksRun, TracksUpdates):
     class Meta(BioRegistry.Meta, TracksRun.Meta, TracksUpdates.Meta):
         abstract = False
         unique_together = (("name", "ontology_id"),)
+
+    _name_field: str = "name"
 
     id = models.AutoField(primary_key=True)
     """Internal id, valid only in one DB instance."""
@@ -863,6 +879,8 @@ class Phenotype(BioRegistry, TracksRun, TracksUpdates):
         abstract = False
         unique_together = (("name", "ontology_id"),)
 
+    _name_field: str = "name"
+
     id = models.AutoField(primary_key=True)
     """Internal id, valid only in one DB instance."""
     uid = models.CharField(unique=True, max_length=8, default=ids.ontology)
@@ -937,6 +955,8 @@ class Pathway(BioRegistry, TracksRun, TracksUpdates):
     class Meta(BioRegistry.Meta, TracksRun.Meta, TracksUpdates.Meta):
         abstract = False
         unique_together = (("name", "ontology_id"),)
+
+    _name_field: str = "name"
 
     id = models.AutoField(primary_key=True)
     """Internal id, valid only in one DB instance."""
@@ -1017,6 +1037,8 @@ class ExperimentalFactor(BioRegistry, TracksRun, TracksUpdates):
     class Meta(BioRegistry.Meta, TracksRun.Meta, TracksUpdates.Meta):
         abstract = False
         unique_together = (("name", "ontology_id"),)
+
+    _name_field: str = "name"
 
     id = models.AutoField(primary_key=True)
     """Internal id, valid only in one DB instance."""
@@ -1101,6 +1123,8 @@ class DevelopmentalStage(BioRegistry, TracksRun, TracksUpdates):
         abstract = False
         unique_together = (("name", "ontology_id"),)
 
+    _name_field: str = "name"
+
     id = models.AutoField(primary_key=True)
     """Internal id, valid only in one DB instance."""
     uid = models.CharField(unique=True, max_length=8, default=ids.ontology)
@@ -1177,6 +1201,8 @@ class Ethnicity(BioRegistry, TracksRun, TracksUpdates):
         abstract = False
         unique_together = (("name", "ontology_id"),)
 
+    _name_field: str = "name"
+
     id = models.AutoField(primary_key=True)
     """Internal id, valid only in one DB instance."""
     uid = models.CharField(unique=True, max_length=8, default=ids.ontology)
@@ -1247,6 +1273,8 @@ class PublicSource(Registry, TracksRun, TracksUpdates):
     class Meta(BioRegistry.Meta, TracksRun.Meta, TracksUpdates.Meta):
         abstract = False
         unique_together = (("entity", "source", "organism", "version"),)
+
+    _name_field: str = "source"
 
     id = models.AutoField(primary_key=True)
     """Internal id, valid only in one DB instance."""
