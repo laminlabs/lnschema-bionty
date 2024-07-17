@@ -3,15 +3,15 @@ from __future__ import annotations
 import bionty_base
 from django.core.exceptions import ObjectDoesNotExist
 from lamin_utils import logger
-from lnschema_core.models import Registry
+from lnschema_core.models import Record
 
 from . import ids
 
 
 def create_or_get_organism_record(
-    organism: str | Registry | None, orm: Registry
-) -> Registry | None:
-    # return None if an Registry doesn't have organism field
+    organism: str | Record | None, orm: Record
+) -> Record | None:
+    # return None if an Record doesn't have organism field
     organism_record = None
     if hasattr(orm, "organism_id"):
         # using global setting of organism
@@ -21,7 +21,7 @@ def create_or_get_organism_record(
             logger.debug(f"using global setting organism = {settings.organism.name}")
             return settings.organism
 
-        if isinstance(organism, Registry):
+        if isinstance(organism, Record):
             organism_record = organism
         elif isinstance(organism, str):
             from lnschema_bionty import Organism
@@ -63,7 +63,7 @@ def get_public_source_record(public_ontology: bionty_base.PublicOntology):
     return source_record
 
 
-def encode_uid(orm: Registry, kwargs: dict):
+def encode_uid(orm: Record, kwargs: dict):
     if kwargs.get("uid") is not None:
         # if uid is passed, no encoding is needed
         return kwargs
@@ -113,7 +113,7 @@ def encode_uid(orm: Registry, kwargs: dict):
     return kwargs
 
 
-def lookup2kwargs(orm: Registry, *args, **kwargs) -> dict:
+def lookup2kwargs(orm: Record, *args, **kwargs) -> dict:
     """Pass bionty search/lookup results."""
     arg = args[0]
     if isinstance(arg, tuple):
