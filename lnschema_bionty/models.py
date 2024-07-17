@@ -15,7 +15,7 @@ from lnschema_core.models import (
     FeatureSet,
     HasParents,
     LinkORM,
-    Registry,
+    Record,
     TracksRun,
     TracksUpdates,
 )
@@ -24,11 +24,11 @@ from . import ids
 from ._bionty import encode_uid, lookup2kwargs
 
 
-class BioRegistry(Registry, HasParents, CanValidate):
-    """Base Registry of bionty.
+class BioRecord(Record, HasParents, CanValidate):
+    """Base Record of bionty.
 
-    BioRegistry inherits all methods from :class:`~lamindb.core.Registry` and provides additional methods
-    including :meth:`~bionty.core.BioRegistry.public` and :meth:`~bionty.core.BioRegistry.from_public`.
+    BioRecord inherits all methods from :class:`~lamindb.core.Record` and provides additional methods
+    including :meth:`~bionty.core.BioRecord.public` and :meth:`~bionty.core.BioRecord.from_public`.
 
     Notes:
         For more info, see tutorials:
@@ -120,7 +120,7 @@ class BioRegistry(Registry, HasParents, CanValidate):
     @classmethod
     def public(
         cls,
-        organism: str | Registry | None = None,
+        organism: str | Record | None = None,
         public_source: PublicSource | None = None,
         **kwargs,
     ) -> PublicOntology:
@@ -167,13 +167,13 @@ class BioRegistry(Registry, HasParents, CanValidate):
     @classmethod
     def from_public(
         cls, *, mute: bool = False, **kwargs
-    ) -> BioRegistry | list[BioRegistry] | None:
+    ) -> BioRecord | list[BioRecord] | None:
         """Create a record or records from public reference based on a single field value.
 
         Notes:
             For more info, see tutorial :doc:`/bionty`
 
-            Bulk create protein records via :class:`~lamindb.core.Registry.from_values`.
+            Bulk create protein records via :class:`~lamindb.core.Record.from_values`.
 
         Examples:
             Create a record by passing a field value:
@@ -240,7 +240,7 @@ class BioRegistry(Registry, HasParents, CanValidate):
             self._save_ontology_parents()
 
 
-class Organism(BioRegistry, TracksRun, TracksUpdates):
+class Organism(BioRecord, TracksRun, TracksUpdates):
     """Organism - `NCBI Taxonomy <https://www.ncbi.nlm.nih.gov/taxonomy/>`__, `Ensembl Organism <https://useast.ensembl.org/info/about/species.html>`__.
 
     Notes:
@@ -251,7 +251,7 @@ class Organism(BioRegistry, TracksRun, TracksUpdates):
         >>> record = bionty.Organism.from_public(name="rabbit")
     """
 
-    class Meta(BioRegistry.Meta, TracksRun.Meta, TracksUpdates.Meta):
+    class Meta(BioRecord.Meta, TracksRun.Meta, TracksUpdates.Meta):
         abstract = False
 
     id = models.AutoField(primary_key=True)
@@ -302,19 +302,19 @@ class Organism(BioRegistry, TracksRun, TracksUpdates):
         super().__init__(*args, **kwargs)
 
 
-class Gene(BioRegistry, TracksRun, TracksUpdates):
+class Gene(BioRecord, TracksRun, TracksUpdates):
     """Genes - `Ensembl <https://ensembl.org/>`__, `NCBI Gene <https://www.ncbi.nlm.nih.gov/gene/>`__.
 
     Notes:
         For more info, see tutorials :doc:`bio-registries` and :doc:`docs:gene`.
 
-        Bulk create Gene records via :class:`~lamindb.core.Registry.from_values`.
+        Bulk create Gene records via :class:`~lamindb.core.Record.from_values`.
 
     Examples:
         >>> record = bionty.Gene.from_public(symbol="TCF7", organism="human")
     """
 
-    class Meta(BioRegistry.Meta, TracksRun.Meta, TracksUpdates.Meta):
+    class Meta(BioRecord.Meta, TracksRun.Meta, TracksUpdates.Meta):
         abstract = False
 
     id = models.AutoField(primary_key=True)
@@ -386,20 +386,20 @@ class Gene(BioRegistry, TracksRun, TracksUpdates):
         super().__init__(*args, **kwargs)
 
 
-class Protein(BioRegistry, TracksRun, TracksUpdates):
+class Protein(BioRecord, TracksRun, TracksUpdates):
     """Proteins - `Uniprot <https://www.uniprot.org/>`__.
 
     Notes:
         For more info, see tutorials :doc:`bio-registries` and :doc:`docs:protein`.
 
-        Bulk create Protein records via :class:`~lamindb.core.Registry.from_values`.
+        Bulk create Protein records via :class:`~lamindb.core.Record.from_values`.
 
     Examples:
         >>> record = bionty.Protein.from_public(name="Synaptotagmin-15B", organism="human")
         >>> record = bionty.Protein.from_public(gene_symbol="SYT15B", organism="human")
     """
 
-    class Meta(BioRegistry.Meta, TracksRun.Meta, TracksUpdates.Meta):
+    class Meta(BioRecord.Meta, TracksRun.Meta, TracksUpdates.Meta):
         abstract = False
 
     id = models.AutoField(primary_key=True)
@@ -468,19 +468,19 @@ class Protein(BioRegistry, TracksRun, TracksUpdates):
         super().__init__(*args, **kwargs)
 
 
-class CellMarker(BioRegistry, TracksRun, TracksUpdates):
+class CellMarker(BioRecord, TracksRun, TracksUpdates):
     """Cell markers - `CellMarker <http://xteam.xbio.top/CellMarker>`__.
 
     Notes:
         For more info, see tutorials :doc:`bio-registries` and :doc:`docs:cell_marker`.
 
-        Bulk create CellMarker records via :class:`~lamindb.core.Registry.from_values`.
+        Bulk create CellMarker records via :class:`~lamindb.core.Record.from_values`.
 
     Examples:
         >>> record = bionty.CellMarker.from_public(name="PD1", organism="human")
     """
 
-    class Meta(BioRegistry.Meta, TracksRun.Meta, TracksUpdates.Meta):
+    class Meta(BioRecord.Meta, TracksRun.Meta, TracksUpdates.Meta):
         abstract = False
 
     id = models.AutoField(primary_key=True)
@@ -550,19 +550,19 @@ class CellMarker(BioRegistry, TracksRun, TracksUpdates):
         super().__init__(*args, **kwargs)
 
 
-class Tissue(BioRegistry, TracksRun, TracksUpdates):
+class Tissue(BioRecord, TracksRun, TracksUpdates):
     """Tissues - `Uberon <http://obophenotype.github.io/uberon/>`__.
 
     Notes:
         For more info, see tutorials :doc:`bio-registries` :doc:`docs:tissue`.
 
-        Bulk create Tissue records via :class:`~lamindb.core.Registry.from_values`.
+        Bulk create Tissue records via :class:`~lamindb.core.Record.from_values`.
 
     Examples:
         >>> record = bionty.Tissue.from_public(name="brain")
     """
 
-    class Meta(BioRegistry.Meta, TracksRun.Meta, TracksUpdates.Meta):
+    class Meta(BioRecord.Meta, TracksRun.Meta, TracksUpdates.Meta):
         abstract = False
         unique_together = (("name", "ontology_id"),)
 
@@ -623,19 +623,19 @@ class Tissue(BioRegistry, TracksRun, TracksUpdates):
         super().__init__(*args, **kwargs)
 
 
-class CellType(BioRegistry, TracksRun, TracksUpdates):
+class CellType(BioRecord, TracksRun, TracksUpdates):
     """Cell types - `Cell Ontology <https://obophenotype.github.io/cell-ontology/>`__.
 
     Notes:
         For more info, see tutorials :doc:`bio-registries` and :doc:`docs:cell_type`.
 
-        Bulk create CellType records via :class:`~lamindb.core.Registry.from_values`.
+        Bulk create CellType records via :class:`~lamindb.core.Record.from_values`.
 
     Examples:
         >>> record = bionty.CellType.from_public(name="T cell")
     """
 
-    class Meta(BioRegistry.Meta, TracksRun.Meta, TracksUpdates.Meta):
+    class Meta(BioRecord.Meta, TracksRun.Meta, TracksUpdates.Meta):
         abstract = False
         unique_together = (("name", "ontology_id"),)
 
@@ -696,11 +696,11 @@ class CellType(BioRegistry, TracksRun, TracksUpdates):
         super().__init__(*args, **kwargs)
 
 
-class Disease(BioRegistry, TracksRun, TracksUpdates):
+class Disease(BioRecord, TracksRun, TracksUpdates):
     """Diseases - `Mondo <https://mondo.monarchinitiative.org/>`__, `Human Disease <https://disease-ontology.org/>`__.
 
     Notes:
-        Bulk create Disease records via :class:`~lamindb.core.Registry.from_values`.
+        Bulk create Disease records via :class:`~lamindb.core.Record.from_values`.
 
         For more info, see tutorials: :doc:`docs:disease`.
 
@@ -708,7 +708,7 @@ class Disease(BioRegistry, TracksRun, TracksUpdates):
         >>> record = bionty.Disease.from_public(name="Alzheimer disease")
     """
 
-    class Meta(BioRegistry.Meta, TracksRun.Meta, TracksUpdates.Meta):
+    class Meta(BioRecord.Meta, TracksRun.Meta, TracksUpdates.Meta):
         abstract = False
         unique_together = (("name", "ontology_id"),)
 
@@ -769,20 +769,20 @@ class Disease(BioRegistry, TracksRun, TracksUpdates):
         super().__init__(*args, **kwargs)
 
 
-class CellLine(BioRegistry, TracksRun, TracksUpdates):
+class CellLine(BioRecord, TracksRun, TracksUpdates):
     """Cell lines - `Cell Line Ontology <https://github.com/CLO-ontology/CLO>`__.
 
     Notes:
         For more info, see tutorials :doc:`bio-registries` and :doc:`docs:cell_line`.
 
-        Bulk create CellLine records via :class:`~lamindb.core.Registry.from_values`.
+        Bulk create CellLine records via :class:`~lamindb.core.Record.from_values`.
 
     Examples:
         >>> standard_name = bionty.CellLine.public().standardize(["K562"])[0]
         >>> record = bionty.CellLine.from_public(name=standard_name)
     """
 
-    class Meta(BioRegistry.Meta, TracksRun.Meta, TracksUpdates.Meta):
+    class Meta(BioRecord.Meta, TracksRun.Meta, TracksUpdates.Meta):
         abstract = False
         unique_together = (("name", "ontology_id"),)
 
@@ -843,7 +843,7 @@ class CellLine(BioRegistry, TracksRun, TracksUpdates):
         super().__init__(*args, **kwargs)
 
 
-class Phenotype(BioRegistry, TracksRun, TracksUpdates):
+class Phenotype(BioRecord, TracksRun, TracksUpdates):
     """Phenotypes - `Human Phenotype <https://hpo.jax.org/app/>`__,
     `Phecodes <https://phewascatalog.org/phecodes_icd10>`__,
     `Mammalian Phenotype <http://obofoundry.org/ontology/mp.html>`__,
@@ -852,14 +852,14 @@ class Phenotype(BioRegistry, TracksRun, TracksUpdates):
     Notes:
         For more info, see tutorials :doc:`bio-registries` and :doc:`docs:phenotype`.
 
-        Bulk create Phenotype records via :class:`~lamindb.core.Registry.from_values`.
+        Bulk create Phenotype records via :class:`~lamindb.core.Record.from_values`.
 
     Examples:
         >>> record = bionty.Phenotype.from_public(name="Arachnodactyly")
         >>> record.save()
     """
 
-    class Meta(BioRegistry.Meta, TracksRun.Meta, TracksUpdates.Meta):
+    class Meta(BioRecord.Meta, TracksRun.Meta, TracksUpdates.Meta):
         abstract = False
         unique_together = (("name", "ontology_id"),)
 
@@ -920,21 +920,21 @@ class Phenotype(BioRegistry, TracksRun, TracksUpdates):
         super().__init__(*args, **kwargs)
 
 
-class Pathway(BioRegistry, TracksRun, TracksUpdates):
+class Pathway(BioRecord, TracksRun, TracksUpdates):
     """Pathways - `Gene Ontology <https://bioportal.bioontology.org/ontologies/GO>`__,
     `Pathway Ontology <https://bioportal.bioontology.org/ontologies/PW>`__.
 
     Notes:
         For more info, see tutorials :doc:`bio-registries` and :doc:`docs:pathway`.
 
-        Bulk create Pathway records via :class:`~lamindb.core.Registry.from_values`.
+        Bulk create Pathway records via :class:`~lamindb.core.Record.from_values`.
 
     Examples:
         >>> record = bionty.Pathway.from_public(ontology_id="GO:1903353")
         >>> record.save()
     """
 
-    class Meta(BioRegistry.Meta, TracksRun.Meta, TracksUpdates.Meta):
+    class Meta(BioRecord.Meta, TracksRun.Meta, TracksUpdates.Meta):
         abstract = False
         unique_together = (("name", "ontology_id"),)
 
@@ -1001,20 +1001,20 @@ class Pathway(BioRegistry, TracksRun, TracksUpdates):
         super().__init__(*args, **kwargs)
 
 
-class ExperimentalFactor(BioRegistry, TracksRun, TracksUpdates):
+class ExperimentalFactor(BioRecord, TracksRun, TracksUpdates):
     """Experimental factors - `Experimental Factor Ontology <https://www.ebi.ac.uk/ols/ontologies/efo>`__.
 
     Notes:
         For more info, see tutorials :doc:`bio-registries` and :doc:`docs:experimental_factor`.
 
-        Bulk create ExperimentalFactor records via :class:`~lamindb.core.Registry.from_values`.
+        Bulk create ExperimentalFactor records via :class:`~lamindb.core.Record.from_values`.
 
     Examples:
         >>> standard_name = bionty.ExperimentalFactor.public().standardize(["scRNA-seq"])
         >>> record = bionty.ExperimentalFactor.from_public(name=standard_name)
     """
 
-    class Meta(BioRegistry.Meta, TracksRun.Meta, TracksUpdates.Meta):
+    class Meta(BioRecord.Meta, TracksRun.Meta, TracksUpdates.Meta):
         abstract = False
         unique_together = (("name", "ontology_id"),)
 
@@ -1083,21 +1083,21 @@ class ExperimentalFactor(BioRegistry, TracksRun, TracksUpdates):
         super().__init__(*args, **kwargs)
 
 
-class DevelopmentalStage(BioRegistry, TracksRun, TracksUpdates):
+class DevelopmentalStage(BioRecord, TracksRun, TracksUpdates):
     """Developmental stages - `Human Developmental Stages <https://github.com/obophenotype/developmental-stage-ontologies/wiki/HsapDv>`__,
     `Mouse Developmental Stages <https://github.com/obophenotype/developmental-stage-ontologies/wiki/MmusDv>`__.  # noqa.
 
     Notes:
         For more info, see tutorials :doc:`bio-registries` and :doc:`docs:developmental_stage`.
 
-        Bulk create DevelopmentalStage records via :class:`~lamindb.core.Registry.from_values`.
+        Bulk create DevelopmentalStage records via :class:`~lamindb.core.Record.from_values`.
 
     Examples:
         >>> record = bionty.DevelopmentalStage.from_public(name="neurula stage")
         >>> record.save()
     """
 
-    class Meta(BioRegistry.Meta, TracksRun.Meta, TracksUpdates.Meta):
+    class Meta(BioRecord.Meta, TracksRun.Meta, TracksUpdates.Meta):
         abstract = False
         unique_together = (("name", "ontology_id"),)
 
@@ -1160,20 +1160,20 @@ class DevelopmentalStage(BioRegistry, TracksRun, TracksUpdates):
         super().__init__(*args, **kwargs)
 
 
-class Ethnicity(BioRegistry, TracksRun, TracksUpdates):
+class Ethnicity(BioRecord, TracksRun, TracksUpdates):
     """Ethnicity - `Human Ancestry Ontology <https://github.com/EBISPOT/hancestro>`__.
 
     Notes:
         For more info, see tutorials :doc:`bio-registries` and :doc:`docs:ethnicity`.
 
-        Bulk create Ethnicity records via :class:`~lamindb.core.Registry.from_values`.
+        Bulk create Ethnicity records via :class:`~lamindb.core.Record.from_values`.
 
     Examples:
         >>> record = bionty.Ethnicity.from_public(name="European")
         >>> record.save()
     """
 
-    class Meta(BioRegistry.Meta, TracksRun.Meta, TracksUpdates.Meta):
+    class Meta(BioRecord.Meta, TracksRun.Meta, TracksUpdates.Meta):
         abstract = False
         unique_together = (("name", "ontology_id"),)
 
@@ -1236,7 +1236,7 @@ class Ethnicity(BioRegistry, TracksRun, TracksUpdates):
         super().__init__(*args, **kwargs)
 
 
-class PublicSource(Registry, TracksRun, TracksUpdates):
+class PublicSource(Record, TracksRun, TracksUpdates):
     """Versions of public ontologies.
 
     .. warning::
@@ -1244,7 +1244,7 @@ class PublicSource(Registry, TracksRun, TracksUpdates):
         Do not modify the records unless you know what you are doing!
     """
 
-    class Meta(BioRegistry.Meta, TracksRun.Meta, TracksUpdates.Meta):
+    class Meta(BioRecord.Meta, TracksRun.Meta, TracksUpdates.Meta):
         abstract = False
         unique_together = (("entity", "source", "organism", "version"),)
 
@@ -1322,7 +1322,7 @@ Species = Organism
 BiontySource = PublicSource
 
 
-class FeatureSetGene(Registry, LinkORM):
+class FeatureSetGene(Record, LinkORM):
     id = models.BigAutoField(primary_key=True)
     # follow the .lower() convention in link models
     featureset = models.ForeignKey(
@@ -1331,7 +1331,7 @@ class FeatureSetGene(Registry, LinkORM):
     gene = models.ForeignKey("Gene", PROTECT, related_name="+")
 
 
-class FeatureSetProtein(Registry, LinkORM):
+class FeatureSetProtein(Record, LinkORM):
     id = models.BigAutoField(primary_key=True)
     # follow the .lower() convention in link models
     featureset = models.ForeignKey(
@@ -1340,7 +1340,7 @@ class FeatureSetProtein(Registry, LinkORM):
     protein = models.ForeignKey("Protein", PROTECT, related_name="+")
 
 
-class FeatureSetCellMarker(Registry, LinkORM):
+class FeatureSetCellMarker(Record, LinkORM):
     id = models.BigAutoField(primary_key=True)
     # follow the .lower() convention in link models
     featureset = models.ForeignKey(
@@ -1350,7 +1350,7 @@ class FeatureSetCellMarker(Registry, LinkORM):
     cellmarker = models.ForeignKey("CellMarker", PROTECT, related_name="+")
 
 
-class FeatureSetPathway(Registry, LinkORM):
+class FeatureSetPathway(Record, LinkORM):
     id = models.BigAutoField(primary_key=True)
     # follow the .lower() convention in link models
     featureset = models.ForeignKey(
@@ -1359,7 +1359,7 @@ class FeatureSetPathway(Registry, LinkORM):
     pathway = models.ForeignKey("Pathway", PROTECT, related_name="+")
 
 
-class ArtifactOrganism(Registry, LinkORM, TracksRun):
+class ArtifactOrganism(Record, LinkORM, TracksRun):
     id = models.BigAutoField(primary_key=True)
     artifact = models.ForeignKey(Artifact, CASCADE, related_name="organism_links")
     organism = models.ForeignKey("Organism", PROTECT, related_name="artifact_links")
@@ -1370,7 +1370,7 @@ class ArtifactOrganism(Registry, LinkORM, TracksRun):
     feature_ref_is_name = models.BooleanField(null=True, default=None)
 
 
-class ArtifactGene(Registry, LinkORM, TracksRun):
+class ArtifactGene(Record, LinkORM, TracksRun):
     id = models.BigAutoField(primary_key=True)
     artifact = models.ForeignKey(Artifact, CASCADE, related_name="gene_links")
     gene = models.ForeignKey("Gene", PROTECT, related_name="artifact_links")
@@ -1381,7 +1381,7 @@ class ArtifactGene(Registry, LinkORM, TracksRun):
     feature_ref_is_symbol = models.BooleanField(null=True, default=None)
 
 
-class ArtifactProtein(Registry, LinkORM, TracksRun):
+class ArtifactProtein(Record, LinkORM, TracksRun):
     id = models.BigAutoField(primary_key=True)
     artifact = models.ForeignKey(Artifact, CASCADE, related_name="protein_links")
     protein = models.ForeignKey("Protein", PROTECT, related_name="artifact_links")
@@ -1392,7 +1392,7 @@ class ArtifactProtein(Registry, LinkORM, TracksRun):
     feature_ref_is_name = models.BooleanField(null=True, default=None)
 
 
-class ArtifactCellMarker(Registry, LinkORM, TracksRun):
+class ArtifactCellMarker(Record, LinkORM, TracksRun):
     id = models.BigAutoField(primary_key=True)
     artifact = models.ForeignKey(Artifact, CASCADE, related_name="cell_marker_links")
     # follow the .lower() convention in link models
@@ -1408,7 +1408,7 @@ class ArtifactCellMarker(Registry, LinkORM, TracksRun):
     feature_ref_is_name = models.BooleanField(null=True, default=None)
 
 
-class ArtifactTissue(Registry, LinkORM, TracksRun):
+class ArtifactTissue(Record, LinkORM, TracksRun):
     id = models.BigAutoField(primary_key=True)
     artifact = models.ForeignKey(Artifact, CASCADE, related_name="tissue_links")
     tissue = models.ForeignKey("Tissue", PROTECT, related_name="artifact_links")
@@ -1419,7 +1419,7 @@ class ArtifactTissue(Registry, LinkORM, TracksRun):
     feature_ref_is_name = models.BooleanField(null=True, default=None)
 
 
-class ArtifactCellType(Registry, LinkORM, TracksRun):
+class ArtifactCellType(Record, LinkORM, TracksRun):
     id = models.BigAutoField(primary_key=True)
     artifact = models.ForeignKey(Artifact, CASCADE, related_name="cell_type_links")
     # follow the .lower() convention in link models
@@ -1431,7 +1431,7 @@ class ArtifactCellType(Registry, LinkORM, TracksRun):
     feature_ref_is_name = models.BooleanField(null=True, default=None)
 
 
-class ArtifactDisease(Registry, LinkORM, TracksRun):
+class ArtifactDisease(Record, LinkORM, TracksRun):
     id = models.BigAutoField(primary_key=True)
     artifact = models.ForeignKey(Artifact, CASCADE, related_name="disease_links")
     disease = models.ForeignKey("Disease", PROTECT, related_name="artifact_links")
@@ -1442,7 +1442,7 @@ class ArtifactDisease(Registry, LinkORM, TracksRun):
     feature_ref_is_name = models.BooleanField(null=True, default=None)
 
 
-class ArtifactCellLine(Registry, LinkORM, TracksRun):
+class ArtifactCellLine(Record, LinkORM, TracksRun):
     id = models.BigAutoField(primary_key=True)
     artifact = models.ForeignKey(Artifact, CASCADE, related_name="cell_line_links")
     # follow the .lower() convention in link models
@@ -1454,7 +1454,7 @@ class ArtifactCellLine(Registry, LinkORM, TracksRun):
     feature_ref_is_name = models.BooleanField(null=True, default=None)
 
 
-class ArtifactPhenotype(Registry, LinkORM, TracksRun):
+class ArtifactPhenotype(Record, LinkORM, TracksRun):
     id = models.BigAutoField(primary_key=True)
     artifact = models.ForeignKey(Artifact, CASCADE, related_name="phenotype_links")
     phenotype = models.ForeignKey("Phenotype", PROTECT, related_name="artifact_links")
@@ -1469,7 +1469,7 @@ class ArtifactPhenotype(Registry, LinkORM, TracksRun):
     feature_ref_is_name = models.BooleanField(null=True, default=None)
 
 
-class ArtifactPathway(Registry, LinkORM, TracksRun):
+class ArtifactPathway(Record, LinkORM, TracksRun):
     id = models.BigAutoField(primary_key=True)
     artifact = models.ForeignKey(Artifact, CASCADE, related_name="pathway_links")
     pathway = models.ForeignKey("Pathway", PROTECT, related_name="artifact_links")
@@ -1480,7 +1480,7 @@ class ArtifactPathway(Registry, LinkORM, TracksRun):
     feature_ref_is_name = models.BooleanField(null=True, default=None)
 
 
-class ArtifactExperimentalFactor(Registry, LinkORM, TracksRun):
+class ArtifactExperimentalFactor(Record, LinkORM, TracksRun):
     id = models.BigAutoField(primary_key=True)
     artifact = models.ForeignKey(
         Artifact, CASCADE, related_name="experimental_factor_links"
@@ -1499,7 +1499,7 @@ class ArtifactExperimentalFactor(Registry, LinkORM, TracksRun):
     feature_ref_is_name = models.BooleanField(null=True, default=None)
 
 
-class ArtifactDevelopmentalStage(Registry, LinkORM, TracksRun):
+class ArtifactDevelopmentalStage(Record, LinkORM, TracksRun):
     id = models.BigAutoField(primary_key=True)
     artifact = models.ForeignKey(
         Artifact, CASCADE, related_name="developmental_stage_links"
@@ -1519,7 +1519,7 @@ class ArtifactDevelopmentalStage(Registry, LinkORM, TracksRun):
     feature_ref_is_name = models.BooleanField(null=True, default=None)
 
 
-class ArtifactEthnicity(Registry, LinkORM, TracksRun):
+class ArtifactEthnicity(Record, LinkORM, TracksRun):
     id = models.BigAutoField(primary_key=True)
     artifact = models.ForeignKey(Artifact, CASCADE, related_name="ethnicity_links")
     ethnicity = models.ForeignKey("Ethnicity", PROTECT, related_name="artifact_links")
