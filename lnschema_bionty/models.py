@@ -62,7 +62,7 @@ class BioRegistry(Registry, HasParents, CanValidate):
             query_kwargs = {k: v for k, v in result.items() if k != "parents"}
             existing_record = self.__class__.filter(**query_kwargs).one_or_none()
             if existing_record is not None:
-                from lamindb._registry import init_self_from_db
+                from lamindb._record import init_self_from_db
 
                 init_self_from_db(self, existing_record)
                 return None
