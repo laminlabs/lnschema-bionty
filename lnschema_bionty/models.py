@@ -1532,3 +1532,6 @@ class ArtifactEthnicity(Record, LinkORM, TracksRun):
     )
     ethnicity_ref_is_name = models.BooleanField(null=True, default=None)
     feature_ref_is_name = models.BooleanField(null=True, default=None)
+
+
+BioRegistry = BioRecord  # backward compat
