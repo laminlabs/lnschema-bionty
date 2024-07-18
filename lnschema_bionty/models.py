@@ -223,7 +223,7 @@ class BioRecord(Record, HasParents, CanValidate):
             ln.save(parents_records, mute=mute)
             self.parents.set(parents_records)
 
-    def save(self, parents: bool | None = None, *args, **kwargs) -> None:
+    def save(self, parents: bool | None = None, *args, **kwargs) -> BioRecord:
         """Save the record and its parents recursively.
 
         Args:
@@ -238,6 +238,8 @@ class BioRecord(Record, HasParents, CanValidate):
 
         if parents:
             self._save_ontology_parents()
+
+        return self
 
 
 class Organism(BioRecord, TracksRun, TracksUpdates):
