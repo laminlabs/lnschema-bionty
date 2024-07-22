@@ -209,7 +209,10 @@ class BioRecord(Record, HasParents, CanValidate):
             else:
                 return results
 
-    def _save_ontology_parents(self):  # saving records of parents
+    def save(self, *args, **kwargs) -> BioRecord:
+        """Save the record and its parents recursively."""
+        super().save(*args, **kwargs)
+        # saving records of parents
         if hasattr(self, "_parents"):
             import lamindb as ln
 
@@ -221,12 +224,6 @@ class BioRecord(Record, HasParents, CanValidate):
             )
             ln.save(parents_records)
             self.parents.set(parents_records)
-
-    def save(self, *args, **kwargs) -> BioRecord:
-        """Save the record and its parents recursively."""
-        # save the record first without parents
-        super().save(*args, **kwargs)
-        self._save_ontology_parents()
 
         return self
 
