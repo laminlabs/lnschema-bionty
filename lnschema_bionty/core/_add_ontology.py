@@ -104,7 +104,7 @@ def create_link_records(
 
 def add_ontology_from_df(
     registry: BioRecord,
-    ontology_ids: List[str] | None = None,
+    ontology_ids: Optional[List[str]] = None,
     organism: Union[str, Record, None] = None,
     public_source: Optional[PublicSource] = None,
 ):
