@@ -1237,8 +1237,6 @@ class Compound(BioRecord, TracksRun, TracksUpdates):
         >>> record.save()
     """
 
-    # TODO we need a `Compound page` through https://github.com/laminlabs/lamin-usecases/tree/main/scripts/entity_generation
-
     class Meta(BioRecord.Meta, TracksRun.Meta, TracksUpdates.Meta):
         abstract = False
         unique_together = (("name", "ontology_id"),)
