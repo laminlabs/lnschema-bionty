@@ -1228,7 +1228,7 @@ class Compound(BioRecord, TracksRun, TracksUpdates):
     """Compound - `Drug Ontology <https://bioportal.bioontology.org/ontologies/DRON>`__.
 
     Notes:
-        For more info, see tutorials :doc:`bio-registries` and :doc:`docs:compouned`.
+        For more info, see tutorials :doc:`bio-registries` and :doc:`docs:compound`.
 
         Bulk create Compound records via :class:`~lamindb.core.Record.from_values`.
 
