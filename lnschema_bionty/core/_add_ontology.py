@@ -120,7 +120,10 @@ def add_ontology_from_df(
         new_ontology_ids = get_new_ontology_ids(registry, ontology_ids, df_all)
         df = df_all[df_all.index.isin(new_ontology_ids)]
 
-    records = create_records(registry, df)
+    # do not create records from obsolete terms
+    records = [
+        r for r in create_records(registry, df) if not r.name.startswith("obsolete")
+    ]
     registry.objects.bulk_create(records)
 
     all_records = registry.filter().all()
