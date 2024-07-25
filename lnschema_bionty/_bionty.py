@@ -52,7 +52,7 @@ def get_source_record(public_ontology: bionty_base.PublicOntology):
     kwargs = {
         "entity": public_ontology.__class__.__name__,
         "organism": public_ontology.organism,
-        "source": public_ontology.source,
+        "name": public_ontology.source,
         "version": public_ontology.version,
     }
     from .models import Source
@@ -90,7 +90,7 @@ def encode_uid(orm: Record, kwargs: dict):
         if str_to_encode is None or str_to_encode == "":
             raise AssertionError("must provide name")
     elif name == "source":
-        str_to_encode = f'{kwargs.get("entity", "")}{kwargs.get("source", "")}{kwargs.get("organism", "")}{kwargs.get("version", "")}'
+        str_to_encode = f'{kwargs.get("entity", "")}{kwargs.get("name", "")}{kwargs.get("organism", "")}{kwargs.get("version", "")}'
     else:
         str_to_encode = kwargs.get("ontology_id")
         if str_to_encode is None or str_to_encode == "":

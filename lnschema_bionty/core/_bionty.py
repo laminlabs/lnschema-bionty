@@ -15,7 +15,7 @@ def sync_all_sources_to_latest():
     df_sources = bionty_base.display_available_sources().reset_index()
     for _, row in df_sources.iterrows():
         record = records.filter(
-            source=row.source,
+            name=row.source,
             version=row.version,
             entity=row.entity,
             organism=row.organism,
