@@ -1,4 +1,4 @@
-from typing import Iterable, List, Optional, Set, Union
+from typing import Iterable, List, Optional, Set, Type, Union
 
 import pandas as pd
 from lnschema_core.models import Record
@@ -32,7 +32,7 @@ def prepare_dataframe(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def get_new_ontology_ids(
-    registry, ontology_ids: Iterable[str], df_all: pd.DataFrame
+    registry: Type[BioRecord], ontology_ids: Iterable[str], df_all: pd.DataFrame
 ) -> Set[str]:
     parents_ids = get_all_ancestors(df_all, ontology_ids)
     ontology_ids = set(ontology_ids) | parents_ids
@@ -44,7 +44,7 @@ def get_new_ontology_ids(
     return ontology_ids - existing_ontology_ids
 
 
-def create_records(registry, df: pd.DataFrame) -> List[Record]:
+def create_records(registry: Type[BioRecord], df: pd.DataFrame) -> List[Record]:
     import lamindb as ln
 
     df_records = (
@@ -63,7 +63,7 @@ def create_records(registry, df: pd.DataFrame) -> List[Record]:
 
 
 def create_link_records(
-    registry, df: pd.DataFrame, records: List[Record]
+    registry: Type[BioRecord], df: pd.DataFrame, records: List[Record]
 ) -> List[Record]:
     public_source = records[0].public_source
     linkorm = registry.parents.through
@@ -103,10 +103,11 @@ def create_link_records(
 
 
 def add_ontology_from_df(
-    registry: BioRecord,
+    registry: Type[BioRecord],
     ontology_ids: Optional[List[str]] = None,
     organism: Union[str, Record, None] = None,
     public_source: Optional[PublicSource] = None,
+    ignore_conflicts: bool = True,
 ):
     import lamindb as ln
 
@@ -124,17 +125,18 @@ def add_ontology_from_df(
     records = [
         r for r in create_records(registry, df) if not r.name.startswith("obsolete")
     ]
-    registry.objects.bulk_create(records)
+    registry.objects.bulk_create(records, ignore_conflicts=ignore_conflicts)
 
     all_records = registry.filter().all()
     link_records = create_link_records(registry, df, all_records)
-    ln.save(link_records)
+    ln.save(link_records, ignore_conflicts=ignore_conflicts)
 
 
 def add_ontology(
     records: List[BioRecord],
     organism: Union[str, Record, None] = None,
     public_source: Optional[PublicSource] = None,
+    ignore_conflicts: bool = True,
 ):
     registry = records[0]._meta.model
     public_source = public_source or records[0].public_source
@@ -146,4 +148,5 @@ def add_ontology(
         ontology_ids=ontology_ids,
         organism=organism,
         public_source=public_source,
+        ignore_conflicts=ignore_conflicts,
     )
