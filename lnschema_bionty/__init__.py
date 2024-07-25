@@ -25,11 +25,11 @@ if _check_instance_setup():
         Pathway,
         Phenotype,
         Protein,
-        PublicSource,
+        Source,
         Tissue,
     )
 
     # backward compat
     Readout = ExperimentalFactor
     Species = Organism
-    BiontySource = PublicSource
+    BiontySource = Source

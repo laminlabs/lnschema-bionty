@@ -34,9 +34,7 @@ def create_or_get_organism_record(
                     # create a organism record from bionty reference
                     organism_record = Organism.from_public(name=organism)
                     # link the organism record to the default bionty source
-                    organism_record.public_source = get_public_source_record(
-                        bionty_base.Organism()
-                    )  # type:ignore
+                    organism_record.source = get_source_record(bionty_base.Organism())  # type:ignore
                     organism_record.save()  # type:ignore
                 except KeyError:
                     # no such organism is found in bionty reference
@@ -50,16 +48,16 @@ def create_or_get_organism_record(
     return organism_record
 
 
-def get_public_source_record(public_ontology: bionty_base.PublicOntology):
+def get_source_record(public_ontology: bionty_base.PublicOntology):
     kwargs = {
         "entity": public_ontology.__class__.__name__,
         "organism": public_ontology.organism,
         "source": public_ontology.source,
         "version": public_ontology.version,
     }
-    from .models import PublicSource
+    from .models import Source
 
-    source_record = PublicSource.objects.filter(**kwargs).get()
+    source_record = Source.objects.filter(**kwargs).get()
     return source_record
 
 
@@ -91,7 +89,7 @@ def encode_uid(orm: Record, kwargs: dict):
         str_to_encode = kwargs.get("name")
         if str_to_encode is None or str_to_encode == "":
             raise AssertionError("must provide name")
-    elif name == "publicsource":
+    elif name == "source":
         str_to_encode = f'{kwargs.get("entity", "")}{kwargs.get("source", "")}{kwargs.get("organism", "")}{kwargs.get("version", "")}'
     else:
         str_to_encode = kwargs.get("ontology_id")
@@ -124,7 +122,7 @@ def lookup2kwargs(orm: Record, *args, **kwargs) -> dict:
     if len(bionty_kwargs) > 0:
         import bionty_base
 
-        # add organism and public_source
+        # add organism and source
         organism_record = create_or_get_organism_record(
             orm=orm.__class__, organism=kwargs.get("organism")
         )
@@ -133,7 +131,7 @@ def lookup2kwargs(orm: Record, *args, **kwargs) -> dict:
         public_ontology = getattr(bionty_base, orm.__class__.__name__)(
             organism=organism_record.name if organism_record is not None else None
         )
-        bionty_kwargs["public_source"] = get_public_source_record(public_ontology)
+        bionty_kwargs["source"] = get_source_record(public_ontology)
 
         model_field_names = {i.name for i in orm._meta.fields}
         model_field_names.add("parents")
