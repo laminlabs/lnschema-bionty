@@ -3,6 +3,10 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
+✨ Add add_from_df method to BioRecord | [262](https://github.com/laminlabs/lnschema-bionty/pull/262) | [sunnyosun](https://github.com/sunnyosun) | 2024-07-25 |
+🎨 Do now add obsolete terms due to ontology_id duplication | [261](https://github.com/laminlabs/lnschema-bionty/pull/261) | [sunnyosun](https://github.com/sunnyosun) | 2024-07-25 |
+⚡️ Speed up parents | [259](https://github.com/laminlabs/lnschema-bionty/pull/259) | [sunnyosun](https://github.com/sunnyosun) | 2024-07-22 |
+🚚 Rename registry to record | [256](https://github.com/laminlabs/lnschema-bionty/pull/256) | [falexwolf](https://github.com/falexwolf) | 2024-07-17 |
 ♻️ Consciously use class method | [255](https://github.com/laminlabs/lnschema-bionty/pull/255) | [falexwolf](https://github.com/falexwolf) | 2024-07-10 |
 🐛 Fix clashing reverse accessors between `.previous_runs` and `.run` | [249](https://github.com/laminlabs/lnschema-bionty/pull/249) | [falexwolf](https://github.com/falexwolf) | 2024-06-13 | 0.43.0
 ♻️ Reformulate data lineage, remove json field from run | [247](https://github.com/laminlabs/lnschema-bionty/pull/247) | [falexwolf](https://github.com/falexwolf) | 2024-05-19 | 0.42.0
