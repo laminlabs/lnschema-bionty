@@ -196,7 +196,7 @@ class BioRecord(Record, HasParents, CanValidate):
 
             if source is not None:
                 organism = source.organism
-                source = source.source
+                source_name = source.name
                 version = source.version
             else:
                 import lnschema_bionty as lb
@@ -204,11 +204,11 @@ class BioRecord(Record, HasParents, CanValidate):
                 if hasattr(cls, "organism_id"):
                     if organism is None and lb.settings.organism is not None:
                         organism = lb.settings.organism.name
-                source = None
+                source_name = None
                 version = None
 
             return getattr(bionty_base, cls.__name__)(
-                organism=organism, source=source, version=version
+                organism=organism, source=source_name, version=version
             )
 
     @classmethod
@@ -1271,8 +1271,8 @@ class Source(Record, TracksRun, TracksUpdates):
     """Entity class name."""
     organism = models.CharField(max_length=64, db_index=True)
     """Organism name, use 'all' if unknown or none applied."""
-    source = models.CharField(max_length=64, db_index=True)
-    """Source key, short form, CURIE prefix for ontologies."""
+    name = models.CharField(max_length=64, db_index=True)
+    """Source name, short form, CURIE prefix for ontologies."""
     version = models.CharField(max_length=64, db_index=True)
     """Version of the source."""
     in_db = models.BooleanField(default=False, db_index=True)

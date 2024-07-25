@@ -103,4 +103,9 @@ class Migration(migrations.Migration):
                 to="lnschema_core.artifact",
             ),
         ),
+        migrations.RenameField(
+            model_name="source",
+            old_name="source",
+            new_name="name",
+        ),
     ]
