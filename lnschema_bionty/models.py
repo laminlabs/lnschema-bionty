@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import List, Tuple, overload
+from typing import List, Optional, Tuple, Union, overload
 
 import bionty_base
 import numpy as np
@@ -116,6 +116,55 @@ class BioRecord(Record, HasParents, CanValidate):
         if currently_used is not None:
             filters["currently_used"] = currently_used
         return PublicSource.filter(entity=cls.__name__, **filters)
+
+    @classmethod
+    def save_from_df(
+        cls,
+        ontology_ids: list[str] | None = None,
+        organism: str | Record | None = None,
+        public_source: PublicSource | None = None,
+        ignore_conflicts: bool = True,
+    ):
+        """Bulk save records from a dataframe.
+
+        Use this method to initialize your registry with public ontology.
+
+        Args:
+            ontology_ids: List of ontology ids to save
+            organism: Organism record or name
+            public_source: PublicSource record
+            ignore_conflicts: Ignore conflicts during bulk create
+
+        Examples:
+            >>> bionty.CellType.save_from_df()
+        """
+        if hasattr(cls, "ontology_id"):
+            from .core._add_ontology import add_ontology_from_df
+
+            add_ontology_from_df(
+                registry=cls,
+                ontology_ids=ontology_ids,
+                organism=organism,
+                public_source=public_source,
+                ignore_conflicts=ignore_conflicts,
+            )
+        else:
+            import lamindb as ln
+
+            df = cls.public(organism=organism, public_source=public_source).df()
+            # TODO: simplify after migration to use _ontology_id_field
+            if cls.__name__ == "CellMarker":
+                field = "name"
+            elif cls.__name__ == "Gene":
+                field = "ensembl_gene_id"
+            elif cls.__name__ == "Protein":
+                field = "uniprotkb_id"
+            else:
+                raise NotImplementedError(f"save_from_df not implemented for {cls}")
+            records = cls.from_values(
+                df, field=field, organism=organism, public_source=public_source
+            )
+            ln.save(records, ignore_conflicts=ignore_conflicts)
 
     @classmethod
     def public(
