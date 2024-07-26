@@ -305,6 +305,9 @@ class Organism(BioRecord, TracksRun, TracksUpdates):
     class Meta(BioRecord.Meta, TracksRun.Meta, TracksUpdates.Meta):
         abstract = False
 
+    _name_field: str = "name"
+    _ontology_id_field: str = "ontology_id"
+
     id = models.AutoField(primary_key=True)
     """Internal id, valid only in one DB instance."""
     uid = models.CharField(unique=True, max_length=8, default=ids.ontology)
@@ -369,6 +372,9 @@ class Gene(BioRecord, TracksRun, TracksUpdates):
 
     class Meta(BioRecord.Meta, TracksRun.Meta, TracksUpdates.Meta):
         abstract = False
+
+    _name_field: str = "symbol"
+    _ontology_id_field: str = "ensembl_gene_id"
 
     id = models.AutoField(primary_key=True)
     """Internal id, valid only in one DB instance."""
@@ -453,6 +459,9 @@ class Protein(BioRecord, TracksRun, TracksUpdates):
     class Meta(BioRecord.Meta, TracksRun.Meta, TracksUpdates.Meta):
         abstract = False
 
+    _name_field: str = "name"
+    _ontology_id_field: str = "uniprotkb_id"
+
     id = models.AutoField(primary_key=True)
     """Internal id, valid only in one DB instance."""
     uid = models.CharField(unique=True, max_length=12, default=ids.protein)
@@ -533,6 +542,9 @@ class CellMarker(BioRecord, TracksRun, TracksUpdates):
 
     class Meta(BioRecord.Meta, TracksRun.Meta, TracksUpdates.Meta):
         abstract = False
+
+    _name_field: str = "name"
+    _ontology_id_field: str = "name"
 
     id = models.AutoField(primary_key=True)
     """Internal id, valid only in one DB instance."""
@@ -619,6 +631,9 @@ class Tissue(BioRecord, TracksRun, TracksUpdates):
         abstract = False
         unique_together = (("name", "ontology_id"),)
 
+    _name_field: str = "name"
+    _ontology_id_field: str = "ontology_id"
+
     id = models.AutoField(primary_key=True)
     """Internal id, valid only in one DB instance."""
     uid = models.CharField(unique=True, max_length=8, default=ids.ontology)
@@ -689,6 +704,9 @@ class CellType(BioRecord, TracksRun, TracksUpdates):
     class Meta(BioRecord.Meta, TracksRun.Meta, TracksUpdates.Meta):
         abstract = False
         unique_together = (("name", "ontology_id"),)
+
+    _name_field: str = "name"
+    _ontology_id_field: str = "ontology_id"
 
     id = models.AutoField(primary_key=True)
     """Internal id, valid only in one DB instance."""
@@ -761,6 +779,9 @@ class Disease(BioRecord, TracksRun, TracksUpdates):
         abstract = False
         unique_together = (("name", "ontology_id"),)
 
+    _name_field: str = "name"
+    _ontology_id_field: str = "ontology_id"
+
     id = models.AutoField(primary_key=True)
     """Internal id, valid only in one DB instance."""
     uid = models.CharField(unique=True, max_length=8, default=ids.ontology)
@@ -832,6 +853,9 @@ class CellLine(BioRecord, TracksRun, TracksUpdates):
     class Meta(BioRecord.Meta, TracksRun.Meta, TracksUpdates.Meta):
         abstract = False
         unique_together = (("name", "ontology_id"),)
+
+    _name_field: str = "name"
+    _ontology_id_field: str = "ontology_id"
 
     id = models.AutoField(primary_key=True)
     """Internal id, valid only in one DB instance."""
@@ -908,6 +932,9 @@ class Phenotype(BioRecord, TracksRun, TracksUpdates):
         abstract = False
         unique_together = (("name", "ontology_id"),)
 
+    _name_field: str = "name"
+    _ontology_id_field: str = "ontology_id"
+
     id = models.AutoField(primary_key=True)
     """Internal id, valid only in one DB instance."""
     uid = models.CharField(unique=True, max_length=8, default=ids.ontology)
@@ -980,6 +1007,9 @@ class Pathway(BioRecord, TracksRun, TracksUpdates):
     class Meta(BioRecord.Meta, TracksRun.Meta, TracksUpdates.Meta):
         abstract = False
         unique_together = (("name", "ontology_id"),)
+
+    _name_field: str = "name"
+    _ontology_id_field: str = "ontology_id"
 
     id = models.AutoField(primary_key=True)
     """Internal id, valid only in one DB instance."""
@@ -1058,6 +1088,9 @@ class ExperimentalFactor(BioRecord, TracksRun, TracksUpdates):
     class Meta(BioRecord.Meta, TracksRun.Meta, TracksUpdates.Meta):
         abstract = False
         unique_together = (("name", "ontology_id"),)
+
+    _name_field: str = "name"
+    _ontology_id_field: str = "ontology_id"
 
     id = models.AutoField(primary_key=True)
     """Internal id, valid only in one DB instance."""
@@ -1142,6 +1175,9 @@ class DevelopmentalStage(BioRecord, TracksRun, TracksUpdates):
         abstract = False
         unique_together = (("name", "ontology_id"),)
 
+    _name_field: str = "name"
+    _ontology_id_field: str = "ontology_id"
+
     id = models.AutoField(primary_key=True)
     """Internal id, valid only in one DB instance."""
     uid = models.CharField(unique=True, max_length=8, default=ids.ontology)
@@ -1218,6 +1254,9 @@ class Ethnicity(BioRecord, TracksRun, TracksUpdates):
         abstract = False
         unique_together = (("name", "ontology_id"),)
 
+    _name_field: str = "name"
+    _ontology_id_field: str = "ontology_id"
+
     id = models.AutoField(primary_key=True)
     """Internal id, valid only in one DB instance."""
     uid = models.CharField(unique=True, max_length=8, default=ids.ontology)
@@ -1282,6 +1321,8 @@ class Source(Record, TracksRun, TracksUpdates):
 
         Do not modify the records unless you know what you are doing!
     """
+
+    _name_field: str = "source"
 
     class Meta(BioRecord.Meta, TracksRun.Meta, TracksUpdates.Meta):
         abstract = False
@@ -1408,7 +1449,7 @@ class ArtifactOrganism(Record, LinkORM, TracksRun):
     feature = models.ForeignKey(
         Feature, PROTECT, null=True, default=None, related_name="artifactorganism_links"
     )
-    organism_ref_is_name = models.BooleanField(null=True, default=None)
+    label_ref_is_name = models.BooleanField(null=True, default=None)
     feature_ref_is_name = models.BooleanField(null=True, default=None)
 
 
@@ -1430,7 +1471,7 @@ class ArtifactProtein(Record, LinkORM, TracksRun):
     feature = models.ForeignKey(
         Feature, PROTECT, null=True, default=None, related_name="artifactprotein_links"
     )
-    protein_ref_is_name = models.BooleanField(null=True, default=None)
+    label_ref_is_name = models.BooleanField(null=True, default=None)
     feature_ref_is_name = models.BooleanField(null=True, default=None)
 
 
@@ -1446,7 +1487,7 @@ class ArtifactCellMarker(Record, LinkORM, TracksRun):
         default=None,
         related_name="artifactcellmarker_links",
     )
-    cell_marker_ref_is_name = models.BooleanField(null=True, default=None)
+    label_ref_is_name = models.BooleanField(null=True, default=None)
     feature_ref_is_name = models.BooleanField(null=True, default=None)
 
 
@@ -1457,7 +1498,7 @@ class ArtifactTissue(Record, LinkORM, TracksRun):
     feature = models.ForeignKey(
         Feature, PROTECT, null=True, default=None, related_name="artifacttissue_links"
     )
-    tissue_ref_is_name = models.BooleanField(null=True, default=None)
+    label_ref_is_name = models.BooleanField(null=True, default=None)
     feature_ref_is_name = models.BooleanField(null=True, default=None)
 
 
@@ -1469,7 +1510,7 @@ class ArtifactCellType(Record, LinkORM, TracksRun):
     feature = models.ForeignKey(
         Feature, PROTECT, null=True, default=None, related_name="artifactcelltype_links"
     )
-    cell_type_ref_is_name = models.BooleanField(null=True, default=None)
+    label_ref_is_name = models.BooleanField(null=True, default=None)
     feature_ref_is_name = models.BooleanField(null=True, default=None)
 
 
@@ -1480,7 +1521,7 @@ class ArtifactDisease(Record, LinkORM, TracksRun):
     feature = models.ForeignKey(
         Feature, PROTECT, null=True, default=None, related_name="artifactdisease_links"
     )
-    disease_ref_is_name = models.BooleanField(null=True, default=None)
+    label_ref_is_name = models.BooleanField(null=True, default=None)
     feature_ref_is_name = models.BooleanField(null=True, default=None)
 
 
@@ -1492,7 +1533,7 @@ class ArtifactCellLine(Record, LinkORM, TracksRun):
     feature = models.ForeignKey(
         Feature, PROTECT, null=True, default=None, related_name="artifactcellline_links"
     )
-    cell_line_ref_is_name = models.BooleanField(null=True, default=None)
+    label_ref_is_name = models.BooleanField(null=True, default=None)
     feature_ref_is_name = models.BooleanField(null=True, default=None)
 
 
@@ -1507,7 +1548,7 @@ class ArtifactPhenotype(Record, LinkORM, TracksRun):
         default=None,
         related_name="artifactphenotype_links",
     )
-    phenotype_ref_is_name = models.BooleanField(null=True, default=None)
+    label_ref_is_name = models.BooleanField(null=True, default=None)
     feature_ref_is_name = models.BooleanField(null=True, default=None)
 
 
@@ -1518,7 +1559,7 @@ class ArtifactPathway(Record, LinkORM, TracksRun):
     feature = models.ForeignKey(
         Feature, PROTECT, null=True, default=None, related_name="artifactpathway_links"
     )
-    pathway_ref_is_name = models.BooleanField(null=True, default=None)
+    label_ref_is_name = models.BooleanField(null=True, default=None)
     feature_ref_is_name = models.BooleanField(null=True, default=None)
 
 
@@ -1527,7 +1568,7 @@ class ArtifactExperimentalFactor(Record, LinkORM, TracksRun):
     artifact = models.ForeignKey(
         Artifact, CASCADE, related_name="experimental_factor_links"
     )
-    experimental_factor = models.ForeignKey(
+    experimentalfactor = models.ForeignKey(
         "ExperimentalFactor", PROTECT, related_name="artifact_links"
     )
     feature = models.ForeignKey(
@@ -1537,7 +1578,7 @@ class ArtifactExperimentalFactor(Record, LinkORM, TracksRun):
         default=None,
         related_name="artifactexperimentalfactor_links",
     )
-    experimental_factor_ref_is_name = models.BooleanField(null=True, default=None)
+    label_ref_is_name = models.BooleanField(null=True, default=None)
     feature_ref_is_name = models.BooleanField(null=True, default=None)
 
 
@@ -1557,7 +1598,7 @@ class ArtifactDevelopmentalStage(Record, LinkORM, TracksRun):
         default=None,
         related_name="artifactdevelopmentalstage_links",
     )
-    developmental_stage_ref_is_name = models.BooleanField(null=True, default=None)
+    label_ref_is_name = models.BooleanField(null=True, default=None)
     feature_ref_is_name = models.BooleanField(null=True, default=None)
 
 
@@ -1572,7 +1613,7 @@ class ArtifactEthnicity(Record, LinkORM, TracksRun):
         default=None,
         related_name="artifactethnicity_links",
     )
-    ethnicity_ref_is_name = models.BooleanField(null=True, default=None)
+    label_ref_is_name = models.BooleanField(null=True, default=None)
     feature_ref_is_name = models.BooleanField(null=True, default=None)
 
 
