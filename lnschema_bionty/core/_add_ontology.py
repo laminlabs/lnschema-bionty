@@ -3,7 +3,7 @@ from typing import Iterable, List, Optional, Set, Type, Union
 import pandas as pd
 from lnschema_core.models import Record
 
-from lnschema_bionty.models import BioRecord, PublicSource
+from lnschema_bionty.models import BioRecord, Source
 
 
 def get_all_ancestors(df: pd.DataFrame, ontology_ids: Iterable[str]) -> Set[str]:
@@ -44,7 +44,9 @@ def get_new_ontology_ids(
     return ontology_ids - existing_ontology_ids
 
 
-def create_records(registry: Type[BioRecord], df: pd.DataFrame) -> List[Record]:
+def create_records(
+    registry: Type[BioRecord], df: pd.DataFrame, source_record: Source
+) -> List[Record]:
     import lamindb as ln
 
     df_records = (
@@ -55,7 +57,9 @@ def create_records(registry: Type[BioRecord], df: pd.DataFrame) -> List[Record]:
     )
     try:
         ln.settings.creation.search_names = False
-        records = [registry(**record) for record in df_records]
+        records = [
+            registry(**record, source_id=source_record.id) for record in df_records
+        ]
     finally:
         ln.settings.creation.search_names = True
 
@@ -65,18 +69,14 @@ def create_records(registry: Type[BioRecord], df: pd.DataFrame) -> List[Record]:
 def create_link_records(
     registry: Type[BioRecord], df: pd.DataFrame, records: List[Record]
 ) -> List[Record]:
-    public_source = records[0].public_source
+    source = records[0].source
     linkorm = registry.parents.through
     link_records = []
     for child_id, parents_ids in df["parents"].items():
         if len(parents_ids) == 0:
             continue
         child_record = next(
-            (
-                r
-                for r in records
-                if r.ontology_id == child_id and r.public_source == public_source
-            ),
+            (r for r in records if r.ontology_id == child_id and r.source == source),
             None,
         )
         if not child_record:
@@ -86,7 +86,7 @@ def create_link_records(
                 (
                     r
                     for r in records
-                    if r.ontology_id == parent_id and r.public_source == public_source
+                    if r.ontology_id == parent_id and r.source == source
                 ),
                 None,
             )
@@ -106,14 +106,15 @@ def add_ontology_from_df(
     registry: Type[BioRecord],
     ontology_ids: Optional[List[str]] = None,
     organism: Union[str, Record, None] = None,
-    public_source: Optional[PublicSource] = None,
+    source: Optional[Source] = None,
     ignore_conflicts: bool = True,
 ):
     import lamindb as ln
 
-    df_all = prepare_dataframe(
-        registry.public(organism=organism, public_source=public_source).df()
-    )
+    from lnschema_bionty._bionty import get_source_record
+
+    public = registry.public(organism=organism, source=source)
+    df_all = prepare_dataframe(public.df())
 
     if ontology_ids is None:
         df = df_all
@@ -121,9 +122,12 @@ def add_ontology_from_df(
         new_ontology_ids = get_new_ontology_ids(registry, ontology_ids, df_all)
         df = df_all[df_all.index.isin(new_ontology_ids)]
 
+    source_record = get_source_record(public)
     # do not create records from obsolete terms
     records = [
-        r for r in create_records(registry, df) if not r.name.startswith("obsolete")
+        r
+        for r in create_records(registry, df, source_record)
+        if not r.name.startswith("obsolete")
     ]
     registry.objects.bulk_create(records, ignore_conflicts=ignore_conflicts)
 
@@ -131,15 +135,20 @@ def add_ontology_from_df(
     link_records = create_link_records(registry, df, all_records)
     ln.save(link_records, ignore_conflicts=ignore_conflicts)
 
+    if ontology_ids is None and len(records) > 0:
+        current_source = records[0].source
+        current_source.in_db = True
+        current_source.save()
+
 
 def add_ontology(
     records: List[BioRecord],
     organism: Union[str, Record, None] = None,
-    public_source: Optional[PublicSource] = None,
+    source: Optional[Source] = None,
     ignore_conflicts: bool = True,
 ):
     registry = records[0]._meta.model
-    public_source = public_source or records[0].public_source
+    source = source or records[0].source
     if hasattr(registry, "organism_id"):
         organism = organism or records[0].organism_id
     ontology_ids = [r.ontology_id for r in records]
@@ -147,6 +156,6 @@ def add_ontology(
         registry=registry,
         ontology_ids=ontology_ids,
         organism=organism,
-        public_source=public_source,
+        source=source,
         ignore_conflicts=ignore_conflicts,
     )
