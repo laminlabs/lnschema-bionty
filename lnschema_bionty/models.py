@@ -209,7 +209,7 @@ class BioRecord(Record, HasParents, CanValidate):
 
         if source is not None:
             organism = source.organism
-            source_name = source.name
+            source_name = source.source
             version = source.version
         else:
             import lnschema_bionty as lb
