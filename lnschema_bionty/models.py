@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import List, Tuple, overload
+from typing import TYPE_CHECKING, List, Tuple, overload
 
 import bionty_base
 import numpy as np
@@ -22,6 +22,17 @@ from lnschema_core.models import (
 
 from . import ids
 from ._bionty import encode_uid, lookup2kwargs
+
+if TYPE_CHECKING:
+    from pandas import DataFrame
+
+
+class StaticReference:
+    def __init__(self, source_record: Source) -> None:
+        self._source = source_record
+
+    def df(self) -> DataFrame:
+        return self._source.df.load()
 
 
 class BioRecord(Record, HasParents, CanValidate):
@@ -103,7 +114,7 @@ class BioRecord(Record, HasParents, CanValidate):
 
     @classmethod
     def sources(cls, currently_used: bool = None) -> Source:
-        """Default public source for the registry.
+        """Default source for the registry.
 
         Args:
             currently_used: Only returns currently used sources
@@ -151,7 +162,7 @@ class BioRecord(Record, HasParents, CanValidate):
         else:
             import lamindb as ln
 
-            df = cls.public(organism=organism, source=source).df()
+            df = cls.public(organism=organism, source=source).df().reset_index()
             # TODO: simplify after migration to use _ontology_id_field
             if cls.__name__ == "CellMarker":
                 field = "name"
@@ -161,19 +172,25 @@ class BioRecord(Record, HasParents, CanValidate):
                 field = "uniprotkb_id"
             else:
                 raise NotImplementedError(f"save_from_df not implemented for {cls}")
-            records = cls.from_values(df, field=field, organism=organism, source=source)
+            records = cls.from_values(
+                ontology_ids or df[field], field=field, organism=organism, source=source
+            )
             ln.save(records, ignore_conflicts=ignore_conflicts)
+
+            if ontology_ids is None and len(records) > 0:
+                current_source = records[0].source
+                current_source.in_db = True
+                current_source.save()
 
     @classmethod
     def public(
         cls,
         organism: str | Record | None = None,
         source: Source | None = None,
-        **kwargs,
-    ) -> PublicOntology:
+    ) -> StaticReference | PublicOntology:
         """The corresponding PublicOntology object.
 
-        Note that the public source is auto-configured and tracked via :meth:`bionty.Source`.
+        Note that the source is auto-configured and tracked via :meth:`bionty.Source`.
 
         See Also:
             `PublicOntology <https://lamin.ai/docs/public-ontologies>`__
@@ -187,29 +204,28 @@ class BioRecord(Record, HasParents, CanValidate):
             Source: cl, 2023-04-20
             #terms: 2698
         """
-        if cls.__module__.startswith("lnschema_bionty."):
-            # backward compat with renaming species to organism
-            if organism is None and kwargs.get("species") is not None:
-                organism = kwargs.get("species")
-            if isinstance(organism, Organism):
-                organism = organism.name
+        if isinstance(organism, Organism):
+            organism = organism.name
 
-            if source is not None:
-                organism = source.organism
-                source_name = source.name
-                version = source.version
-            else:
-                import lnschema_bionty as lb
+        if source is not None:
+            organism = source.organism
+            source_name = source.name
+            version = source.version
+        else:
+            import lnschema_bionty as lb
 
-                if hasattr(cls, "organism_id"):
-                    if organism is None and lb.settings.organism is not None:
-                        organism = lb.settings.organism.name
-                source_name = None
-                version = None
+            if hasattr(cls, "organism_id"):
+                if organism is None and lb.settings.organism is not None:
+                    organism = lb.settings.organism.name
+            source_name = None
+            version = None
 
+        try:
             return getattr(bionty_base, cls.__name__)(
                 organism=organism, source=source_name, version=version
             )
+        except (AttributeError, ValueError):
+            return StaticReference(source)
 
     @classmethod
     def from_public(
@@ -302,6 +318,10 @@ class Organism(BioRecord, TracksRun, TracksUpdates):
         max_length=64, db_index=True, unique=True, null=True, default=None
     )
     """Scientific name of a organism."""
+    synonyms = models.TextField(null=True, default=None)
+    """Bar-separated (|) synonyms that correspond to this organism."""
+    description = models.TextField(null=True, default=None)
+    """Description of the organism."""
     parents = models.ManyToManyField("self", symmetrical=False, related_name="children")
     """Parent organism records."""
     source = models.ForeignKey("Source", PROTECT, null=True, related_name="organisms")
@@ -370,10 +390,10 @@ class Gene(BioRecord, TracksRun, TracksUpdates):
     """
     biotype = models.CharField(max_length=64, db_index=True, null=True, default=None)
     """Type of the gene."""
-    description = models.TextField(null=True, default=None)
-    """Description of the gene."""
     synonyms = models.TextField(null=True, default=None)
     """Bar-separated (|) synonyms that correspond to this gene."""
+    description = models.TextField(null=True, default=None)
+    """Description of the gene."""
     organism = models.ForeignKey(Organism, PROTECT, default=None, related_name="genes")
     """:class:`~bionty.Organism` this gene associates with."""
     source = models.ForeignKey("Source", PROTECT, null=True, related_name="genes")
@@ -437,7 +457,7 @@ class Protein(BioRecord, TracksRun, TracksUpdates):
     """Internal id, valid only in one DB instance."""
     uid = models.CharField(unique=True, max_length=12, default=ids.protein)
     """A universal id (hash of selected field)."""
-    name = models.CharField(max_length=64, db_index=True, null=True, default=None)
+    name = models.CharField(max_length=256, db_index=True, null=True, default=None)
     """Unique name of a protein."""
     uniprotkb_id = models.CharField(
         max_length=10, db_index=True, null=True, default=None, unique=True
@@ -445,6 +465,8 @@ class Protein(BioRecord, TracksRun, TracksUpdates):
     """UniProt protein ID, 6 alphanumeric characters, possibly suffixed by 4 more."""
     synonyms = models.TextField(null=True, default=None)
     """Bar-separated (|) synonyms that correspond to this protein."""
+    description = models.TextField(null=True, default=None)
+    """Description of the protein."""
     length = models.BigIntegerField(db_index=True, null=True)
     """Length of the protein sequence."""
     gene_symbol = models.CharField(
@@ -517,13 +539,15 @@ class CellMarker(BioRecord, TracksRun, TracksUpdates):
     uid = models.CharField(unique=True, max_length=12, default=ids.cellmarker)
     """A universal id (hash of selected field)."""
     name = models.CharField(max_length=64, db_index=True, default=None, unique=True)
+    """Unique name of the cell marker."""
     synonyms = models.TextField(null=True, default=None)
     """Bar-separated (|) synonyms that correspond to this cell marker."""
+    description = models.TextField(null=True, default=None)
+    """Description of the cell marker."""
     gene_symbol = models.CharField(
         max_length=64, db_index=True, null=True, default=None
     )
     """Gene symbol that corresponds to this cell marker."""
-    """Unique name of the cell marker."""
     ncbi_gene_id = models.CharField(
         max_length=32, db_index=True, null=True, default=None
     )
@@ -1271,7 +1295,7 @@ class Source(Record, TracksRun, TracksUpdates):
     """Entity class name."""
     organism = models.CharField(max_length=64, db_index=True)
     """Organism name, use 'all' if unknown or none applied."""
-    name = models.CharField(max_length=64, db_index=True)
+    source = models.CharField(max_length=64, db_index=True)
     """Source name, short form, CURIE prefix for ontologies."""
     version = models.CharField(max_length=64, db_index=True)
     """Version of the source."""

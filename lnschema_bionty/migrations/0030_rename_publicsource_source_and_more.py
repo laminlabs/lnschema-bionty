@@ -103,9 +103,31 @@ class Migration(migrations.Migration):
                 to="lnschema_core.artifact",
             ),
         ),
-        migrations.RenameField(
-            model_name="source",
-            old_name="source",
-            new_name="name",
+        migrations.AddField(
+            model_name="cellmarker",
+            name="description",
+            field=models.TextField(default=None, null=True),
+        ),
+        migrations.AddField(
+            model_name="organism",
+            name="description",
+            field=models.TextField(default=None, null=True),
+        ),
+        migrations.AddField(
+            model_name="organism",
+            name="synonyms",
+            field=models.TextField(default=None, null=True),
+        ),
+        migrations.AddField(
+            model_name="protein",
+            name="description",
+            field=models.TextField(default=None, null=True),
+        ),
+        migrations.AlterField(
+            model_name="protein",
+            name="name",
+            field=models.CharField(
+                db_index=True, default=None, max_length=256, null=True
+            ),
         ),
     ]

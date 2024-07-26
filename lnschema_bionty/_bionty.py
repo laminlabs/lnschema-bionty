@@ -52,7 +52,7 @@ def get_source_record(public_ontology: bionty_base.PublicOntology):
     kwargs = {
         "entity": public_ontology.__class__.__name__,
         "organism": public_ontology.organism,
-        "name": public_ontology.source,
+        "source": public_ontology.source,
         "version": public_ontology.version,
     }
     from .models import Source

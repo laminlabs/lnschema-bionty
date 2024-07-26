@@ -44,7 +44,9 @@ def get_new_ontology_ids(
     return ontology_ids - existing_ontology_ids
 
 
-def create_records(registry: Type[BioRecord], df: pd.DataFrame) -> List[Record]:
+def create_records(
+    registry: Type[BioRecord], df: pd.DataFrame, source_record: Source
+) -> List[Record]:
     import lamindb as ln
 
     df_records = (
@@ -55,7 +57,9 @@ def create_records(registry: Type[BioRecord], df: pd.DataFrame) -> List[Record]:
     )
     try:
         ln.settings.creation.search_names = False
-        records = [registry(**record) for record in df_records]
+        records = [
+            registry(**record, source_id=source_record.id) for record in df_records
+        ]
     finally:
         ln.settings.creation.search_names = True
 
@@ -107,7 +111,10 @@ def add_ontology_from_df(
 ):
     import lamindb as ln
 
-    df_all = prepare_dataframe(registry.public(organism=organism, source=source).df())
+    from lnschema_bionty._bionty import get_source_record
+
+    public = registry.public(organism=organism, source=source)
+    df_all = prepare_dataframe(public.df())
 
     if ontology_ids is None:
         df = df_all
@@ -115,15 +122,23 @@ def add_ontology_from_df(
         new_ontology_ids = get_new_ontology_ids(registry, ontology_ids, df_all)
         df = df_all[df_all.index.isin(new_ontology_ids)]
 
+    source_record = get_source_record(public)
     # do not create records from obsolete terms
     records = [
-        r for r in create_records(registry, df) if not r.name.startswith("obsolete")
+        r
+        for r in create_records(registry, df, source_record)
+        if not r.name.startswith("obsolete")
     ]
     registry.objects.bulk_create(records, ignore_conflicts=ignore_conflicts)
 
     all_records = registry.filter().all()
     link_records = create_link_records(registry, df, all_records)
     ln.save(link_records, ignore_conflicts=ignore_conflicts)
+
+    if ontology_ids is None and len(records) > 0:
+        current_source = records[0].source
+        current_source.in_db = True
+        current_source.save()
 
 
 def add_ontology(
