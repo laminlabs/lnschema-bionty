@@ -4,40 +4,6 @@ import django.db.models.deletion
 from django.db import migrations, models
 
 
-def rename_tables(apps, schema_editor):
-    # Get the correct SQL syntax based on the database backend
-    if schema_editor.connection.vendor == "sqlite":
-        rename_sql = "ALTER TABLE {} RENAME TO {};"
-    elif schema_editor.connection.vendor == "mysql":
-        rename_sql = "RENAME TABLE {} TO {};"
-    else:  # postgresql and others
-        rename_sql = "ALTER TABLE {} RENAME TO {};"
-
-    # List of models to rename
-    models_to_rename = [
-        "cellline",
-        "cellmarker",
-        "celltype",
-        "developmentalstage",
-        "disease",
-        "ethnicity",
-        "experimentalfactor",
-        "gene",
-        "organism",
-        "pathway",
-        "phenotype",
-        "protein",
-        "tissue",
-        "source",
-    ]
-
-    # Execute rename for each model
-    for model in models_to_rename:
-        old_name = f"lnschema_bionty_{model}"
-        new_name = f"bionty_{model}"
-        schema_editor.execute(rename_sql.format(old_name, new_name))
-
-
 class Migration(migrations.Migration):
     dependencies = [
         ("lnschema_bionty", "0029_alter_cellline_previous_runs_and_more"),
@@ -142,5 +108,4 @@ class Migration(migrations.Migration):
             old_name="source",
             new_name="name",
         ),
-        migrations.RunPython(rename_tables),
     ]
