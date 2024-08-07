@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
+📝Add deprecation note | [264](https://github.com/laminlabs/lnschema-bionty/pull/264) | [Zethson](https://github.com/Zethson) | 2024-08-07 |
 🚚 Rename `PublicSource` to `Source` | [263](https://github.com/laminlabs/lnschema-bionty/pull/263) | [sunnyosun](https://github.com/sunnyosun) | 2024-07-26 | 0.44.0
 ✨ Add add_from_df method to BioRecord | [262](https://github.com/laminlabs/lnschema-bionty/pull/262) | [sunnyosun](https://github.com/sunnyosun) | 2024-07-25 |
 🎨 Do now add obsolete terms due to ontology_id duplication | [261](https://github.com/laminlabs/lnschema-bionty/pull/261) | [sunnyosun](https://github.com/sunnyosun) | 2024-07-25 |
